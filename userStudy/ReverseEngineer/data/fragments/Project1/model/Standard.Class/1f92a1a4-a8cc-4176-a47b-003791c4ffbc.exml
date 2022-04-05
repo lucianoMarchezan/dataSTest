@@ -1,0 +1,205 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="PropertyChangeHandler" version="4">
+  <OBJECT>
+    <ID name="PropertyChangeHandler" mc="Standard.Class" uid="1f92a1a4-a8cc-4176-a47b-003791c4ffbc"/>
+    <PID name="DiagramUI" mc="Standard.Class" uid="259cf5da-1bb0-4909-bf4f-8d0c45896ed9"/>
+    <ATTRIBUTES>
+      <ATT name="IsActive">false</ATT>
+      <ATT name="IsMain">false</ATT>
+      <ATT name="IsElementary">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Protected</ATT>
+      <ATT name="Name"><![CDATA[PropertyChangeHandler]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedOperation">
+        <OBJECT>
+          <ID name="propertyChange" mc="Standard.Operation" uid="13353720-8f06-4ee9-83d3-3c6bca5499c3"/>
+          <ATTRIBUTES>
+            <ATT name="Concurrency">false</ATT>
+            <ATT name="Final">false</ATT>
+            <ATT name="Passing">MethodOut</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="IsClass">false</ATT>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="Name"><![CDATA[propertyChange]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="IO">
+              <OBJECT>
+                <ID name="e" mc="Standard.Parameter" uid="d980caba-22c4-4682-8007-d572682d3c5c"/>
+                <ATTRIBUTES>
+                  <ATT name="ParameterPassing">In</ATT>
+                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
+                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
+                  <ATT name="TypeConstraint"></ATT>
+                  <ATT name="DefaultValue"></ATT>
+                  <ATT name="IsOrdered">false</ATT>
+                  <ATT name="IsUnique">false</ATT>
+                  <ATT name="IsException">false</ATT>
+                  <ATT name="IsStream">false</ATT>
+                  <ATT name="Effect">ReadEffect</ATT>
+                  <ATT name="Name"><![CDATA[e]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="Tag">
+                    <OBJECT>
+                      <ID name="" mc="Infrastructure.TaggedValue" uid="4c666080-37b2-4c45-bc72-a88d3caf9e80"/>
+                      <ATTRIBUTES>
+                        <ATT name="Name"></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <COMP relation="Actual">
+                          <OBJECT>
+                            <ID name="" mc="Infrastructure.TagParameter" uid="05141cd3-4317-487b-8bad-92a0cc0b73e8"/>
+                            <ATTRIBUTES>
+                              <ATT name="Value"><![CDATA[PropertyChangeEvent]]></ATT>
+                              <ATT name="status">1970354901745664</ATT>
+                            </ATTRIBUTES>
+                            <DEPENDENCIES></DEPENDENCIES>
+                          </OBJECT>
+                        </COMP>
+                        <LINK relation="Definition">
+                          <FOREIGNID name="JavaTypeExpr" mc="Infrastructure.TagType" uid="00380080-0000-01a4-0000-000000000000"/>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+            <COMP relation="Descriptor">
+              <OBJECT>
+                <ID name="" mc="Infrastructure.Note" uid="542c959e-7389-4a6f-8689-13c915e7bb5a"/>
+                <ATTRIBUTES>
+                  <ATT name="Content"><![CDATA[String propertyName = e.getPropertyName();
+
+// Listen for DiagramModel changes.
+if(propertyName.equals("model")) {
+
+  DiagramModel oldModel = (DiagramModel)e.getOldValue();
+  DiagramModel newModel = (DiagramModel)e.getNewValue();
+
+  if(oldModel != null)
+    oldModel.removeDiagramDataListener(modelListener);
+
+  linkLayer.removeAll();
+  figureLayer.removeAll();
+  linkMap.clear();
+
+  // Update the layers for the new model
+  if(newModel != null) {
+
+    newModel.addDiagramDataListener(modelListener);       
+    for(Iterator i = newModel.iterator();i.hasNext();) 
+      modelListener.figureAdded(newModel, (Figure)i.next());
+    
+    
+  }
+
+  // redraw
+  repaintDiagram();
+
+} else if(propertyName.equals("selectionModel")) {
+
+  SelectionModel oldModel = (SelectionModel)e.getOldValue();
+  SelectionModel newModel = (SelectionModel)e.getNewValue();
+
+  if(oldModel != null)
+    oldModel.removeSelectionListener(modelListener);
+  
+  if (newModel != null) 
+    newModel.addSelectionListener(modelListener);
+  
+  repaintDiagram();
+
+} else if(propertyName.equals("fastRefresh")) {
+  fastRefresh = e.getNewValue().equals("true");
+} else if(propertyName.equals("diagram.background")) {
+  diagram.setBackground((Color)e.getNewValue());
+} else if(propertyName.equals("diagram.foreground")) {
+  diagram.setForeground((Color)e.getNewValue());
+} else if(propertyName.equals("diagram.border")) {
+  diagram.setBorder((Border)e.getNewValue());
+}
+]]></ATT>
+                  <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Model">
+                    <FOREIGNID name="JavaCode" mc="Infrastructure.NoteType" uid="003800a8-0000-018e-0000-000000000000"/>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+          </DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+      <LINK relation="Extension">
+        <FOREIGNID name="JavaClass" mc="Infrastructure.Stereotype" uid="01ec23a8-0000-0258-0000-000000000000"/>
+      </LINK>
+      <COMP relation="Tag">
+        <OBJECT>
+          <ID name="" mc="Infrastructure.TaggedValue" uid="ce2af8cb-22f6-46c6-ab12-0602c833b8fc"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="Actual">
+              <OBJECT>
+                <ID name="" mc="Infrastructure.TagParameter" uid="997f593d-3067-47ff-a888-2b8f157d509b"/>
+                <ATTRIBUTES>
+                  <ATT name="Value"><![CDATA[PropertyChangeListener]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+            <LINK relation="Definition">
+              <FOREIGNID name="JavaImplements" mc="Infrastructure.TagType" uid="003800a8-0000-0156-0000-000000000000"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+      <COMP relation="Descriptor">
+        <OBJECT>
+          <ID name="" mc="Infrastructure.Note" uid="1c7eddff-24ed-4d77-b910-7fddb0178116"/>
+          <ATTRIBUTES>
+            <ATT name="Content"><![CDATA[/* ModelListener */]]></ATT>
+            <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Model">
+              <FOREIGNID name="JavaComment" mc="Infrastructure.NoteType" uid="69ed2595-741c-11e1-89e3-002564c97630"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="Infrastructure.Note" uid="84fac4d2-0108-43bd-8168-d6538ecfa4c9"/>
+          <ATTRIBUTES>
+            <ATT name="Content"><![CDATA[@class PropertyChangeHandler]]></ATT>
+            <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Model">
+              <FOREIGNID name="Javadoc" mc="Infrastructure.NoteType" uid="003800a8-0000-015d-0000-000000000000"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

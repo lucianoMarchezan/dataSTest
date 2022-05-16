@@ -15,13 +15,17 @@ public class BlackBoxTest{
 		testRace();
 		testCar();
 		testGearbox();
+		testNe();
 		testShop();
 		testEngines();
 		testBodies();
 		testTiresets();	
 		testLevels();
 	}
-		
+
+	private static void testNe() {
+	}
+
 	/**
 	  * TEST FOR HIGHSCORES 
 	  */	
@@ -47,7 +51,7 @@ public class BlackBoxTest{
 		vier.setScore(4000);
 		hs.addPlayer(vier);
 
-		Player vijf = new Player("Häkkinen");
+		Player vijf = new Player("Hï¿½kkinen");
 		vijf.setScore(5000);
 		hs.addPlayer(vijf);
 		

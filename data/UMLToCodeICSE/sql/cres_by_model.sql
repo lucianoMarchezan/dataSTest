@@ -1,0 +1,1 @@
+SELECT model_name, sum(time) as time,sum(result=false) as inconsistencies, count(cre) as cres FROM cres_results  group by model_name;

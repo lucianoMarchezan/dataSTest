@@ -1,0 +1,1 @@
+SELECT idsmodels,name, size,cres,cre_dependencies, Round((cre_dependencies*100)/cres,1) as percent, round(cre_depen_time/cres/1000,2) as avg_time_ms FROM dependency_evaluation.models;

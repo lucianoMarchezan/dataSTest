@@ -1,0 +1,108 @@
+CR01, context: Message
+Description: Message Action must be defined as an Operation in Receiver’s Class
+OCL definition: self.receiveEvent.asType(<InteractionFragment>).covered->forAll(r|r.represents.type.isTypeOf(<Class>) implies r.represents.type.asType(<Class>).ownedOperation->exists(op| op.name=self.name))
+---------------------
+CR02, context: Association
+Description: The connected Classifier of the Association End should be included in the Namespace of the Association
+OCL definition: self.memberEnd.size() > 0 implies self.memberEnd->forAll(p | p.type <> null implies p.type.namespace = self.namespace)
+---------------------
+CR03, context: Association
+Description: AssociationEnds must have unique Names within the Association
+OCL definition: self.memberEnd->forAll(p1,p2 : <Property>| p1 <> p2 implies p1.name <> p2.name)
+---------------------
+CR04, context: Association
+Description: At most one AssociationEnd may be an Aggregation or Composition
+OCL definition: self.memberEnd->size() > 0 implies self.memberEnd->select(p | p.aggregation.name = 'composite')->size() <= 1 or self.memberEnd->select(m | m.aggregation.name = 'shared')->size() <= 1
+---------------------
+CR05, context: Class
+Description: A Class may use Unique Attribute Names
+OCL definition: self.ownedAttribute->forAll(p1,p2:<Property> | p1 <> p2 implies p1.name <> p2.name)
+---------------------
+CR06, context: Property
+Description: A Classifier may not belong by Composition to more than one Composite Classifier
+OCL definition: (self.association <> null and self.aggregation.name='composite') implies (self.upper >= 0 and self.upper <= 1)
+---------------------
+CR07, context: Package
+Description: A Package must have a non-empty unique name
+OCL definition: self.packagedElement->forAll(e1,e2:<PackageableElement> | (e1 <> e2) and (e1.name <> '' and e2.name <> '') implies (e1.name <> e2.name))
+---------------------
+CR08, context: Interface
+Description: An Interface can only contain Public Operations and no Attributes
+OCL definition: self.ownedAttribute->forAll(pr: <Property>| pr.association <> null or pr.visibility.name = 'public') and self.ownedOperation->forAll(o:<Operation>| o.visibility.name = 'public')
+---------------------
+CR09, context: Class
+Description: No two Class Operations may have the same Signature
+OCL definition: self.ownedOperation->forAll( o1,o2 : <Operation> | o1 <> o2 implies (o1.name <> o2.name or o1.ownedParameter->size() <> o2.ownedParameter->size() or o1.ownedParameter->exists(t1:<Type> | o2.ownedParameter->excludes(t1)) or o2.ownedParameter->exists(t2:<Type> | o1.ownedParameter->excludes(t2))))
+---------------------
+CR10, context: Operation
+Description: Operation Parameters must have unique Names
+OCL definition: self.ownedParameter->forAll(p1,p2:<Parameter>| p1 <> p2 implies p1.name <> p2.name)
+---------------------
+CR11, context: Operation
+Description: The Type of Operation Parameters must be included in the Namespace of the Operation Owner
+OCL definition: self.ownedParameter->forAll(p:<Parameter>|p.type <> null and self.owner.isTypeOf(<Class>) implies (p.type.namespace = self.owner.asType(<Class>).namespace))
+---------------------
+CR12, context: Generalization
+Description: The Parent must be included in the Namespace of the Generalizable Element
+OCL definition: self.source->forAll(e1: <Element> | e1.isKindOf(<NamedElement>) implies self.target->forAll(e2 : <Element> | e2.isKindOf(<NamedElement>) and e1.asType(<NamedElement>).namespace = e2.asType(<NamedElement> ).namespace))
+---------------------
+CR13, context: Transition
+Description: Statechart Action must be defined as an Operation in the Owner’s Class
+OCL definition: let classifier : <BehavioredClassifier> = self.owner.asType(<Region>).stateMachine.context in (self.owner.asType(<Region>).stateMachine <> null implies classifier.isTypeOf(<Class>) implies classifier.asType(<Class>).ownedOperation->exists(o:<Operation> | o.name = self.name))
+---------------------
+CR14, context: Operation
+Description: An Operation has at most one return Parameter
+OCL definition: self.ownedParameter->select(p : <Parameter> | p.direction.name = 'return')->size() <= 1
+---------------------
+CR15, context: Lifeline
+Description: Every lifeline has to have a corresponding class
+OCL definition: self.represents.type.isTypeOf(<Class>)
+---------------------
+CR16, context: Message
+Description: Every message has to have a corresponding transition
+OCL definition: self.receiveEvent.asType(<InteractionFragment>).covered->forAll(r|r.represents.type.isTypeOf(<Class>) implies r.represents.type.asType(<Class>).ownedBehavior->exists(ob| ob.asType(<StateMachine>).region->exists(re|re.asType(<Region>).transition->exists(t|t.name=self.name))))
+---------------------
+CR17, context: Lifeline
+Description: A lifeline without messages must not have a corresponding transition
+OCL definition: self.coveredBy->asList().size() > 0 implies self.coveredBy->asList()->first().asType(<InteractionFragment>).covered->isEmpty()
+---------------------
+CR18, context: Operation
+Description: If an activity diagram shows scenarios of an operation and that operation appears in a sequence diagram, the different diagrams should specify the same scenarios: e.g., same sequence of messages/operations/actions, same branching or repetition conditions.
+OCL definition: allInstances(<Action>)->exists(a1: <Action>|  allInstances(<Message>)->exists(m1: <Message>| (a1.name = self.name) and (m1.name = self.name) implies a1.name = m1.name))
+---------------------
+CR19, context: Message
+Description: In case a message in a sequence diagram is referring to an operation, that operation must not be abstract.
+OCL definition: allInstances(<Operation>)->forAll(op:<Operation>| self.name = op.name implies not op.isAbstract)
+---------------------
+CR20, context: Message
+Description: No operation can be used in a message of a sequence diagram if this breaks the visibility rules of the class diagram (public, protected, private).
+OCL definition: allInstances(<Operation>)->forAll(op:<Operation>| op.name = self.name implies ((self.visibility.name = 'public') and (op.visibility.name = 'public')) or ((self.visibility.name = 'private') and (op.visibility.name = 'private')) or ((self.visibility.name = 'protected') and (op.visibility.name = 'protected')))
+---------------------
+CR21, context: Class
+Description: A class name that appears in an activity diagram also appears in the class diagram.
+OCL definition: allInstances(<Activity>)->exists(at:<Activity>|self.name = at.name)
+---------------------
+CR22, context: UseCase
+Description: The noun of the use case's name should equal the name of one class in the class diagram.
+OCL definition: allInstances(<Class>)->exists(ct:<Class>| ct.name = self.name)
+---------------------
+CR23, context: InteractionFragment
+Description: Objects involved in a communication diagram should be instances of classes of the class diagram.
+OCL definition: allInstances(<Class>)->exists(ct:<Class>| ct.name = self.name)
+---------------------
+CR24, context: InteractionFragment
+Description: Each interaction diagram corresponds to a use case in the use case diagram, and each use case in the use case diagram is specified by an interaction diagram.
+OCL definition: allInstances(<UseCase>)->exists(ut:<UseCase>| ut.name = self.name)
+---------------------
+CR25, context: CreateLinkObjectAction
+Description: The number of occurrences of a link in an object diagram, an instance of an association in a class diagram, must satisfy the multiplicity constraints specified for the association.
+OCL definition: allInstances(<Association>)->forAll(at:<Association>|  at.name = self.name implies self.result = at)
+---------------------
+CR26, context: Class
+Description: An abstract operation can only belong to an abstract class.
+OCL definition: self.isAbstract = true implies  self.ownedOperation->forAll(o:<Operation>| o.isAbstract)
+---------------------
+CR27, context: Lifeline
+Description: The type of a lifeline (type of the connectable element of the lifeline) in a sequence diagram must not be an interface nor an abstract class. 
+OCL definition: allInstances(<Interface>)->forAll(it:<Interface>| self <> it implies allInstances(<Class>)->select(ct:<Class>| ct.isAbstract)->forAll(ab:<Class>| ab <> self.represents.type))
+---------------------

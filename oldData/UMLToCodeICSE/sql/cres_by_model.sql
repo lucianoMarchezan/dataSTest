@@ -1,0 +1,2 @@
+SELECT model_name, avg(time)/1000 as time,sum(result=false) as inconsistencies, count(cre) as cres, systems.total_size as size FROM cres_results 
+INNER JOIN systems ON systems.name=cres_results.model_name group by model_name;

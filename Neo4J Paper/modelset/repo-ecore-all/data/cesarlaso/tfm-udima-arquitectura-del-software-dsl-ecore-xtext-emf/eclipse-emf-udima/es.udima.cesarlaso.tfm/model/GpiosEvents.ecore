@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="gpiosevents" nsURI="http://tfm.cesarlaso.udima.es/gpios/events"
+    nsPrefix="es.udima.cesarlaso.tfm.gpios.events">
+  <eClassifiers xsi:type="ecore:EClass" name="GpioEvent" abstract="true" eSuperTypes="Events.ecore#//Event">
+    <eOperations name="performed" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DigitalEvent" abstract="true" eSuperTypes="#//GpioEvent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pin" lowerBound="1" eType="ecore:EClass Gpios.ecore#//DigitalInputPin"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AnalogEvent" abstract="true" eSuperTypes="#//GpioEvent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pin" lowerBound="1" eType="ecore:EClass Gpios.ecore#//AnalogInputPin"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Interrupted" eSuperTypes="#//DigitalEvent">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mode" lowerBound="1" eType="ecore:EEnum Gpios.ecore#//InterruptMode"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ButtonInput" eSuperTypes="#//DigitalEvent">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mode" lowerBound="1" eType="ecore:EEnum Gpios.ecore#//PinResistor"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="minDuration" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ButtonInputAccumulator" eSuperTypes="#//ButtonInput">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="count" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ButtonInputReleased" eSuperTypes="#//DigitalEvent">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mode" lowerBound="1" eType="ecore:EEnum Gpios.ecore#//PinResistor"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PulseInput" eSuperTypes="#//DigitalEvent">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mode" lowerBound="1" eType="ecore:EEnum Gpios.ecore#//PinResistor"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="count" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="spaceWidth" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AnalogRead" eSuperTypes="#//AnalogEvent">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pollIntervalLoops" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AnalogReadPerformOnChange" abstract="true"
+      eSuperTypes="#//AnalogRead">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AnalogReadPerformOnHigh" eSuperTypes="#//AnalogReadPerformOnChange"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AnalogReadPerformOnLow" eSuperTypes="#//AnalogReadPerformOnChange"/>
+</ecore:EPackage>

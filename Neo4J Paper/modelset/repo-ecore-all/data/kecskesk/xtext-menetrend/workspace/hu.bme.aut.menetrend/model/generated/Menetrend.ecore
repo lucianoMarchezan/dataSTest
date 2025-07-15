@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="menetrend" nsURI="http://www.bme.hu/aut/menetrend/Menetrend"
+    nsPrefix="menetrend">
+  <eClassifiers xsi:type="ecore:EClass" name="Model">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stops" upperBound="-1"
+        eType="#//Stop" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="schedules" upperBound="-1"
+        eType="#//Schedule" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Schedule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lineNumber" eType="#//LineNumber"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scheduleParts" upperBound="-1"
+        eType="#//SchedulePart" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LineNumber">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//TransportType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SchedulePart"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RelativeSchedule" eSuperTypes="#//SchedulePart">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="start" eType="#//Stop"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targets" upperBound="-1"
+        eType="#//RelativeTarget" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RelativeTarget">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="length" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//Stop"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbsoluteSchedule" eSuperTypes="#//SchedulePart">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="daytype" eType="#//DayType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="departures" upperBound="-1"
+        eType="#//Departure" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Departure">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="from" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimpleTimeFormat" eSuperTypes="#//Departure"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplexTimeMiddle" eSuperTypes="#//Departure">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="until" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="frequency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplexTimeEnd" eSuperTypes="#//Departure">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="frequency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="until" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Stop">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TransportType">
+    <eLiterals name="BUS" literal="Bus"/>
+    <eLiterals name="TRAM" value="1" literal="Tram"/>
+    <eLiterals name="METRO" value="2" literal="Metro"/>
+    <eLiterals name="TROLI" value="3" literal="Troli"/>
+    <eLiterals name="HEV" value="4" literal="Hev"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DayType">
+    <eLiterals name="WEEKDAYS" literal="weekdays"/>
+    <eLiterals name="WEEKENDS" value="1" literal="weekends"/>
+    <eLiterals name="MONDAY" value="2" literal="monday"/>
+    <eLiterals name="TUESDAY" value="3" literal="tuesday"/>
+    <eLiterals name="WEDNESDAY" value="4" literal="wednesday"/>
+    <eLiterals name="THURSDAY" value="5" literal="thursday"/>
+    <eLiterals name="FRIDAY" value="6" literal="friday"/>
+    <eLiterals name="SATURDAY" value="7" literal="saturday"/>
+    <eLiterals name="SUNDAY" value="8" literal="sunday"/>
+  </eClassifiers>
+</ecore:EPackage>

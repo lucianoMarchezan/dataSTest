@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="wikim" nsURI="http://spi-fm.uca.es/spdef/models/genericTools/wikim/1.0"
+    nsPrefix="wikim">
+  <eClassifiers xsi:type="ecore:EClass" name="Category" eSuperTypes="#//WikiContent">
+    <eAnnotations source="comment">
+      <details key="comment" value="Clase que representa a una categoría dentro una instancia de la wiki."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentCategory" eType="#//Category"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WikiContent">
+    <eAnnotations source="comment">
+      <details key="comment" value="Clase abstracta que representa a un tipo de contenido concreto que puede almacenar una wiki."/>
+    </eAnnotations>
+    <eOperations name="render" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Section">
+    <eAnnotations source="comment">
+      <details key="comment" value="Clase que permite declarar una sección dentro de un artículo de la wiki."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="embeddedSections" upperBound="-1"
+        eType="#//Section" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contents" upperBound="-1"
+        eType="#//SectionContent" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WikiDatabase">
+    <eAnnotations source="comment">
+      <details key="comment" value="Clase contenedora de todos los contenidos existentes en la wiki."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contents" upperBound="-1"
+        eType="#//WikiContent" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Article" eSuperTypes="#//WikiContent">
+    <eAnnotations source="comment">
+      <details key="comment" value="Clase que representa a un artículo dentro de la wiki."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sections" upperBound="-1"
+        eType="#//Section" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="categories" upperBound="-1"
+        eType="#//Category"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Image" eSuperTypes="#//SectionContent">
+    <eAnnotations source="comment">
+      <details key="comment" value="Clase que representa la inclusión de una imagen dentro de un artículo wiki."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="alternative" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SectionContent" abstract="true">
+    <eAnnotations source="comment">
+      <details key="comment" value="Clase abstracta que se especializa en cada tipo de contenido que puede incluirse dentro de una sección de un artículo."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="order" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Paragraph" eSuperTypes="#//SectionContent">
+    <eAnnotations source="comment">
+      <details key="comment" value="Clase que representa un párrafo de texto."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ItemList" eSuperTypes="#//SectionContent">
+    <eAnnotations source="comment">
+      <details key="comment" value="Clase que representa un lista de items."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="items" upperBound="-1"
+        eType="#//Item" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Item">
+    <eAnnotations source="comment">
+      <details key="comment" value="Clase que representa el item de una lista."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="File" eSuperTypes="#//WikiContent">
+    <eAnnotations source="comment">
+      <details key="comment" value="Clase que representa a un determinado archivo binario almacenado en la wiki."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="User" eSuperTypes="#//WikiContent">
+    <eAnnotations source="comment">
+      <details key="comment" value="Clase que representa al usuario y la página del mismo dentro de la wiki."/>
+    </eAnnotations>
+  </eClassifiers>
+</ecore:EPackage>

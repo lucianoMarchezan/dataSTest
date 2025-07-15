@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="lightweightDSL" nsURI="http://www.example.org/lightweightDSL"
+    nsPrefix="lightweightDSL">
+  <eClassifiers xsi:type="ecore:EClass" name="AuthMethod" abstract="true">
+    <eOperations name="computeLevel" eType="#//LEVEL"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="authenticators" lowerBound="1"
+        upperBound="2" eType="#//Authenticator"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="risk" eType="#//Risk"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Registration" eSuperTypes="#//Phase">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" lowerBound="1"
+        upperBound="-1" eType="#//Attribute" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Recovery" eSuperTypes="#//Phase">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="protocol" eType="#//Protocol"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="authenticator" eType="#//Authenticator"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Login" eSuperTypes="#//Phase">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="session" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Reset" eSuperTypes="#//Phase">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="authenticator" eType="#//Authenticator"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="App">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="phases" lowerBound="4"
+        upperBound="-1" eType="#//Phase" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="authenticators" lowerBound="1"
+        upperBound="-1" eType="#//Authenticator" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="authMethods" lowerBound="1"
+        upperBound="-1" eType="#//AuthMethod" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="risks" upperBound="-1"
+        eType="#//Risk"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registration" eType="#//Registration"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Attribute">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="provider" eType="#//PROVIDER"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//CredTYPE"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="verifmethod" eType="#//VerifMethod"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="risk" eType="#//Risk"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="LEVEL">
+    <eLiterals name="LOW"/>
+    <eLiterals name="MEDIUM" value="1"/>
+    <eLiterals name="HIGH" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CredTYPE">
+    <eLiterals name="DIGITAL"/>
+    <eLiterals name="PHYSICAL" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Protocol">
+    <eLiterals name="EBIA"/>
+    <eLiterals name="SMS_BASED" value="1"/>
+    <eLiterals name="LOCAL" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ValidationType">
+    <eLiterals name="LOCAL"/>
+    <eLiterals name="REMOTE" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="BVALUE">
+    <eLiterals name="FINGERPRINT" value="5"/>
+    <eLiterals name="IRIS" value="6"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PROVIDER">
+    <eLiterals name="IdP"/>
+    <eLiterals name="SELF" value="1"/>
+    <eLiterals name="INSTITUTIONAL" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Phase" abstract="true">
+    <eOperations name="computeLevel" eType="#//LEVEL"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="authMethods" upperBound="-1"
+        eType="#//AuthMethod"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="risk" eType="#//Risk"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Authenticator" abstract="true">
+    <eOperations name="computeLevel" eType="#//LEVEL"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="risk" eType="#//Risk"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VerifMethod">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="validity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uniqueness" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bindings" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="level" eType="#//LEVEL"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MFA" eSuperTypes="#//AuthMethod">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="validation" eType="#//ValidationType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="correlation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SFA" eSuperTypes="#//AuthMethod"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Knowledge" eSuperTypes="#//Authenticator">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="#//KVALUE"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="limitedAttempts" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="autofilled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Possession" eSuperTypes="#//Authenticator">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="#//PVALUE"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Biometrics" eSuperTypes="#//Authenticator">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="#//BVALUE"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="KVALUE">
+    <eLiterals name="PASSPHRASE"/>
+    <eLiterals name="STBP" value="1"/>
+    <eLiterals name="LTBP" value="2"/>
+    <eLiterals name="PIN" value="3"/>
+    <eLiterals name="PREFERENCES" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PVALUE">
+    <eLiterals name="DEVICE"/>
+    <eLiterals name="TOKEN" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Risk">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="instance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="#//LEVEL"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="information" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

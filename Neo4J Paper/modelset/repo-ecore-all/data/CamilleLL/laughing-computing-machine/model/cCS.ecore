@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="cCS" nsURI="http://www.example.org/cCS" nsPrefix="cCS">
+  <eClassifiers xsi:type="ecore:EClass" name="ArchitecturalElement" abstract="true"/>
+  <eSubpackages name="Component" nsURI="http://www.example.org/cCS/Component" nsPrefix="Component">
+    <eClassifiers xsi:type="ecore:EClass" name="PComp_Provided" eSuperTypes="#//Component/PortComponent"/>
+    <eClassifiers xsi:type="ecore:EClass" name="SComp_Provided" eSuperTypes="#//Component/ServiceComponent"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ServiceComponent"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Component" eSuperTypes="#//ArchitecturalElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="property" upperBound="-1"
+          eType="#//Component/Property" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="interfacecomponent" upperBound="-1"
+          eType="#//Component/InterfaceComponent" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="constraint" upperBound="-1"
+          eType="#//Component/Constraint" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Constraint"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Property"/>
+    <eClassifiers xsi:type="ecore:EClass" name="SComp_Required" eSuperTypes="#//Component/ServiceComponent"/>
+    <eClassifiers xsi:type="ecore:EClass" name="PComp_Required" eSuperTypes="#//Component/PortComponent"/>
+    <eClassifiers xsi:type="ecore:EClass" name="PortComponent"/>
+    <eClassifiers xsi:type="ecore:EClass" name="InterfaceComponent">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="portcomponent" upperBound="-1"
+          eType="#//Component/PortComponent" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="servicecomponent" upperBound="-1"
+          eType="#//Component/ServiceComponent" containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="Configuration" nsURI="http://www.example.org/cCS/Configuration"
+      nsPrefix="Configuration">
+    <eClassifiers xsi:type="ecore:EClass" name="A_ComponentToConnector" eSuperTypes="#//Configuration/Attachment">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pcomp_provided" eType="#//Component/PComp_Provided"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="rolerequired" eType="#//Connector/RoleRequired"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Binding" eSuperTypes="#//Configuration/Lien"/>
+    <eClassifiers xsi:type="ecore:EClass" name="BindingProvided" eSuperTypes="#//Configuration/Binding">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pconf_provided" eType="#//Configuration/PConf_Provided"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BindingRequired" eSuperTypes="#//Configuration/Binding">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pcomp_provided" eType="#//Component/PComp_Provided"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pconf_required" eType="#//Configuration/PConf_Required"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Attachment" eSuperTypes="#//Configuration/Lien"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Lien"/>
+    <eClassifiers xsi:type="ecore:EClass" name="PConf_Provided" eSuperTypes="#//Configuration/PortConfiguration"/>
+    <eClassifiers xsi:type="ecore:EClass" name="A_ConnectorToComponent" eSuperTypes="#//Configuration/Attachment">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="roleprovided" eType="#//Connector/RoleProvided"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pcomp_required" eType="#//Component/PComp_Required"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Configuration" eSuperTypes="#//ArchitecturalElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="component" upperBound="-1"
+          eType="#//Component/Component" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="connector" upperBound="-1"
+          eType="#//Connector/Connector" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="lien" upperBound="-1"
+          eType="#//Configuration/Lien" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="interfaceconfiguration"
+          upperBound="-1" eType="#//Configuration/InterfaceConfiguration" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="architecturalelement"
+          upperBound="-1" eType="#//ArchitecturalElement" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PConf_Required" eSuperTypes="#//Configuration/PortConfiguration"/>
+    <eClassifiers xsi:type="ecore:EClass" name="PortConfiguration"/>
+    <eClassifiers xsi:type="ecore:EClass" name="InterfaceConfiguration">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="portconfiguration" upperBound="-1"
+          eType="#//Configuration/PortConfiguration" containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="Connector" nsURI="http://www.example.org/cCS/Connector" nsPrefix="Connector">
+    <eClassifiers xsi:type="ecore:EClass" name="Role"/>
+    <eClassifiers xsi:type="ecore:EClass" name="RoleProvided" eSuperTypes="#//Connector/Role"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Connector" eSuperTypes="#//ArchitecturalElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="glue" upperBound="-1"
+          eType="#//Connector/Glue" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="interfaceconnector" upperBound="-1"
+          eType="#//Connector/InterfaceConnector" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Glue">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="role" eType="#//Connector/Role"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="RoleRequired" eSuperTypes="#//Connector/Role"/>
+    <eClassifiers xsi:type="ecore:EClass" name="InterfaceConnector">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="role" upperBound="-1"
+          eType="#//Connector/Role" containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

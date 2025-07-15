@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="pokemon" nsURI="platform:/plugin/pokeMDD/model/pokemon.ecore"
+    nsPrefix="pokemon">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="validationDelegates" value="http://www.eclipse.org/acceleo/query/1.0"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="Root">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pokemon" upperBound="-1"
+        eType="#//Pokemon" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="move" upperBound="-1" eType="#//Move"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" upperBound="-1" eType="#//Type"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trainer" upperBound="-1"
+        eType="#//Trainer" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Pokemon">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="noNegativeWeight noNegativeHeight noNegativeBaseExperience validSpriteUrl"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/acceleo/query/1.0">
+      <details key="noNegativeWeight" value="self.weight >= 0"/>
+      <details key="noNegativeHeight" value="self.height >= 0"/>
+      <details key="noNegativeBaseExperience" value="self.baseExperience >= 0"/>
+      <details key="validSpriteUrl" value="self.sprite.matches('^(http|https)://[a-zA-Z./]+\\d+.png')"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="weight" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sprite" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="baseExperience" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" upperBound="-1" eType="#//Type"
+        eOpposite="#//Type/pokemon"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="move" upperBound="-1" eType="#//Move"
+        eOpposite="#//Move/pokemon"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pokemonInstance" upperBound="-1"
+        eType="#//PokemonInstance" containment="true" eOpposite="#//PokemonInstance/pokemon"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Move">
+    <eAnnotations source="http://www.eclipse.org/acceleo/query/1.0">
+      <details key="ppMustBePercentage" value="(self.pp >= 0) and self.pp &lt;= 100"/>
+      <details key="accuracyMustBePercentage" value="self.accuracy >= 0 and self.accuracy &lt;= 100"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="ppMustBePercentage powerMustBePercentage accuracyMustBePercentage"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pp" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="power" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="accuracy" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pokemon" upperBound="-1"
+        eType="#//Pokemon" eOpposite="#//Pokemon/move"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Type">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pokemon" upperBound="-1"
+        eType="#//Pokemon" eOpposite="#//Pokemon/type"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PokemonInstance">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="noDuplicateMove1 noDuplicateMove2 noDuplicateMove3"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/acceleo/query/1.0">
+      <details key="noDuplicateMove1" value="self.move1 == null or (self.move1 != self.move2 and self.move1 != self.move3 and self.move1 != self.move4)"/>
+      <details key="noDuplicateMove2" value="self.move2 == null or (self.move2 != self.move3 and self.move2 != self.move4)"/>
+      <details key="noDuplicateMove3" value="self.move3==null or (self.move3 != self.move4)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pokemon" lowerBound="1"
+        eType="#//Pokemon" eOpposite="#//Pokemon/pokemonInstance"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="level" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trainer" eType="#//Trainer"
+        eOpposite="#//Trainer/pokemon"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="move1" eType="#//Move"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="move2" eType="#//Move"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="move3" eType="#//Move"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="move4" eType="#//Move"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Trainer">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pokemon" upperBound="6"
+        eType="#//PokemonInstance" eOpposite="#//PokemonInstance/trainer"/>
+  </eClassifiers>
+</ecore:EPackage>

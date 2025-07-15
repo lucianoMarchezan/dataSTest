@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="clientserver" nsURI="http://www.example.org/clientserver" nsPrefix="clientserver">
+  <eClassifiers xsi:type="ecore:EClass" name="Client" eSuperTypes="couscous.ecore#//Composant">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="portclient" eType="#//PortClient"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Server" eSuperTypes="couscous.ecore#//Composant">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="portserver" eType="#//PortServer"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PortCS" eSuperTypes="couscous.ecore#//PortConfiguration"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemCS" eSuperTypes="couscous.ecore#//Configuration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="server" upperBound="-1"
+        eType="#//Server" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="client" upperBound="-1"
+        eType="#//Client" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="portcs" eType="#//PortCS"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rpc" upperBound="-1" eType="#//RPC"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PortClient" eSuperTypes="couscous.ecore#//PortComposant"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PortAskClient" eSuperTypes="couscous.ecore#//PortFConfiguration #//PortCS">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bindingaskclient" eType="#//BindingAskClient"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BindingAskClient" eSuperTypes="couscous.ecore#//BindingConfigToCompo">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="portreceiveask" eType="#//PortReceiveAsk"
+        eOpposite="#//PortReceiveAsk/bindingaskclient"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RPC" eSuperTypes="couscous.ecore#//Connecteur">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacerrpc" eType="#//InterfaceRRPC"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacefrpc" eType="#//InterfaceFRPC"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PortSendRequest" eSuperTypes="couscous.ecore#//PortFComposant #//PortClient">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementclientrpc" eType="#//AttachementClientRPC"
+        eOpposite="#//AttachementClientRPC/portsendrequest"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PortRetrieveRequest" eSuperTypes="couscous.ecore#//PortRComposant #//PortClient"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PortReceiveAsk" eSuperTypes="couscous.ecore#//PortRComposant #//PortClient">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bindingaskclient" eType="#//BindingAskClient"
+        eOpposite="#//BindingAskClient/portreceiveask"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttachementClientRPC" eSuperTypes="couscous.ecore#//AttachementFtoR">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="portsendrequest" eType="#//PortSendRequest"
+        eOpposite="#//PortSendRequest/attachementclientrpc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rolesendrequest" eType="#//RoleSendRequest"
+        eOpposite="#//RoleSendRequest/attachementclientrpc"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoleSendRequest" eSuperTypes="couscous.ecore#//RoleRequis">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementclientrpc" eType="#//AttachementClientRPC"
+        eOpposite="#//AttachementClientRPC/rolesendrequest"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacerrpc" eType="#//InterfaceRRPC"
+        eOpposite="#//InterfaceRRPC/rolesendrequest"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterfaceRRPC" eSuperTypes="couscous.ecore#//InterfaceRequise">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rolesendrequest" eType="#//RoleSendRequest"
+        eOpposite="#//RoleSendRequest/interfacerrpc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gluerpc" eType="#//GlueRPC"
+        eOpposite="#//GlueRPC/interfacerrpc"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterfaceFRPC" eSuperTypes="couscous.ecore#//InterfaceFournie">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gluerpc" eType="#//GlueRPC"
+        eOpposite="#//GlueRPC/interfacefrpc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roleaskrequest" eType="#//RoleAskRequest"
+        eOpposite="#//RoleAskRequest/interfacefrpc"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GlueRPC" eSuperTypes="couscous.ecore#//Glue">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacerrpc" eType="#//InterfaceRRPC"
+        eOpposite="#//InterfaceRRPC/gluerpc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacefrpc" eType="#//InterfaceFRPC"
+        eOpposite="#//InterfaceFRPC/gluerpc"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PortServer" eSuperTypes="couscous.ecore#//PortComposant"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PortReceiveRequest" eSuperTypes="couscous.ecore#//PortRComposant #//PortServer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementserverrpc" eType="#//AttachementServerRPC"
+        eOpposite="#//AttachementServerRPC/portreceiverequest"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PortTransmitRequest" eSuperTypes="couscous.ecore#//PortFComposant #//PortServer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bindingtransmitrequest"
+        eType="#//BindingTransmitRequest" eOpposite="#//BindingTransmitRequest/porttransmitrequest"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PortReceiveResponse" eSuperTypes="couscous.ecore#//PortRComposant #//PortServer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AttachementServerRPC" eSuperTypes="couscous.ecore#//AttachementRtoF">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="portreceiverequest" eType="#//PortReceiveRequest"
+        eOpposite="#//PortReceiveRequest/attachementserverrpc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roleaskrequest" eType="#//RoleAskRequest"
+        eOpposite="#//RoleAskRequest/attachementserverrpc"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BindingTransmitRequest" eSuperTypes="couscous.ecore#//BindingCompoToConfig">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="porttransmitrequest" eType="#//PortTransmitRequest"
+        eOpposite="#//PortTransmitRequest/bindingtransmitrequest"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="porttransmitrequestsd"
+        eType="#//PortTransmitRequestSD" eOpposite="#//PortTransmitRequestSD/bindingtransmitrequest"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemServerDetail" eSuperTypes="couscous.ecore#//Configuration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectionmanager" upperBound="-1"
+        eType="#//ConnectionManager" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="securitymanager" upperBound="-1"
+        eType="#//SecurityManager" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="database" upperBound="-1"
+        eType="#//Database" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="portsystem" eType="#//PortSystem"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="securitytoconnection" upperBound="-1"
+        eType="#//SecurityToConnection" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="securitytodatabase" upperBound="-1"
+        eType="#//SecurityToDatabase" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="databasetosecurity" upperBound="-1"
+        eType="#//DatabaseToSecurity" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="databasetoconnection" upperBound="-1"
+        eType="#//DatabaseToConnection" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectiontosecurity" upperBound="-1"
+        eType="#//ConnectionToSecurity" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectiontodatabase" upperBound="-1"
+        eType="#//ConnectionToDatabase" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="porttransmitrequestsd"
+        eType="#//PortTransmitRequestSD" eOpposite="#//PortTransmitRequestSD/systemserverdetail"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConnectionManager" eSuperTypes="couscous.ecore#//Composant">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="portconnectionmanager"
+        eType="#//PortConnectionManager"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SecurityManager" eSuperTypes="couscous.ecore#//Composant">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="portsecuritymanager" eType="#//PortSecurityManager"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Database" eSuperTypes="couscous.ecore#//Composant">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="portdatabase" eType="#//PortDatabase"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PortSystem" eSuperTypes="couscous.ecore#//PortConfiguration"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PortToManager" eSuperTypes="couscous.ecore#//PortFConfiguration #//PortSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bindingrequestmanager"
+        eType="#//BindingRequestManager" eOpposite="#//BindingRequestManager/porttomanager"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BindingRequestManager" eSuperTypes="couscous.ecore#//BindingConfigToCompo">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="porttomanager" eType="#//PortToManager"
+        eOpposite="#//PortToManager/bindingrequestmanager"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="portreceiverequestfsystem"
+        eType="#//PortRReceiveRequestIntoDetail" eOpposite="#//PortRReceiveRequestIntoDetail/bindingrequestmanager"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PortConnectionManager" eSuperTypes="couscous.ecore#//PortComposant"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PortSecurityManager" eSuperTypes="couscous.ecore#//PortComposant"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PortDatabase" eSuperTypes="couscous.ecore#//PortComposant"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PortRReceiveRequestIntoDetail" eSuperTypes="couscous.ecore#//PortRComposant #//PortConnectionManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bindingrequestmanager"
+        eType="#//BindingRequestManager" eOpposite="#//BindingRequestManager/portreceiverequestfsystem"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PortFAskAuthorization" eSuperTypes="couscous.ecore#//PortFComposant #//PortConnectionManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementftorcts" eType="#//AttachementFtoRCtS"
+        eOpposite="#//AttachementFtoRCtS/portfaskauthorization"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PortFAskData" eSuperTypes="couscous.ecore#//PortFComposant #//PortConnectionManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementftorctd" eType="#//AttachementFtoRCtD"
+        eOpposite="#//AttachementFtoRCtD/portfaskdata"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PortRReceiveAuthorization" eSuperTypes="couscous.ecore#//PortRComposant #//PortConnectionManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementrtofcts" eType="#//AttachementRToFCtS"
+        eOpposite="#//AttachementRToFCtS/portrreceiveauthorization"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PortRReceiveData" eSuperTypes="couscous.ecore#//PortRComposant #//PortConnectionManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementrtofctd" eType="#//AttachementRToFCtD"
+        eOpposite="#//AttachementRToFCtD/portrreceivedata"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PortFConfirmOpened" eSuperTypes="couscous.ecore#//PortFComposant #//PortDatabase">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementftordts" eType="#//AttachementFtoRDtS"
+        eOpposite="#//AttachementFtoRDtS/portfconfirmopened"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PortFSendData" eSuperTypes="couscous.ecore#//PortFComposant #//PortDatabase">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementftordtc" eType="#//AttachementFtoRDtC"
+        eOpposite="#//AttachementFtoRDtC/portfsenddata"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PortRAskedOpening" eSuperTypes="couscous.ecore#//PortRComposant #//PortDatabase">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementrtofdtc" eType="#//AttachementRToFDtS"
+        eOpposite="#//AttachementRToFDtS/portraskedopening"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PortRAskedData" eSuperTypes="couscous.ecore#//PortRComposant #//PortDatabase">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementrtofdtc" eType="#//AttachementRToFDtC"
+        eOpposite="#//AttachementRToFDtC/portraskeddata"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PortFRequestOpening" eSuperTypes="couscous.ecore#//PortFComposant #//PortSecurityManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementftorstd" eType="#//AttachementFtoRStD"
+        eOpposite="#//AttachementFtoRStD/portfrequestopening"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PortFSendAuthorization" eSuperTypes="couscous.ecore#//PortFComposant #//PortSecurityManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementftorstc" eType="#//AttachementFtoRStC"
+        eOpposite="#//AttachementFtoRStC/portfsendauthorization"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PortRAskedAuthorization" eSuperTypes="couscous.ecore#//PortRComposant #//PortSecurityManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementrtofstc" eType="#//AttachementRToFStC"
+        eOpposite="#//AttachementRToFStC/portraskedauthorization"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PortRDataReady" eSuperTypes="couscous.ecore#//PortRComposant #//PortSecurityManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementrtofstd" eType="#//AttachementRToFStD"
+        eOpposite="#//AttachementRToFStD/portrdataready"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SecurityToConnection" eSuperTypes="couscous.ecore#//Connecteur">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacerstc" eType="#//InterfaceRStC"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacefstc" eType="#//InterfaceFStC"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SecurityToDatabase" eSuperTypes="couscous.ecore#//Connecteur">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacerstd" eType="#//InterfaceRStD"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacefstd" eType="#//InterfaceFStD"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DatabaseToSecurity" eSuperTypes="couscous.ecore#//Connecteur">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacefdts" eType="#//InterfaceFDtS"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacerdts" eType="#//InterfaceRDtS"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DatabaseToConnection" eSuperTypes="couscous.ecore#//Connecteur">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacerdtc" eType="#//InterfaceRDtC"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacefdtc" eType="#//InterfaceFDtC"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConnectionToSecurity" eSuperTypes="couscous.ecore#//Connecteur">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacefcts" eType="#//InterfaceFCtS"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacercts" eType="#//InterfaceRCtS"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConnectionToDatabase" eSuperTypes="couscous.ecore#//Connecteur">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacefctd" eType="#//InterfaceFCtD"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacerctd" eType="#//InterfaceRCtD"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterfaceRStC" eSuperTypes="couscous.ecore#//InterfaceRequise">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gluestc" eType="#//GlueStC"
+        eOpposite="#//GlueStC/interfacerstc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rolerstc" eType="#//RoleRStC"
+        eOpposite="#//RoleRStC/interfacerstc"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterfaceFStC" eSuperTypes="couscous.ecore#//InterfaceFournie">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gluestc" eType="#//GlueStC"
+        eOpposite="#//GlueStC/interfacefstc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rolefstd" eType="#//RoleFStD"
+        eOpposite="#//RoleFStD/interfacefstc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rolefstc" eType="#//RoleFStC"
+        eOpposite="#//RoleFStC/interfacefstc"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterfaceFStD" eSuperTypes="couscous.ecore#//InterfaceFournie">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gluestd" eType="#//GlueStD"
+        eOpposite="#//GlueStD/interfacefstd"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterfaceRStD" eSuperTypes="couscous.ecore#//InterfaceRequise">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gluestd" eType="#//GlueStD"
+        eOpposite="#//GlueStD/interfacerstd"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rolerstd" eType="#//RoleRStD"
+        eOpposite="#//RoleRStD/interfacerstd"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterfaceRDtS" eSuperTypes="couscous.ecore#//InterfaceRequise">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rolerdts" eType="#//RoleRDtS"
+        eOpposite="#//RoleRDtS/interfacerdts"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterfaceRDtC" eSuperTypes="couscous.ecore#//InterfaceRequise">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gluedtc" eType="#//GlueDtC"
+        eOpposite="#//GlueDtC/interfacerdtc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rolerdtc" eType="#//RoleRDtC"
+        eOpposite="#//RoleRDtC/interfacerdtc"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterfaceRCtS" eSuperTypes="couscous.ecore#//InterfaceRequise">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gluects" eType="#//GlueCtS"
+        eOpposite="#//GlueCtS/interfacercts"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rolercts" eType="#//RoleRCtS"
+        eOpposite="#//RoleRCtS/interfacercts"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterfaceRCtD" eSuperTypes="couscous.ecore#//InterfaceRequise">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gluectd" eType="#//GlueCtD"
+        eOpposite="#//GlueCtD/interfacerctd"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rolerctd" eType="#//RoleRCtD"
+        eOpposite="#//RoleRCtD/interfacerctd"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterfaceFDtS" eSuperTypes="couscous.ecore#//InterfaceFournie">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gluedts" eType="#//GlueDtS"
+        eOpposite="#//GlueDtS/interfacefdts"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rolefdts" eType="#//RoleFDtS"
+        eOpposite="#//RoleFDtS/interfacefdts"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterfaceFDtC" eSuperTypes="couscous.ecore#//InterfaceFournie">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gluedtc" eType="#//GlueDtC"
+        eOpposite="#//GlueDtC/interfacefdtc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rolefdtc" eType="#//RoleFDtC"
+        eOpposite="#//RoleFDtC/interfacefdtc"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterfaceFCtS" eSuperTypes="couscous.ecore#//InterfaceFournie">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gluects" eType="#//GlueCtS"
+        eOpposite="#//GlueCtS/interfacefcts"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rolefcts" eType="#//RoleFCtS"
+        eOpposite="#//RoleFCtS/interfacefcts"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterfaceFCtD" eSuperTypes="couscous.ecore#//InterfaceFournie">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gluectd" eType="#//GlueCtD"
+        eOpposite="#//GlueCtD/interfacefctd"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rolefctd" eType="#//RoleFCtD"
+        eOpposite="#//RoleFCtD/interfacefctd"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GlueStC" eSuperTypes="couscous.ecore#//Glue">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacerstc" eType="#//InterfaceRStC"
+        eOpposite="#//InterfaceRStC/gluestc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacefstc" eType="#//InterfaceFStC"
+        eOpposite="#//InterfaceFStC/gluestc"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GlueStD" eSuperTypes="couscous.ecore#//Glue">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacerstd" eType="#//InterfaceRStD"
+        eOpposite="#//InterfaceRStD/gluestd"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacefstd" eType="#//InterfaceFStD"
+        eOpposite="#//InterfaceFStD/gluestd"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GlueDtS" eSuperTypes="couscous.ecore#//Glue">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacefdts" eType="#//InterfaceFDtS"
+        eOpposite="#//InterfaceFDtS/gluedts"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GlueDtC" eSuperTypes="couscous.ecore#//Glue">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacefdtc" eType="#//InterfaceFDtC"
+        eOpposite="#//InterfaceFDtC/gluedtc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacerdtc" eType="#//InterfaceRDtC"
+        eOpposite="#//InterfaceRDtC/gluedtc"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GlueCtS" eSuperTypes="couscous.ecore#//Glue">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacefcts" eType="#//InterfaceFCtS"
+        eOpposite="#//InterfaceFCtS/gluects"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacercts" eType="#//InterfaceRCtS"
+        eOpposite="#//InterfaceRCtS/gluects"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GlueCtD" eSuperTypes="couscous.ecore#//Glue">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacerctd" eType="#//InterfaceRCtD"
+        eOpposite="#//InterfaceRCtD/gluectd"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacefctd" eType="#//InterfaceFCtD"
+        eOpposite="#//InterfaceFCtD/gluectd"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoleRDtC" eSuperTypes="couscous.ecore#//RoleRequis">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacerdtc" eType="#//InterfaceRDtC"
+        eOpposite="#//InterfaceRDtC/rolerdtc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementftordtc" eType="#//AttachementFtoRDtC"
+        eOpposite="#//AttachementFtoRDtC/rolerdtc"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoleRStD" eSuperTypes="couscous.ecore#//RoleRequis">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacerstd" eType="#//InterfaceRStD"
+        eOpposite="#//InterfaceRStD/rolerstd"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementftorstd" eType="#//AttachementFtoRStD"
+        eOpposite="#//AttachementFtoRStD/rolerstd"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoleRDtS" eSuperTypes="couscous.ecore#//RoleRequis">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacerdts" eType="#//InterfaceRDtS"
+        eOpposite="#//InterfaceRDtS/rolerdts"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementftordts" eType="#//AttachementFtoRDtS"
+        eOpposite="#//AttachementFtoRDtS/rolerdts"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoleRStC" eSuperTypes="couscous.ecore#//RoleRequis">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacerstc" eType="#//InterfaceRStC"
+        eOpposite="#//InterfaceRStC/rolerstc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementftorstc" eType="#//AttachementFtoRStC"
+        eOpposite="#//AttachementFtoRStC/rolerstc"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoleRCtS" eSuperTypes="couscous.ecore#//RoleRequis">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacercts" eType="#//InterfaceRCtS"
+        eOpposite="#//InterfaceRCtS/rolercts"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementftorcts" eType="#//AttachementFtoRCtS"
+        eOpposite="#//AttachementFtoRCtS/rolercts"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoleRCtD" eSuperTypes="couscous.ecore#//RoleRequis">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacerctd" eType="#//InterfaceRCtD"
+        eOpposite="#//InterfaceRCtD/rolerctd"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementftorctd" eType="#//AttachementFtoRCtD"
+        eOpposite="#//AttachementFtoRCtD/rolerctd"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoleFDtC" eSuperTypes="couscous.ecore#//RoleFourni">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacefdtc" eType="#//InterfaceFDtC"
+        eOpposite="#//InterfaceFDtC/rolefdtc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementrtofdtc" eType="#//AttachementRToFDtC"
+        eOpposite="#//AttachementRToFDtC/rolefdtc"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoleFDtS" eSuperTypes="couscous.ecore#//RoleFourni">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacefdts" eType="#//InterfaceFDtS"
+        eOpposite="#//InterfaceFDtS/rolefdts"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementrtofdtc" eType="#//AttachementRToFDtS"
+        eOpposite="#//AttachementRToFDtS/rolefdts"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoleFStD" eSuperTypes="couscous.ecore#//RoleFourni">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacefstc" eType="#//InterfaceFStC"
+        eOpposite="#//InterfaceFStC/rolefstd"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementrtofdtc" eType="#//AttachementRToFStD"
+        eOpposite="#//AttachementRToFStD/rolefstd"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoleFStC" eSuperTypes="couscous.ecore#//RoleFourni">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacefstc" eType="#//InterfaceFStC"
+        eOpposite="#//InterfaceFStC/rolefstc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementrtofdtc" eType="#//AttachementRToFStC"
+        eOpposite="#//AttachementRToFStC/rolefstc"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoleFCtS" eSuperTypes="couscous.ecore#//RoleFourni">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacefcts" eType="#//InterfaceFCtS"
+        eOpposite="#//InterfaceFCtS/rolefcts"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementrtofdtc" eType="#//AttachementRToFCtS"
+        eOpposite="#//AttachementRToFCtS/rolefcts"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoleFCtD" eSuperTypes="couscous.ecore#//RoleFourni">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacefctd" eType="#//InterfaceFCtD"
+        eOpposite="#//InterfaceFCtD/rolefctd"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementrtofdtc" eType="#//AttachementRToFCtD"
+        eOpposite="#//AttachementRToFCtD/rolefctd"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoleAskRequest" eSuperTypes="couscous.ecore#//RoleFourni">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachementserverrpc" eType="#//AttachementServerRPC"
+        eOpposite="#//AttachementServerRPC/roleaskrequest"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfacefrpc" eType="#//InterfaceFRPC"
+        eOpposite="#//InterfaceFRPC/roleaskrequest"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttachementFtoRDtC" eSuperTypes="couscous.ecore#//AttachementFtoR">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rolerdtc" eType="#//RoleRDtC"
+        eOpposite="#//RoleRDtC/attachementftordtc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="portfsenddata" eType="#//PortFSendData"
+        eOpposite="#//PortFSendData/attachementftordtc"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttachementFtoRDtS" eSuperTypes="couscous.ecore#//AttachementFtoR">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rolerdts" eType="#//RoleRDtS"
+        eOpposite="#//RoleRDtS/attachementftordts"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="portfconfirmopened" eType="#//PortFConfirmOpened"
+        eOpposite="#//PortFConfirmOpened/attachementftordts"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttachementFtoRStD" eSuperTypes="couscous.ecore#//AttachementFtoR">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rolerstd" eType="#//RoleRStD"
+        eOpposite="#//RoleRStD/attachementftorstd"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="portfrequestopening" eType="#//PortFRequestOpening"
+        eOpposite="#//PortFRequestOpening/attachementftorstd"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttachementFtoRStC" eSuperTypes="couscous.ecore#//AttachementFtoR">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rolerstc" eType="#//RoleRStC"
+        eOpposite="#//RoleRStC/attachementftorstc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="portfsendauthorization"
+        eType="#//PortFSendAuthorization" eOpposite="#//PortFSendAuthorization/attachementftorstc"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttachementFtoRCtS" eSuperTypes="couscous.ecore#//AttachementFtoR">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rolercts" eType="#//RoleRCtS"
+        eOpposite="#//RoleRCtS/attachementftorcts"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="portfaskauthorization"
+        eType="#//PortFAskAuthorization" eOpposite="#//PortFAskAuthorization/attachementftorcts"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttachementFtoRCtD" eSuperTypes="couscous.ecore#//AttachementFtoR">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rolerctd" eType="#//RoleRCtD"
+        eOpposite="#//RoleRCtD/attachementftorctd"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="portfaskdata" eType="#//PortFAskData"
+        eOpposite="#//PortFAskData/attachementftorctd"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttachementRToFDtC" eSuperTypes="couscous.ecore#//AttachementRtoF">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rolefdtc" eType="#//RoleFDtC"
+        eOpposite="#//RoleFDtC/attachementrtofdtc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="portraskeddata" eType="#//PortRAskedData"
+        eOpposite="#//PortRAskedData/attachementrtofdtc"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttachementRToFDtS" eSuperTypes="couscous.ecore#//AttachementRtoF">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rolefdts" eType="#//RoleFDtS"
+        eOpposite="#//RoleFDtS/attachementrtofdtc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="portraskedopening" eType="#//PortRAskedOpening"
+        eOpposite="#//PortRAskedOpening/attachementrtofdtc"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttachementRToFStD" eSuperTypes="couscous.ecore#//AttachementRtoF">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rolefstd" eType="#//RoleFStD"
+        eOpposite="#//RoleFStD/attachementrtofdtc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="portrdataready" eType="#//PortRDataReady"
+        eOpposite="#//PortRDataReady/attachementrtofstd"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttachementRToFStC" eSuperTypes="couscous.ecore#//AttachementRtoF">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rolefstc" eType="#//RoleFStC"
+        eOpposite="#//RoleFStC/attachementrtofdtc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="portraskedauthorization"
+        eType="#//PortRAskedAuthorization" eOpposite="#//PortRAskedAuthorization/attachementrtofstc"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttachementRToFCtS" eSuperTypes="couscous.ecore#//AttachementRtoF">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rolefcts" eType="#//RoleFCtS"
+        eOpposite="#//RoleFCtS/attachementrtofdtc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="portrreceiveauthorization"
+        eType="#//PortRReceiveAuthorization" eOpposite="#//PortRReceiveAuthorization/attachementrtofcts"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttachementRToFCtD" eSuperTypes="couscous.ecore#//AttachementRtoF">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rolefctd" eType="#//RoleFCtD"
+        eOpposite="#//RoleFCtD/attachementrtofdtc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="portrreceivedata" eType="#//PortRReceiveData"
+        eOpposite="#//PortRReceiveData/attachementrtofctd"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PortTransmitRequestSD" eSuperTypes="couscous.ecore#//PortComposant">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bindingtransmitrequest"
+        eType="#//BindingTransmitRequest" eOpposite="#//BindingTransmitRequest/porttransmitrequestsd"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="systemserverdetail" eType="#//SystemServerDetail"
+        eOpposite="#//SystemServerDetail/porttransmitrequestsd"/>
+  </eClassifiers>
+</ecore:EPackage>

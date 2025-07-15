@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="Block"
+    nsURI="http://ezrealtime.org/meta/1.0.0/block" nsPrefix="block">
+  <eClassifiers xsi:type="ecore:EClass" name="Block" eSuperTypes="ezrealtime.core.ecore#//Abstraction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="draggedIcon" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="icon" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="contextHelpFile" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="copyright" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configuration" eType="#//Configuration"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stereotype" eType="ecore:EEnum ezrealtime.classifiers.ecore#//Stereotype"
+        changeable="false" defaultValueLiteral="&lt;&lt;embeddedBlock>>"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Configuration" eSuperTypes="ezrealtime.core.ecore#//BehavioralStructure">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedDatahub" eType="#//Datahub"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extension" upperBound="-1"
+        eType="#//ExtensionPoint" containment="true" eOpposite="#//ExtensionPoint/configuration"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Datahub" eSuperTypes="ezrealtime.core.ecore#//BehavioralStructure">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extensions" upperBound="-1"
+        eType="#//ExtensionPoint"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="visible" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExtensionPoint">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="deprecate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="icon" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configuration" eType="#//Configuration"
+        eOpposite="#//Configuration/extension"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" upperBound="-1"
+        eType="#//Property" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Property" eSuperTypes="ezrealtime.core.ecore#//BehavioralStructure">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="icon" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataType" eType="ecore:EClass ezrealtime.datatypes.ecore#//DataType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="required"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="memorySpace" eType="ecore:EEnum ezrealtime.classifiers.ecore#//MemorySpaceKind"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Port" eSuperTypes="#//Property">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owner" eType="ecore:EClass ezrealtime.core.ecore#//Abstraction"
+        eOpposite="ezrealtime.core.ecore#//Abstraction/ownedPorts"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exposedInterface" eType="ecore:EClass ezrealtime.classifiers.ecore#//File"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredInterface" eType="ecore:EClass ezrealtime.classifiers.ecore#//File"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataInput" eSuperTypes="#//Port">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reference" eType="#//DataInput"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataOutput" eSuperTypes="#//Port">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reference" eType="#//DataOutput"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataWire">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//DataWireType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DataWireType">
+    <eLiterals name="EXTENSION_POINT" value="2" literal="EXTENSION_POINT"/>
+    <eLiterals name="SOCKET" value="3"/>
+  </eClassifiers>
+</ecore:EPackage>

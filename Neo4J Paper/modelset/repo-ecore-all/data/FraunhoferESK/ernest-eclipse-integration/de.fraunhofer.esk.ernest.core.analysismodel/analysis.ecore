@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ernest" nsURI="http://www.esk.fraunhofer.de/ERNEST/1" nsPrefix="ernest">
+  <eClassifiers xsi:type="ecore:EClass" name="Model">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="structureModel" eType="#//architecture/StructureModel"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="timingModel" eType="#//timingspecification/TimingModel"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tracingResults" eType="#//tracing/TracingResults"
+        containment="true"/>
+  </eClassifiers>
+  <eSubpackages name="architecture" nsURI="http://www.esk.fraunhofer.de/ERNEST/Architecture/1"
+      nsPrefix="ernest.architecture">
+    <eClassifiers xsi:type="ecore:EClass" name="Port" abstract="true" eSuperTypes="#//architecture/Element">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="StructureModel">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="modules" upperBound="-1"
+          eType="#//architecture/Module" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="connectors" upperBound="-1"
+          eType="#//architecture/Connector" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Module" abstract="true" eSuperTypes="#//architecture/Element">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Behavior">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="body" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="triggerPolicy" eType="#//architecture/types/TriggerPolicyKind"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="triggerCondition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="operation" eType="#//architecture/Operation"
+          eOpposite="#//architecture/Operation/behavior"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Function" eSuperTypes="#//architecture/FModule">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="wcet" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="deadline" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="period" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="priority" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="allocatedTo" upperBound="-1"
+          eType="#//architecture/HWModule"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="offset" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="jitter" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Connector" abstract="true" eSuperTypes="#//architecture/Element">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ECU" eSuperTypes="#//architecture/HWModule">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="schedulerType" eType="#//architecture/types/SchedType"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="performanceFactor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Bus" eSuperTypes="#//architecture/HWModule"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Sensor" eSuperTypes="#//architecture/HWModule"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Actuator" eSuperTypes="#//architecture/HWModule"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Environment" eSuperTypes="#//architecture/FModule"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Element" abstract="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="FlowPort" eSuperTypes="#//architecture/SoftwarePort">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//architecture/types/PortKind"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="datatype" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          defaultValueLiteral="int"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CSPort" eSuperTypes="#//architecture/SoftwarePort">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="interface" lowerBound="1"
+          eType="#//architecture/Interface"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//architecture/types/ImplementationKind"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Interface" eSuperTypes="#//architecture/Module">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="operations" upperBound="-1"
+          eType="#//architecture/Operation" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Operation">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="returntype" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="behavior" eType="#//architecture/Behavior"
+          eOpposite="#//architecture/Behavior/operation"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="arguments" upperBound="-1"
+          eType="#//architecture/Argument" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Argument">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="HWModule" abstract="true" eSuperTypes="#//architecture/Module">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ports" upperBound="-1"
+          eType="#//architecture/HardwarePort" containment="true" eOpposite="#//architecture/HardwarePort/owner"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FModule" abstract="true" eSuperTypes="#//architecture/Module">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+          eType="#//architecture/Attribute" containment="true" eOpposite="#//architecture/Attribute/owner"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ports" upperBound="-1"
+          eType="#//architecture/SoftwarePort" containment="true" eOpposite="#//architecture/SoftwarePort/owner"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="behavior" upperBound="-1"
+          eType="#//architecture/Behavior" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Attribute">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="visibility" eType="#//architecture/types/VisibilityKind"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="owner" lowerBound="1"
+          eType="#//architecture/FModule" eOpposite="#//architecture/FModule/attributes"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SoftwarePort" abstract="true" eSuperTypes="#//architecture/Port">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="owner" lowerBound="1"
+          eType="#//architecture/FModule" eOpposite="#//architecture/FModule/ports"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="connectedTo" upperBound="-1"
+          eType="#//architecture/SoftwareConnector" eOpposite="#//architecture/SoftwareConnector/connectedTo"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="HardwarePort" eSuperTypes="#//architecture/Port">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="owner" lowerBound="1"
+          eType="#//architecture/HWModule" eOpposite="#//architecture/HWModule/ports"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="connectedTo" upperBound="-1"
+          eType="#//architecture/HardwareConnector" eOpposite="#//architecture/HardwareConnector/connectedTo"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SoftwareConnector" eSuperTypes="#//architecture/Connector">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="canID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="connectedTo" upperBound="2"
+          eType="#//architecture/SoftwarePort" eOpposite="#//architecture/SoftwarePort/connectedTo"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="HardwareConnector" eSuperTypes="#//architecture/Connector">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="connectedTo" upperBound="2"
+          eType="#//architecture/HardwarePort" eOpposite="#//architecture/HardwarePort/connectedTo"/>
+    </eClassifiers>
+    <eSubpackages name="types" nsURI="http://www.esk.fraunhofer.de/ERNEST/Architecture/Types/1"
+        nsPrefix="ernest.architecture.types">
+      <eClassifiers xsi:type="ecore:EEnum" name="PortKind">
+        <eLiterals name="In"/>
+        <eLiterals name="Out" value="1"/>
+        <eLiterals name="InOut" value="2"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="SchedType">
+        <eLiterals name="RoundRobin"/>
+        <eLiterals name="EarliestDeadlineFirst" value="1"/>
+        <eLiterals name="FixedPriorityPreemptive" value="2"/>
+        <eLiterals name="FPPRM" value="3"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="ImplementationKind">
+        <eLiterals name="Provided" literal="Provided"/>
+        <eLiterals name="Required" value="1"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="TriggerPolicyKind">
+        <eLiterals name="Event"/>
+        <eLiterals name="Time" value="1"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="VisibilityKind">
+        <eLiterals name="public"/>
+        <eLiterals name="private" value="1"/>
+        <eLiterals name="protected" value="2"/>
+      </eClassifiers>
+    </eSubpackages>
+  </eSubpackages>
+  <eSubpackages name="timingspecification" nsURI="http://www.esk.fraunhofer.de/ERNEST/TimingSpecification/1"
+      nsPrefix="ernest.timingspecification">
+    <eClassifiers xsi:type="ecore:EClass" name="DelayConstraint" abstract="true" eSuperTypes="#//timingspecification/Constraint">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="stimulus" upperBound="-1"
+          eType="#//architecture/Port"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="response" upperBound="-1"
+          eType="#//architecture/Port"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="elapsedTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="minimumLatency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="maximumLatency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="nominalLatency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TimingModel">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="constraints" upperBound="-1"
+          eType="#//timingspecification/Constraint" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AgeTimingConstraint" eSuperTypes="#//timingspecification/DelayConstraint">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="age" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ReactionConstraint" eSuperTypes="#//timingspecification/DelayConstraint"/>
+    <eClassifiers xsi:type="ecore:EClass" name="InputSynchronizationConstraint" eSuperTypes="#//timingspecification/AgeTimingConstraint">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="tolerance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OutputSynchronizationConstraint" eSuperTypes="#//timingspecification/AgeTimingConstraint">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="tolerance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EventConstraint" abstract="true" eSuperTypes="#//timingspecification/Constraint">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="port" lowerBound="1"
+          eType="#//architecture/Port"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="period" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="jitter" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="minimumInterarrivalTime"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PeriodicRepetitionConstraint" eSuperTypes="#//timingspecification/EventConstraint"/>
+    <eClassifiers xsi:type="ecore:EClass" name="SporadicRepetitionConstraint" eSuperTypes="#//timingspecification/EventConstraint">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="maximumInterarrivalTime"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Constraint" abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="result" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="constValid" upperBound="-1"
+          eType="#//timingspecification/ConstraintValidation" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ConstraintValidation">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="satisfied" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="starttime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="endtime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="tracing" nsURI="http://www.esk.fraunhofer.de/ERNEST/Tracing/1"
+      nsPrefix="ernest.tracing">
+    <eClassifiers xsi:type="ecore:EClass" name="TracingResults">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="trace" eType="#//tracing/Trace"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BinaryTrace" eSuperTypes="#//tracing/Trace">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileLocation" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="mappings" upperBound="-1"
+          eType="#//tracing/EventMapping" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Trace" abstract="true">
+      <eOperations name="getTraceReader" eType="#//tracing/TraceReader">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="TraceReader reader = &lt;%ernest.util.TraceReaderFactory%>.createTraceReader(getReaderExtension());&#xD;&#xA;reader.setTrace(this);&#xD;&#xA;return reader;"/>
+        </eAnnotations>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="readerExtension" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EventMapping">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="elementID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="element" lowerBound="1"
+          eType="#//architecture/Element"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EDataType" name="TraceReader" instanceClassName="ernest.util.TraceReader"/>
+  </eSubpackages>
+</ecore:EPackage>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="aSMLModel" nsURI="http://www.ufmg.br/dcc/asml/ASMLModel" nsPrefix="aSMLModel">
+  <eClassifiers xsi:type="ecore:EClass" name="ASMLModel">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="importURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
+        eType="#//AbstractComponent" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ignore" unique="false"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractComponent">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="#//Attribute" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
+        eType="#//AbstractComponent" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="restrictions" upperBound="-1"
+        eType="#//Restriction" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="View" eSuperTypes="#//AbstractComponent"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="Cardinality">
+    <eLiterals name="One" literal="1"/>
+    <eLiterals name="Zero" value="1" literal="0"/>
+    <eLiterals name="OneOrMany" value="2" literal="1..*"/>
+    <eLiterals name="ZeroOrMany" value="3" literal="0..*"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Attribute">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractNameConvetion"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="ExpressionMatchingClause">
+    <eLiterals name="NAME_START_WITH" literal="name start with"/>
+    <eLiterals name="NAME_ENDS_WITH" value="1" literal="name ends with"/>
+    <eLiterals name="ANNOTATED_WITH" value="2" literal="annotated with"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExpressionMatchingOperator">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="AND" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="OR" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ModuleMatchingParamenter">
+    <eLiterals name="PAKCAGE" literal="by package name"/>
+    <eLiterals name="FOLDER" value="1" literal="by folder name"/>
+    <eLiterals name="PAKCAGE_AND_FOLDER" value="2" literal="by package and folder name"/>
+    <eLiterals name="EXTERNAL_DEFINITION" value="3" literal="by external implementation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ModuleMatching">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="parameter" eType="#//ModuleMatchingParamenter"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassMatching" eSuperTypes="#//AbstractNameConvetion">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="expressionMatching" eType="#//ExpressionMatchingClause"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="parameter" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MetaModule" eSuperTypes="#//AbstractComponent">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="matching" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="GroupClause">
+    <eLiterals name="NULL" literal="$null"/>
+    <eLiterals name="ONLY" value="1" literal="only"/>
+    <eLiterals name="ONLY_THIS" value="2" literal="only-this"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PermissionClause">
+    <eLiterals name="MUST" literal="must"/>
+    <eLiterals name="CAN" value="1" literal="can"/>
+    <eLiterals name="CANNOT" value="2" literal="cannot"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="RelactionType">
+    <eLiterals name="ACCESS" literal="access"/>
+    <eLiterals name="DECLARE" value="1" literal="declare"/>
+    <eLiterals name="HANDLE" value="2" literal="handle"/>
+    <eLiterals name="EXTEND" value="3" literal="extend"/>
+    <eLiterals name="IMPLEMENT" value="4" literal="implement"/>
+    <eLiterals name="CREATE" value="5" literal="create"/>
+    <eLiterals name="THROW" value="6" literal="throw"/>
+    <eLiterals name="USEANOTATION" value="7" literal="use-annotation"/>
+    <eLiterals name="DEPEND" value="8" literal="depend"/>
+    <eLiterals name="REQUIRES" value="9" literal="requires"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="WildCard">
+    <eLiterals name="Package" literal=".*"/>
+    <eLiterals name="PackageAndSubPackage" value="1" literal=".**"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Restriction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="groupClause" eType="#//GroupClause"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="permissionClause" eType="#//PermissionClause"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="relactionType" eType="#//RelactionType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="groupClauseB" eType="#//GroupClause"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="componentB" upperBound="-1"
+        eType="#//ComponentsBinRestrictionDeclareation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComponentsBinRestrictionDeclareation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="componentB" eType="#//AbstractComponent"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="wildcard" eType="#//WildCard"/>
+  </eClassifiers>
+</ecore:EPackage>

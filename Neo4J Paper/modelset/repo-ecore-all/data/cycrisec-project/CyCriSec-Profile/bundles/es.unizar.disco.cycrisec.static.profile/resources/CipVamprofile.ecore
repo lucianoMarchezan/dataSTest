@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="CipVamprofile" nsURI="http:///CipVamprofile.ecore" nsPrefix="CipVamprofile">
+  <eClassifiers xsi:type="ecore:EClass" name="Item" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="asset" ordered="false"
+        eType="#//CipVamLibrary/StructuredDT/Asset" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="base_Classifier" ordered="false"
+        lowerBound="1" eType="ecore:EClass ../../org.eclipse.uml2.uml/model/UML.ecore#//Classifier"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Physical" abstract="true" eSuperTypes="#//Item">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="shape" ordered="false"
+        eType="#//CipVamLibrary/GeometricDT/Shape" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="volume" ordered="false"
+        eType="#//CipVamLibrary/GeometricDT/Solid" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="opacity" ordered="false"
+        eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Boolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Site" eSuperTypes="#//Physical"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Interface" eSuperTypes="#//Physical">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exposures" ordered="false"
+        upperBound="-1" eType="#//Site"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Object" eSuperTypes="#//Physical">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requests" ordered="false"
+        upperBound="-1" eType="#//Service"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="location" ordered="false"
+        eType="#//Site"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="multiplicity" ordered="false"
+        eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Integer"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Service" eSuperTypes="#//Item">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="base_UseCase" ordered="false"
+        lowerBound="1" eType="ecore:EClass ../../org.eclipse.uml2.uml/model/UML.ecore#//UseCase"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="providedBy" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//Object"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="execProb" ordered="false"
+        upperBound="-1" eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Real"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Attack">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" ordered="false"
+        eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Duration"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tactic" ordered="false"
+        eType="#//CipVamLibrary/BasicDT/Tactic"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="threats" ordered="false"
+        lowerBound="1" eType="#//CipVamLibrary/StructuredDT/Threat" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attacker" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//Attacker"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="base_Activity" ordered="false"
+        lowerBound="1" eType="ecore:EClass ../../org.eclipse.uml2.uml/model/UML.ecore#//Activity"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="base_UseCase" ordered="false"
+        lowerBound="1" eType="ecore:EClass ../../org.eclipse.uml2.uml/model/UML.ecore#//UseCase"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Attacker">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="multiplicity" ordered="false"
+        eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Integer"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="skill" ordered="false"
+        eType="#//CipVamLibrary/BasicDT/Level"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="firmness" ordered="false"
+        eType="#//CipVamLibrary/BasicDT/Level"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="base_Actor" ordered="false"
+        lowerBound="1" eType="ecore:EClass ../../org.eclipse.uml2.uml/model/UML.ecore#//Actor"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Action">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" ordered="false"
+        eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Duration"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" ordered="false" lowerBound="1"
+        eType="#//CipVamLibrary/BasicDT/ActionKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="failure" ordered="false"
+        eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Real"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="triggeredBy" ordered="false"
+        upperBound="-1" eType="#//Action"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="occurenceProb" ordered="false"
+        eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Real"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="effects" ordered="false"
+        upperBound="-1" eType="#//CipVamLibrary/StructuredDT/Impairment" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="weapon" ordered="false"
+        upperBound="-1" eType="#//CipVamLibrary/StructuredDT/Weapon" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attacker" ordered="false"
+        upperBound="-1" eType="#//Attacker"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="base_ActivityNode" ordered="false"
+        lowerBound="1" eType="ecore:EClass ../../org.eclipse.uml2.uml/model/UML.ecore#//ActivityNode"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Protection" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cost" ordered="false" eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Real"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="successProb" ordered="false"
+        eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Real"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="protects" ordered="false"
+        upperBound="-1" eType="#//Item"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="forbidden" ordered="false"
+        upperBound="-1" eType="#//Item"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mandatory" ordered="false"
+        upperBound="-1" eType="#//Item"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="counteracts" ordered="false"
+        upperBound="-1" eType="#//Action"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="exposes" ordered="false"
+        upperBound="-1" eType="#//CipVamLibrary/BasicDT/Tactic"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="multiplicity" ordered="false"
+        eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Integer"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Equipment" eSuperTypes="#//Protection">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nature" ordered="false"
+        upperBound="-1" eType="#//CipVamLibrary/BasicDT/ProtectionNature"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="failureRate" ordered="false"
+        eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Real"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="application" ordered="false"
+        eType="#//CipVamLibrary/StructuredDT/Application" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="base_Component" ordered="false"
+        lowerBound="1" eType="ecore:EClass ../../org.eclipse.uml2.uml/model/UML.ecore#//Component"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="base_Class" ordered="false"
+        lowerBound="1" eType="ecore:EClass ../../org.eclipse.uml2.uml/model/UML.ecore#//Class"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Deterrent" eSuperTypes="#//Equipment">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="condition" ordered="false"
+        eType="ecore:EDataType ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//MARTE_DataTypes/VSL_Expression"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Barrier" eSuperTypes="#//Equipment">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timeToCross" ordered="false"
+        eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Duration"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="condition" ordered="false"
+        eType="ecore:EDataType ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//MARTE_DataTypes/VSL_Expression"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Sensor" eSuperTypes="#//Equipment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="range" ordered="false"
+        upperBound="-1" eType="#//CipVamLibrary/GeometricDT/Shape" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="latency" ordered="false"
+        eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Duration"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fnr" ordered="false" eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Real"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fpr" ordered="false" eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Real"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="transData" ordered="false"
+        eType="#//CipVamLibrary/BasicDT/TransmissionTech"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Operator" eSuperTypes="#//Protection">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="firmness" ordered="false"
+        eType="#//CipVamLibrary/BasicDT/Level"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="skill" ordered="false"
+        eType="#//CipVamLibrary/BasicDT/Level"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nature" ordered="false"
+        lowerBound="1" eType="#//OperatorType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="availability" ordered="false"
+        eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Real"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="base_Class" ordered="false"
+        lowerBound="1" eType="ecore:EClass ../../org.eclipse.uml2.uml/model/UML.ecore#//Class"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="base_Component" ordered="false"
+        lowerBound="1" eType="ecore:EClass ../../org.eclipse.uml2.uml/model/UML.ecore#//Component"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="OperatorType">
+    <eLiterals name="human"/>
+    <eLiterals name="drone" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ManagementSystem" eSuperTypes="#//Protection">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="manages" ordered="false"
+        upperBound="-1" eType="#//Protection"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="base_Class" ordered="false"
+        lowerBound="1" eType="ecore:EClass ../../org.eclipse.uml2.uml/model/UML.ecore#//Class"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="base_Component" ordered="false"
+        lowerBound="1" eType="ecore:EClass ../../org.eclipse.uml2.uml/model/UML.ecore#//Component"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Protocol" eSuperTypes="#//Protection">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="triggeredBy" ordered="false"
+        lowerBound="1" eType="ecore:EDataType ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//MARTE_DataTypes/VSL_Expression"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="base_Activity" ordered="false"
+        lowerBound="1" eType="ecore:EClass ../../org.eclipse.uml2.uml/model/UML.ecore#//Activity"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProtocolRule" eSuperTypes="#//Protection">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="base_ActivityNode" ordered="false"
+        lowerBound="1" eType="ecore:EClass ../../org.eclipse.uml2.uml/model/UML.ecore#//ActivityNode"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supportedBy" ordered="false"
+        upperBound="-1" eType="#//Protection"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executedBy" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//Operator"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Camera" eSuperTypes="#//Sensor">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resolution" ordered="false"
+        upperBound="-1" eType="ecore:EDataType ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//MARTE_PrimitivesTypes/String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="processing" ordered="false"
+        eType="#//CipVamLibrary/BasicDT/ProcessingType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Ptz" eSuperTypes="#//Camera">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="panRange" ordered="false"
+        upperBound="2" eType="#//CipVamLibrary/GeometricDT/Angle" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="panSpeed" ordered="false"
+        eType="#//CipVamLibrary/StructuredDT/SpeedAngular" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tiltRange" ordered="false"
+        upperBound="2" eType="#//CipVamLibrary/GeometricDT/Angle" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tiltSpeed" ordered="false"
+        eType="#//CipVamLibrary/StructuredDT/SpeedAngular" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="zoom" ordered="false" upperBound="-1"
+        eType="#//CipVamLibrary/StructuredDT/Zoom" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="BooleanOperator">
+    <eLiterals name="and"/>
+    <eLiterals name="or" value="1"/>
+    <eLiterals name="xor" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConditionEvent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="protections" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//Protection"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Operator" ordered="false"
+        eType="#//BooleanOperator"/>
+  </eClassifiers>
+  <eSubpackages name="CipVamLibrary" nsURI="http:///CipVamprofile/CipVamLibrary.ecore"
+      nsPrefix="CipVamprofile.CipVamLibrary">
+    <eSubpackages name="BasicDT" nsURI="http:///CipVamprofile/CipVamLibrary/BasicDT.ecore"
+        nsPrefix="CipVamprofile.CipVamLibrary.BasicDT">
+      <eClassifiers xsi:type="ecore:EEnum" name="RiskLevel">
+        <eLiterals name="negligible"/>
+        <eLiterals name="acceptable" value="1"/>
+        <eLiterals name="tolerable" value="2"/>
+        <eLiterals name="unacceptable" value="3"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="Tactic">
+        <eLiterals name="armedAttack"/>
+        <eLiterals name="arson" value="1"/>
+        <eLiterals name="barricade" value="2"/>
+        <eLiterals name="bombing" value="3"/>
+        <eLiterals name="hijacking" value="4"/>
+        <eLiterals name="hostage" value="5"/>
+        <eLiterals name="intrusion" value="6"/>
+        <eLiterals name="kidnapping" value="7"/>
+        <eLiterals name="sabotage" value="8"/>
+        <eLiterals name="suicide" value="9"/>
+        <eLiterals name="dispersion" value="10"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="Level">
+        <eLiterals name="veryLow"/>
+        <eLiterals name="low" value="1"/>
+        <eLiterals name="medium" value="2"/>
+        <eLiterals name="high" value="3"/>
+        <eLiterals name="veryHigh" value="4"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="WeaponNature">
+        <eLiterals name="chemicalAgent"/>
+        <eLiterals name="explosive" value="1"/>
+        <eLiterals name="firebomb" value="2"/>
+        <eLiterals name="firearm" value="3"/>
+        <eLiterals name="radiologicalAgent" value="4"/>
+        <eLiterals name="aerosol" value="5"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="ActionKind">
+        <eLiterals name="action"/>
+        <eLiterals name="trigger" value="1"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="StepKind">
+        <eLiterals name="manual"/>
+        <eLiterals name="automatic" value="1"/>
+        <eLiterals name="semiautomatic" value="2"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="ProtectionNature">
+        <eLiterals name="acoustic"/>
+        <eLiterals name="biological" value="1"/>
+        <eLiterals name="chemical" value="2"/>
+        <eLiterals name="electric" value="3"/>
+        <eLiterals name="magnetic" value="4"/>
+        <eLiterals name="mechanical" value="5"/>
+        <eLiterals name="optical" value="6"/>
+        <eLiterals name="thermal" value="7"/>
+        <eLiterals name="radiation" value="8"/>
+        <eLiterals name="opticalFiber" value="9"/>
+        <eLiterals name="infrared" value="10"/>
+        <eLiterals name="softwareBased" value="11"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="TransmissionTech">
+        <eLiterals name="wired"/>
+        <eLiterals name="wireless" value="1"/>
+        <eLiterals name="none" value="2"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="ProcessingType">
+        <eLiterals name="analogic"/>
+        <eLiterals name="digital" value="1"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="AngularSpeedUnit">
+        <eLiterals name="deg_per_sec"/>
+        <eLiterals name="rad_per_sec" value="1"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="AngularUnitKind">
+        <eLiterals name="deg"/>
+        <eLiterals name="rad" value="1"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="ZoomType">
+        <eLiterals name="digital"/>
+        <eLiterals name="optical" value="1"/>
+        <eLiterals name="total" value="2"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="GeometricDT" nsURI="http:///CipVamprofile/CipVamLibrary/GeometricDT.ecore"
+        nsPrefix="CipVamprofile.CipVamLibrary.GeometricDT">
+      <eClassifiers xsi:type="ecore:EEnum" name="PolygonType">
+        <eLiterals name="polygon"/>
+        <eLiterals name="circle" value="1"/>
+        <eLiterals name="rectangle" value="2"/>
+        <eLiterals name="square" value="3"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Point">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" ordered="false"
+            eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Real"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" ordered="false"
+            eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Real"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="z" ordered="false"
+            eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Real"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Shape">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" ordered="false"
+            eType="#//CipVamLibrary/GeometricDT/PolygonType"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="vertices" ordered="false"
+            upperBound="-1" eType="#//CipVamLibrary/GeometricDT/Point" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="area" ordered="false"
+            eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Area"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="perimeter" ordered="false"
+            eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Length"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="centre" ordered="false"
+            eType="#//CipVamLibrary/GeometricDT/Point" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="length" ordered="false"
+            eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Length"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" ordered="false"
+            eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Length"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="radius" ordered="false"
+            eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Length"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="angle" ordered="false"
+            eType="#//CipVamLibrary/GeometricDT/Angle" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Angle">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" ordered="false"
+            lowerBound="1" eType="ecore:EDataType ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//MARTE_PrimitivesTypes/Real"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="unit" ordered="false"
+            lowerBound="1" eType="#//CipVamLibrary/BasicDT/AngularUnitKind"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Solid">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="base" ordered="false"
+            eType="#//CipVamLibrary/GeometricDT/Shape" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" ordered="false"
+            eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Length"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="volume" ordered="false"
+            eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Real"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="StructuredDT" nsURI="http:///CipVamprofile/CipVamLibrary/StructuredDT.ecore"
+        nsPrefix="CipVamprofile.CipVamLibrary.StructuredDT">
+      <eClassifiers xsi:type="ecore:EClass" name="Asset">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" ordered="false"
+            eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Real"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="vulnerability" ordered="false"
+            lowerBound="1" eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Real"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="attackProb" ordered="false"
+            lowerBound="1" eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Real"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="risk" ordered="false"
+            lowerBound="1" eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Real"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="riskLevel" ordered="false"
+            lowerBound="1" eType="#//CipVamLibrary/BasicDT/RiskLevel"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Impairment" eSuperTypes="#//CipVamLibrary/StructuredDT/Threat">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="latency" ordered="false"
+            eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Duration"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="propProb" ordered="false"
+            upperBound="-1" eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Real"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="propCond" ordered="false"
+            upperBound="-1" eType="ecore:EDataType ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//MARTE_DataTypes/VSL_Expression"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="propEffect" ordered="false"
+            upperBound="-1" eType="ecore:EDataType ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//MARTE_PrimitivesTypes/String"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Threat">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
+            lowerBound="1" eType="ecore:EDataType ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//MARTE_PrimitivesTypes/String"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="effect" ordered="false"
+            eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Real"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="target" ordered="false"
+            lowerBound="1" eType="#//Item"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Weapon">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="failureRate" ordered="false"
+            eType="ecore:EClass ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//BasicNFP_Types/NFP_Real"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="nature" ordered="false"
+            eType="#//CipVamLibrary/BasicDT/WeaponNature"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Application">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="position" ordered="false"
+            eType="#//CipVamLibrary/GeometricDT/Point" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="direction" ordered="false"
+            eType="#//CipVamLibrary/GeometricDT/Point" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="installation" ordered="false"
+            eType="#//Item"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="SpeedAngular">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" ordered="false"
+            lowerBound="1" eType="ecore:EDataType ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//MARTE_PrimitivesTypes/Real"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="speedUnit" ordered="false"
+            lowerBound="1" eType="#//CipVamLibrary/BasicDT/AngularSpeedUnit"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Zoom">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" ordered="false"
+            lowerBound="1" eType="ecore:EDataType ../../org.eclipse.papyrus.marte.static.profile/resources/MARTE_Library.ecore#//MARTE_PrimitivesTypes/String"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" ordered="false"
+            lowerBound="1" eType="#//CipVamLibrary/BasicDT/ZoomType"/>
+      </eClassifiers>
+    </eSubpackages>
+  </eSubpackages>
+</ecore:EPackage>

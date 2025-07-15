@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="tmm"
+    nsURI="task-meta-model" nsPrefix="task-meta-model">
+  <eClassifiers xsi:type="ecore:EClass" name="ContextAwareSystem">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="tamm-default"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="finalConditions" lowerBound="1"
+        upperBound="-1" eType="#//FinalCondition" containment="true" eOpposite="#//FinalCondition/system"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="preConditions" upperBound="-1"
+        eType="#//PreCondition" containment="true" eOpposite="#//PreCondition/system"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="postConditions" upperBound="-1"
+        eType="#//PostCondition" containment="true" eOpposite="#//PostCondition/system"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initialConditions" lowerBound="1"
+        upperBound="-1" eType="#//InitialCondition" containment="true" eOpposite="#//InitialCondition/system"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="routeTasks" upperBound="-1"
+        eType="#//RouteTask" containment="true" eOpposite="#//RouteTask/system"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="systemTasks" upperBound="-1"
+        eType="#//SystemTask" containment="true" eOpposite="#//SystemTask/system"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputConditionToJoinTasks"
+        upperBound="-1" eType="#//InputConditionToJoinTask" containment="true" eOpposite="#//InputConditionToJoinTask/system"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputConditionToSplitTasks"
+        upperBound="-1" eType="#//InputConditionToSplitTask" containment="true" eOpposite="#//InputConditionToSplitTask/system"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="joinTaskToOutputConditions"
+        upperBound="-1" eType="#//JoinTaskToOutputCondition" containment="true" eOpposite="#//JoinTaskToOutputCondition/system"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="splitTaskToOutputConditions"
+        upperBound="-1" eType="#//SplitTaskToOutputCondition" containment="true" eOpposite="#//SplitTaskToOutputCondition/system"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="preConditionToSystemTasks"
+        upperBound="-1" eType="#//PreConditionToSystemTask" containment="true" eOpposite="#//PreConditionToSystemTask/system"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="systemTaskToPostConditions"
+        upperBound="-1" eType="#//SystemTaskToPostCondition" containment="true" eOpposite="#//SystemTaskToPostCondition/system"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Condition" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="socialExpression" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="spaceExpression" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="taskExpression" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="logicExpression" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dataExpression" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Task" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemTask" abstract="true" eSuperTypes="#//Task">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" lowerBound="1"
+        eType="#//ContextAwareSystem" eOpposite="#//ContextAwareSystem/systemTasks"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" lowerBound="1"
+        eType="#//PreConditionToSystemTask" eOpposite="#//PreConditionToSystemTask/target"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ongoing" lowerBound="1"
+        eType="#//SystemTaskToPostCondition" eOpposite="#//SystemTaskToPostCondition/source"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RouteTask" abstract="true" eSuperTypes="#//Task">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" lowerBound="1"
+        eType="#//ContextAwareSystem" eOpposite="#//ContextAwareSystem/routeTasks"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PreCondition" eSuperTypes="#//TaskOutputCondition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" lowerBound="1"
+        eType="#//ContextAwareSystem" eOpposite="#//ContextAwareSystem/preConditions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ongoing" lowerBound="1"
+        eType="#//PreConditionToSystemTask" eOpposite="#//PreConditionToSystemTask/source"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PostCondition" eSuperTypes="#//TaskInputCondition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" lowerBound="1"
+        eType="#//ContextAwareSystem" eOpposite="#//ContextAwareSystem/postConditions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" lowerBound="1"
+        eType="#//SystemTaskToPostCondition" eOpposite="#//SystemTaskToPostCondition/target"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TaskInputCondition" abstract="true"
+      eSuperTypes="#//Condition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ongoing" lowerBound="1"
+        eType="#//InputConditionToRouteTask" eOpposite="#//InputConditionToRouteTask/source"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TaskOutputCondition" abstract="true"
+      eSuperTypes="#//Condition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" lowerBound="1"
+        eType="#//RouteTaskToOutputCondition" eOpposite="#//RouteTaskToOutputCondition/target"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InitialCondition" eSuperTypes="#//TaskInputCondition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" lowerBound="1"
+        eType="#//ContextAwareSystem" eOpposite="#//ContextAwareSystem/initialConditions"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FinalCondition" eSuperTypes="#//TaskOutputCondition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" lowerBound="1"
+        eType="#//ContextAwareSystem" eOpposite="#//ContextAwareSystem/finalConditions"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Join" abstract="true" eSuperTypes="#//RouteTask">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" lowerBound="1"
+        upperBound="-1" eType="#//InputConditionToJoinTask" eOpposite="#//InputConditionToJoinTask/target"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ongoing" lowerBound="1"
+        eType="#//JoinTaskToOutputCondition" eOpposite="#//JoinTaskToOutputCondition/source"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Split" abstract="true" eSuperTypes="#//RouteTask">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" lowerBound="1"
+        eType="#//InputConditionToSplitTask" eOpposite="#//InputConditionToSplitTask/target"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ongoing" lowerBound="1"
+        upperBound="-1" eType="#//SplitTaskToOutputCondition" eOpposite="#//SplitTaskToOutputCondition/source"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimpleTask" eSuperTypes="#//SystemTask">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SkipTask" eSuperTypes="#//SystemTask"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Edge" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InputConditionToRouteTask" abstract="true"
+      eSuperTypes="#//Edge">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//TaskInputCondition" eOpposite="#//TaskInputCondition/ongoing"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RouteTaskToOutputCondition" abstract="true"
+      eSuperTypes="#//Edge">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//TaskOutputCondition" eOpposite="#//TaskOutputCondition/incoming"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PreConditionToSystemTask" eSuperTypes="#//Edge">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//PreCondition" eOpposite="#//PreCondition/ongoing"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//SystemTask" eOpposite="#//SystemTask/incoming"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" lowerBound="1"
+        eType="#//ContextAwareSystem" eOpposite="#//ContextAwareSystem/preConditionToSystemTasks"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemTaskToPostCondition" eSuperTypes="#//Edge">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//SystemTask" eOpposite="#//SystemTask/ongoing"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//PostCondition" eOpposite="#//PostCondition/incoming"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" lowerBound="1"
+        eType="#//ContextAwareSystem" eOpposite="#//ContextAwareSystem/systemTaskToPostConditions"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AndJoin" eSuperTypes="#//Join"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OrJoin" eSuperTypes="#//Join"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AndSplit" eSuperTypes="#//Split"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OrSplit" eSuperTypes="#//Split"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InputConditionToJoinTask" eSuperTypes="#//InputConditionToRouteTask">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//Join" eOpposite="#//Join/incoming"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" lowerBound="1"
+        eType="#//ContextAwareSystem" eOpposite="#//ContextAwareSystem/inputConditionToJoinTasks"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InputConditionToSplitTask" eSuperTypes="#//InputConditionToRouteTask">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//Split" eOpposite="#//Split/incoming"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" lowerBound="1"
+        eType="#//ContextAwareSystem" eOpposite="#//ContextAwareSystem/inputConditionToSplitTasks"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JoinTaskToOutputCondition" eSuperTypes="#//RouteTaskToOutputCondition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//Join" eOpposite="#//Join/ongoing"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" lowerBound="1"
+        eType="#//ContextAwareSystem" eOpposite="#//ContextAwareSystem/joinTaskToOutputConditions"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SplitTaskToOutputCondition" eSuperTypes="#//RouteTaskToOutputCondition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//Split" eOpposite="#//Split/ongoing"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" lowerBound="1"
+        eType="#//ContextAwareSystem" eOpposite="#//ContextAwareSystem/splitTaskToOutputConditions"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="managed_artifact" nsURI="http://cacm.managed.artifact/1.0" nsPrefix="managed_artifact_">
+  <eClassifiers xsi:type="ecore:EClass" name="ManagedArtifactModel" eSuperTypes="general.ecore#//DescribableElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedArtifactDefinition"
+        upperBound="-1" eType="#//ManagedArtifactDefinition" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedArtifactPackage"
+        upperBound="-1" eType="#//ManagedArtifactPackage" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CitableElement" abstract="true" eSuperTypes="general.ecore#//DescribableElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ManagedArtifactDefinition" eSuperTypes="general.ecore#//DescribableElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedArtifact" upperBound="-1"
+        eType="#//ManagedArtifact" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ManagedArtifact" eSuperTypes="#//CitableElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="changes" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isLatestVersion" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isTemplate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isConfigurable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="package" upperBound="-1"
+        eType="#//ManagedArtifactPackage" eOpposite="#//ManagedArtifactPackage/managedArtifact"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" upperBound="-1"
+        eType="#//ManagedArtifactProperty" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="event" upperBound="-1"
+        eType="#//ManagedArtifactEvent" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resource" upperBound="-1"
+        eType="#//Resource" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="precedentVersion" eType="#//ManagedArtifact"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="succeedingVersion" upperBound="-1"
+        eType="#//ManagedArtifact"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedArtifactPart" eType="#//ManagedArtifact"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ManagedArtifactPackage" eSuperTypes="#//CitableElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subPackage" upperBound="-1"
+        eType="#//ManagedArtifactPackage" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedArtifact" upperBound="-1"
+        eType="#//ManagedArtifact" eOpposite="#//ManagedArtifact/package"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ManagedArtifactProperty" eSuperTypes="general.ecore#//DescribableElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ManagedArtifactEvaluation" eSuperTypes="#//ManagedArtifactProperty">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rationale" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="event" eType="#//ManagedArtifactEvent"
+        eOpposite="#//ManagedArtifactEvent/evaluation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ManagedArtifactEvent" eSuperTypes="general.ecore#//DescribableElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="evaluation" eType="#//ManagedArtifactEvaluation"
+        eOpposite="#//ManagedArtifactEvaluation/event"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Resource" eSuperTypes="general.ecore#//DescribableElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="format" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DataTypeKind">
+    <eLiterals name="Enumeration"/>
+    <eLiterals name="STRING" value="1"/>
+    <eLiterals name="INTEGER" value="2"/>
+    <eLiterals name="FLOAT" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="EventKind">
+    <eLiterals name="Creation"/>
+    <eLiterals name="Modification" value="1"/>
+    <eLiterals name="Evaluation" value="2"/>
+    <eLiterals name="Revocation" value="3"/>
+  </eClassifiers>
+</ecore:EPackage>

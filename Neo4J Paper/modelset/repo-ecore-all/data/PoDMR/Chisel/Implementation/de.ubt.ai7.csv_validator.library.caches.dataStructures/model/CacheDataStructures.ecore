@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="dataStructures" nsURI="http://www.ubt.de/ai7/csv_validator/CacheDataStructures/Model"
+    nsPrefix="DataStructures">
+  <eClassifiers xsi:type="ecore:EDataType" name="IntArray" instanceClassName="int[]"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="HashSet" instanceClassName="java.util.HashSet">
+    <eTypeParameters name="E"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Pattern" instanceClassName="java.util.regex.Pattern"
+      serializable="false"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="BitSet" instanceClassName="java.util.BitSet"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Coordinate" instanceClassName="de.ubt.ai7.csv_validator.util.Coordinate"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Region" instanceClassName="de.ubt.ai7.csv_validator.library.dataStructures.Region"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="SchemaElement" instanceClassName="de.ubt.ai7.csv_validator.sculpt.SchemaElement"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Token" instanceClassName="de.ubt.ai7.csv_validator.sculpt.Token"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Parser" instanceClassName="de.ubt.ai7.csv_validator.library.parser.Parser"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CachedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" upperBound="-1"
+        eType="#//CachedElement" eOpposite="#//CachedElement/containedIn"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedIn" upperBound="-1"
+        eType="#//CachedElement" eOpposite="#//CachedElement/contains"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="definition" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="schemaElement" eType="#//SchemaElement"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="untestedRegion" lowerBound="1"
+        eType="#//BitSet"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="region" lowerBound="1"
+        eType="#//BitSet"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" eSuperTypes="#//CachedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CachedDelimiters" eSuperTypes="#//CachedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rowDelim" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EChar"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="colDelim" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EChar"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="listDelim" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EChar"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CachedAbstractToken" eSuperTypes="#//NamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CachedToken" eSuperTypes="#//CachedAbstractToken">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pattern" eType="#//Pattern"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="regex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CachedConstraint" eSuperTypes="#//CachedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fulfilled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CachedContentConstraint" eSuperTypes="#//CachedConstraint">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="automaton" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CachedPrimaryKeyConstraint" eSuperTypes="#//CachedConstraint">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tupleCache" lowerBound="1"
+        transient="true">
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+          <eTypeArguments eClassifier="#//IntArray"/>
+        </eTypeArguments>
+      </eGenericType>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CachedForeignKeyConstraint" eSuperTypes="#//CachedConstraint">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedRelation" lowerBound="1"
+        eType="#//CachedPrimaryKeyConstraint"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CachedNodeExpression" eSuperTypes="#//CachedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CachedRegionToken" eSuperTypes="#//CachedAbstractToken">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//CachedType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CachedType" abstract="true" eSuperTypes="#//CachedToken">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="values" lowerBound="1"
+        transient="true">
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+      </eGenericType>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CachedAtomicType" eSuperTypes="#//CachedType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="parser" lowerBound="1"
+        eType="#//Parser"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CachedListType" eSuperTypes="#//CachedType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//CachedType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CachedCompoundType" eSuperTypes="#//CachedType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="primitives" unique="false"
+        upperBound="-1" eType="#//CachedType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="capturingPattern" lowerBound="1"
+        eType="#//Pattern" transient="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CachedTLVariableBinding" eSuperTypes="#//CachedAbstractToken">
+    <eOperations name="reset"/>
+    <eOperations name="add">
+      <eParameters name="coordinate" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="content" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="token" eType="#//CachedToken"/>
+    </eOperations>
+    <eOperations name="setDefault"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="token" unique="false" eType="#//CachedToken"
+        unsettable="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="possibleTokens" upperBound="-1"
+        eType="#//CachedToken"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="strictType" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"
+        unsettable="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="contents" unique="false"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        unsettable="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CachedTLElement" eSuperTypes="#//CachedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CachedTLStatement" eSuperTypes="#//CachedTLElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CachedTLLoop" eSuperTypes="#//CachedTLStatement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="automaton" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statements" upperBound="-1"
+        eType="#//CachedTLStatement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bindings" lowerBound="1"
+        upperBound="-1" eType="#//CachedTLVariableBinding" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CachedTLOutput" eSuperTypes="#//CachedTLStatement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="primitives" upperBound="-1"
+        eType="#//CachedTLPrimitive"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CachedTLPrimitive" abstract="true" eSuperTypes="#//CachedTLElement">
+    <eOperations name="reset"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="token" eType="#//CachedToken"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CachedTLConstant" eSuperTypes="#//CachedTLPrimitive"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CachedTLOutputVariable" eSuperTypes="#//CachedTLPrimitive">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="binding" lowerBound="1"
+        eType="#//CachedTLVariableBinding"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CachedTLTypeInspector" eSuperTypes="#//CachedTLOutputVariable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" lowerBound="1" eType="#//IntArray"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//CachedType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CachedTransformationProgram" eSuperTypes="#//CachedTLElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statements" lowerBound="1"
+        upperBound="-1" eType="#//CachedTLStatement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="delimiters" lowerBound="1"
+        eType="#//CachedDelimiters" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="transformedCsv" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="w3cSchema" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="error" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CachedTLIf" eSuperTypes="#//CachedTLStatement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ifBlock" upperBound="-1"
+        eType="#//CachedTLStatement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elseBlock" upperBound="-1"
+        eType="#//CachedTLStatement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CachedTLBoolExpr" eSuperTypes="#//CachedTLElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fulfilled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
+  </eClassifiers>
+</ecore:EPackage>

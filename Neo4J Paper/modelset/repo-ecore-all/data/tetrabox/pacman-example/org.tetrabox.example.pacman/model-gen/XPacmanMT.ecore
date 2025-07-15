@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="pacman" nsURI="http://org.tetrabox.example.pacman.xpacmanmt/pacman/" nsPrefix="pacman">
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractTile">
+    <eOperations name="initialize">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="top" eType="//AbstractTile" eOpposite="//AbstractTile/bottom"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="//AbstractTile" eOpposite="//AbstractTile/left"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bottom" eType="//AbstractTile" eOpposite="//AbstractTile/top"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="//AbstractTile" eOpposite="//AbstractTile/right"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Board">
+    <eOperations name="initialize">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eOperations name="reset">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eOperations name="run">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eOperations name="update">
+      <eAnnotations source="aspect"/>
+      <eParameters name="deltaTime">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      </eParameters>
+    </eOperations>
+    <eOperations name="enterFrightenedMode">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tiles" upperBound="-1" eType="//AbstractTile" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entities" upperBound="-1" eType="//Entity" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Entity" abstract="true">
+    <eOperations name="initialize">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eOperations name="reset">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eOperations name="modifySpeed">
+      <eAnnotations source="aspect"/>
+      <eParameters name="speed">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+      </eParameters>
+    </eOperations>
+    <eOperations name="changeDirection">
+      <eAnnotations source="aspect"/>
+      <eParameters name="newDirection">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+      </eParameters>
+    </eOperations>
+    <eOperations name="update">
+      <eAnnotations source="aspect"/>
+      <eParameters name="deltaTime">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      </eParameters>
+    </eOperations>
+    <eOperations name="enterNextTile">
+      <eAnnotations source="aspect"/>
+      <eParameters name="x">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eParameters>
+      <eParameters name="y">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eParameters>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initialTile" lowerBound="1" eType="//PassableTile"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="speed" unique="false">
+      <eAnnotations source="aspect"/>
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="direction" unique="false">
+      <eAnnotations source="aspect"/>
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentTile" unique="false" eType="//PassableTile">
+      <eAnnotations source="aspect"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="xMoveProgress" unique="false">
+      <eAnnotations source="aspect"/>
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="yMoveProgress" unique="false">
+      <eAnnotations source="aspect"/>
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Pacman" eSuperTypes="//Entity">
+    <eOperations name="initialize">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eOperations name="update">
+      <eAnnotations source="aspect"/>
+      <eParameters name="deltaTime">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      </eParameters>
+    </eOperations>
+    <eOperations name="changeDirection">
+      <eAnnotations source="aspect"/>
+      <eParameters name="newDirection">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+      </eParameters>
+    </eOperations>
+    <eOperations name="energize">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eOperations name="enterNextTile">
+      <eAnnotations source="aspect"/>
+      <eParameters name="x">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eParameters>
+      <eParameters name="y">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eParameters>
+    </eOperations>
+    <eOperations name="eat">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eOperations name="up">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eOperations name="left">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eOperations name="down">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eOperations name="right">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="initialLives">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pelletsEaten" unique="false">
+      <eAnnotations source="aspect"/>
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lives" unique="false">
+      <eAnnotations source="aspect"/>
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Ghost" eSuperTypes="//Entity">
+    <eOperations name="initialize">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eOperations name="update">
+      <eAnnotations source="aspect"/>
+      <eParameters name="deltaTime">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      </eParameters>
+    </eOperations>
+    <eOperations name="activate">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eOperations name="enterChaseMode">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eOperations name="enterScatterMode">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eOperations name="switchFrightenedMode">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eOperations name="changeTargetTile">
+      <eAnnotations source="aspect"/>
+      <eParameters name="targetTile" eType="//AbstractTile"/>
+    </eOperations>
+    <eOperations name="eat">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eOperations name="enterNextTile">
+      <eAnnotations source="aspect"/>
+      <eParameters name="x">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eParameters>
+      <eParameters name="y">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eParameters>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="personnality" lowerBound="1" eType="//GhostPersonality"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scatterTile" lowerBound="1" eType="//AbstractTile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetTile" unique="false" eType="//AbstractTile">
+      <eAnnotations source="aspect"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="frightenedMode" unique="false">
+      <eAnnotations source="aspect"/>
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PassableTile" eSuperTypes="//AbstractTile"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Tile" eSuperTypes="//PassableTile">
+    <eOperations name="initialize">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eOperations name="eatPellet">
+      <eAnnotations source="aspect"/>
+      <eParameters name="pacman" eType="//Pacman"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="initialPellet" eType="//PelletType" defaultValueLiteral="NO_PELLET"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pellet" eType="//Pellet" containment="true">
+      <eAnnotations source="aspect"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GhostHouseTile" eSuperTypes="//PassableTile"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WallTile" eSuperTypes="//AbstractTile"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="PelletType">
+    <eLiterals name="NO_PELLET" literal="NO_PELLET"/>
+    <eLiterals name="PELLET" value="1"/>
+    <eLiterals name="SUPER_PELLET" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="GhostPersonality">
+    <eLiterals name="SHADOW"/>
+    <eLiterals name="SPEEDY" value="1"/>
+    <eLiterals name="BASHFUL" value="2"/>
+    <eLiterals name="POKEY" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Pellet">
+    <eAnnotations source="aspect"/>
+    <eOperations name="eat">
+      <eAnnotations source="aspect"/>
+      <eParameters name="pacman" eType="//Pacman"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SuperPellet" eSuperTypes="//Pellet">
+    <eAnnotations source="aspect"/>
+    <eOperations name="eat">
+      <eAnnotations source="aspect"/>
+      <eParameters name="pacman" eType="//Pacman"/>
+    </eOperations>
+  </eClassifiers>
+</ecore:EPackage>

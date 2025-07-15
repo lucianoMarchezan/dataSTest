@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="arch"
+    nsURI="http://www.sympedia.com/2006/density.gen.arch" nsPrefix="com.sympedia.density.gen.arch">
+  <eClassifiers xsi:type="ecore:EClass" name="ArchitectureSpec">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="builders" upperBound="-1"
+        eType="#//ProjectBuilder" containment="true" eOpposite="#//ProjectBuilder/archSpec"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="natures" upperBound="-1"
+        eType="#//ProjectNature" containment="true" eOpposite="#//ProjectNature/archSpec"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="projects" lowerBound="1"
+        upperBound="-1" eType="#//WorkspaceProject" containment="true" eOpposite="#//WorkspaceProject/archSpec"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkspaceProject" eSuperTypes="../../../plugin/com.sympedia.genfw/model/genfw.ecore#//ProjectInitializationProvider">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="projectName" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="builders" upperBound="-1"
+        eType="#//ProjectBuilder" eOpposite="#//ProjectBuilder/workspaceProjects"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="natures" upperBound="-1"
+        eType="#//ProjectNature" eOpposite="#//ProjectNature/workspaceProjects"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="archSpec" lowerBound="1"
+        eType="#//ArchitectureSpec" eOpposite="#//ArchitectureSpec/projects"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProjectBuilder">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="builderId" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="workspaceProjects" upperBound="-1"
+        eType="#//WorkspaceProject" eOpposite="#//WorkspaceProject/builders"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="archSpec" lowerBound="1"
+        eType="#//ArchitectureSpec" eOpposite="#//ArchitectureSpec/builders"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProjectNature">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="natureId" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="workspaceProjects" upperBound="-1"
+        eType="#//WorkspaceProject" eOpposite="#//WorkspaceProject/natures"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="archSpec" lowerBound="1"
+        eType="#//ArchitectureSpec" eOpposite="#//ArchitectureSpec/natures"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PluginProject" eSuperTypes="#//WorkspaceProject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requires" upperBound="-1"
+        eType="#//PluginProject" eOpposite="#//PluginProject/requiredBy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredBy" upperBound="-1"
+        eType="#//PluginProject" eOpposite="#//PluginProject/requires"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedBy" upperBound="-1"
+        eType="#//FeatureProject" eOpposite="#//FeatureProject/contains"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FeatureProject" eSuperTypes="#//WorkspaceProject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includes" upperBound="-1"
+        eType="#//FeatureProject" eOpposite="#//FeatureProject/includedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includedBy" upperBound="-1"
+        eType="#//FeatureProject" eOpposite="#//FeatureProject/includes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" upperBound="-1"
+        eType="#//PluginProject" eOpposite="#//PluginProject/containedBy"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ModelProject" eSuperTypes="#//PluginProject">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelName" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" iD="true"/>
+  </eClassifiers>
+</ecore:EPackage>

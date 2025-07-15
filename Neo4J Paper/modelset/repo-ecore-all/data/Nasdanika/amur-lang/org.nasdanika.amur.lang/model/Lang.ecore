@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="lang" nsURI="urn:org.nasdanika.amur.lang" nsPrefix="org.nasdanika.amur.lang">
+  <eClassifiers xsi:type="ecore:EClass" name="SourceValidator" abstract="true" interface="true">
+    <eTypeParameters name="S">
+      <eBounds eClassifier="#//Source"/>
+    </eTypeParameters>
+    <eOperations name="validate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="diagnostic" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain"/>
+      <eParameters name="source">
+        <eGenericType eTypeParameter="#//SourceValidator/S"/>
+      </eParameters>
+      <eParameters name="context">
+        <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+          <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+          <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        </eGenericType>
+      </eParameters>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Language" abstract="true">
+    <eTypeParameters name="S">
+      <eBounds eClassifier="#//Source"/>
+    </eTypeParameters>
+    <eOperations name="createEditors" upperBound="-1" eType="#//Editor"/>
+    <eOperations name="createSource">
+      <eGenericType eTypeParameter="#//Language/S"/>
+      <eParameters name="original" eType="#//Source"/>
+    </eOperations>
+    <eOperations name="mimeTypes" upperBound="-1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uid" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eGenericSuperTypes eClassifier="#//SourceValidator">
+      <eTypeArguments eTypeParameter="#//Language/S"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Editor" instanceClassName="org.nasdanika.common.Editor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Source" abstract="true">
+    <eOperations name="validate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="diagnostic" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain"/>
+      <eParameters name="context">
+        <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+          <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+          <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        </eGenericType>
+      </eParameters>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="language" containment="true">
+      <eGenericType eClassifier="#//Language">
+        <eTypeArguments>
+          <eUpperBound eClassifier="#//Source"/>
+        </eTypeArguments>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="editor" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TextSource" eSuperTypes="#//Source">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Script" eSuperTypes="#//TextSource">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
+        eType="#//PropertyValue" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Property" instanceClassName="java.util.Map$Entry">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//PropertyValue"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PropertyValue">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ByteSource" eSuperTypes="#//Source">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bytes" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByteArray"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OpaqueSource" eSuperTypes="#//Source"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GenericLanguage">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mimeTypes" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eGenericSuperTypes eClassifier="#//Language">
+      <eTypeArguments eClassifier="#//Source"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TextualLanguage" abstract="true">
+    <eGenericSuperTypes eClassifier="#//Language">
+      <eTypeArguments eClassifier="#//TextSource"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TextualFilerLanguage" abstract="true">
+    <eGenericSuperTypes eClassifier="#//TextualLanguage"/>
+    <eGenericSuperTypes eClassifier="#//Filer">
+      <eTypeArguments eClassifier="#//TextSource"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="IFile" instanceClassName="org.eclipse.core.resources.IFile"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="IProgressMonitor" instanceClassName="org.eclipse.core.runtime.IProgressMonitor"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Exception" instanceClassName="java.lang.Exception"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Filer" abstract="true" interface="true">
+    <eTypeParameters name="S">
+      <eBounds eClassifier="#//Source"/>
+    </eTypeParameters>
+    <eOperations name="load" eExceptions="#//Exception">
+      <eGenericType eTypeParameter="#//Filer/S"/>
+      <eParameters name="file" eType="#//IFile"/>
+      <eParameters name="monitor" eType="#//IProgressMonitor"/>
+    </eOperations>
+    <eOperations name="store" eExceptions="#//Exception">
+      <eParameters name="source">
+        <eGenericType eTypeParameter="#//Filer/S"/>
+      </eParameters>
+      <eParameters name="file" eType="#//IFile"/>
+      <eParameters name="monitor" eType="#//IProgressMonitor"/>
+    </eOperations>
+    <eOperations name="defaultExtension" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Proxy" abstract="true" interface="true">
+    <eTypeParameters name="S">
+      <eBounds eClassifier="#//Source"/>
+    </eTypeParameters>
+    <eTypeParameters name="T">
+      <eBounds eClassifier="#//Source"/>
+    </eTypeParameters>
+    <eOperations name="resolve" eExceptions="#//Exception">
+      <eGenericType eTypeParameter="#//Proxy/T"/>
+      <eParameters name="source">
+        <eGenericType eTypeParameter="#//Proxy/S"/>
+      </eParameters>
+      <eParameters name="monitor" eType="#//IProgressMonitor"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FileReferenceLanguage">
+    <eTypeParameters name="S">
+      <eBounds eClassifier="#//Source"/>
+    </eTypeParameters>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="filer" containment="true">
+      <eGenericType eClassifier="#//Filer">
+        <eTypeArguments eTypeParameter="#//FileReferenceLanguage/S"/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eGenericSuperTypes eClassifier="#//Language">
+      <eTypeArguments eClassifier="#//FileReference"/>
+    </eGenericSuperTypes>
+    <eGenericSuperTypes eClassifier="#//Proxy">
+      <eTypeArguments eClassifier="#//TextSource"/>
+      <eTypeArguments eTypeParameter="#//FileReferenceLanguage/S"/>
+    </eGenericSuperTypes>
+    <eGenericSuperTypes eClassifier="#//Translator"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FileReference" eSuperTypes="#//Source">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetLanguage" containment="true">
+      <eGenericType eClassifier="#//Language">
+        <eTypeArguments>
+          <eUpperBound eClassifier="#//Source"/>
+        </eTypeArguments>
+      </eGenericType>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Translator" instanceClassName="org.nasdanika.amur.lang.Translator"
+      abstract="true" interface="true"/>
+</ecore:EPackage>

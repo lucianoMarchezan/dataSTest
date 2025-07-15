@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="application" nsURI="org.sheepy.lily.core.model.application"
+    nsPrefix="application">
+  <eClassifiers xsi:type="ecore:EClass" name="Application">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="labelFeature" value="title"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="engines" upperBound="-1"
+        eType="#//IEngine" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="run" unique="false" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" unique="false" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="Vulkan Application"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scene" eType="#//Scene"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="timeConfiguration" eType="#//TimeConfiguration"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extensionPkg" eType="#//ApplicationExtensionPkg"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="models" upperBound="-1"
+        eType="#//IModel" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IApplicationExtension" abstract="true"
+      interface="true" eSuperTypes="types.ecore#//LNamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ApplicationExtensionPkg">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extensions" upperBound="-1"
+        eType="#//IApplicationExtension" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TimeConfiguration">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timeStep" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong" defaultValueLiteral="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unit" lowerBound="1" eType="ecore:EEnum types.ecore#//ETimeUnit"
+        defaultValueLiteral="SECONDS"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timeFactor" unique="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IEngine" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resourcePkg" eType="ecore:EClass resource.ecore#//ResourcePkg"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IModel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ICompositor" abstract="true" interface="true"
+      eSuperTypes="inference.ecore#//IInferenceObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extensionPkg" eType="#//CompositorExtensionPkg"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompositorExtensionPkg">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extensions" upperBound="-1"
+        eType="#//ICompositorExtension" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ICompositorExtension" abstract="true"
+      interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ICadence" abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Scene">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="labelFeature" value="size"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compositors" upperBound="-1"
+        eType="#//ICompositor" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fullscreen" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resizeable" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" unique="false" eType="ecore:EDataType types.ecore#//Vector2i"
+        defaultValueLiteral="400,400"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GenericScenePart" eSuperTypes="#//ICompositor types.ecore#//LNamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BackgroundImage" eSuperTypes="types.ecore#//LNamedElement #//ICompositor">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="clearColor" lowerBound="1"
+        eType="ecore:EDataType types.ecore#//Vector3i" defaultValueLiteral="0;0;0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sampling" lowerBound="1"
+        eType="ecore:EEnum resource.ecore#//ESampling"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="srcImage" eType="ecore:EClass resource.ecore#//IImage"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dstImage" lowerBound="1"
+        eType="ecore:EClass resource.ecore#//IImage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScreenEffect" eSuperTypes="types.ecore#//LNamedElement #//ICompositor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="srcImage" eType="ecore:EClass resource.ecore#//IImage"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dstImage" lowerBound="1"
+        eType="ecore:EClass resource.ecore#//IImage"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="effect" eType="#//SpecialEffect"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SpecialEffect" eSuperTypes="types.ecore#//LNamedElement resource.ecore#//IResource">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="shader" eType="ecore:EClass resource.ecore#//FileResource"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputs" upperBound="-1"
+        eType="ecore:EClass variable.ecore#//IModelVariable"/>
+  </eClassifiers>
+</ecore:EPackage>

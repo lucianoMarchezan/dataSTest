@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="gore" nsURI="http://www.nemo.inf.ufes.br/gore/gore" nsPrefix="goremodel">
+  <eClassifiers xsi:type="ecore:EClass" name="GoalModel">
+    <eOperations name="getModelShortName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return this.modelName.replaceAll(&quot; &quot;, &quot;_&quot;).toLowerCase();"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rootGoal" eType="#//HardGoal"
+        eOpposite="#//HardGoal/goalModel"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="domainassumption" upperBound="-1"
+        eType="#//DomainAssumption" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actors" upperBound="-1"
+        eType="#//Actor" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configuration" eType="#//Configuration"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//Parameter"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relations" upperBound="-1"
+        eType="#//DifferentialRelation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="internalIDCounter" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refinements" upperBound="-1"
+        eType="#//GOREElement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GOREElement">
+    <eOperations name="getShortName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return this.name.replaceAll(&quot; &quot;, &quot;_&quot;);"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return &quot;GOREElement&quot;;"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getAllParameters" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return &quot;&quot;;"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="generateID">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="this.internalID = gm.getInternalIDCounter();&#xA;gm.setInternalIDCounter(this.internalID + 1);"/>
+      </eAnnotations>
+      <eParameters name="gm" eType="#//GoalModel"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="time" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="state" eType="#//GOREElementState"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="awreqs" upperBound="-1"
+        eType="#//AwReq" eOpposite="#//AwReq/target"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="internalID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GoalOrientedRequirement" eSuperTypes="#//GOREElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="refinementType" eType="#//RefinementType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assumptions" upperBound="-1"
+        eType="#//DomainAssumption" eOpposite="#//DomainAssumption/parent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refinements" upperBound="-1"
+        eType="#//GoalOrientedRequirement" eOpposite="#//GoalOrientedRequirement/parent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//GoalOrientedRequirement"
+        eOpposite="#//GoalOrientedRequirement/refinements"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PerformativeRequirement" eSuperTypes="#//GoalOrientedRequirement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="startTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HardGoal" eSuperTypes="#//PerformativeRequirement">
+    <eOperations name="getShortName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return &quot;HG_&quot; + this.name.replace(&quot; &quot;, &quot;_&quot;);"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return &quot;HardGoal&quot;;"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getAllParameters" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return &quot;refinementType=\&quot;&quot; + this.getRefinementType().toString() + &quot;\&quot;&quot;;"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="task" upperBound="-1" eType="#//Task"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="goalModel" eType="#//GoalModel"
+        eOpposite="#//GoalModel/rootGoal"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Softgoal" eSuperTypes="#//GoalOrientedRequirement">
+    <eOperations name="getShortName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return &quot;SG_&quot; + this.name.replace(&quot; &quot;, &quot;_&quot;);"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return &quot;Softgoal&quot;;"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getAllParameters" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return &quot;refinementType=\&quot;&quot; + this.getRefinementType().toString() + &quot;\&quot;&quot;;"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="constraints" lowerBound="1"
+        upperBound="-1" eType="#//QualityConstraint" eOpposite="#//QualityConstraint/softgoal"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Task" eSuperTypes="#//PerformativeRequirement">
+    <eOperations name="getShortName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return &quot;T_&quot; + this.name.replace(&quot; &quot;, &quot;_&quot;);"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return &quot;Task&quot;;"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getAllParameters" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return &quot;refinementType=\&quot;&quot; + this.getRefinementType().toString() + &quot;\&quot;&quot;;"/>
+      </eAnnotations>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AwReq" eSuperTypes="#//GOREElement">
+    <eOperations name="getShortName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return &quot;AR_&quot; + this.name.replaceAll(&quot; &quot;, &quot;_&quot;);"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return &quot;AwReq&quot;;"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getAllParameters" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return &quot;&quot;;"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//GOREElement"
+        eOpposite="#//GOREElement/awreqs"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="strategies" upperBound="-1"
+        eType="ecore:EClass eca.ecore#//AdaptationStrategy" containment="true" eOpposite="eca.ecore#//AdaptationStrategy/awreq"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resolution" eType="ecore:EClass eca.ecore#//ResolutionCondition"
+        containment="true" eOpposite="eca.ecore#//ResolutionCondition/awreq"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="QualityConstraint" eSuperTypes="#//GOREElement">
+    <eOperations name="getShortName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return &quot;QC_&quot; + this.name.replace(&quot; &quot;, &quot;_&quot;);"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return &quot;QualityConstraint&quot;;"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getAllParameters" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return &quot;&quot;;"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="softgoal" eType="#//Softgoal"
+        eOpposite="#//Softgoal/constraints"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DomainAssumption" eSuperTypes="#//GOREElement">
+    <eOperations name="getShortName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return &quot;DA_&quot; + this.name.replace(&quot; &quot;, &quot;_&quot;);"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return &quot;DomainAssumption&quot;;"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//GoalOrientedRequirement"
+        eOpposite="#//GoalOrientedRequirement/assumptions"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Actor">
+    <eOperations name="getShortName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return &quot;A_&quot; + this.name.replace(&quot; &quot;, &quot;_&quot;);"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return &quot;Actor&quot;;"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="generateID">
+      <eParameters name="gm" eType="#//GoalModel">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="this.internalID = gm.getInternalIDCounter();&#xA;gm.setInternalIDCounter(this.internalID + 1);"/>
+        </eAnnotations>
+      </eParameters>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="internalID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Configuration">
+    <eOperations name="getShortName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return &quot;Cv_&quot; + this.name.replace(&quot; &quot;, &quot;_&quot;);"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return &quot;Parameter&quot;;"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" eType="#//Parameter"
+        containment="true" eOpposite="#//Parameter/configuration"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DifferentialRelation">
+    <eOperations name="getShortName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return &quot;DR_&quot; + this.name.replace(&quot; &quot;, &quot;_&quot;);"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return &quot;DiferrentialRelation&quot;;"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getAllParameters" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="String str = &quot;&quot;;&#xA;&#xA;str = &quot;indicator=\&quot;&quot; + this.getIndicator().getInternalID() + &quot;\&quot;&quot;;&#xA;str += &quot; parameter=\&quot;&quot; + this.getParameter().getInternalID() + &quot;\&quot;&quot;;&#xA;str += &quot; lowerBound=\&quot;&quot; + this.getLowerBound().toString() + &quot;\&quot;&quot;;&#xA;str += &quot; upperBound=\&quot;&quot; + this.getUpperBound().toString() + &quot;\&quot;&quot;;&#xA;str += &quot; value=\&quot;&quot; + this.getValue() + &quot;\&quot;&quot;;&#xA;str += &quot; differentialRelationOperator=\&quot;&quot; + this.getDifferentialRelationOperator().toString() + &quot;\&quot;&quot;;&#xA;&#xA;return str;"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="generateID">
+      <eParameters name="gm" eType="#//GoalModel">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="this.internalID = gm.getInternalIDCounter();&#xA;gm.setInternalIDCounter(this.internalID + 1);"/>
+        </eAnnotations>
+      </eParameters>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="indicator" eType="#//AwReq"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameter" eType="#//Parameter"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="upperBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DifferentialRelationOperator"
+        eType="#//DifferentialRelationOperator"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="internalID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Parameter">
+    <eOperations name="getShortName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return &quot;Vp_&quot; + this.name.replace(&quot; &quot;, &quot;_&quot;);"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getAllParameters" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="String str = &quot;&quot;;&#xA;&#xA;str = &quot;type=\&quot;&quot; + this.getType().toString() + &quot;\&quot;&quot;;&#xA;str += &quot; unit=\&quot;&quot; + this.getUnit().toString() + &quot;\&quot;&quot;;&#xA;str += &quot; value=\&quot;&quot; + this.getValue().toString() + &quot;\&quot;&quot;;&#xA;str += &quot; metric=\&quot;&quot; + this.getMetric().toString() + &quot;\&quot;&quot;;&#xA;&#xA;return str;"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="generateID">
+      <eParameters name="gm" eType="#//GoalModel">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="this.internalID = gm.getInternalIDCounter();&#xA;gm.setInternalIDCounter(this.internalID + 1);"/>
+        </eAnnotations>
+      </eParameters>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configuration" eType="#//Configuration"
+        eOpposite="#//Configuration/parameters"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//ParameterType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unit" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="metric" lowerBound="1"
+        eType="#//ParameterMetric"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="internalID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="indicator" eType="#//AwReq"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="GOREElementState">
+    <eLiterals name="UNDEFINED" literal="undefined"/>
+    <eLiterals name="STARTED" value="1" literal="started"/>
+    <eLiterals name="SUCCEEDED" value="2" literal="succeeded"/>
+    <eLiterals name="FAILED" value="3" literal="failed"/>
+    <eLiterals name="CANCELED" value="4" literal="canceled"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DifferentialRelationOperator">
+    <eLiterals name="GREATER_THAN" literal="gt"/>
+    <eLiterals name="FEWER_THAN" value="1" literal="ft"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ParameterMetric">
+    <eLiterals name="ENUMERATED" literal="enumerated"/>
+    <eLiterals name="INTEGER" value="1" literal="integer"/>
+    <eLiterals name="REAL" value="2" literal="real"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ParameterType">
+    <eLiterals name="VARIATION_POINT" literal="vp"/>
+    <eLiterals name="ENUMERATED_CONTROL_VARIABLE" value="1" literal="ecv"/>
+    <eLiterals name="NUMERIC_CONTROL_VARIABLE" value="2" literal="ncv"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="RefinementType">
+    <eLiterals name="AND" literal="and"/>
+    <eLiterals name="OR" value="1" literal="or"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="AgregationLevel">
+    <eLiterals name="INSTANCE"/>
+    <eLiterals name="CLASS" value="1"/>
+    <eLiterals name="BOTH" value="2"/>
+  </eClassifiers>
+</ecore:EPackage>

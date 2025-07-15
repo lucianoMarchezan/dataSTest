@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="opp" nsURI="www.vainolo.com/phd/opp" nsPrefix="opp">
+  <eClassifiers xsi:type="ecore:EClass" name="OPPElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"
+        iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OPPNamedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="alignment" eType="#//OPPVerticalAlignment"
+        defaultValueLiteral="Center"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OPPContainer" abstract="true" eSuperTypes="#//OPPElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
+        eType="#//OPPNode" containment="true" eOpposite="#//OPPNode/container"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OPPNode" abstract="true" eSuperTypes="#//OPPElement">
+    <eOperations name="setConstraints">
+      <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="width" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incomingLinks" upperBound="-1"
+        eType="#//OPPLink" eOpposite="#//OPPLink/target"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingLinks" upperBound="-1"
+        eType="#//OPPLink" eOpposite="#//OPPLink/source"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="container" eType="#//OPPContainer"
+        eOpposite="#//OPPContainer/nodes"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="manualSize" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OPPObjectProcessDiagram" eSuperTypes="#//OPPContainer #//OPPNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="links" upperBound="-1"
+        eType="#//OPPLink" containment="true" eOpposite="#//OPPLink/opd"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lastKnownUsedId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1" eType="#//OPPObjectProcessDiagramKind"
+        defaultValueLiteral="Compound"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OPPThing" abstract="true" eSuperTypes="#//OPPNode #//OPPContainer #//OPPNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="main" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="abstract" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OPPState" eSuperTypes="#//OPPNode #//OPPNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OPPObject" eSuperTypes="#//OPPThing">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="global" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="initialValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="constant" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OPPProcess" eSuperTypes="#//OPPThing">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1" eType="#//OPPProcessKind"
+        defaultValueLiteral="Compound"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OPPStructuralLinkAggregator" eSuperTypes="#//OPPNode">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//OPPStructuralLinkAggregatorKind"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OPPLabel" eSuperTypes="#//OPPNode #//OPPNamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OPPLink" eSuperTypes="#//OPPElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="opd" eType="#//OPPObjectProcessDiagram"
+        eOpposite="#//OPPObjectProcessDiagram/links"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//OPPNode"
+        eOpposite="#//OPPNode/outgoingLinks"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//OPPNode"
+        eOpposite="#//OPPNode/incomingLinks"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sourceDecoration" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="targetDecoration" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="centerDecoration" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bendpoints" upperBound="-1"
+        eType="#//OPPPoint" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OPPProceduralLink" eSuperTypes="#//OPPLink">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//OPPProceduralLinkKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="subKinds" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OPPStructuralLinkPart" eSuperTypes="#//OPPLink"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OPPPoint" eSuperTypes="#//OPPElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="OPPStructuralLinkAggregatorKind">
+    <eLiterals name="AGGREGATION" literal="Aggregation"/>
+    <eLiterals name="GENERALIZATION" value="2" literal="Generalization"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="OPPProceduralLinkKind">
+    <eLiterals name="AGENT" literal="Agent"/>
+    <eLiterals name="CONS_RES" value="1" literal="Consumption/Result"/>
+    <eLiterals name="INSTRUMENT" value="2" literal="Instrument"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="OPPProcessKind">
+    <eLiterals name="COMPOUND" literal="Compound"/>
+    <eLiterals name="BUILT_IN" value="1" literal="Built In"/>
+    <eLiterals name="JAVA" value="2" literal="Java"/>
+    <eLiterals name="CONCEPTUAL" value="3" literal="Conceptual"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="OPPObjectProcessDiagramKind">
+    <eLiterals name="COMPOUND" value="1" literal="Compound"/>
+    <eLiterals name="UNFOLDED" value="2" literal="Unfolded"/>
+    <eLiterals name="SYSTEM" value="3" literal="System"/>
+    <eLiterals name="IN_ZOOMED_PROCESS" value="4" literal="In-Zoomed Process"/>
+    <eLiterals name="IN_ZOOMED_OBJECT" value="5" literal="In-Zoomed Object"/>
+    <eLiterals name="UNFOLDED_PROCESS" value="6" literal="Unfolded Process"/>
+    <eLiterals name="UNFOLDED_OBJECT" value="7" literal="Unfolded Object"/>
+    <eLiterals name="FREE_FORM" value="8" literal="Free Form"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="OPPVerticalAlignment">
+    <eLiterals name="TOP" value="8" literal="Top"/>
+    <eLiterals name="CENTER" value="16" literal="Center"/>
+    <eLiterals name="BOTTOM" value="32" literal="Bottom"/>
+  </eClassifiers>
+</ecore:EPackage>

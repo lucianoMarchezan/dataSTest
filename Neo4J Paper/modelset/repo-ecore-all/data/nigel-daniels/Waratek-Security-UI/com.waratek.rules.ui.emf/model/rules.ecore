@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="rules" nsURI="http://www.waratek.com/rules/1.1" nsPrefix="rules">
+  <eClassifiers xsi:type="ecore:EClass" name="RuleDocument">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" eType="#//Version"
+        defaultValueLiteral="One"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lines" upperBound="-1"
+        eType="#//Lines" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Rule" abstract="true" eSuperTypes="#//Lines">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="action" eType="#//Action"
+        defaultValueLiteral="Deny"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="log" eType="#//Log" defaultValueLiteral="Warning"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="File" eSuperTypes="#//Rule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileParameter" eType="#//FileParameter"
+        defaultValueLiteral="Read"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Network" eSuperTypes="#//Rule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="host" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="port" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="networkParameter" eType="#//NetworkParameter"
+        defaultValueLiteral="Connect"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Reflection" eSuperTypes="#//Rule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reflectionParameter" eType="#//ReflectionParameter"
+        defaultValueLiteral="Method"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="qualifiedName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="signature" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ThrowableClass" eSuperTypes="#//Rule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="className" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassLink" eSuperTypes="#//Rule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="classLinkParameter" eType="#//ClassLinkParameter"
+        defaultValueLiteral="Class"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="qualifiedName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="signature" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Native" eSuperTypes="#//Rule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="checksum" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nativeAction" eType="#//NativeAction"
+        defaultValueLiteral="Blacklist"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="FileParameter">
+    <eLiterals name="read" literal="Read"/>
+    <eLiterals name="write" value="1" literal="Write"/>
+    <eLiterals name="exec" value="2" literal="Execute"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="NetworkParameter">
+    <eLiterals name="bind" literal="Bind"/>
+    <eLiterals name="connect" value="1" literal="Connect"/>
+    <eLiterals name="serverbind" value="2" literal="ServerBind"/>
+    <eLiterals name="accept" value="3" literal="Accept"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Action">
+    <eLiterals name="allow" literal="Allow"/>
+    <eLiterals name="deny" value="1" literal="Deny"/>
+    <eLiterals name="suspend" value="2" literal="Suspend"/>
+    <eLiterals name="shutdown" value="3" literal="Shutdown"/>
+    <eLiterals name="destroy" value="4" literal="Destroy"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Log">
+    <eLiterals name="off" literal="Off"/>
+    <eLiterals name="info" value="1" literal="Info"/>
+    <eLiterals name="warn" value="2" literal="Warning"/>
+    <eLiterals name="error" value="3" literal="Error"/>
+    <eLiterals name="debug" value="4" literal="Debug"/>
+    <eLiterals name="trace" value="5" literal="Trace"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SQLInjection" eSuperTypes="#//Rule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="database" eType="#//Database"
+        defaultValueLiteral="Oracle"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ansiQuotes" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="noBackSlashEscapes" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Database">
+    <eLiterals name="oracle" literal="Oracle"/>
+    <eLiterals name="mysql" value="1" literal="MySQL"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Comment" eSuperTypes="#//Lines">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="comment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Version">
+    <eLiterals name="one" literal="One"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Lines" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="NativeAction">
+    <eLiterals name="blacklist" literal="Blacklist"/>
+    <eLiterals name="greylist" value="1" literal="Greylist"/>
+    <eLiterals name="whitelist" value="2" literal="Whitelist"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Category">
+    <eLiterals name="file" literal="File"/>
+    <eLiterals name="network" value="1" literal="Network"/>
+    <eLiterals name="classlink" value="2" literal="Classlink"/>
+    <eLiterals name="reflect" value="3" literal="Reflect"/>
+    <eLiterals name="throwable" value="4" literal="Throwable"/>
+    <eLiterals name="native" value="5" literal="Native"/>
+    <eLiterals name="sql" value="6" literal="SQL"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SubCategory">
+    <eLiterals name="class" literal="Class"/>
+    <eLiterals name="throw" value="1" literal="Throw"/>
+    <eLiterals name="library" value="2" literal="Library"/>
+    <eLiterals name="database" value="3" literal="Database"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ReflectionParameter">
+    <eLiterals name="constructor" literal="Constructor"/>
+    <eLiterals name="method" value="1" literal="Method"/>
+    <eLiterals name="field" value="2" literal="Field"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DatabaseMode">
+    <eLiterals name="ansiquotes"/>
+    <eLiterals name="nobackslashescapes" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Option">
+    <eLiterals name="off" literal="Off"/>
+    <eLiterals name="on" value="1" literal="On"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ClassLinkParameter">
+    <eLiterals name="class" literal="Class"/>
+    <eLiterals name="constructor" value="1" literal="Constructor"/>
+    <eLiterals name="method" value="2" literal="Method"/>
+    <eLiterals name="field" value="3" literal="Field"/>
+  </eClassifiers>
+</ecore:EPackage>

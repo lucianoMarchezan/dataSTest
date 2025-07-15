@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="VirtualComposition"
+    nsURI="VirtualComposition" nsPrefix="virtualComposition">
+  <eSubpackages name="MergePackage" nsURI="MergePackage" nsPrefix="mergePackage">
+    <eClassifiers xsi:type="ecore:EClass" name="CartAndInvoice">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="carts" ordered="false"
+          upperBound="-1" eType="#//cart/Cart" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="clients" ordered="false"
+          upperBound="-1" eType="#//cart/Client" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="invoices" ordered="false"
+          upperBound="-1" eType="#//invoice/Invoice" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BookItem" eSuperTypes="#//cart/Item">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
+          unique="false" lowerBound="1" eType="#//PrimitiveTypes/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="pages" ordered="false"
+          unique="false" lowerBound="1" eType="#//PrimitiveTypes/Integer"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DVDItem" eSuperTypes="#//cart/Item">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" ordered="false"
+          unique="false" lowerBound="1" eType="#//PrimitiveTypes/Integer"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
+          unique="false" lowerBound="1" eType="#//PrimitiveTypes/String"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Client">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
+          unique="false" lowerBound="1" eType="#//PrimitiveTypes/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="address" ordered="false"
+          unique="false" lowerBound="1" eType="#//PrimitiveTypes/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="email" ordered="false"
+          unique="false" lowerBound="1" eType="#//PrimitiveTypes/String"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="cart" ordered="false"
+          lowerBound="1" eType="#//cart/Cart" eOpposite="#//cart/Cart/owner"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="invoices" ordered="false"
+          upperBound="-1" eType="#//invoice/Invoice" eOpposite="#//invoice/Invoice/owner"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="cart" nsURI="Cart" nsPrefix="cart">
+    <eClassifiers xsi:type="ecore:EClass" name="CartModel">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="carts" ordered="false"
+          upperBound="-1" eType="#//cart/Cart" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="clients" ordered="false"
+          upperBound="-1" eType="#//cart/Client" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Cart">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="discount" ordered="false"
+          unique="false" lowerBound="1" eType="#//PrimitiveTypes/Integer"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="total" ordered="false"
+          unique="false" lowerBound="1" eType="#//PrimitiveTypes/Integer"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="items" ordered="false"
+          upperBound="-1" eType="#//cart/Item" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="owner" ordered="false"
+          lowerBound="1" eType="#//cart/Client" eOpposite="#//cart/Client/cart"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Client">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
+          unique="false" lowerBound="1" eType="#//PrimitiveTypes/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="address" ordered="false"
+          unique="false" lowerBound="1" eType="#//PrimitiveTypes/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="email" ordered="false"
+          unique="false" lowerBound="1" eType="#//PrimitiveTypes/String"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="cart" ordered="false"
+          lowerBound="1" eType="#//cart/Cart" eOpposite="#//cart/Cart/owner"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Item" abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="price" ordered="false"
+          unique="false" lowerBound="1" eType="#//PrimitiveTypes/Integer"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" ordered="false" unique="false"
+          lowerBound="1" eType="#//PrimitiveTypes/Integer"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Book" eSuperTypes="#//cart/Item">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="pages" ordered="false"
+          unique="false" lowerBound="1" eType="#//PrimitiveTypes/Integer"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DVD" eSuperTypes="#//cart/Item">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" ordered="false"
+          unique="false" lowerBound="1" eType="#//PrimitiveTypes/Integer"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="PrimitiveTypes">
+    <eClassifiers xsi:type="ecore:EDataType" name="Integer" instanceClassName="int"/>
+    <eClassifiers xsi:type="ecore:EDataType" name="String" instanceClassName="java.lang.String"/>
+  </eSubpackages>
+  <eSubpackages name="invoice" nsURI="Invoice" nsPrefix="invoice">
+    <eClassifiers xsi:type="ecore:EClass" name="InvoiceModel">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="invoices" ordered="false"
+          upperBound="-1" eType="#//invoice/Invoice" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="clients" ordered="false"
+          upperBound="-1" eType="#//invoice/Client" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Invoice">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="total" ordered="false"
+          unique="false" lowerBound="1" eType="#//PrimitiveTypes/Integer"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" ordered="false" unique="false"
+          lowerBound="1" eType="#//PrimitiveTypes/Integer"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="VAT" ordered="false"
+          unique="false" lowerBound="1" eType="#//PrimitiveTypes/Integer"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="items" ordered="false"
+          upperBound="-1" eType="#//invoice/Item" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="owner" ordered="false"
+          lowerBound="1" eType="#//invoice/Client" eOpposite="#//invoice/Client/invoices"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Client">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
+          unique="false" lowerBound="1" eType="#//PrimitiveTypes/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="address" ordered="false"
+          unique="false" lowerBound="1" eType="#//PrimitiveTypes/String"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="invoices" ordered="false"
+          upperBound="-1" eType="#//invoice/Invoice" eOpposite="#//invoice/Invoice/owner"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Item">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
+          unique="false" lowerBound="1" eType="#//PrimitiveTypes/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" ordered="false" unique="false"
+          lowerBound="1" eType="#//PrimitiveTypes/Integer"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

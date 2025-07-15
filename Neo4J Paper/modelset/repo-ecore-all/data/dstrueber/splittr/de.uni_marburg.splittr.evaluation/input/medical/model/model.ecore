@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model" nsURI="http:///model.ecore" nsPrefix="model">
+  <eClassifiers xsi:type="ecore:EClass" name="Schedule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="member" eType="#//MedicalMember"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MedicalMember">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" ordered="false" unique="false"
+        lowerBound="1" eType="ecore:EDataType types.ecore#//Integer"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" unique="false"
+        lowerBound="1" eType="ecore:EDataType types.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="schedule" upperBound="-1"
+        eType="#//Schedule" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="idCard" eType="#//IdCard"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Technician" eSuperTypes="#//MedicalMember">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ward" ordered="false" upperBound="-1"
+        eType="#//Ward"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="equipment" upperBound="-1"
+        eType="#//MobileEquipment"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Ward">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unit" ordered="false" lowerBound="1"
+        eType="#//Unit" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="physician" ordered="false"
+        upperBound="-1" eType="#//Physician"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" unique="false"
+        lowerBound="1" eType="ecore:EDataType types.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nurses" upperBound="-1"
+        eType="#//Nurse" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rooms" upperBound="-1"
+        eType="#//Room" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="storage" eType="#//GeneralStorage"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Unit">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" unique="false"
+        lowerBound="1" eType="ecore:EDataType types.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" ordered="false"
+        unique="false" lowerBound="1" eType="ecore:EDataType types.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stationary" upperBound="-1"
+        eType="#//StationaryEquipment"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Physician" eSuperTypes="#//MedicalMember">
+    <eOperations name="getPatientList" ordered="false" lowerBound="1"/>
+    <eOperations name="viewMedicalHistory" ordered="false" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Nurse" eSuperTypes="#//MedicalMember">
+    <eOperations name="viewMedicalHistory" ordered="false" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Assistant" eSuperTypes="#//MedicalMember"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IdCard"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Patient">
+    <eAnnotations source="duplicates">
+      <contents xsi:type="ecore:EReference" name="physician" ordered="false" upperBound="-1"
+          eType="#//Physician">
+        <eAnnotations source="redefines" references="#//Patient/physician"/>
+      </contents>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="physician" ordered="false"
+        upperBound="-1" eType="#//Physician"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="card" eType="#//HealthCard"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VisitRecord">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="prescription" upperBound="-1"
+        eType="#//Prescription"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Prescription"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MedicalProcedure">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="members" upperBound="-1"
+        eType="#//MedicalMember"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WardStayRecord">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="intraWardRecords" upperBound="-1"
+        eType="#//IntraWardRecord" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="procedures" eType="#//MedicalProcedure"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntraWardRecord"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InPatient" eSuperTypes="#//Patient">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inVisitRecords" eType="#//InVisitRecord"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="wristband" eType="#//WristBand"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OutPatient" eSuperTypes="#//Patient">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outVisitRecords" upperBound="-1"
+        eType="#//OutVisitRecord"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InVisitRecord" eSuperTypes="#//VisitRecord">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="records" eType="#//WardStayRecord"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OutVisitRecord" eSuperTypes="#//VisitRecord"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WristBand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DisplayScanner">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cards" upperBound="-1"
+        eType="#//HealthCard"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="wristbands" upperBound="-1"
+        eType="#//WristBand"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unit" eType="#//Unit"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="idCards" upperBound="-1"
+        eType="#//IdCard"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HealthCard"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MobileEquipment" eSuperTypes="#//Equipment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="booking" ordered="false"
+        upperBound="-1" eType="#//Booking" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Equipment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Booking">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" ordered="false"
+        unique="false" lowerBound="1" eType="ecore:EDataType types.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="time" ordered="false" unique="false"
+        lowerBound="1" eType="ecore:EDataType types.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" ordered="false" unique="false"
+        lowerBound="1" eType="ecore:EDataType types.ecore#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StationaryEquipment" eSuperTypes="#//Equipment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Bed">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" ordered="false" unique="false"
+        lowerBound="1" eType="ecore:EDataType types.ecore#//Integer"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Room">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" unique="false"
+        lowerBound="1" eType="ecore:EDataType types.ecore#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="beds" upperBound="-1" eType="#//Bed"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stationary" upperBound="-1"
+        eType="#//StationaryEquipment"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scanner" eType="#//DisplayScanner"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GeneralStorage">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mobile" upperBound="-1"
+        eType="#//MobileEquipment"/>
+  </eClassifiers>
+</ecore:EPackage>

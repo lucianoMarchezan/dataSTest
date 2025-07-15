@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="VM_KranthiRekala" nsURI="http://KranthiRekala" nsPrefix="KranthiRekala">
+  <eSubpackages name="vendsys" nsURI="http://vendsys" nsPrefix="vendsys">
+    <eClassifiers xsi:type="ecore:EClass" name="IPayMachineListener" abstract="true"
+        interface="true">
+      <eOperations name="returnChange">
+        <eParameters name="iNumQuarters" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+        <eParameters name="iNumDimes" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+        <eParameters name="iNumNickels" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eOperations>
+      <eOperations name="balanceUpdated">
+        <eParameters name="dBalance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IProductDatabase" abstract="true">
+      <eOperations name="getProducts"/>
+      <eOperations name="decrementQuantity"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="product" upperBound="-1"
+          eType="#//extern/MyProductDatabase"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="realizes" eType="#//extern/Product"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IProductInfo" abstract="true" interface="true">
+      <eOperations name="getID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eOperations name="getName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eOperations name="getDescription" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eOperations name="getIcon"/>
+      <eOperations name="getPrice" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eOperations name="getQuantity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IProductDispenserListener" abstract="true"
+        interface="true">
+      <eOperations name="dispenseProduct">
+        <eParameters name="piProduct" eType="#//vendsys/IProductInfo"/>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IProductSelectorListener" abstract="true"
+        interface="true">
+      <eOperations name="updateDisplay">
+        <eParameters name="piProducts" eType="#//vendsys/IProductInfo"/>
+      </eOperations>
+      <eOperations name="itemSelected">
+        <eParameters name="piProduct" eType="#//vendsys/IProductInfo"/>
+      </eOperations>
+      <eOperations name="itemDeselected">
+        <eParameters name="piProduct" eType="#//vendsys/IProductInfo"/>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IOutputDisplayListener" abstract="true"
+        interface="true">
+      <eOperations name="updateDisplay">
+        <eParameters name="sData" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CashRegister" eSuperTypes="#//vendsys/VirtualVendingMachine">
+      <eOperations name="CashRegister"/>
+      <eOperations name="maximumChange" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eOperations name="addDollars">
+        <eParameters name="count" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eOperations>
+      <eOperations name="addQuarters">
+        <eParameters name="count" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eOperations>
+      <eOperations name="addDimes">
+        <eParameters name="count" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eOperations>
+      <eOperations name="addNickels">
+        <eParameters name="count" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eOperations>
+      <eOperations name="addReceipt"/>
+      <eOperations name="takeOutChange" eType="#//vendsys/CoinCount">
+        <eParameters name="dAmount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_iNumQuarters" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_iNumDimes" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_iNumNickels" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_iNumDollars" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="m_alReceipts" eType="#//vendsys/SuncardReceipt"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OutputDisplay">
+      <eOperations name="displayString">
+        <eParameters name="sData" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eOperations>
+      <eOperations name="setOutputDisplayListener">
+        <eParameters name="odlListener" eType="#//vendsys/IOutputDisplayListener"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_sCurrentOutput" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          defaultValueLiteral="&quot;&quot;"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="m_odlListener" eType="#//vendsys/IOutputDisplayListener"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PayMachine">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+        <details key="constraints" value="hasCrossedValue"/>
+      </eAnnotations>
+      <eOperations name="PayMachine">
+        <eParameters name="vvmOwner" eType="#//vendsys/VirtualVendingMachine"/>
+        <eParameters name="dMaximumBalance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      </eOperations>
+      <eOperations name="setPayMachineListener">
+        <eParameters name="pmlListener" eType="#//vendsys/IPayMachineListener"/>
+      </eOperations>
+      <eOperations name="getBalance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eOperations name="insertQuarter"/>
+      <eOperations name="insertDime"/>
+      <eOperations name="insertNickel"/>
+      <eOperations name="insertDollar"/>
+      <eOperations name="insertSuncard">
+        <eParameters name="iAccount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eOperations>
+      <eOperations name="returnChange"/>
+      <eOperations name="deductBalance">
+        <eParameters name="dAmount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      </eOperations>
+      <eOperations name="clearBalance"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_dMaximumBalance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+          defaultValueLiteral="3.00" unsettable="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_dBalance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_bOutOfOrder" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="m_pmlListener" eType="#//vendsys/IPayMachineListener"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="m_crRegister" eType="#//vendsys/CashRegister"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="m_vvmOwner" eType="#//vendsys/VirtualVendingMachine"
+          eOpposite="#//vendsys/VirtualVendingMachine/m_pmPayMachine"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="VirtualVendingMachine">
+      <eOperations name="VirtualVendingMachine">
+        <eParameters name="pdProducts" eType="#//vendsys/IProductDatabase"/>
+      </eOperations>
+      <eOperations name="getProducts" eType="#//vendsys/IProductInfo"/>
+      <eOperations name="getProductSelector" eType="#//vendsys/ProductSelector"/>
+      <eOperations name="getOutputDisplay" eType="#//vendsys/OutputDisplay"/>
+      <eOperations name="getPayMachine" eType="#//vendsys/PayMachine"/>
+      <eOperations name="getProductDispenser" eType="#//vendsys/ProductDispenser"/>
+      <eOperations name="showProductDesc">
+        <eParameters name="piProduct" eType="#//vendsys/IProductInfo"/>
+      </eOperations>
+      <eOperations name="buyItem">
+        <eParameters name="piProduct" eType="#//vendsys/IProductInfo"/>
+      </eOperations>
+      <eOperations name="goOutOfOrder"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_bOutOfOrder" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="m_pdProducts" eType="#//vendsys/IProductDatabase"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="m_odOutputDisplay" eType="#//vendsys/OutputDisplay"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="m_pdDispenser" eType="#//vendsys/ProductDispenser"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="m_pmPayMachine" eType="#//vendsys/PayMachine"
+          eOpposite="#//vendsys/PayMachine/m_vvmOwner"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="m_psProductSelector"
+          eType="#//vendsys/ProductSelector" eOpposite="#//vendsys/ProductSelector/m_vvmMachine"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ProductDispenser">
+      <eOperations name="dispenseProduct">
+        <eParameters name="piProduct" eType="#//vendsys/IProductInfo"/>
+      </eOperations>
+      <eOperations name="setProductDispenserListener">
+        <eParameters name="pdlListener" eType="#//vendsys/IProductDispenserListener"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="m_pdlListener" eType="#//vendsys/IProductDispenserListener"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ProductSelector">
+      <eOperations name="ProductSelector">
+        <eParameters name="vvmMachine" eType="#//vendsys/VirtualVendingMachine"/>
+      </eOperations>
+      <eOperations name="displayProducts"/>
+      <eOperations name="setProductSelectorListener">
+        <eParameters name="pslListener" eType="#//vendsys/IProductSelectorListener"/>
+      </eOperations>
+      <eOperations name="showProductDesc">
+        <eParameters name="piProduct" eType="#//vendsys/IProductInfo"/>
+      </eOperations>
+      <eOperations name="buyItem">
+        <eParameters name="piProduct" eType="#//vendsys/IProductInfo"/>
+      </eOperations>
+      <eOperations name="setSelectedItem">
+        <eParameters name="piProduct" eType="#//vendsys/IProductInfo"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="m_pslListener" eType="#//vendsys/IProductSelectorListener"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="m_piSelectedItem" eType="#//vendsys/IProductInfo"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="m_vvmMachine" eType="#//vendsys/VirtualVendingMachine"
+          eOpposite="#//vendsys/VirtualVendingMachine/m_psProductSelector"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SuncardReceipt">
+      <eOperations name="SuncardReceipt">
+        <eParameters name="iAccount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+        <eParameters name="dAmountDeducted" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      </eOperations>
+      <eOperations name="getAccount"/>
+      <eOperations name="getAmountDeducted"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_iAccount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_dAmountDeducted" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CoinCount">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="NUM_QUARTERS" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="NUM_DIMES" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="NUM_NICKELS" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="coins" eType="#//vendsys/CashRegister"
+          containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="extern" nsURI="http://extern" nsPrefix="extern">
+    <eClassifiers xsi:type="ecore:EClass" name="Product" eSuperTypes="#//vendsys/IProductInfo">
+      <eOperations name="Product">
+        <eParameters name="iID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+        <eParameters name="sName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eParameters name="sDescription" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eParameters name="iICon" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+        <eParameters name="dPrice" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+        <eParameters name="iQuantity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_iID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_sName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_sDescription" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_dPrice" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_iQuantity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="MyProductDatabase">
+      <eOperations name="MyProductDatabase" ordered="false"/>
+      <eOperations name="getProducts" eType="#//vendsys/IProductInfo"/>
+      <eOperations name="decrementQuantity">
+        <eParameters name="piProduct" eType="#//vendsys/IProductInfo"/>
+      </eOperations>
+      <eOperations name="getProduct" eType="#//vendsys/IProductInfo">
+        <eParameters name="iProductID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eOperations>
+      <eOperations name="getNumProducts" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pProducts" eType="#//extern/Product"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Icon" instanceClassName="javax.swing.Icon"/>
+  </eSubpackages>
+</ecore:EPackage>

@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="cdl"
+    nsURI="http://edu/xjtu/cdl2bpel/cdl.ecore" nsPrefix="edu.xjtu.cdl2bpel.cdl">
+  <eClassifiers xsi:type="ecore:EClass" name="Activity" abstract="true" eSuperTypes="#//CDLElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="locked" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="state" eType="#//ActivityStateEnumByActivity"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="theBelongedRoleTypeMatrix"
+        eType="#//RoleTypeMatrix"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Assign" eSuperTypes="#//Activity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="copyOfAssign" lowerBound="1"
+        upperBound="-1" eType="#//CopyOfAssign" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roleType" lowerBound="1"
+        eType="#//RoleType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BehaviorOfRoleType" eSuperTypes="#//CDLElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="interface" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BindInfo" eSuperTypes="#//CDLElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisVariable" lowerBound="1"
+        eType="#//Variable"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisRole" lowerBound="1"
+        eType="#//RoleType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="freeVariable" lowerBound="1"
+        eType="#//Variable"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="freeRole" lowerBound="1"
+        eType="#//RoleType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CDLElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="addition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ChannelType" eSuperTypes="#//InfoOrChannel">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="usage" eType="#//UsageTypeEnumByChannelType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="action" eType="#//ActionTypeEnumByChannelType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="passingInfoByChannel" upperBound="-1"
+        eType="#//PassingInfoOfTheChannelType" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="theBehaviorOfTheRoleType"
+        eType="#//BehaviorOfRoleType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedToken" lowerBound="1"
+        eType="#//Token"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="identities" upperBound="-1"
+        eType="#//Identity" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roleType" lowerBound="1"
+        eType="#//RoleType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Choice" eSuperTypes="#//OrderingStructuralActivity"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Choreography" eSuperTypes="#//CDLElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="complete" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isolation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="FALSE"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="root" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="FALSE"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="coordination" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="FALSE"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relationships" upperBound="-1"
+        eType="#//RelationshipType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="enclosedChoreographies"
+        upperBound="-1" eType="#//Choreography" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roleTypeMatrixPlayingRoleInChoreo"
+        upperBound="-1" eType="#//RoleTypeMatrix" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variables" upperBound="-1"
+        eType="#//Variable" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exceptionBlock" eType="#//ExceptionBlock"
+        containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="finalizerBlocks" upperBound="-1"
+        eType="#//FinalizerBlock" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activities" lowerBound="1"
+        upperBound="-1" eType="#//Activity" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="enclosingChoreographies"
+        upperBound="-1" eType="#//Choreography"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CaseConditionalOfSwitch" eSuperTypes="#//WorkUnit"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CopyOfAssign" eSuperTypes="#//CDLElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceVariable" eType="#//Variable"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sourceExpression" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetVariable" lowerBound="1"
+        eType="#//Variable"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="causeException" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sourceVariablePart" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="targetVariablePart" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InfoOrChannel" abstract="true" eSuperTypes="#//CDLElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExceptionBlock" eSuperTypes="#//CDLElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exceptionWorkUnits" lowerBound="1"
+        upperBound="-1" eType="#//ExceptionWorkUnit" containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExceptionWorkUnit" eSuperTypes="#//WorkUnit">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="exceptionType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExchangeInfo" eSuperTypes="#//CDLElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//InfoOrChannel"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="action" lowerBound="1"
+        eType="#//ActionTypeEnumByExchangeInfo"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sendRecordReference" upperBound="-1"
+        eType="#//RecordElementInfo"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receiveRecordReference"
+        upperBound="-1" eType="#//RecordElementInfo"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="faultName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sendVariable" eType="#//Variable"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sendVariablePart" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="causeExceptionOfSend" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receiveVariable" eType="#//Variable"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="receiveVariablePart" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="causeExceptionOfReceive"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Finalize" eSuperTypes="#//Activity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="choreography" lowerBound="1"
+        eType="#//Choreography"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="choreographyInstanceId"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="finalizerBlock" eType="#//FinalizerBlock"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roleTypeMatrixBindInfo"
+        upperBound="-1" eType="#//RoleTypeMatrixBindInfo" containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FinalizerBlock" eSuperTypes="#//CDLElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activities" lowerBound="1"
+        upperBound="-1" eType="#//Activity" containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Identity" eSuperTypes="#//CDLElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//KeyTypeEnumByIdentify"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tokens" lowerBound="1"
+        upperBound="-1" eType="#//Token"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InformationType" eSuperTypes="#//InfoOrChannel">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="typeName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="elementName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Interaction" eSuperTypes="#//Activity">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operation" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="channelVariable" lowerBound="1"
+        eType="#//Variable"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timeoutOfTimeToComplete"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="align" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="FALSE"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="initiate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relationship" lowerBound="1"
+        eType="#//RelationshipType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exchangeInfos" upperBound="-1"
+        eType="#//ExchangeInfo" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordInfos" upperBound="-1"
+        eType="#//RecordElementInfo" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="timeoutFromRoleTypeRecordInfo"
+        upperBound="-1" eType="#//RecordElementInfo"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="timeoutToRoleTypeRecordInfo"
+        upperBound="-1" eType="#//RecordElementInfo"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fromRoleTypeOfBelongedRoleTypeMatrix"
+        eType="#//RoleTypeMatrix"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="toRoleTypeOfBelongedRoleTypeMatrix"
+        eType="#//RoleTypeMatrix"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participateByInteraction"
+        lowerBound="1" eType="#//ParticipateInfoByInteraction"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Namespace" eSuperTypes="#//CDLElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="prefix" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="schemaLocation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NoAction" eSuperTypes="#//Activity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roleType" eType="#//RoleType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Package" eSuperTypes="#//CDLElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="author" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="targetNamespace" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="namespaces" upperBound="-1"
+        eType="#//Namespace" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="informationTypes" upperBound="-1"
+        eType="#//InformationType" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tokens" upperBound="-1"
+        eType="#//Token" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tokenLocators" upperBound="-1"
+        eType="#//TokenLocator" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roleTypes" upperBound="-1"
+        eType="#//RoleType" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relationshipTypes" upperBound="-1"
+        eType="#//RelationshipType" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participantTypes" upperBound="-1"
+        eType="#//ParticipantType" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="channelTypes" upperBound="-1"
+        eType="#//ChannelType" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="choreographies" upperBound="-1"
+        eType="#//Choreography" containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Parallel" eSuperTypes="#//OrderingStructuralActivity"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ParticipantType" eSuperTypes="#//CDLElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roleTypes" lowerBound="1"
+        upperBound="-1" eType="#//RoleType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stateless" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="FALSE"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="free" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PassingInfoOfTheChannelType" eSuperTypes="#//CDLElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="channel" lowerBound="1"
+        eType="#//ChannelType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="action" eType="#//ActionTypeEnumByChannelType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="new" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="FALSE"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="enclosingChannel" eType="#//ChannelType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Perform" eSuperTypes="#//Activity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bindsOfPerform" upperBound="-1"
+        eType="#//BindInfo" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="choreographyInstanceId"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="choreography" lowerBound="1"
+        eType="#//Choreography"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="waitForCompletion" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="TRUE"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roleTypeMatrixBindInfos"
+        upperBound="-1" eType="#//RoleTypeMatrixBindInfo" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="block" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="choreographyName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RecordElementInfo" eSuperTypes="#//CDLElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="when" lowerBound="1" eType="#//WhenTypeEnumByRecordInfo"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceVariable" eType="#//Variable"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetVariable" lowerBound="1"
+        eType="#//Variable"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="causeException" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sourceExpression" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sourceVariablePart" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="targetVariablePart" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RelationshipType" eSuperTypes="#//CDLElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roleTypeOfFirst" lowerBound="1"
+        eType="#//RoleType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="behaviorsOfRoleTypeFirst"
+        upperBound="-1" eType="#//BehaviorOfRoleType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roleTypeOfSecond" lowerBound="1"
+        eType="#//RoleType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="behaviorsOfRoleTypeSecond"
+        upperBound="-1" eType="#//BehaviorOfRoleType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoleType" eSuperTypes="#//CDLElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="behaviors" lowerBound="1"
+        upperBound="-1" eType="#//BehaviorOfRoleType" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stateless" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="FALSE"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="free" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Sequence" eSuperTypes="#//OrderingStructuralActivity"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SilentAction" eSuperTypes="#//Activity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roleType" eType="#//RoleType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Token" eSuperTypes="#//CDLElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="informationType" lowerBound="1"
+        eType="#//InformationType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TokenLocator" eSuperTypes="#//CDLElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="token" lowerBound="1" eType="#//Token"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="informationType" lowerBound="1"
+        eType="#//InformationType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="query" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="part" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Variable" eSuperTypes="#//CDLElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//InfoOrChannel"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mutable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="TRUE"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="free" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="FALSE"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="silent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="FALSE"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roleTypes" upperBound="-1"
+        eType="#//RoleType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkUnit" abstract="true" eSuperTypes="#//OrderingStructuralActivity">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="guardExpression" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="block" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="repeatExpression" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WhenWithBlockOfWorkUnit" eSuperTypes="#//WorkUnit">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="matchedExpression" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isMatched" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="FALSE"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WhileWithRepeateOfWorkUnit" eSuperTypes="#//WorkUnit">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="breakOutExpression" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoleTypeMatrix" eSuperTypes="#//CDLElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roleTypes" upperBound="-1"
+        eType="#//RoleType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="free" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="FALSE"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoleTypeMatrixBindInfo" eSuperTypes="#//CDLElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thisRoleTypeMatrix" eType="#//RoleTypeMatrix"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="freeRoleTypeMatrix" eType="#//RoleTypeMatrix"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OrderingStructuralActivity" abstract="true"
+      eSuperTypes="#//Activity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activities" lowerBound="1"
+        upperBound="-1" eType="#//Activity" containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ActionTypeEnumByChannelType">
+    <eLiterals name="Request_respond" value="1"/>
+    <eLiterals name="Request" value="2"/>
+    <eLiterals name="Respond" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ActionTypeEnumByExchangeInfo">
+    <eLiterals name="Request" value="1"/>
+    <eLiterals name="Respond" value="2"/>
+    <eLiterals name="Notify" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="UsageTypeEnumByChannelType">
+    <eLiterals name="Distinct" value="1"/>
+    <eLiterals name="Once" value="2"/>
+    <eLiterals name="Shared" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="WhenTypeEnumByRecordInfo">
+    <eLiterals name="Before" value="1"/>
+    <eLiterals name="After" value="2"/>
+    <eLiterals name="Timeout" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="KeyTypeEnumByIdentify">
+    <eLiterals name="Primary" value="1"/>
+    <eLiterals name="Alternate" value="2"/>
+    <eLiterals name="Association" value="3"/>
+    <eLiterals name="Derived" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ParticipateInfoByInteraction" eSuperTypes="#//CDLElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relationshipType" eType="#//RelationshipType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fromRoleTypeRef" eType="#//RoleType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="toRoleTypeRef" eType="#//RoleType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ChoreographyState">
+    <eLiterals name="UnsuccessfullyCompleted" value="2"/>
+    <eLiterals name="Closed" value="6"/>
+    <eLiterals name="SuccessfullyCompleted" value="1"/>
+    <eLiterals name="Enabled" value="3"/>
+    <eLiterals name="Actived" value="5"/>
+    <eLiterals name="Disabled" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ActivityStateEnumByActivity">
+    <eLiterals name="Actived" value="1"/>
+    <eLiterals name="Exceptioned" value="2"/>
+    <eLiterals name="Successed" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InteractionLpw" eSuperTypes="#//CDLElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fromRoleType" eType="#//RoleTypeZlp"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="toRoleType" eType="#//RoleTypeZlp"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="opperation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timeout" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="align" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interaction" eType="#//Interaction"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Asyn" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoleTypeZlp" eSuperTypes="#//CDLElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participantBelongedByRoleType"
+        eType="#//ParticipantType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="free" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SendByExchange" eSuperTypes="#//CDLElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sendVariable" eType="#//Variable"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sendVariablePart" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sendCaseException" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReceiveByExchange" eSuperTypes="#//CDLElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receiveVariable" eType="#//Variable"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="receiveVariablePart" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="receiveCaseException" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScopeWithNoAttrOfWorkUnit" eSuperTypes="#//WorkUnit"/>
+</ecore:EPackage>

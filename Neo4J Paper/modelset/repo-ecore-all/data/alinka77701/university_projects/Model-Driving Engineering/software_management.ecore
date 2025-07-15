@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="software_management" nsURI="software_management" nsPrefix="">
+  <eClassifiers xsi:type="ecore:EClass" name="Model">
+    <eAnnotations source="gmf.diagram"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="issues" upperBound="-1"
+        eType="#//Issue" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="members" lowerBound="1"
+        upperBound="-1" eType="#//Member" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="products" lowerBound="1"
+        upperBound="-1" eType="#//Product" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
+    <eAnnotations source="gmf.node">
+      <details key="label" value="name"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Version" eSuperTypes="#//NamedElement">
+    <eAnnotations source="gmf.node">
+      <details key="size" value="80,30"/>
+      <details key="figure" value="rectangle"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentProduct" lowerBound="1"
+        eType="#//Product" eOpposite="#//Product/versions"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Product" eSuperTypes="#//NamedElement">
+    <eAnnotations source="gmf.node">
+      <details key="figure" value="ellipse"/>
+      <details key="label.icon" value="true"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="versions" upperBound="-1"
+        eType="#//Version" containment="true" eOpposite="#//Version/parentProduct">
+      <eAnnotations source="gmf.compartment">
+        <details key="layout" value="list"/>
+        <details key="collapsible" value="false"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Issue" abstract="true" eSuperTypes="#//NamedElement">
+    <eAnnotations source="gmf.node">
+      <details key="label" value="ID, name, status"/>
+      <details key="label.pattern" value="{0}, {1}, {2}"/>
+      <details key="figure" value="rectangle"/>
+      <details key="label.icon" value="true"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="#//Status"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reporter" lowerBound="1"
+        upperBound="-1" eType="#//Member">
+      <eAnnotations source="gmf.link">
+        <details key="label" value="reporter"/>
+        <details key="width" value="2"/>
+        <details key="color" value="0,0,255"/>
+        <details key="source.decoration" value="none"/>
+        <details key="target.decoration" value="arrow"/>
+        <details key="style" value="solid"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignee" upperBound="-1"
+        eType="#//Member">
+      <eAnnotations source="gmf.link">
+        <details key="label" value="assignee"/>
+        <details key="width" value="2"/>
+        <details key="color" value="0,255,255"/>
+        <details key="source.decoration" value="none"/>
+        <details key="target.decoration" value="arrow"/>
+        <details key="style" value="solid"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="comments" upperBound="-1"
+        eType="#//Comment" containment="true">
+      <eAnnotations source="gmf.compartment">
+        <details key="layout" value="list"/>
+        <details key="collapsible" value="false"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="versions" lowerBound="1"
+        upperBound="-1" eType="#//Version">
+      <eAnnotations source="gmf.link">
+        <details key="label" value="relatedToVersion"/>
+        <details key="width" value="2"/>
+        <details key="color" value="255,0,255"/>
+        <details key="source.decoration" value="none"/>
+        <details key="target.decoration" value="arrow"/>
+        <details key="style" value="solid"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="duplicateOf" upperBound="-1"
+        eType="#//Issue">
+      <eAnnotations source="gmf.link">
+        <details key="label" value="duplicateOf"/>
+        <details key="width" value="2"/>
+        <details key="color" value="0,255,0"/>
+        <details key="source.decoration" value="none"/>
+        <details key="target.decoration" value="arrow"/>
+        <details key="style" value="dash"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="blockedBy" upperBound="-1"
+        eType="#//Issue" eOpposite="#//Issue/blockerFor">
+      <eAnnotations source="gmf.link">
+        <details key="label" value="blockedBy"/>
+        <details key="width" value="2"/>
+        <details key="color" value="255,0,0"/>
+        <details key="source.decoration" value="none"/>
+        <details key="target.decoration" value="arrow"/>
+        <details key="style" value="dash"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="blockerFor" upperBound="-1"
+        eType="#//Issue" eOpposite="#//Issue/blockedBy"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Status">
+    <eLiterals name="open"/>
+    <eLiterals name="resolved" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Bug" eSuperTypes="#//Issue"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Request" eSuperTypes="#//Issue"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Member" eSuperTypes="#//NamedElement">
+    <eAnnotations source="gmf.node">
+      <details key="figure" value="svg"/>
+      <details key="svg.uri" value="platform:/plugin/software_management.edit/icons/full/obj16/boss.svg"/>
+      <details key="size" value="80,40"/>
+      <details key="label.icon" value="false"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Comment">
+    <eAnnotations source="gmf.node">
+      <details key="label" value="description"/>
+      <details key="figure" value="rounded"/>
+      <details key="label.icon" value="true"/>
+      <details key="border.style" value="dash"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="creationDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="author" lowerBound="1"
+        eType="#//Member">
+      <eAnnotations source="gmf.link">
+        <details key="label" value="author"/>
+        <details key="width" value="1"/>
+        <details key="color" value="0,0,0"/>
+        <details key="source.decoration" value="none"/>
+        <details key="target.decoration" value="arrow"/>
+        <details key="style" value="solid"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="replies" upperBound="-1"
+        eType="#//Comment" containment="true">
+      <eAnnotations source="gmf.compartment">
+        <details key="layout" value="list"/>
+        <details key="collapsible" value="false"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="math"
+    nsURI="http:///jfb/examples/gmf/math.ecore" nsPrefix="jfb.examples.gmf.math">
+  <eClassifiers xsi:type="ecore:EClass" name="Entry" eSuperTypes="#//Number"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MathDiagram">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operators" upperBound="-1"
+        eType="#//Operator" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entries" upperBound="-1"
+        eType="#//Entry" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="results" upperBound="-1"
+        eType="#//Result" containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MinusOperator" eSuperTypes="#//Operator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Number" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operatorInputs" upperBound="-1"
+        eType="#//OperatorInput" eOpposite="#//OperatorInput/number"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Operator" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputs" lowerBound="2"
+        upperBound="2" eType="#//OperatorInput" containment="true" resolveProxies="false"
+        eOpposite="#//OperatorInput/operator"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="output" eType="#//OperatorOutput"
+        containment="true" resolveProxies="false" eOpposite="#//OperatorOutput/operator"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OperatorInput">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operator" eType="#//Operator"
+        eOpposite="#//Operator/inputs"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="number" eType="#//Number"
+        eOpposite="#//Number/operatorInputs"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OperatorOutput">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operator" eType="#//Operator"
+        eOpposite="#//Operator/output"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="result" eType="#//Result"
+        eOpposite="#//Result/operatorOutput"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PlusOperator" eSuperTypes="#//Operator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Result" eSuperTypes="#//Number">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operatorOutput" eType="#//OperatorOutput"
+        eOpposite="#//OperatorOutput/result"/>
+  </eClassifiers>
+</ecore:EPackage>

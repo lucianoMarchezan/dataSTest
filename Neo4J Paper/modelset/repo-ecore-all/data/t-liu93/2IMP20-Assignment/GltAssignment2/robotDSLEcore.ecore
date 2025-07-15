@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="robotDSLEcore" nsURI="robotDSLEcore" nsPrefix="robotDSLEcore">
+  <eClassifiers xsi:type="ecore:EClass" name="Script">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statements" upperBound="-1"
+        eType="#//Statements" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Statements"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CommandStatement" eSuperTypes="#//RunningStatements"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IfStatement" eSuperTypes="#//RunningStatements">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="logicalexps" lowerBound="1"
+        eType="#//LogicalExps" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="runningstatements" upperBound="-1"
+        eType="#//RunningStatements" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WhileStatement" eSuperTypes="#//RunningStatements">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="logicalexps" lowerBound="1"
+        eType="#//LogicalExps" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="runningstatements" upperBound="-1"
+        eType="#//RunningStatements" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RepeatStatement" eSuperTypes="#//RunningStatements">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="time" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commandstatement" upperBound="-1"
+        eType="#//CommandStatement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Step" eSuperTypes="#//CommandStatement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TurnLeft" eSuperTypes="#//CommandStatement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Drop" eSuperTypes="#//CommandStatement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Pick" eSuperTypes="#//CommandStatement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TraceMessage" eSuperTypes="#//CommandStatement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Comment" eSuperTypes="#//CommandStatement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="comment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Directions">
+    <eLiterals name="south"/>
+    <eLiterals name="north" value="1"/>
+    <eLiterals name="west" value="2"/>
+    <eLiterals name="east" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LogicalExps"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Full" eSuperTypes="#//SingleLogalExp">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="not" eType="#//Not" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Mark" eSuperTypes="#//SingleLogalExp">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="not" eType="#//Not" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WallAhead" eSuperTypes="#//SingleLogalExp">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="not" eType="#//Not" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Heading" eSuperTypes="#//SingleLogalExp">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="direction" eType="#//Directions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="not" eType="#//Not" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BuildStatements" eSuperTypes="#//Statements"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DestroyWall" eSuperTypes="#//BuildStatements">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="row" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="column" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PickMark" eSuperTypes="#//BuildStatements">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="row" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="column" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DropMark" eSuperTypes="#//BuildStatements">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="row" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="column" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BuildWall" eSuperTypes="#//BuildStatements">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="row" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="column" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Binaries"/>
+  <eClassifiers xsi:type="ecore:EClass" name="And" eSuperTypes="#//Binaries"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Or" eSuperTypes="#//Binaries"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Not"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SingleLogalExp" eSuperTypes="#//LogicalExps"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BinaryLogicalExp" eSuperTypes="#//LogicalExps">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="binaries" lowerBound="1"
+        upperBound="-1" eType="#//Binaries" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="singlelogalexp" lowerBound="2"
+        upperBound="-1" eType="#//SingleLogalExp" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RunningStatements" eSuperTypes="#//Statements"/>
+</ecore:EPackage>

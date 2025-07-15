@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="mapping" nsURI="http://www.example.org/mapping" nsPrefix="mapping">
+  <eClassifiers xsi:type="ecore:EClass" name="Parameter" abstract="true" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//ParameterValueType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="&quot;&quot;"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unit" eType="#//ParameterUnitType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TargetParameter" eSuperTypes="#//Parameter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SourceParameter" eSuperTypes="#//Parameter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Extractor" abstract="true" interface="true"
+      eSuperTypes="#//Expression">
+    <eOperations name="extract" ordered="false" lowerBound="1" eType="#//Parameter">
+      <eParameters name="recipe" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="source" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="recipe" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Expression" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UnaryExpression" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" lowerBound="1"
+        eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1"
+        eType="#//UnaryExpressionOperatorType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BinaryExpression" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="part1" lowerBound="1" eType="#//Expression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="part2" lowerBound="1" eType="#//Expression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1"
+        eType="#//BinaryExpressionOperatorType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Mapping">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetParameter" lowerBound="1"
+        eType="#//Parameter" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="comperator" lowerBound="1"
+        eType="#//ComparisonOperatorType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" lowerBound="1"
+        eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MappingModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mapping" upperBound="-1"
+        eType="#//Mapping" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ComparisonOperatorType">
+    <eLiterals name="EQUAL"/>
+    <eLiterals name="LESS_EQUAL_THAN" value="1"/>
+    <eLiterals name="GREATER_THAN" value="2"/>
+    <eLiterals name="GREATER_EQUAL_THAN" value="3"/>
+    <eLiterals name="LESS_THAN" value="4"/>
+    <eLiterals name="NOT_EQUAL" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="UnaryExpressionOperatorType">
+    <eLiterals name="MINUS"/>
+    <eLiterals name="PLUS" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="BinaryExpressionOperatorType">
+    <eLiterals name="MINUS"/>
+    <eLiterals name="PLUS" value="1"/>
+    <eLiterals name="DIVIDE" value="2"/>
+    <eLiterals name="MULTIPLY" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ParameterUnitType">
+    <eLiterals name="MB"/>
+    <eLiterals name="GB" value="1"/>
+    <eLiterals name="NONE" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ParameterValueType">
+    <eLiterals name="STRING"/>
+    <eLiterals name="FLOAT" value="1"/>
+    <eLiterals name="INTEGER" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="URI" instanceClassName="org.eclipse.emf.common.util.URI"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FileSizeExtractor" eSuperTypes="#//Extractor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FileContentExtractor" eSuperTypes="#//Extractor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FileNumLinesExtractor" eSuperTypes="#//Extractor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FolderCountExtractor" eSuperTypes="#//Extractor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FolderSizeExtractor" eSuperTypes="#//Extractor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Mapper" abstract="true" interface="true"
+      eSuperTypes="#//Expression">
+    <eOperations name="map" lowerBound="1" eType="#//Parameter">
+      <eParameters name="parameters">
+        <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+          <eTypeArguments eClassifier="#//Parameter"/>
+        </eGenericType>
+      </eParameters>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" lowerBound="1"
+        upperBound="-1" eType="#//Parameter"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FlavorMapper" eSuperTypes="#//Mapper"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CoreMapper" eSuperTypes="#//Mapper"/>
+</ecore:EPackage>

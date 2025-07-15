@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="swpm" nsURI="http://spi-fm.uca.es/spdef/models/deployment/swpm/1.0"
+    nsPrefix="swpm">
+  <eClassifiers xsi:type="ecore:EClass" name="Project">
+    <eAnnotations source="comment">
+      <details key="comment" value="Clase contenedora de todos los productos de trabajo de un proyecto."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="workproducts" upperBound="-1"
+        eType="#//WorkProduct" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkProduct" abstract="true">
+    <eAnnotations source="comment">
+      <details key="comment" value="Clase abstracta y similar al concepto de WorkProduct en \gls{SPEM} que representa un determinado producto generado o mantenido durante el proceso software. Se distinguen entre productos entregables o internos."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Section">
+    <eAnnotations source="comment">
+      <details key="comment" value="Clase que representa una sección dentro de un determinado documento generado durante el proyecto."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="order" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="embeddedSections" upperBound="-1"
+        eType="#//Section" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="models" upperBound="-1"
+        eType="#//Model" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="specifications" upperBound="-1"
+        eType="#//Specification" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Model">
+    <eAnnotations source="comment">
+      <details key="comment" value="Clase que representa un modelo diseñado haciendo uso un lenguaje de modelado."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//ModelType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ModelType">
+    <eAnnotations source="comment">
+      <details key="comment" value="Enumeración con los posibles tipos de modelos. Comprende los tipos propuestos con el lenguaje UML, aunque podría englobar otros tipos de modelos visuales o textuales desarrollados con otros lenguajes, ya sean genéricos o de propósitos específicos (DSL)."/>
+    </eAnnotations>
+    <eLiterals name="USECASE" literal="USECASE"/>
+    <eLiterals name="CLASS" value="1" literal="CLASS"/>
+    <eLiterals name="ACTIVITY" value="2"/>
+    <eLiterals name="COMPONENT" value="3"/>
+    <eLiterals name="DEPLOYMENT" value="4"/>
+    <eLiterals name="SEQUENCE" value="5"/>
+    <eLiterals name="STATECHART" value="6"/>
+    <eLiterals name="COLLABORATION" value="7"/>
+    <eLiterals name="OTHER" value="8"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Specification">
+    <eAnnotations source="comment">
+      <details key="comment" value="Clase que representa una especificación textual de algún aspecto del proyecto software."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//SpecificationType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CodeWorkProduct" eSuperTypes="#//InternalProduct">
+    <eAnnotations source="comment">
+      <details key="comment" value="Clase que representa la base de código de un proyecto software."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="packages" upperBound="-1"
+        eType="#//SourcePackage" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DocumentaryWorkProduct" eSuperTypes="#//InternalProduct">
+    <eAnnotations source="comment">
+      <details key="comment" value="Clase que representa un documento técnico de trabajo."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sections" upperBound="-1"
+        eType="#//Section" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeliverableProduct" eSuperTypes="#//WorkProduct">
+    <eAnnotations source="comment">
+      <details key="comment" value="Clase abstracta que representa un producto de trabajo desarrollado durante el transcurso de un proyecto software y con valor para terceros."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="embeddedWorkproducts" upperBound="-1"
+        eType="#//WorkProduct"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//DeliverableType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InternalProduct" eSuperTypes="#//WorkProduct">
+    <eAnnotations source="comment">
+      <details key="comment" value="Clase abstracta que representa un producto interno al desarrollo o mantenimiento de software. Puede ser de tipo documental o de código."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DeliverableType">
+    <eAnnotations source="comment">
+      <details key="comment" value="Enumeración con los posibles tipos de entregables de un proyecto. Pueden ser ficheros empaquetados, instaladores o documentos, entre otros tipos."/>
+    </eAnnotations>
+    <eLiterals name="DOC"/>
+    <eLiterals name="SOURCE" value="1"/>
+    <eLiterals name="ARCHIVE" value="2"/>
+    <eLiterals name="INSTALLER" value="3"/>
+    <eLiterals name="PACKAGE" value="4"/>
+    <eLiterals name="OTHER" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SourcePackage">
+    <eAnnotations source="comment">
+      <details key="comment" value="Clase que representa un determinado paquete de código fuente basado en algún lenguaje de programación."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//Archetype"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Archetype">
+    <eAnnotations source="comment">
+      <details key="comment" value="Enumeración con los posibles tipos de paquetes de código fuente. Engloba a aquellas plantillas predefinidas de código, siguiendo los arquetipos disponibles en sistemas de gestión de la construcción como Maven u otros."/>
+    </eAnnotations>
+    <eLiterals name="J2EE"/>
+    <eLiterals name="STRUTS2" value="1"/>
+    <eLiterals name="SPRING_OSGI" value="2"/>
+    <eLiterals name="JSF" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SpecificationType">
+    <eAnnotations source="comment">
+      <details key="comment" value="Enumeración con los posibles tipos de especificaciones no basadas en modelos. Pueden consistir en una descripción textual, una lista de elementos o contenido binario gestionado por alguna herramienta externa."/>
+    </eAnnotations>
+    <eLiterals name="TEXTUAL" value="1"/>
+    <eLiterals name="EXTERNALCONTENT" value="2"/>
+    <eLiterals name="ITEMLIST" value="3"/>
+  </eClassifiers>
+</ecore:EPackage>

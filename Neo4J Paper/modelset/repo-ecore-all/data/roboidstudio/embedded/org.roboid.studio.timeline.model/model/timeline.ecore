@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="timeline"
+    nsURI="http://www.roboidstudio.org/model/timeline" nsPrefix="org.roboid.studio.timeline">
+  <eClassifiers xsi:type="ecore:EClass" name="TimelineElement" abstract="true">
+    <eOperations name="addPropertyChangeListener">
+      <eParameters name="listener" eType="#//PropertyChangeListener"/>
+    </eOperations>
+    <eOperations name="firePropertyChange">
+      <eParameters name="propertyName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="oldValue" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      <eParameters name="newValue" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    </eOperations>
+    <eOperations name="removePropertyChangeListener">
+      <eParameters name="listener" eType="#//PropertyChangeListener"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MotionClip" eSuperTypes="#//TimelineElement #//IClip">
+    <eOperations name="getTotalFrames" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eOperations name="createControlTrack" eType="#//ControlTrack">
+      <eParameters name="control" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Control"/>
+    </eOperations>
+    <eOperations name="createControlTracks">
+      <eParameters name="robot" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Robot"/>
+    </eOperations>
+    <eOperations name="deepCopy" eType="#//MotionClip"/>
+    <eOperations name="refreshResource"/>
+    <eOperations name="refreshResource">
+      <eParameters name="uri" eType="#//URI"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="robot" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Robot"
+        transient="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activity" eType="ecore:EClass ../../org.roboid.core.component.activity/model/activity.ecore#//Activity"
+        transient="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controls" upperBound="-1"
+        eType="#//ControlTrack" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="1.0.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="frameLimit" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        changeable="false" transient="true" defaultValueLiteral="9999"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MovableElement" abstract="true" eSuperTypes="#//TimelineElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="constraint" eType="#//Rectangle"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//TimelineElement"
+        transient="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ControlTrack" eSuperTypes="#//MovableElement">
+    <eOperations name="getTotalFrames" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eOperations name="createChannelTrack" eType="#//ChannelTrack">
+      <eParameters name="channel" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Channel"/>
+    </eOperations>
+    <eOperations name="createChannelTracks">
+      <eParameters name="control" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Control"/>
+    </eOperations>
+    <eOperations name="updateReference">
+      <eParameters name="newControl" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Control"/>
+    </eOperations>
+    <eOperations name="deepCopy" eType="#//ControlTrack"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="channels" upperBound="-1"
+        eType="#//ChannelTrack" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="control" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Control"
+        resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ChannelTrack" abstract="true" eSuperTypes="#//MovableElement">
+    <eOperations name="getTotalFrames" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eOperations name="getTargetDevices" upperBound="-1" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//ChannelDevice"/>
+    <eOperations name="getTargetDevice" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Device">
+      <eParameters name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="createSimulacra"/>
+    <eOperations name="addChild">
+      <eParameters name="child" eType="#//ControlPoint"/>
+    </eOperations>
+    <eOperations name="removeChild">
+      <eParameters name="child" eType="#//ControlPoint"/>
+    </eOperations>
+    <eOperations name="dump">
+      <eParameters name="frame" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="reorder">
+      <eParameters name="target" eType="#//ControlPoint"/>
+    </eOperations>
+    <eOperations name="deepCopy" eType="#//ChannelTrack"/>
+    <eOperations name="deepCopy" eType="#//ControlPoint">
+      <eParameters name="cp" eType="#//ControlPoint"/>
+    </eOperations>
+    <eOperations name="canCopy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="cp" eType="#//ControlPoint"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="points" upperBound="-1"
+        eType="#//ControlPoint" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="channel" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Channel"
+        resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LinearTrack" eSuperTypes="#//ChannelTrack">
+    <eOperations name="setMode">
+      <eParameters name="newMode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mode" eType="ecore:EEnum platform:/plugin/org.roboid.robot.model/model/robot.ecore#//LinearMode"
+        transient="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CommandTrack" eSuperTypes="#//ChannelTrack"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AudioTrack" eSuperTypes="#//ChannelTrack">
+    <eOperations name="setMode">
+      <eParameters name="newMode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mode" eType="ecore:EEnum platform:/plugin/org.roboid.robot.model/model/robot.ecore#//AudioMode"
+        transient="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VoiceTrack" eSuperTypes="#//AudioTrack"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ColorTrack" eSuperTypes="#//ChannelTrack">
+    <eOperations name="setMode">
+      <eParameters name="newMode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mode" eType="ecore:EEnum platform:/plugin/org.roboid.robot.model/model/robot.ecore#//ColorMode"
+        transient="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TextTrack" eSuperTypes="#//ChannelTrack"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MatrixTrack" eSuperTypes="#//LinearTrack"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FileTrack" eSuperTypes="#//ChannelTrack"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ControlPoint" abstract="true" eSuperTypes="#//MovableElement">
+    <eOperations name="deepCopy" eType="#//ControlPoint"/>
+    <eOperations name="performConstraintChange"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="frame" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="suppressedSetVisibility" value="true"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LinearPoint" eSuperTypes="#//ControlPoint">
+    <eOperations name="getDataSize" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eOperations name="getDataType" eType="ecore:EEnum platform:/plugin/org.roboid.robot.model/model/robot.ecore#//DataType"/>
+    <eOperations name="setMode">
+      <eParameters name="newMode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="getDataMaxValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eOperations name="getDataMinValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="values" eType="#//FloatArray"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mode" eType="ecore:EEnum platform:/plugin/org.roboid.robot.model/model/robot.ecore#//LinearMode"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CommandPoint" eSuperTypes="#//ControlPoint">
+    <eOperations name="getDataSize" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eOperations name="getDataType" eType="ecore:EEnum platform:/plugin/org.roboid.robot.model/model/robot.ecore#//DataType"/>
+    <eOperations name="getDataMaxValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eOperations name="getDataMinValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="values" eType="#//FloatArray"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AudioPoint" eSuperTypes="#//ControlPoint">
+    <eOperations name="setMp3" eExceptions="#//UnsupportedAudioFileException #//IOException">
+      <eParameters name="sourceStream" eType="#//AudioInputStream"/>
+    </eOperations>
+    <eOperations name="getPcm" eType="ecore:EDataType platform:/plugin/org.roboid.robot.model/model/robot.ecore#//IntArray">
+      <eParameters name="targetFormat" eType="#//AudioFormat"/>
+    </eOperations>
+    <eOperations name="isNew" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="isFile" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="isTts" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="setMode">
+      <eParameters name="newMode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mp3" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByteArray"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="length" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="voiceId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="languageId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="voiceEffectId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="speechRate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="100"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="volume" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="100"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pitch" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="100"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="balance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="50"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="encoding" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sampleRate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sampleSizeInBits" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="channels" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="frameSize" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="frameRate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bigEndian" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mode" eType="ecore:EEnum platform:/plugin/org.roboid.robot.model/model/robot.ecore#//AudioMode"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="format" eType="#//AudioFormat"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pcm" eType="ecore:EDataType platform:/plugin/org.roboid.robot.model/model/robot.ecore#//IntArray"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modified" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        transient="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VoicePoint" eSuperTypes="#//AudioPoint">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lipGain" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="100"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ColorPoint" eSuperTypes="#//ControlPoint">
+    <eOperations name="setMode">
+      <eParameters name="newMode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mode" eType="ecore:EEnum platform:/plugin/org.roboid.robot.model/model/robot.ecore#//ColorMode"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="#//RGB"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TextPoint" eSuperTypes="#//ControlPoint">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MatrixPoint" eSuperTypes="#//LinearPoint"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FilePoint" eSuperTypes="#//ControlPoint">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Rectangle" instanceClassName="org.eclipse.draw2d.geometry.Rectangle"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="RGB" instanceClassName="org.eclipse.swt.graphics.RGB"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="AudioFormat" instanceClassName="javax.sound.sampled.AudioFormat"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="AudioInputStream" instanceClassName="javax.sound.sampled.AudioInputStream"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="UnsupportedAudioFileException" instanceClassName="javax.sound.sampled.UnsupportedAudioFileException"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="IOException" instanceClassName="java.io.IOException"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="FloatArray" instanceClassName="float[]"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="PropertyChangeListener" instanceClassName="java.beans.PropertyChangeListener"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IClip" instanceClassName="org.roboid.core.runtime.IClip"
+      abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="URI" instanceClassName="org.eclipse.emf.common.util.URI"/>
+</ecore:EPackage>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="bvcconnfr" nsURI="http://portal.cin.ufpe.br/ler/Projects/BVCCoN/BVCCoN-NFR.aspx"
+    nsPrefix="bvcconnfr">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="NFRModel">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nfrs" lowerBound="1" upperBound="-1"
+        eType="#//NFRSoftgoal" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contributions" lowerBound="1"
+        upperBound="-1" eType="#//NFRSoftgoalContribution" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NFRSoftgoalPriority">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"
+        defaultValueLiteral="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NFRElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NFRLink"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NFRSoftgoal" eSuperTypes="#//NFRElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="priority" ordered="false"
+        lowerBound="1" eType="#//NFRSoftgoalPriority" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NFROperationalization" eSuperTypes="#//NFRElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NFRSoftgoalContribution" eSuperTypes="#//NFRLink">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="targetNFR andOrDecomposition notTheSameTargetAndSource"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="targetNFR" value="target.oclIsKindOf(NFRSoftgoal)"/>
+      <details key="andOrDecomposition" value="if self.oclIsKindOf(AndContribution) or self.oclIsKindOf(OrContribution) then source.oclIsKindOf(NFRSoftgoal) else source.oclIsKindOf(NFROperationalization) endif"/>
+      <details key="notTheSameTargetAndSource" value="source &lt;> target"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" ordered="false"
+        lowerBound="1" eType="#//NFRElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" ordered="false"
+        lowerBound="1" eType="#//NFRElement"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BreakContribution" eSuperTypes="#//NFRSoftgoalContribution"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MakeContribution" eSuperTypes="#//NFRSoftgoalContribution"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OrContribution" eSuperTypes="#//NFRSoftgoalContribution"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AndContribution" eSuperTypes="#//NFRSoftgoalContribution"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EqualContribution" eSuperTypes="#//NFRSoftgoalContribution"/>
+  <eClassifiers xsi:type="ecore:EClass" name="HurtContribution" eSuperTypes="#//NFRSoftgoalContribution"/>
+  <eClassifiers xsi:type="ecore:EClass" name="HelpContribution" eSuperTypes="#//NFRSoftgoalContribution"/>
+</ecore:EPackage>

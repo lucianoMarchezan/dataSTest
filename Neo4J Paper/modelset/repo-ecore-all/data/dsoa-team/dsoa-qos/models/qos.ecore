@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="qos" nsURI="http:///br/ufpe/cin/dsoa/api/qos.ecore" nsPrefix="br.ufpe.cin.dsoa.api.qos">
+  <eClassifiers xsi:type="ecore:EClass" name="Attribute" eSuperTypes="#//QoSObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="category" eType="#//AttributeCategory"
+        eOpposite="#//AttributeCategory/attributes"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="basicUnit" eType="#//Unit"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//ValueType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttributeCategory">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supercategory" eType="#//AttributeCategory"
+        eOpposite="#//AttributeCategory/subcategoryList"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subcategoryList" upperBound="-1"
+        eType="#//AttributeCategory" containment="true" eOpposite="#//AttributeCategory/supercategory"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="#//Attribute" containment="true" eOpposite="#//Attribute/category"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Map" instanceClassName="java.util.Map">
+    <eTypeParameters name="T"/>
+    <eTypeParameters name="T1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Metric" eSuperTypes="#//QoSObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="EReference0" eType="#//Unit"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//ValueType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="metadata">
+      <eGenericType eClassifier="#//Map">
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eTypeArguments eClassifier="ecore:EClass util.ecore#//Property"/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="" lowerBound="1" eType="#//Function"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//Window"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Unit" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="abbreviation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ValueType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NumericType" abstract="true" interface="true"
+      eSuperTypes="#//ValueType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DoubleType" eSuperTypes="#//NumericType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Double" instanceClassName="java.lang.Double"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IntegerType" eSuperTypes="#//NumericType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="QoSCatalogy">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="categories" upperBound="-1"
+        eType="#//AttributeCategory" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="namespace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DerivedUnit" eSuperTypes="#//Unit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="basicUnit" eType="#//BasicUnit"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="conversionFactor"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BasicUnit" eSuperTypes="#//Unit"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Function">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Metric's computation algorithm&#xD;&#xA;"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Measurable" eSuperTypes="#//Attribute">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="metrics" upperBound="-1"
+        eType="#//Metric" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="QoSObject"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Window" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Length" eSuperTypes="#//Window"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Sliding"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Time" eSuperTypes="#//Window"/>
+</ecore:EPackage>

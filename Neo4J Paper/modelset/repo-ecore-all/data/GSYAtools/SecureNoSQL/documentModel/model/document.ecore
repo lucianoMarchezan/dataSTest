@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="document" nsURI="http://securenosql.com" nsPrefix="document">
+  <eClassifiers xsi:type="ecore:EClass" name="Database">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="collections" upperBound="-1"
+        eType="#//Collection" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roles" upperBound="-1"
+        eType="#//Role" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="users" upperBound="-1"
+        eType="#//User" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="securityConstraints" upperBound="-1"
+        eType="#//RevokePrivilege" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Collection">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ids" lowerBound="1" upperBound="-1"
+        eType="#//Id" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fields" upperBound="-1"
+        eType="#//Field" containment="true" eOpposite="#//Field/collection"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Field" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="required" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="constraints" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="collection" lowerBound="1"
+        eType="#//Collection" eOpposite="#//Collection/fields"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimpleField" eSuperTypes="#//Field">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dataTypes" lowerBound="1"
+        upperBound="-1" eType="#//DataTypes"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComposedField" eSuperTypes="#//Field">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fields" lowerBound="1"
+        upperBound="-1" eType="#//Field"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Id">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fields" lowerBound="1"
+        upperBound="-1" eType="#//SimpleField"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Role">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="child" upperBound="-1"
+        eType="#//Role" containment="true" eOpposite="#//Role/root"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="root" eType="#//Role" eOpposite="#//Role/child"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="revokePrivileges" upperBound="-1"
+        eType="#//RevokePrivilege" containment="true" eOpposite="#//RevokePrivilege/subjects"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="User">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pass" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roles" upperBound="-1"
+        eType="#//Role"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fields" upperBound="-1"
+        eType="#//Field"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RevokePrivilege" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subjects" lowerBound="1"
+        upperBound="-1" eType="#//Role" eOpposite="#//Role/revokePrivileges"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="actions" lowerBound="1"
+        upperBound="-1" eType="#//ActionTypes"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="condition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RevokeCollectionPrivilege" eSuperTypes="#//RevokePrivilege">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objects" lowerBound="1"
+        upperBound="-1" eType="#//Collection"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="securityAction" lowerBound="1"
+        eType="#//CollectionSecurityActionTypes" defaultValueLiteral="hideInstance"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RevokeFieldPrivilege" eSuperTypes="#//RevokePrivilege">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objects" lowerBound="1"
+        upperBound="-1" eType="#//Field"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="securityAction" lowerBound="1"
+        eType="#//FieldSecurityActionTypes" defaultValueLiteral="hideValue"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DataTypes">
+    <eLiterals name="int"/>
+    <eLiterals name="double" value="1"/>
+    <eLiterals name="long" value="2"/>
+    <eLiterals name="decimal" value="3"/>
+    <eLiterals name="bool" value="4"/>
+    <eLiterals name="char" value="5"/>
+    <eLiterals name="string" value="6"/>
+    <eLiterals name="date" value="7"/>
+    <eLiterals name="timestamp" value="8"/>
+    <eLiterals name="enumerate" value="9"/>
+    <eLiterals name="array" value="10"/>
+    <eLiterals name="null" value="11"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ActionTypes">
+    <eLiterals name="find"/>
+    <eLiterals name="insert" value="1"/>
+    <eLiterals name="update" value="2"/>
+    <eLiterals name="remove" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CollectionSecurityActionTypes">
+    <eLiterals name="hideInstance"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="FieldSecurityActionTypes">
+    <eLiterals name="hideValue"/>
+    <eLiterals name="hideField" value="1"/>
+    <eLiterals name="hideFieldAndInstance" value="2"/>
+  </eClassifiers>
+  <eSubpackages name="document" nsURI="http://securenosql.com" nsPrefix="document">
+    <eClassifiers xsi:type="ecore:EClass" name="Database">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="collections" upperBound="-1"
+          eType="#//document/Collection" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="roles" upperBound="-1"
+          eType="#//document/Role" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="users" upperBound="-1"
+          eType="#//document/User" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="securityConstraints"
+          upperBound="-1" eType="#//document/RevokePrivilege" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Collection">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ids" lowerBound="1" upperBound="-1"
+          eType="#//document/Id" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="fields" upperBound="-1"
+          eType="#//document/Field" containment="true" eOpposite="#//document/Field/collection"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Field" abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="required" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+          defaultValueLiteral="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="constraints" upperBound="-1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="collection" lowerBound="1"
+          eType="#//document/Collection" eOpposite="#//document/Collection/fields"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SimpleField" eSuperTypes="#//document/Field">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="dataTypes" lowerBound="1"
+          upperBound="-1" eType="#//document/DataTypes"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ComposedField" eSuperTypes="#//document/Field">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="fields" lowerBound="1"
+          upperBound="-1" eType="#//document/Field"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Id">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="fields" lowerBound="1"
+          upperBound="-1" eType="#//document/SimpleField"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Role">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="child" upperBound="-1"
+          eType="#//document/Role" containment="true" eOpposite="#//document/Role/root"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="root" eType="#//document/Role"
+          eOpposite="#//document/Role/child"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="revokePrivileges" upperBound="-1"
+          eType="#//document/RevokePrivilege" containment="true" eOpposite="#//document/RevokePrivilege/subjects"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="User">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="pass" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="roles" upperBound="-1"
+          eType="#//document/Role"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="fields" upperBound="-1"
+          eType="#//document/Field"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="RevokePrivilege" abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="subjects" lowerBound="1"
+          upperBound="-1" eType="#//document/Role" eOpposite="#//document/Role/revokePrivileges"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="actions" lowerBound="1"
+          upperBound="-1" eType="#//document/ActionTypes"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="condition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="RevokeCollectionPrivilege" eSuperTypes="#//document/RevokePrivilege">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="objects" lowerBound="1"
+          upperBound="-1" eType="#//document/Collection"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="securityAction" lowerBound="1"
+          eType="#//document/CollectionSecurityActionTypes" defaultValueLiteral="hideInstance"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="RevokeFieldPrivilege" eSuperTypes="#//document/RevokePrivilege">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="objects" lowerBound="1"
+          upperBound="-1" eType="#//document/Field"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="securityAction" lowerBound="1"
+          eType="#//document/FieldSecurityActionTypes" defaultValueLiteral="hideValue"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="DataTypes">
+      <eLiterals name="int"/>
+      <eLiterals name="double" value="1"/>
+      <eLiterals name="long" value="2"/>
+      <eLiterals name="decimal" value="3"/>
+      <eLiterals name="bool" value="4"/>
+      <eLiterals name="char" value="5"/>
+      <eLiterals name="string" value="6"/>
+      <eLiterals name="date" value="7"/>
+      <eLiterals name="timestamp" value="8"/>
+      <eLiterals name="enumerate" value="9"/>
+      <eLiterals name="array" value="10"/>
+      <eLiterals name="null" value="11"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="ActionTypes">
+      <eLiterals name="find"/>
+      <eLiterals name="insert" value="1"/>
+      <eLiterals name="update" value="2"/>
+      <eLiterals name="remove" value="3"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="CollectionSecurityActionTypes">
+      <eLiterals name="hideInstance"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="FieldSecurityActionTypes">
+      <eLiterals name="hideValue"/>
+      <eLiterals name="hideField" value="1"/>
+      <eLiterals name="hideFieldAndInstance" value="2"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

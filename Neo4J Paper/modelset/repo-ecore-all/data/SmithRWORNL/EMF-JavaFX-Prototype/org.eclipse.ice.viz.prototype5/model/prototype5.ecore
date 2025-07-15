@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="prototype5" nsURI="http://www.example.org/prototype5" nsPrefix="prototype5">
+  <eClassifiers xsi:type="ecore:EClass" name="Face" eSuperTypes="#//AbstractMeshComponent">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A MeshComponent representing a two dimensional polygon. It is assumed that child entities will be the Edges and/or Vertices which define the Face."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="AtomicBoolean" instanceClassName="java.util.concurrent.atomic.AtomicBoolean"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Shape" eSuperTypes="#//AbstractMeshComponent">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A mesh component representing a shape in a Constructive Solid Geometry tree. "/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Element" eSuperTypes="#//AbstractMeshComponent">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A mesh component representing a volumetric three dimensional part. It is assumed that any child entities will be the Faces, Edges, and/or Vertices which define the element."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Vertex" eSuperTypes="#//Point">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A point which specifically serves as the endpoint for one or more Edges. It maintains each edge it is associated with in its entities map."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Edge" eSuperTypes="#//AbstractMeshComponent">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A mesh component representing a line between two Vertices. "/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="length" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The edge's length."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VizObject">
+    <eAnnotations source="EAnnotation0"/>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A class which identifies a part of a model and assigns it a series of identifiers which can be used to uniquely identify it to the user."/>
+    </eAnnotations>
+    <eOperations name="clone" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Create and return a new object which is a copy of this one. "/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="copy">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Deep copy the given object's data into the receiver.&#xD;&#xA;&#xD;&#xA;@param otherObject The object to be copied into this one."/>
+      </eAnnotations>
+      <eParameters name="otherObject" eType="#//VizObject"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A unique numerical ID for the part."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A brief of the part."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A name describing the kind of part this object represents. It should be short and human readable. "/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractView">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="The view of an AbstractMeshComponent shown to the user. The view is responsible for creating, managing, and updating the datastructure(s) which display the associated AbstractMeshComponent in the view's rendering engine's native data types. "/>
+    </eAnnotations>
+    <eOperations name="synched">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Signals to the view that the graphical engine has updated to correctly render the view's current state. "/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getRepresentation" eType="#//Object">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Get the graphical representation of the associated model, in a data type apprioriate to the graphical engine. &#xD;&#xA;&#xD;&#xA;@return The view's graphical representation"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="update">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The function called when the view receives an update from an object it is listening to, normally its transformation.&#xD;&#xA;&#xD;&#xA;@param notification The message received from the observed object"/>
+      </eAnnotations>
+      <eParameters name="notification" eType="#//Notification"/>
+    </eOperations>
+    <eOperations name="refresh">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Causes the view to redraw its representation, based on the model's current state.&#xD;&#xA;&#xD;&#xA;@param model The view's associated model"/>
+      </eAnnotations>
+      <eParameters name="model" eType="#//AbstractMeshComponent"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transformation" eType="#//Transformation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="previousTransformation"
+        eType="#//Transformation"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="adapter" eType="#//EContentAdapter">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The adapter which is responsible for listening for updates from other objects, usually the transformation."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="MeshType">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="An enumeration listing the allowable types of meshes. "/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IControllerFactory" abstract="true"
+      interface="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="An interface for classes which instantiate an AbstractView and AbstractController associated with a given model. "/>
+    </eAnnotations>
+    <eOperations name="createController" eType="#//AbstractController">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Creates a new AbstractController to handle interactions with the given model. It also creates an AbstractView of the model, which is also registered with the returned AbstractController. &#xD;&#xA;&#xD;&#xA;@param model The model which the controller will manage&#xD;&#xA;@return A new controller which manages the model and its associated view."/>
+      </eAnnotations>
+      <eParameters name="model" eType="#//AbstractMeshComponent"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EStringToEStringMap" instanceClassName="java.util.Map$Entry">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EStringToVizObjectMap" instanceClassName="java.util.Map$Entry">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" upperBound="-1"
+        eType="#//VizObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Transformation">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Stores the information needed to generate a 4D affine transformation matrix given certain transformation variables. The matrix transformations are applied in the following order: skew, size, scale, rotation, and translation&#xD;&#xA;@author Jay Jay Billings"/>
+    </eAnnotations>
+    <eOperations name="setRotation">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Sets the rotation values to the three given parameters&#xD;&#xA;&#xD;&#xA;@param x The amount of x rotation&#xD;&#xA;@param y The amount of y rotation&#xD;&#xA;@param z The amount of z rotation"/>
+      </eAnnotations>
+      <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eParameters name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eParameters name="z" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eOperations>
+    <eOperations name="setScale">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Sets the scale values to the three given parameters&#xD;&#xA;&#xD;&#xA;@param x The x axis scale&#xD;&#xA;@param y The y axis scale&#xD;&#xA;@param z The z axis scale"/>
+      </eAnnotations>
+      <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eParameters name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eParameters name="z" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eOperations>
+    <eOperations name="setSkew">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Sets the skew values to the three given parameters&#xD;&#xA;&#xD;&#xA;@param x Skew in the x direction&#xD;&#xA;@param y Skew in the y direction&#xD;&#xA;@param z Skew in the z direction"/>
+      </eAnnotations>
+      <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eParameters name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eParameters name="z" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eOperations>
+    <eOperations name="setTranslation">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Sets the translation values to the three given parameters&#xD;&#xA;&#xD;&#xA;@param x Location along the x axis&#xD;&#xA;@param y Location along the y axis&#xD;&#xA;@param z Location along the z axis"/>
+      </eAnnotations>
+      <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eParameters name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eParameters name="z" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eOperations>
+    <eOperations name="clone" eType="#//Object">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Returns a new object which is a copy of this one. &#xD;&#xA;&#xD;&#xA;@return The cloned object."/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="copy">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Deep copy the given object's data into the receiver. &#xD;&#xA;&#xD;&#xA;@param otherObject The object which will be copied into this one."/>
+      </eAnnotations>
+      <eParameters name="otherObject" eType="#//Object"/>
+    </eOperations>
+    <eOperations name="equals" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Checks the equality between this object and the given transformation.&#xD;&#xA;&#xD;&#xA;@param otherObject The object with which to check equality.&#xD;&#xA;@return Whether or not the objects are equal"/>
+      </eAnnotations>
+      <eParameters name="otherObject" eType="#//Object"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rotation" lowerBound="3"
+        upperBound="3" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Defines the rotation in radians along the x, y, and z axes passing through the origin"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="scale" lowerBound="3" upperBound="3"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Defines the scaling factors in each of the three dimensions: x, y, and z"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Defines the amount of uniform scale for all three dimensions"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="skew" lowerBound="3" upperBound="3"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The amount of skew for each of the three axes: x, y, and z"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="translation" lowerBound="3"
+        upperBound="3" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Defines the translation along each of the three dimensions: x, y, and z"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Point" eSuperTypes="#//AbstractMeshComponent">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A mesh component representing a point in three dimensional space."/>
+    </eAnnotations>
+    <eOperations name="getLocation" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Get the point's location in three dimensional space.&#xD;&#xA;&#xD;&#xA;@return A list containing the double's location in the format (x, y, z)"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="updateLocation">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Set's the point's location. This is a convinence method, and is equivalent to calling setX(), setY(), and setZ(), except that it fires only a single update notification.&#xD;&#xA;&#xD;&#xA;@param x The point's new x location&#xD;&#xA;@param y The point's new y location&#xD;&#xA;@param z The point's new z location"/>
+      </eAnnotations>
+      <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eParameters name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eParameters name="z" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The point's x axis location."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The point's y axis location"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="z" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The point's z axis location"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractMeshComponent" eSuperTypes="#//VizObject">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A component of the model. All models are built from collections of components in a hierarchical structure. A component represents some concrete entity which can be displayed inside the graphics engine."/>
+    </eAnnotations>
+    <eOperations name="getEntitiesByCategory" upperBound="-1" eType="#//VizObject">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Get all the child entities of a given category.&#xD;&#xA;&#xD;&#xA;@param category The category of entities to get.&#xD;&#xA;@return A list of all child entities belonging to the specified category."/>
+      </eAnnotations>
+      <eParameters name="category" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="getProperty" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Get the given property's value.&#xD;&#xA;&#xD;&#xA;@param property The property to get.&#xD;&#xA;@return The specified property's value."/>
+      </eAnnotations>
+      <eParameters name="property" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="setProperty">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Set the specified property to the given value.&#xD;&#xA;&#xD;&#xA;@param property The property to change&#xD;&#xA;@param value The property's new value"/>
+      </eAnnotations>
+      <eParameters name="property" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="addEntity">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Add a entity as a child to this one.&#xD;&#xA;&#xD;&#xA;@param newEntity The new child to add"/>
+      </eAnnotations>
+      <eParameters name="newEntity" eType="#//VizObject"/>
+    </eOperations>
+    <eOperations name="removeEntity">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Remove the given entity from the component's children.&#xD;&#xA;&#xD;&#xA;@param entity The child entity to remove"/>
+      </eAnnotations>
+      <eParameters name="entity" eType="#//VizObject"/>
+    </eOperations>
+    <eOperations name="addEntityByCategory">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Add a new child entity to this component under the given category&#xD;&#xA;&#xD;&#xA;@param newEntity The new entity to add as a child to this one&#xD;&#xA;@param category The new child's category"/>
+      </eAnnotations>
+      <eParameters name="newEntity" eType="#//VizObject"/>
+      <eParameters name="category" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="update">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The function called when the component receives an update from one of its children.&#xD;&#xA;&#xD;&#xA;@notification The message received from the child."/>
+      </eAnnotations>
+      <eParameters name="notification" eType="#//Notification"/>
+    </eOperations>
+    <eOperations name="register">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Register this component as a listener to the given object.&#xD;&#xA;&#xD;&#xA;@entity The object to listen to."/>
+      </eAnnotations>
+      <eParameters name="entity" eType="#//VizObject"/>
+    </eOperations>
+    <eOperations name="unregister">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Unregister this component as a listener to the given object&#xD;&#xA;&#xD;&#xA;@param entity The object from which updates will no longer be received."/>
+      </eAnnotations>
+      <eParameters name="entity" eType="#//VizObject"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//MeshType">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The mesh's type, which defines how the part internally stores its data."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="updateLock" eType="#//AtomicBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A lock for preventing concurrant writes to the mesh."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entities" upperBound="-1"
+        eType="#//EStringToVizObjectMap"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
+        eType="#//EStringToEStringMap"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="adapter" eType="#//EContentAdapter">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The adapter which the component uses to listen for notifications from its child components."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractController">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A class which is responsible for user interactions with the underlying data structures which represent a part in a model. An AbstractController is associated with an AbstractMeshComponent, which is the internal representation of the part and any associated data, and an AbstractView, which holds the graphical representation of the object in the native data types of the rendering engine. &#xD;&#xA;&#xD;&#xA;The AbstractController is meant to completely encapsulate the functionality of the part. All client interactions with a part should take place through function calls to the part's AbstractController, without regard as to whether they are internally delegated to the model, the view, or both. The controller should not expose the model or view, or their implementation details, to the client. "/>
+    </eAnnotations>
+    <eOperations name="addEntity">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Adds a child entity to the part.&#xD;&#xA;&#xD;&#xA;@param newEntity The entity to add as a child."/>
+        <details key="body" value=""/>
+      </eAnnotations>
+      <eParameters name="newEntity" eType="#//VizObject"/>
+    </eOperations>
+    <eOperations name="dispose">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Signals the AbstractController to dispose of any resources it or its data members or their children possess. "/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getEntities" upperBound="-1" eType="#//VizObject">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Return a list of all this part's child entities. &#xD;&#xA;&#xD;&#xA;@return A list of all the part's child entities."/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getEntitiesByCategory" upperBound="-1" eType="#//VizObject">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Get a list of all this part's children entities of a given category.&#xD;&#xA;&#xD;&#xA;@param category The category of entities to get.&#xD;&#xA;@return A list of all entities belonging to the category"/>
+      </eAnnotations>
+      <eParameters name="category" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="getPreviousTransformation" eType="#//Transformation">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Get the transformation currently applied to this part in the graphical engine, ignoring all changes which have occurred since the last time the graphics engine refreshed it.&#xD;&#xA;&#xD;&#xA;@return The last transformation which was applied in the rendering engine."/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getProperty" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Return the value of the given property.&#xD;&#xA;&#xD;&#xA;@param property The property whose value will be returned.&#xD;&#xA;@return The property's value"/>
+      </eAnnotations>
+      <eParameters name="property" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="getRepresentation" eType="#//Object">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Get the part's graphical representation, in a data type which is apprioriate to the rendering program used by this controller. &#xD;&#xA;&#xD;&#xA;@return The part's graphical representation."/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getRotation" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Get a list representing the part's rotation in the x, y, and z directions.&#xD;&#xA;&#xD;&#xA;@return A list of part's three directional rotation amounts."/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getScale" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Get a list representing the part's scale in the x, y, and z directions.&#xD;&#xA;&#xD;&#xA;@return The part's three directional scales"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getSize" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Get the part's size, representing its basic scale in all directions.&#xD;&#xA;&#xD;&#xA;@return The part's size."/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getSkew" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Get a list representing the part's skew in the x, y, and z directions.&#xD;&#xA;&#xD;&#xA;@return The part's three directional skew amounts"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getTransformation" eType="#//Transformation">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Get the transformation representing this part's current state.&#xD;&#xA;&#xD;&#xA;Note that this transformation is not neccesarily up to date with the part's graphical representation. Rather, it includes all changes which have been applied to the part, regardless of whether these updates have been pushed to the graphics engine. &#xD;&#xA;&#xD;&#xA;@return The part's current transformation."/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getTranslation" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Get a list representing the part's translation in the x, y, and z directions. &#xD;&#xA;&#xD;&#xA;@return The part's three directional translations"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="removeEntity">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Remove the given entity from this part's list of children.&#xD;&#xA;&#xD;&#xA;@param entity The child entity to be removed."/>
+      </eAnnotations>
+      <eParameters name="entity" eType="#//VizObject"/>
+    </eOperations>
+    <eOperations name="setProperty">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Set the specified property to the given new value.&#xD;&#xA;&#xD;&#xA;@param property The property to set&#xD;&#xA;@param value The new contents of the property"/>
+      </eAnnotations>
+      <eParameters name="property" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="setRotation">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Set the part's rotation in the x, y, and z directions.&#xD;&#xA;&#xD;&#xA;@param x The amount of x rotation&#xD;&#xA;@param y The amount of y rotation&#xD;&#xA;@param z The amount of z rotation"/>
+      </eAnnotations>
+      <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eParameters name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eParameters name="z" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eOperations>
+    <eOperations name="setScale">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Set the part's scale in the x, y, and z directions.&#xD;&#xA;&#xD;&#xA;@param x Scale along the x axis&#xD;&#xA;@param y Scale along the y axis&#xD;&#xA;@param z Scale along the z axis"/>
+      </eAnnotations>
+      <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eParameters name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eParameters name="z" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eOperations>
+    <eOperations name="setSize">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Set the part's size, which controls its base scale in all directions.&#xD;&#xA;&#xD;&#xA;@param newSize The part's new base size"/>
+      </eAnnotations>
+      <eParameters name="newSize" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eOperations>
+    <eOperations name="setSkew">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Set the part's skew in the x, y, and z directions.&#xD;&#xA;&#xD;&#xA;@param x Skew in the x direction&#xD;&#xA;@param y Skew in the y direction&#xD;&#xA;@param z Skew in the z direction"/>
+      </eAnnotations>
+      <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eParameters name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eParameters name="z" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eOperations>
+    <eOperations name="setTransformation">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Set the part's transformation&#xD;&#xA;&#xD;&#xA;@param newTransformation The new transformation"/>
+      </eAnnotations>
+      <eParameters name="newTransformation" eType="#//Transformation"/>
+    </eOperations>
+    <eOperations name="setTranslation">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Set the part's translation in the x, y, and z directions&#xD;&#xA;&#xD;&#xA;@param x Location along the x axis&#xD;&#xA;@param y Location along the y axis&#xD;&#xA;@patam z Location along the z axis"/>
+      </eAnnotations>
+      <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eParameters name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eParameters name="z" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eOperations>
+    <eOperations name="addEntityByCategory">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Add a new child entity under the specified category.&#xD;&#xA;&#xD;&#xA;@param newEntity The entity to add as a child of this part.&#xD;&#xA;@param category The category under which to add the new entity."/>
+      </eAnnotations>
+      <eParameters name="newEntity" eType="#//VizObject"/>
+      <eParameters name="category" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="modelUpdate">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A function called whenever the controller receives an update from the model.&#xD;&#xA;&#xD;&#xA;@param notification The message received from the model."/>
+        <details key="body" value=""/>
+      </eAnnotations>
+      <eParameters name="notification" eType="#//Notification"/>
+    </eOperations>
+    <eOperations name="viewUpdate">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The function called whenever the controlelr receives an update from the view.&#xD;&#xA;&#xD;&#xA;@param notification The message received from the view."/>
+        <details key="body" value="&#x9;&#x9;// Pass the notification to listeners&#xD;&#xA;&#x9;&#x9;if (eNotificationRequired())&#xD;&#xA;&#x9;&#x9;&#x9;eNotify(new ENotificationImpl(this, notification.getEventType(), notification.getFeatureID(null),&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;notification.getOldValue(), notification.getNewValue()));"/>
+      </eAnnotations>
+      <eParameters name="notification" eType="#//Notification"/>
+    </eOperations>
+    <eOperations name="refresh">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Redraws the graphical representation based on the part's current state."/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="synched">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Signals to the part that the graphical engine has finished rendering it. The part's current transformation should be applied before this function is called, so that the previous transformation can be reset."/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="setDisposed">
+      <eParameters name="disposed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="disposed" eType="#//AtomicBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Whether or not the AbstractController and its data have been disposed. "/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="model" eType="#//AbstractMeshComponent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="view" eType="#//AbstractView"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Notification" instanceClassName="org.eclipse.emf.common.notify.Notification"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="EContentAdapter" instanceClassName="org.eclipse.emf.ecore.util.EContentAdapter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JavaFXView" eSuperTypes="#//AbstractView">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="An AbstractView for displaying JavaFXMeshComponents in a JavaFX environment. It stores its representation as a TriangleMesh for components with MeshType VLOUMETRIC or as Shape3Ds for components with MeshType CUSTOM_PART."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JavaFXMeshComponent" eSuperTypes="#//AbstractMeshComponent">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A mesh component which represents a single full part which is to be rendered in JavaFX. &#xD;&#xA;&#xD;&#xA;It expects that, if it receives a list of child entities, they are to be formatted as Faces with their Vertices as children, such as in EdgeAndVertexFace."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Object" instanceTypeName="newDataType5"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JavaFXController" eSuperTypes="#//AbstractController">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="An implementation of AbstractController specific to managing JavaFXMeshComponents."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JavaFXControllerFactory" eSuperTypes="#//IControllerFactory">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="An implementation of IControllerFactory for use with the JavaFX geometry editor. It takes as input a JavaFXMeshComponent "/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EdgeAndVertexFace" eSuperTypes="#//Face">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A Face which keeps both its Edges and Vertices as its child entities. "/>
+    </eAnnotations>
+  </eClassifiers>
+</ecore:EPackage>

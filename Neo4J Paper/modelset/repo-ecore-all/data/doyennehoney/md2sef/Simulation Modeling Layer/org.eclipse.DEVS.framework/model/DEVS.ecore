@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="Model" nsURI="http://model.org" nsPrefix="model">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="DEVS" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="container" eType="#//DEVS"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="iports" ordered="false"
+        upperBound="-1" eType="#//IPort" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="oports" ordered="false"
+        upperBound="-1" eType="#//OPort" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AtomicDEVS" eSuperTypes="#//DEVS">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="deltaInt" ordered="false"
+        upperBound="-1" eType="#//IntTransition" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="deltaConf" ordered="false"
+        upperBound="-1" eType="#//ConfTrans" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="deltaExt" ordered="false"
+        upperBound="-1" eType="#//ExtTrans" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="phases" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//Phase" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stateVars" ordered="false"
+        upperBound="-1" eType="#//Variable" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CoupledDEVS" eSuperTypes="#//DEVS">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subModels" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//DEVS" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eics" ordered="false" upperBound="-1"
+        eType="#//EIC" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ics" ordered="false" upperBound="-1"
+        eType="#//IC" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eocs" ordered="false" upperBound="-1"
+        eType="#//EOC" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IPort" eSuperTypes="#//Port"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OPort" eSuperTypes="#//Port"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Port" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="portId" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owner" lowerBound="1" eType="#//DEVS"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="portType" lowerBound="1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EIC">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="influencer" lowerBound="1"
+        eType="#//IPort"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="influencee" lowerBound="1"
+        eType="#//IPort"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IC">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="influencer" eType="#//OPort"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="influencee" eType="#//IPort"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EOC">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="influencer" eType="#//OPort"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="influencee" eType="#//OPort"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntTransition" eSuperTypes="#//PhaseTransition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputs" ordered="false"
+        upperBound="-1" eType="#//Event"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConfTrans" eSuperTypes="#//PhaseTransition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputs" ordered="false"
+        upperBound="-1" eType="#//Event"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputs" ordered="false"
+        upperBound="-1" eType="#//Event"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExtTrans" eSuperTypes="#//PhaseTransition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputs" ordered="false"
+        upperBound="-1" eType="#//Event"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Event">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetPort" lowerBound="1"
+        eType="#//Port"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Phase">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="phaseID" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timeAdvance" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="predicates" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//Variable"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PhaseTransition" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourcePhase" lowerBound="1"
+        eType="#//Phase"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetPhase" lowerBound="1"
+        eType="#//Phase"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Variable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="domain" lowerBound="1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+  </eClassifiers>
+</ecore:EPackage>

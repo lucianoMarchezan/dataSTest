@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="pacman" nsURI="http://org.tetrabox.example.pacman/model" nsPrefix="pacman">
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractTile" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="top" eType="//AbstractTile" eOpposite="//AbstractTile/bottom"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="//AbstractTile" eOpposite="//AbstractTile/left"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bottom" eType="//AbstractTile" eOpposite="//AbstractTile/top"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="//AbstractTile" eOpposite="//AbstractTile/right"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Board">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tiles" upperBound="-1" eType="//AbstractTile" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entities" upperBound="-1" eType="//Entity" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Entity" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initialTile" lowerBound="1" eType="//PassableTile"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Pacman" eSuperTypes="//Entity">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="initialLives">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Ghost" eSuperTypes="//Entity">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="personnality" lowerBound="1" eType="//GhostPersonality"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scatterTile" lowerBound="1" eType="//AbstractTile"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PassableTile" abstract="true" eSuperTypes="//AbstractTile"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Tile" eSuperTypes="//PassableTile">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="initialPellet" eType="//PelletType" defaultValueLiteral="NO_PELLET"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GhostHouseTile" eSuperTypes="//PassableTile"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WallTile" eSuperTypes="//AbstractTile"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="PelletType">
+    <eLiterals name="NO_PELLET" literal="NO_PELLET"/>
+    <eLiterals name="PELLET" value="1"/>
+    <eLiterals name="SUPER_PELLET" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="GhostPersonality">
+    <eLiterals name="SHADOW"/>
+    <eLiterals name="SPEEDY" value="1"/>
+    <eLiterals name="BASHFUL" value="2"/>
+    <eLiterals name="POKEY" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Pellet">
+    <eAnnotations source="aspect"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SuperPellet" eSuperTypes="//Pellet">
+    <eAnnotations source="aspect"/>
+  </eClassifiers>
+</ecore:EPackage>

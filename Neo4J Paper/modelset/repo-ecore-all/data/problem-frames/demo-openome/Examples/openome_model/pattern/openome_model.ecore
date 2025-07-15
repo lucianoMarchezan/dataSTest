@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="openome_model"
+    nsURI="http:///edu/toronto/cs/openome_model.ecore" nsPrefix="edu.toronto.cs.openome_model">
+  <eClassifiers xsi:type="ecore:EClass" name="Actor" eSuperTypes="#//Container"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Agent" eSuperTypes="#//Container"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AndDecomposition" eSuperTypes="#//Decomposition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Aspect" eSuperTypes="#//Container"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BreakContribution" eSuperTypes="#//Contribution"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ConflictLabel" eSuperTypes="#//TruthLabel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Contribution">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//Intention"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="model" eType="#//Model"
+        transient="true" eOpposite="#//Model/contributions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//Intention"
+        eOpposite="#//Intention/rule"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Decomposition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//Intention"
+        eOpposite="#//Intention/decompositions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//Intention"
+        eOpposite="#//Intention/parentDecompositions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="model" eType="#//Model"
+        transient="true" eOpposite="#//Model/decompositions"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeniedLabel" eSuperTypes="#//TruthLabel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Dependency">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dependencyFrom" eType="#//Intention"
+        eOpposite="#//Intention/dependencyTo"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dependencyTo" eType="#//Intention"
+        eOpposite="#//Intention/dependencyFrom"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="trust" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="model" eType="#//Model"
+        transient="true" eOpposite="#//Model/dependencies"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Goal" eSuperTypes="#//Intention"/>
+  <eClassifiers xsi:type="ecore:EClass" name="HelpContribution" eSuperTypes="#//Contribution"/>
+  <eClassifiers xsi:type="ecore:EClass" name="HurtContribution" eSuperTypes="#//Contribution"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Intention">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="label" eType="#//TruthLabel"
+        containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rule" upperBound="-1" eType="#//Contribution"
+        eOpposite="#//Contribution/source"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="system" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="boundary" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="input" upperBound="-1"
+        eType="#//Topic" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="output" upperBound="-1"
+        eType="#//Topic" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="exclusive" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sequential" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="parallel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" upperBound="-1"
+        eType="#//Property" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dependencyFrom" upperBound="-1"
+        eType="#//Dependency" eOpposite="#//Dependency/dependencyTo"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dependencyTo" upperBound="-1"
+        eType="#//Dependency" eOpposite="#//Dependency/dependencyFrom"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="decompositions" upperBound="-1"
+        eType="#//Decomposition" eOpposite="#//Decomposition/source"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentDecompositions" upperBound="-1"
+        eType="#//Decomposition" eOpposite="#//Decomposition/target"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="container" eType="#//Container"
+        transient="true" eOpposite="#//Container/intentions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="model" lowerBound="1" eType="#//Model"
+        eOpposite="#//Model/intentions"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MakeContribution" eSuperTypes="#//Contribution"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Model">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="intentions" upperBound="-1"
+        eType="#//Intention" containment="true" resolveProxies="false" eOpposite="#//Intention/model"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contributions" upperBound="-1"
+        eType="#//Contribution" containment="true" resolveProxies="false" eOpposite="#//Contribution/model"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dependencies" upperBound="-1"
+        eType="#//Dependency" containment="true" resolveProxies="false" eOpposite="#//Dependency/model"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="decompositions" upperBound="-1"
+        eType="#//Decomposition" containment="true" resolveProxies="false" eOpposite="#//Decomposition/model"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containers" upperBound="-1"
+        eType="#//Container" containment="true" resolveProxies="false" eOpposite="#//Container/model"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OrDecomposition" eSuperTypes="#//Decomposition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PartiallyDeniedLabel" eSuperTypes="#//TruthLabel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PartiallySatisfiedLabel" eSuperTypes="#//TruthLabel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Position" eSuperTypes="#//Container"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Property">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Resource" eSuperTypes="#//Intention"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Role" eSuperTypes="#//Container"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SatisfiedLabel" eSuperTypes="#//TruthLabel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Softgoal" eSuperTypes="#//Intention"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Task" eSuperTypes="#//Intention"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Topic">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UnknownLabel" eSuperTypes="#//TruthLabel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TruthLabel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Container">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="super" eType="#//Container"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sub" upperBound="-1" eType="#//Actor"
+        containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="intentions" upperBound="-1"
+        eType="#//Intention" containment="true" resolveProxies="false" eOpposite="#//Intention/container"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="model" eType="#//Model"
+        transient="true" eOpposite="#//Model/containers"/>
+  </eClassifiers>
+</ecore:EPackage>

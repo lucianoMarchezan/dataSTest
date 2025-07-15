@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="activity"
+    nsURI="http://www.roboidstudio.org/model/component" nsPrefix="org.roboid.component">
+  <eClassifiers xsi:type="ecore:EClass" name="Activity">
+    <eOperations name="addChild">
+      <eParameters name="child" eType="#//RoboidActivity"/>
+    </eOperations>
+    <eOperations name="addChild">
+      <eParameters name="child" eType="#//SystemActivity"/>
+    </eOperations>
+    <eOperations name="removeChild">
+      <eParameters name="child" eType="#//RoboidActivity"/>
+    </eOperations>
+    <eOperations name="removeChild">
+      <eParameters name="child" eType="#//SystemActivity"/>
+    </eOperations>
+    <eOperations name="removeChildren">
+      <eParameters name="children" upperBound="-1" eType="#//SystemActivity"/>
+    </eOperations>
+    <eOperations name="initializeComponents"/>
+    <eOperations name="disposeComponents"/>
+    <eOperations name="activateComponents"/>
+    <eOperations name="deactivateComponents"/>
+    <eOperations name="executeComponents"/>
+    <eOperations name="realizeComponents"/>
+    <eOperations name="isComponentsReady" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="init">
+      <eParameters name="robot" eType="#//Robot"/>
+    </eOperations>
+    <eOperations name="refresh"/>
+    <eOperations name="updateReference">
+      <eParameters name="reference" eType="#//Activity"/>
+      <eParameters name="robot" eType="#//Robot"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roboids" upperBound="-1"
+        eType="#//RoboidActivity" changeable="false" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="systems" upperBound="-1"
+        eType="#//SystemActivity" changeable="false" containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractActivity" abstract="true">
+    <eOperations name="canChangeEnabled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="countComponents" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eOperations name="getSelectedComponent" eType="#//IComponent"/>
+    <eOperations name="getSelectedComponentIndex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eOperations name="getComponent" eType="#//AbstractComponentProxy">
+      <eParameters name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="getComponent" eType="#//AbstractComponentProxy">
+      <eParameters name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="getPropertyValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject">
+      <eParameters name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="update">
+      <eParameters name="newId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="update">
+      <eParameters name="newEnabled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eOperations>
+    <eOperations name="update">
+      <eParameters name="newIndex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="refresh"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="enabled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoboidActivity" eSuperTypes="#//AbstractActivity">
+    <eOperations name="addChild">
+      <eParameters name="child" eType="#//RoboidActivity"/>
+    </eOperations>
+    <eOperations name="addChild">
+      <eParameters name="child" eType="#//AddonActivity"/>
+    </eOperations>
+    <eOperations name="removeChild">
+      <eParameters name="child" eType="#//RoboidActivity"/>
+    </eOperations>
+    <eOperations name="removeChild">
+      <eParameters name="child" eType="#//AddonActivity"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roboids" upperBound="-1"
+        eType="#//RoboidActivity" changeable="false" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="addons" upperBound="-1"
+        eType="#//AddonActivity" changeable="false" containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AddonActivity" eSuperTypes="#//AbstractActivity"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemActivity" eSuperTypes="#//AbstractActivity">
+    <eOperations name="init">
+      <eParameters name="robot" eType="#//Robot"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Robot" instanceClassName="org.roboid.robot.Robot"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="IComponent" instanceClassName="org.roboid.core.component.IComponent"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="AbstractComponentProxy" instanceClassName="org.roboid.core.component.proxy.AbstractComponentProxy"/>
+</ecore:EPackage>

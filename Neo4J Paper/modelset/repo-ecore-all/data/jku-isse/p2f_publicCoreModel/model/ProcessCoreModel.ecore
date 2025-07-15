@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ProcessCore" nsURI="at.pro2future.shopfloors.processcore" nsPrefix="at.pro2future.shopfloors.processcore">
+  <eClassifiers xsi:type="ecore:EClass" name="XmlRoot">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ExtensionContent" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Processes" upperBound="-1"
+        eType="#//Process" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Capabilities" upperBound="-1"
+        eType="#//AbstractCapability" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DisplayName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractCapability">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Capabilities" upperBound="-1"
+        eType="#//AbstractCapability" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DisplayName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Variables" upperBound="-1"
+        eType="#//Parameter"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Inputs" upperBound="-1"
+        eType="#//Parameter" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Outputs" upperBound="-1"
+        eType="#//Parameter" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractLoop" eSuperTypes="#//ControlStep">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Condition" lowerBound="1"
+        eType="#//Condition" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Body" lowerBound="1" eType="#//Process"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Assignment">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CapabilityInvocation" eSuperTypes="#//ProcessStep">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="InvokedCapability" eType="#//AbstractCapability"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedTo" eType="#//Assignment"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="InputMappings" upperBound="-1"
+        eType="#//VariableMapping" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="OutputMappings" upperBound="-1"
+        eType="#//VariableMapping" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Condition" abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Constant" eSuperTypes="#//LocalVariable"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ControlStep" abstract="true" interface="true"
+      eSuperTypes="#//ProcessStep"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Decision" eSuperTypes="#//ControlStep">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Condition" eType="#//Condition"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="If" lowerBound="1" eType="#//Process"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Else" lowerBound="1" eType="#//Process"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Event">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Role" eType="#//Assignment"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Parameters" upperBound="-1"
+        eType="#//Parameter" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EventSink" eSuperTypes="#//CapabilityInvocation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Event" eType="#//Event"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EventSource" eSuperTypes="#//CapabilityInvocation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Event" eType="#//Event"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HeadLoop" eSuperTypes="#//AbstractLoop"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LocalVariable" eSuperTypes="#//Parameter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="URI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ModifyVariableStep" eSuperTypes="#//ProcessStep">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ModifiedVariable" eType="#//Parameter"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Operator">
+    <eLiterals name="eq" literal="eq"/>
+    <eLiterals name="ls" value="1" literal="ls"/>
+    <eLiterals name="leq" value="2" literal="leq"/>
+    <eLiterals name="gt" value="3"/>
+    <eLiterals name="geq" value="4"/>
+    <eLiterals name="neq" value="5" literal="neq"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ParallelBranches" eSuperTypes="#//ControlStep">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Branches" upperBound="-1"
+        eType="#//Process" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Parameter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Type" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Process" eSuperTypes="#//ProcessStep">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Steps" upperBound="-1"
+        eType="#//ProcessStep" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Assignments" upperBound="-1"
+        eType="#//Assignment" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Variables" upperBound="-1"
+        eType="#//Parameter" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Capabilities" upperBound="-1"
+        eType="#//AbstractCapability" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="InputMappings" upperBound="-1"
+        eType="#//VariableMapping"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="OutputMappings" upperBound="-1"
+        eType="#//VariableMapping"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProcessStep" eSuperTypes="Extensions.ecore#//ExtensibleObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Role" eType="#//Assignment"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DisplayName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimpleCondition" eSuperTypes="#//Condition">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Operator" lowerBound="1"
+        eType="#//Operator"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rhs" lowerBound="1" eType="#//Parameter"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lhs" lowerBound="1" eType="#//Parameter"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TailLoop" eSuperTypes="#//AbstractLoop"/>
+  <eClassifiers xsi:type="ecore:EClass" name="HumanStep" abstract="true" interface="true"
+      eSuperTypes="#//ProcessStep">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Case" eSuperTypes="#//HumanStep">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Tasks" ordered="false"
+        upperBound="-1" eType="#//ProcessStep" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProcessReference" eSuperTypes="#//ProcessStep">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="url" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="InputMappings" upperBound="-1"
+        eType="#//VariableMapping"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="OutputMappings" upperBound="-1"
+        eType="#//VariableMapping"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Variables" upperBound="-1"
+        eType="#//Parameter" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AdditionStep" eSuperTypes="#//ModifyVariableStep">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Summands" upperBound="-1"
+        eType="#//Parameter"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetVariableStep" eSuperTypes="#//ModifyVariableStep">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rhs" eType="#//Parameter"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BufferedEventStep" eSuperTypes="#//EventSink"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ReadVariableCapability" eSuperTypes="#//VariableCapability"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ReadParameter" eSuperTypes="#//CapabilityInvocation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="LocalVariable" eType="#//LocalVariable"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Parameter" eType="#//Parameter"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WriteParameter" eSuperTypes="#//CapabilityInvocation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Parameter" eType="#//Parameter"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="LocalVariable" eType="#//LocalVariable"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WriteVariableCapability" eSuperTypes="#//VariableCapability"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ReceiveEventCapability" eSuperTypes="#//Event #//AbstractCapability"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SendEventCapability" eSuperTypes="#//AbstractCapability #//Event"/>
+  <eClassifiers xsi:type="ecore:EClass" name="VariableMapping">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lhs" eType="#//Parameter"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rhs" eType="#//Parameter"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VariableCapability" eSuperTypes="#//Parameter #//AbstractCapability"/>
+</ecore:EPackage>

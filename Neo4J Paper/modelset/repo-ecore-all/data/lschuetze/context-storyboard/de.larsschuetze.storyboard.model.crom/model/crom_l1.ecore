@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="crom_l1" nsURI="platform:/resource/org.rosi.crom.familymetamodel/"
+    nsPrefix="crom_l1">
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ModelElement" abstract="true" interface="true"
+      eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relations" upperBound="-1"
+        eType="#//Relation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Model">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//ModelElement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RigidType" eSuperTypes="#//Type #//ModelElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Group" eSuperTypes="#//ModelElement #//Model"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Relation" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Parameter" eSuperTypes="#//TypedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Operation" eSuperTypes="#//TypedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="params" upperBound="-1"
+        eType="#//Parameter"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owner" lowerBound="1" eType="#//Type"
+        eOpposite="#//Type/operations"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Attribute" eSuperTypes="#//TypedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owner" lowerBound="1" eType="#//Type"
+        eOpposite="#//Type/attributes"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Type" eSuperTypes="#//RelationTarget">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="#//Attribute" containment="true" eOpposite="#//Attribute/owner"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operations" upperBound="-1"
+        eType="#//Operation" containment="true" eOpposite="#//Operation/owner"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NaturalType" eSuperTypes="#//RigidType #//Player"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RoleType" eSuperTypes="#//AbstractRole #//RelationTarget #//Player"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Fulfillment" eSuperTypes="#//Relation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="filled" lowerBound="1"
+        eType="#//AbstractRole"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="filler" lowerBound="1"
+        eType="#//Player"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Inheritance" eSuperTypes="#//Relation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NaturalInheritance" eSuperTypes="#//Inheritance">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="super" lowerBound="1" eType="#//NaturalType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sub" lowerBound="1" eType="#//NaturalType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RelationTarget" abstract="true" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" upperBound="-1"
+        eType="#//Relation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoing" upperBound="-1"
+        eType="#//Relation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractRole" abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Player" abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TypedElement" abstract="true" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//Type"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Part">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roles" lowerBound="1" eType="#//AbstractRole"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="whole" lowerBound="1" eType="#//CompartmentType"
+        eOpposite="#//CompartmentType/parts"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompartmentType" eSuperTypes="#//RelationTarget #//ModelElement #//Player">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parts" upperBound="-1"
+        eType="#//Part" containment="true" eOpposite="#//Part/whole"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" lowerBound="1"
+        upperBound="-1" eType="#//CompartmentType" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fulfillments" upperBound="-1"
+        eType="#//Fulfillment" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

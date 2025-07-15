@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="engine" nsURI="http://net.sf.xqz/engine/1.0.0" nsPrefix="engine">
+  <eClassifiers xsi:type="ecore:EClass" name="Tx" eSuperTypes="#//Qx"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Rx" eSuperTypes="#//Qx"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Qx" abstract="true">
+    <eOperations name="postCommand">
+      <eParameters name="cmd" eType="ecore:EClass cmd.ecore#//Cmd"/>
+    </eOperations>
+    <eOperations name="consumeCommand" eType="ecore:EClass cmd.ecore#//Cmd"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commands" upperBound="-1"
+        eType="ecore:EClass cmd.ecore#//Cmd"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="engine" eType="#//CmdPipe"
+        eOpposite="#//CmdPipe/queues"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="locked" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="currentMaxPriority" eType="ecore:EEnum cmd.ecore#//PRIORITY"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ttl" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="threshold" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="timeRange" eType="#//QxTimeRange"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="strategy" eType="#//QxProcessingStrategy"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="max" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CmdPipe">
+    <eOperations name="initCmdPool"/>
+    <eOperations name="addQxEventHandler">
+      <eParameters name="handler" eType="#//IQxEventHandler"/>
+    </eOperations>
+    <eOperations name="removeQxEventHandler">
+      <eParameters name="handler" eType="#//IQxEventHandler"/>
+    </eOperations>
+    <eOperations name="activateAll"/>
+    <eOperations name="deactivateAll"/>
+    <eOperations name="activateQxEventHandler">
+      <eParameters name="qxEvtHandler" eType="#//IQxEventHandler"/>
+    </eOperations>
+    <eOperations name="deactivateQxEventHandler">
+      <eParameters name="qxEvtHandler" eType="#//IQxEventHandler"/>
+    </eOperations>
+    <eOperations name="activateEngine">
+      <eParameters name="engineID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="deactivateEngine">
+      <eParameters name="engineID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="receive">
+      <eParameters name="stream" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByteArray"/>
+    </eOperations>
+    <eOperations name="send">
+      <eParameters name="cmd" eType="ecore:EClass cmd.ecore#//Cmd"/>
+    </eOperations>
+    <eOperations name="send" eType="ecore:EClass cmd.ecore#//Cmd">
+      <eParameters name="cmd" eType="ecore:EClass cmd.ecore#//Cmd"/>
+      <eParameters name="handler" eType="#//SynchronousQxEventHandler"/>
+    </eOperations>
+    <eOperations name="reconnect">
+      <eParameters name="portID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="acceptedPort" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="addTrigger"/>
+    <eOperations name="finalize"/>
+    <eOperations name="start"/>
+    <eOperations name="startInput"/>
+    <eOperations name="startOutput"/>
+    <eOperations name="stop"/>
+    <eOperations name="stopInput"/>
+    <eOperations name="stopOutput"/>
+    <eOperations name="send">
+      <eParameters name="cmd" eType="ecore:EClass cmd.ecore#//Cmd"/>
+      <eParameters name="delay" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ELong"/>
+    </eOperations>
+    <eOperations name="receive">
+      <eParameters name="frame" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EByteArray"/>
+      <eParameters name="delay" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ELong"/>
+    </eOperations>
+    <eOperations name="syncSend" eType="ecore:EClass cmd.ecore#//Cmd">
+      <eParameters name="cmd" eType="ecore:EClass cmd.ecore#//Cmd"/>
+    </eOperations>
+    <eOperations name="syncSend" eType="ecore:EClass cmd.ecore#//Cmd">
+      <eParameters name="cmd" eType="ecore:EClass cmd.ecore#//Cmd"/>
+      <eParameters name="timeout" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ELong"/>
+    </eOperations>
+    <eOperations name="send">
+      <eParameters name="message" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByteArray"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="queues" upperBound="-1"
+        eType="#//Qx" containment="true" eOpposite="#//Qx/engine"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="client" eType="#//EngineClient"
+        eOpposite="#//EngineClient/engines"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="application" eType="#//EngineApplication"
+        eOpposite="#//EngineApplication/engine"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="priority" eType="ecore:EEnum cmd.ecore#//PRIORITY"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tx" eType="#//Tx"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rx" eType="#//Rx"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1"
+        eType="#//Event" volatile="true" transient="true" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commandPool" upperBound="-1"
+        eType="ecore:EClass cmd.ecore#//Cmd" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputInterpreter" eType="#//IXCmdInterpreter"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="port" eType="#//Port"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputInterpreter" eType="#//IXFrameInterpreter"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="recording" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="triggers" eType="#//Trigger"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="addr" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ports" upperBound="-1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="transportProtocol" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="communicationProtocol"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="txEvents" upperBound="-1"
+        eType="#//Event" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rxEvents" upperBound="-1"
+        eType="#//Event" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="speed" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="activated" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="locked" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="topic" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EngineClient">
+    <eOperations name="start"/>
+    <eOperations name="stop"/>
+    <eOperations name="quicken"/>
+    <eOperations name="slow"/>
+    <eOperations name="activate"/>
+    <eOperations name="deactivate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="engines" upperBound="-1"
+        eType="#//CmdPipe" eOpposite="#//CmdPipe/client"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="application" eType="#//EngineApplication"
+        eOpposite="#//EngineApplication/clients"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="runner" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EngineApplication" eSuperTypes="#//IConnectedUnit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="engine" upperBound="-1"
+        eType="#//CmdPipe" containment="true" eOpposite="#//CmdPipe/application"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="clients" upperBound="-1"
+        eType="#//EngineClient" containment="true" eOpposite="#//EngineClient/application"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Event">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//EVENT_KIND"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cmd" eType="ecore:EClass cmd.ecore#//Cmd"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="qx" eType="#//Qx"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="time" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bytes" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EByteArray"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="topic" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="EVENT_KIND">
+    <eLiterals name="RX_READY"/>
+    <eLiterals name="TX_DONE" value="3"/>
+    <eLiterals name="UNKNOWN" value="-1"/>
+    <eLiterals name="RX_FRAME" value="4"/>
+    <eLiterals name="RX_DONE" value="2"/>
+    <eLiterals name="TX_READY" value="1"/>
+    <eLiterals name="TX_FRAME" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IXCmdInterpreter" abstract="true" interface="true">
+    <eOperations name="cmd2ByteArray" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByteArray">
+      <eParameters name="cmd" eType="ecore:EClass cmd.ecore#//Cmd"/>
+    </eOperations>
+    <eOperations name="processResults">
+      <eParameters name="cmd" eType="ecore:EClass cmd.ecore#//Cmd"/>
+      <eParameters name="stream" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByteArray"/>
+    </eOperations>
+    <eOperations name="getCmdResultLength" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eParameters name="cmd" eType="ecore:EClass cmd.ecore#//Cmd"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractCmdInterpreter" abstract="true"
+      eSuperTypes="#//IXCmdInterpreter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IQxEventHandler" abstract="true" interface="true">
+    <eOperations name="handleQxEvent">
+      <eParameters name="event" eType="#//Event"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IQxEventNotifier" abstract="true" interface="true">
+    <eOperations name="notifyQxEvent">
+      <eParameters name="event" eType="#//Event"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractQxEventHandler" abstract="true"
+      eSuperTypes="#//IQxEventHandler"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractQxEventNotifier" abstract="true"
+      eSuperTypes="#//IQxEventNotifier"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Port">
+    <eOperations name="init"/>
+    <eOperations name="finalize"/>
+    <eOperations name="deactivate"/>
+    <eOperations name="activate"/>
+    <eOperations name="start"/>
+    <eOperations name="startInput"/>
+    <eOperations name="startOutput"/>
+    <eOperations name="stop"/>
+    <eOperations name="stopInput"/>
+    <eOperations name="stopOutput"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="engine" eType="#//CmdPipe"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputJobs" upperBound="-1"
+        eType="#//InputJob" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputJobs" upperBound="-1"
+        eType="#//OutputJob" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="channel" eType="#//IChannel"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IXFrameInterpreter">
+    <eOperations name="byteArray2Cmd" eType="ecore:EClass cmd.ecore#//Cmd">
+      <eParameters name="stream" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByteArray"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractFrameInterpreter" eSuperTypes="#//IXFrameInterpreter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ICmdEngineAction" abstract="true" interface="true">
+    <eOperations name="run">
+      <eParameters name="qx" eType="#//Qx"/>
+      <eParameters name="cmd" eType="ecore:EClass cmd.ecore#//Cmd"/>
+    </eOperations>
+    <eOperations name="run">
+      <eParameters name="qx" eType="#//Qx"/>
+    </eOperations>
+    <eOperations name="run">
+      <eParameters name="qx" eType="#//Qx"/>
+      <eParameters name="args" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractCmdEngineAction" abstract="true"
+      eSuperTypes="#//ICmdEngineAction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="args" upperBound="-1" eType="#//CmdEngineActionArg"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CmdEngineActionArg">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="QxTimeRange">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="start" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="end" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="QxProcessingStrategy">
+    <eLiterals name="OLDEST_MOST_URGENT"/>
+    <eLiterals name="NEWEST_MOST_URGENT" value="1"/>
+    <eLiterals name="ROUND_ROBIN" value="2"/>
+    <eLiterals name="PREDICATE" value="3"/>
+    <eLiterals name="TIME_RANGE_EXCLUSIVE" value="4"/>
+    <eLiterals name="TIME_RANGE_INCLUSIVE" value="5"/>
+    <eLiterals name="PICK_N_FLUSH" value="6" literal="PICK_N_FLUSH"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InputJob" eSuperTypes="#//IOJob"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OutputJob" eSuperTypes="#//IOJob"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IConnectedUnit" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="engines" upperBound="-1"
+        eType="#//CmdPipe"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="default" eType="#//CmdPipe"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TriggerKind">
+    <eLiterals name="PARALLEL" value="1"/>
+    <eLiterals name="ANY" value="2"/>
+    <eLiterals name="ONE_OF_IT" value="4"/>
+    <eLiterals name="NOT_ONE_OF_IT" value="8"/>
+    <eLiterals name="BLOCKING" value="16"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Trigger">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//TriggerKind"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" upperBound="-1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClassifier"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IOJob">
+    <eOperations name="close"/>
+    <eOperations name="start"/>
+    <eOperations name="stop"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="job" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SynchronousQxEventHandler" eSuperTypes="#//AbstractQxEventHandler">
+    <eOperations name="getLastEvent" eType="#//Event"/>
+    <eOperations name="getLastRcvEvent" eType="#//Event"/>
+    <eOperations name="getLastSndEvent" eType="#//Event"/>
+    <eOperations name="setLastEvent">
+      <eParameters name="evt" eType="#//Event"/>
+    </eOperations>
+    <eOperations name="setLastRcvEvent">
+      <eParameters name="evt" eType="#//Event"/>
+    </eOperations>
+    <eOperations name="setLastSndEvent">
+      <eParameters name="evt" eType="#//Event"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IChannel">
+    <eOperations name="send">
+      <eParameters name="bytes" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EByteArray"/>
+    </eOperations>
+    <eOperations name="receive">
+      <eParameters name="bytes" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EByteArray"/>
+    </eOperations>
+    <eOperations name="inputReady" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="outputReady" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eOperations name="connected" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eOperations name="close"/>
+    <eOperations name="debug"/>
+    <eOperations name="get">
+      <eParameters name="event" eType="#//Event"/>
+    </eOperations>
+    <eOperations name="send">
+      <eParameters name="cmd" eType="ecore:EClass cmd.ecore#//Cmd"/>
+    </eOperations>
+    <eOperations name="receive"/>
+    <eOperations name="addFrameListener">
+      <eParameters name="frameListener" eType="#//AbstractFrameInterpreter"/>
+    </eOperations>
+    <eOperations name="removeFrameListener">
+      <eParameters name="frameListener" eType="#//AbstractFrameInterpreter"/>
+    </eOperations>
+    <eOperations name="addCmdListener">
+      <eParameters name="cmdListener" eType="#//AbstractCmdInterpreter"/>
+    </eOperations>
+    <eOperations name="removeCmdListener">
+      <eParameters name="cmdListener" eType="#//AbstractCmdInterpreter"/>
+    </eOperations>
+    <eOperations name="addQxEventListener">
+      <eParameters name="eventListener" eType="#//AbstractQxEventHandler"/>
+    </eOperations>
+    <eOperations name="removeQxEventListener">
+      <eParameters name="eventListener" eType="#//AbstractQxEventHandler"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cmdInterpretrers" upperBound="-1"
+        eType="#//IXCmdInterpreter"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="frameInterpreters" upperBound="-1"
+        eType="#//IXFrameInterpreter"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eventListeners" upperBound="-1"
+        eType="#//AbstractQxEventHandler"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lastFrame" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EByteArray"/>
+  </eClassifiers>
+</ecore:EPackage>

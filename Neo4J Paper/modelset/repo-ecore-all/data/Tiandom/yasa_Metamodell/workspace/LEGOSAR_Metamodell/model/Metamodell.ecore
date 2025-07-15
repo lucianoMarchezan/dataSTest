@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="metamodell" nsURI="http://metamodell/1.0" nsPrefix="metamodell">
+  <eClassifiers xsi:type="ecore:EClass" name="System">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system_hw" lowerBound="1"
+        eType="#//Hardware" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system_sw" lowerBound="1"
+        eType="#//Software" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Hardware">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hw_bricks" lowerBound="1"
+        upperBound="-1" eType="#//Brick" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Software">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sw_connections" upperBound="-1"
+        eType="#//Connection" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sw_swcs" lowerBound="1"
+        upperBound="-1" eType="#//SWC" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Brick">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="brick_peripherals" upperBound="-1"
+        eType="#//Peripheral"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="brick_osek" lowerBound="1"
+        eType="#//OSEKSystem" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="brick_swcs" upperBound="-1"
+        eType="#//SWC"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="brick_isMaster" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="brick_bluetoothAddress"
+        upperBound="255" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByteArray"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Peripheral" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="peripheral_port" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Motor" eSuperTypes="#//Peripheral"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Sensor" eSuperTypes="#//Peripheral"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OSEKSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="osek_tasks" upperBound="-1"
+        eType="#//Task" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="osek_events" upperBound="-1"
+        eType="#//Event" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Event">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="event_name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Task">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="task_alarm" lowerBound="1"
+        eType="#//Alarm" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="task_priority" upperBound="20"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Alarm">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="alarm_cycletime" lowerBound="10"
+        upperBound="100000" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Connection">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conn_source" lowerBound="1"
+        eType="#//Port"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conn_destinations" lowerBound="1"
+        upperBound="-1" eType="#//Port"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SWC">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="swc_runnables" lowerBound="1"
+        upperBound="-1" eType="#//Runnable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="swc_ports" upperBound="-1"
+        eType="#//Port" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Port" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="port_name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Triggerport" eSuperTypes="#//Port"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SenderReceiverport" eSuperTypes="#//Port">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="srport_datatype" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Runnable">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="runnable_events" upperBound="-1"
+        eType="#//Event"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="runnable_task" lowerBound="1"
+        eType="#//Task"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="runnable_name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

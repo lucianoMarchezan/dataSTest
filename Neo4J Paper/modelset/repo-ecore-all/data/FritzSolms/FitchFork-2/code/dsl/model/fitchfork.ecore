@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="fitchfork" nsURI="http://www.fitchfork.org/fitchfork" nsPrefix="fitchfork">
+  <eClassifiers xsi:type="ecore:EClass" name="ElementWithOptionalId" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Processor" abstract="true" eSuperTypes="#//ElementWithOptionalId"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExtractArchiveProcessor" eSuperTypes="#//Processor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Process">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="steps" ordered="false"
+        upperBound="-1" eType="#//ProcessStep" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProcessStep" eSuperTypes="#//ElementWithOptionalId">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processor" lowerBound="1"
+        eType="#//Processor" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assessment" eType="#//Assessment"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dependencies" ordered="false"
+        upperBound="-1" eType="#//ProcessStep"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Assessment" abstract="true" eSuperTypes="#//ElementWithOptionalId">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="passMessage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="failMessage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="selector" eType="#//Selector"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LeafAssessment" eSuperTypes="#//Assessment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assessorInfo" eType="#//AssessorInfo"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AssessorInfo" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InlineAssessor" eSuperTypes="#//AssessorInfo">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assessor" lowerBound="1"
+        eType="#//Assessor" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AssessorReference" eSuperTypes="#//AssessorInfo">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assessor" lowerBound="1"
+        eType="#//Assessor"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Assessor" abstract="true" eSuperTypes="#//ElementWithOptionalId"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DataValueAssessor" abstract="true" eSuperTypes="#//Assessor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RegularExpressionAssessor" eSuperTypes="#//DataValueAssessor">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="regularExpression" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="positiveMatch" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RangeAssessor" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="minInclusive" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxInclusive" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntegerRangeAssessor" eSuperTypes="#//RangeAssessor">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="min" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="max" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RealRangeAssessor" eSuperTypes="#//RangeAssessor">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="min" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="max" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AggregateAssessment" eSuperTypes="#//Assessment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assessmentComponents" ordered="false"
+        upperBound="-1" eType="#//Assessment" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="markAggregator" lowerBound="1"
+        eType="#//Aggregator" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Selector" abstract="true" eSuperTypes="#//ElementWithOptionalId">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="step" lowerBound="1" eType="#//ProcessStep"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="channel" eType="#//Channel"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimpleLinesSelector" eSuperTypes="#//Selector">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="firstLine" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="numLines" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"
+        defaultValueLiteral="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AtMatchLinesSelector">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="match" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="offset" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="numLines" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"
+        defaultValueLiteral="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BetweenMatchesSelector">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="match1" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="match2" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Aggregator" abstract="true" eSuperTypes="#//ElementWithOptionalId"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExtremeValuesAggregator" abstract="true"
+      eSuperTypes="#//Aggregator">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="numContributions" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"
+        defaultValueLiteral="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BestOfAggregator" eSuperTypes="#//ExtremeValuesAggregator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WorstOfAggregator" eSuperTypes="#//ExtremeValuesAggregator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SimpleSumAggregator" eSuperTypes="#//Aggregator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WeightedSumAggregator" eSuperTypes="#//Aggregator">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="weights" ordered="false"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Channel" abstract="true"/>
+</ecore:EPackage>

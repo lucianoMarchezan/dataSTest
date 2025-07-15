@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="stl" nsURI="http://www.example.org/stl" nsPrefix="stl">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
+  </eAnnotations>
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="ProductionLineModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="itemtypes" upperBound="-1"
+        eType="#//ItemTypes" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="area" lowerBound="1" upperBound="-1"
+        eType="#//Area" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectors" upperBound="-1"
+        eType="#//Connectors" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
+        eType="#//Components" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="slots" upperBound="-1"
+        eType="#//Slots" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="service" upperBound="-1"
+        eType="#//Service" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ItemTypes">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="nameSet"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="nameSet" value="self.name.size() >0"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Area">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="nameSet"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="nameSet" value="self.name.size() >0"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
+        eType="#//Components" eOpposite="#//Components/area"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectors" upperBound="-1"
+        eType="#//Connectors" eOpposite="#//Connectors/area"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Components" abstract="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="positiveCosts nameSet"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="positiveCosts" value="self.costs >=0"/>
+      <details key="nameSet" value="self.name.size() >0"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="area" lowerBound="1" eType="#//Area"
+        eOpposite="#//Area/components"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="costs" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="service" upperBound="-1"
+        eType="#//Service"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Connectors">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="sameItemTypes connectedArea"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="sameItemTypes" value="self.inputslot.requiredAsImput = self.outputslot.producedAsOutput"/>
+      <details key="connectedArea" value="self.input_component.area = self.area"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="area" lowerBound="1" eType="#//Area"
+        eOpposite="#//Area/connectors"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputslot" lowerBound="1"
+        eType="#//InputSlot" eOpposite="#//InputSlot/connectors"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputslot" lowerBound="1"
+        eType="#//OutputSlot" eOpposite="#//OutputSlot/connectors"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="input_component" lowerBound="1"
+        eType="#//Components"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="output_component" lowerBound="1"
+        eType="#//Components"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ItemGenerator" eSuperTypes="#//Components">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="sameItemOutput"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="sameItemOutput" value="self.itemtypes = self.outputslot.producedAsOutput"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputslot" lowerBound="1"
+        eType="#//OutputSlot"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="itemtypes" lowerBound="1"
+        eType="#//ItemTypes"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Conveyor" eSuperTypes="#//Components">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputslot" lowerBound="1"
+        eType="#//InputSlot"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputslot" lowerBound="1"
+        eType="#//OutputSlot"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Turntable" eSuperTypes="#//Components">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputslot" lowerBound="1"
+        upperBound="-1" eType="#//InputSlot"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputslot" lowerBound="1"
+        upperBound="-1" eType="#//OutputSlot"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Machine" eSuperTypes="#//Components">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputslot" lowerBound="1"
+        upperBound="-1" eType="#//InputSlot"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputslot" lowerBound="1"
+        upperBound="-1" eType="#//OutputSlot"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Buffer" eSuperTypes="#//Components">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputslot" lowerBound="1"
+        eType="#//InputSlot"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputslot" lowerBound="1"
+        eType="#//OutputSlot"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProductStore" eSuperTypes="#//Components">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="capacityGreaterThan1 enoughCapacity"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="capacityGreaterThan1" value="self.capacity >0"/>
+      <details key="enoughCapacity" value="self.capacity >= self.itemtypes->size()"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="capacity" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputslot" lowerBound="1"
+        eType="#//InputSlot"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="itemtypes" upperBound="-1"
+        eType="#//ItemTypes"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WasteStore" eSuperTypes="#//Components">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="capacityGreaterThan1 enoughCapacity"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="capacityGreaterThan1" value="self.capacity >0"/>
+      <details key="enoughCapacity" value="self.capacity >= self.itemtypes->size()"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="capacity" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputslot" lowerBound="1"
+        eType="#//InputSlot"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="itemtypes" upperBound="-1"
+        eType="#//ItemTypes"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Slots" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InputSlot" eSuperTypes="#//Slots">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredAsImput" lowerBound="1"
+        eType="#//ItemTypes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectors" lowerBound="1"
+        eType="#//Connectors" eOpposite="#//Connectors/inputslot"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OutputSlot" eSuperTypes="#//Slots">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="producedAsOutput" lowerBound="1"
+        eType="#//ItemTypes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectors" lowerBound="1"
+        eType="#//Connectors" eOpposite="#//Connectors/outputslot"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Service">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="reliailityRange"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="reliailityRange" value="self.reliability >=0 and self.reliability &lt;=1"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reliability" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="time" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="costs" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="namedParameters" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

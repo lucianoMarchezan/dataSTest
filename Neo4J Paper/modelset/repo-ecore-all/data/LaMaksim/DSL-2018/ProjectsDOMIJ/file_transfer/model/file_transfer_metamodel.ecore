@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="FileTransferPackage" nsURI="https://lamaksim.com" nsPrefix="maksim">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  </eAnnotations>
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="Path">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="steps" lowerBound="1" upperBound="-1"
+        eType="#//GenericStep" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="absolute" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Selection">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="where" upperBound="-1"
+        eType="#//FilterComponent" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="from" lowerBound="1" eType="#//Path"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Transformation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//SelectionVariable"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Creating" eSuperTypes="#//Transformation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="destination" lowerBound="1"
+        eType="#//Path" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="strategy" eType="#//Strategies"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Copy" eSuperTypes="#//Creating"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Move" eSuperTypes="#//Creating"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Delete" eSuperTypes="#//Transformation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ConcreteStep" eSuperTypes="#//GenericStep">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="dontContainsParametrizedVariable"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="dontContainsParametrizedVariable" value="&#xA;&#x9;&#x9;&#x9;not value.matches('.*\\{\\$.\\}*.*')"/>
+      <details key="dontContainsParametrizedVariable$message" value="'Concrete step can\'t hold parametrized variable'"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="&quot;a&quot;"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PathVariable" eSuperTypes="#//GenericStep">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="pathVariableRegularName"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="pathVariableRegularName" value="&#xA;&#x9;&#x9;&#x9;name.matches('[a-zA-Z][a-zA-Z0-9]*')"/>
+      <details key="pathVariableRegularName$message" value="'Must use regular name, starting with letter followed by letters and numbers only'"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" eType="#//Path"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FilterLeaf" eSuperTypes="#//FilterComponent">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="trueFalseSearch" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OnName" eSuperTypes="#//OnBasic">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="filterNameRegularName"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="filterNameRegularName" value="&#xA;&#x9;&#x9;&#x9;name.matches('[a-zA-Z][a-zA-Z0-9]*')"/>
+      <details key="filterNameRegularName$message" value="'Must use regular name, starting with letter followed by letters and numbers only'"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OnExtension" eSuperTypes="#//OnBasic">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="ExtensionsContent"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="ExtensionsContent" value="&#xA;&#x9;&#x9;&#x9;extensions->forAll(ex:String |  ex.matches('[a-zA-Z][a-zA-Z0-9]*') )"/>
+      <details key="ExtensionsContent$message" value="'Tags must be regular identifiers'"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="extensions" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OnMeasure" eSuperTypes="#//FilterLeaf">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="tresholdPositive"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="tresholdPositive" value="&#xA;&#x9;&#x9;&#x9;treshold>0"/>
+      <details key="tresholdPositive$message" value="'Treshold must be positive'"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1"
+        eType="#//Operator"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="treshold" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OnTime" eSuperTypes="#//OnMeasure">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unit" lowerBound="1" eType="#//TimeUnit"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timeOf" lowerBound="1"
+        eType="#//TimeType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OnAttributes" eSuperTypes="#//OnCustom">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="attributeFilterRegularName attributeFilterRegularValue"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="attributeFilterRegularName" value="&#xA;&#x9;&#x9;&#x9;name.matches('[a-zA-Z][a-zA-Z0-9]*')"/>
+      <details key="attributeFilterRegularName$message" value="'Must use regular name, starting with letter followed by letters and numbers only'"/>
+      <details key="attributeFilterRegularValue" value="&#xA;&#x9;&#x9;&#x9;name.matches('[a-zA-Z][a-zA-Z0-9]*')"/>
+      <details key="attributeFilterRegularValue$message" value="'Must use regular name, starting with letter followed by letters and numbers only'"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OnTags" eSuperTypes="#//OnCustom">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="TagsTresholdNumberPositiveMinus1 TagsContent"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="TagsTresholdNumberPositiveMinus1" value="&#xA;&#x9;&#x9;&#x9;treshold>=-1"/>
+      <details key="TagsTresholdNumberPositiveMinus1$message" value="'Treshold must be positive or 0 or -1'"/>
+      <details key="TagsContent" value="&#xA;&#x9;&#x9;&#x9;tags->forAll(tg:String |  tg.matches('[a-zA-Z][a-zA-Z0-9]*') )"/>
+      <details key="TagsContent$message" value="'Tags must be regular identifiers'"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tags" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="only" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="treshold" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Operator">
+    <eLiterals name="equal"/>
+    <eLiterals name="less" value="1"/>
+    <eLiterals name="more" value="2"/>
+    <eLiterals name="less_equal" value="3"/>
+    <eLiterals name="more_equal" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OnSize" eSuperTypes="#//OnMeasure">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unit" lowerBound="1" eType="#//MemoryUnit"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OnBasic" eSuperTypes="#//FilterLeaf"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="Type">
+    <eLiterals name="File"/>
+    <eLiterals name="Folder" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OnCustom" eSuperTypes="#//FilterLeaf"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="TimeType">
+    <eLiterals name="modification"/>
+    <eLiterals name="cretion" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="MemoryUnit">
+    <eLiterals name="KB"/>
+    <eLiterals name="MB" value="1"/>
+    <eLiterals name="GB" value="2"/>
+    <eLiterals name="TB" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TimeUnit">
+    <eLiterals name="min"/>
+    <eLiterals name="hour" value="1"/>
+    <eLiterals name="day" value="2"/>
+    <eLiterals name="week" value="3"/>
+    <eLiterals name="month" value="4"/>
+    <eLiterals name="year" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Strategies">
+    <eLiterals name="forced"/>
+    <eLiterals name="append" value="1"/>
+    <eLiterals name="carefully" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CompositionType">
+    <eLiterals name="and"/>
+    <eLiterals name="or" value="1"/>
+    <eLiterals name="none" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FilterContainer" eSuperTypes="#//FilterComponent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="segments" lowerBound="2"
+        upperBound="-1" eType="#//FilterComponent" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="compositionType" eType="#//CompositionType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FilterComponent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SelectionVariable">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="selectionVariableRegularName"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="selectionVariableRegularName" value="&#xA;&#x9;&#x9;&#x9;name.matches('[a-zA-Z][a-zA-Z0-9]*')"/>
+      <details key="selectionVariableRegularName$message" value="'Must use regular name, starting with letter followed by letters and numbers only'"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" eType="#//Selection"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Model">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="path_variables" upperBound="-1"
+        eType="#//PathVariable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="selection_variables" upperBound="-1"
+        eType="#//SelectionVariable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transformations" upperBound="-1"
+        eType="#//Transformation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="paths" eType="#//Path"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GenericStep">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="parametrized" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VariableStep" eSuperTypes="#//GenericStep">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//PathVariable"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IsEmpty" eSuperTypes="#//OnBasic"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OnType" eSuperTypes="#//OnBasic">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//Type"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ParametrizedStep" eSuperTypes="#//GenericStep">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="parametrizedStepRegularName"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="parametrizedStepRegularName" value="&#xA;&#x9;&#x9;&#x9;name.matches('[a-zA-Z][a-zA-Z0-9]*')"/>
+      <details key="parametrizedStepRegularName$message" value="'Must use regular name, starting with letter followed by letters and numbers only'"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

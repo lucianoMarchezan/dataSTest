@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="pimca" nsURI="http://fr.ensta-bretagne.pimca" nsPrefix="pimca">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
+  </eAnnotations>
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+  </eAnnotations>
+  <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+    <details key="copyrightText" value="Copyright (c) 2019 ENSTA Bretagne.&#xA;Lab.-STICC - UMR 6285 -  P4S team&#xA;http://www.ensta-bretagne.fr&#xA;&#xA;Contributors:&#xA;  Stephen Creff, Joel Champeau, Fahad Golra, Bastien Drouot, Tithnara Nicolas Sun,  Sylvain Guerin&#xA;&#xA;Based on the work of Didier EYMERY, from DGA-MI&#xA;All rights reserved. This program and the accompanying materials&#xA;are made available under the terms of the Eclipse Public License v1.0&#xA;which accompanies this distribution, and is available at&#xA;http://www.eclipse.org/legal/epl-v10.html"/>
+    <details key="eclipsePlatformVersion" value="Luna"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="KnowledgeComponent" abstract="true"
+      eSuperTypes="#//QualifiedElement #//KnowledgeComponentAdapter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="locationDetails" upperBound="-1"
+        eType="#//Address" containment="true" eKeys="#//IdentifiedElement/id"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nbCopy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="role" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refinements" upperBound="-1"
+        eType="#//KnowledgeComponent" eOpposite="#//KnowledgeComponent/refines">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="name" value="refinements"/>
+        <details key="namespace" value=""/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refines" eType="#//KnowledgeComponent"
+        eOpposite="#//KnowledgeComponent/refinements"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="representations" upperBound="-1"
+        eType="#//KnowledgeRepresentation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incomings" upperBound="-1"
+        eType="#//Relation" eOpposite="#//Relation/target"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoings" upperBound="-1"
+        eType="#//Relation" eOpposite="#//Relation/source"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inViews" upperBound="-1"
+        eType="#//KnowledgeRepresentation" eOpposite="#//KnowledgeRepresentation/elements"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IdentifiedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Knowledge" eSuperTypes="#//KnowledgeComponent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
+        eType="#//KnowledgeComponent" containment="true" eKeys="#//IdentifiedElement/id"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="specializedCustoms" upperBound="-1"
+        eType="#//Checkpoint" containment="true" eKeys="#//IdentifiedElement/id"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Repository" eSuperTypes="#//Knowledge">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="aRepositoryOnlyContainsRessources"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="aRepositoryOnlyContainsRessources" value="self.pieces->forAll(oclIsTypeOf(Ressource))"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Resource" eSuperTypes="#//KnowledgeComponent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Machinery" eSuperTypes="#//KnowledgeComponent">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//MachineryType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Relation" abstract="true" eSuperTypes="#//KnowledgeComponent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//KnowledgeComponent" eOpposite="#//KnowledgeComponent/outgoings"
+        eKeys="#//IdentifiedElement/id"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//KnowledgeComponent" eOpposite="#//KnowledgeComponent/incomings"
+        eKeys="#//IdentifiedElement/id"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="employing" upperBound="-1"
+        eType="#//Machinery" volatile="true" transient="true" derived="true" eKeys="#//IdentifiedElement/id">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="derivation" value="if (self.atd&lt;>null) then self.atd->select(src.oclIsKindOf(pimca::Machinery)).src->select(s|s&lt;>self.src &#xA;&#x9;&#x9;&#x9;&#x9;and s&lt;>self.tgt)->union(self.atd->select(tgt.oclIsKindOf(pimca::Machinery)).tgt->select(t|t&lt;>self.src &#xA;&#x9;&#x9;&#x9;&#x9;and t&lt;>self.tgt))->asSet() else null endif"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conveying" upperBound="-1"
+        eType="#//Resource" volatile="true" transient="true" derived="true" eKeys="#//IdentifiedElement/id">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="derivation" value="if (self.atd&lt;>null) then self.atd->select(src.oclIsKindOf(pimca::Ressource)).src->select(s|s&lt;>self.src &#xA;&#x9;&#x9;&#x9;&#x9;and s&lt;>self.tgt)->union(self.atd->select(tgt.oclIsKindOf(pimca::Ressource)).tgt->select(t|t&lt;>self.src &#xA;&#x9;&#x9;&#x9;&#x9;and t&lt;>self.tgt))->asSet() else null endif"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="passingThrough" upperBound="-1"
+        eType="#//Relation" eKeys="#//IdentifiedElement/id"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="multiplex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="comSec" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="protocol" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="MachineryType">
+    <eLiterals name="physical"/>
+    <eLiterals name="virtual"/>
+    <eLiterals name="compound"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PimcaModel" eSuperTypes="#//IdentifiedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="knowledgeBase" eType="#//Knowledge"
+        containment="true" eKeys="#//IdentifiedElement/id"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Check" eSuperTypes="#//Relation">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="sourceCheckMustBeAMachinery"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="sourceCheckMustBeAMachinery" value="self.source.oclIsKindOf(Machinery)"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Control" eSuperTypes="#//Relation">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="sourceControlMustBeAMachinery targetControlMustBeAMachinery"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="sourceControlMustBeAMachinery" value="self.source.oclIsKindOf(Machinery)"/>
+      <details key="targetControlMustBeAMachinery" value="self.target.oclIsKindOf(Machinery)"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Use" eSuperTypes="#//Relation">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="sourceUseMustBeAMachinery targetUseMustBeAResource"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="sourceUseMustBeAMachinery" value="self.source.oclIsKindOf(Machinery)"/>
+      <details key="targetUseMustBeAResource" value="self.target.oclIsKindOf(Resource)"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Produce" eSuperTypes="#//Relation">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="sourceProductionMustBeAMachinery targetProductionMustBeARessource"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="sourceProductionMustBeAMachinery" value="self.source.oclIsKindOf(Machinery)"/>
+      <details key="targetProductionMustBeARessource" value="self.target.oclIsKindOf(Ressource)"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Exchange" eSuperTypes="#//Relation">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="swapIsAllowedAmongSameKindOfKnowledge"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="swapIsAllowedAmongSameKindOfKnowledge" value="self.source.oclIsTypeOf(self.target.oclType())"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Maintain" eSuperTypes="#//Check">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="sourceMaintainMustbeAPerformer"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="sourceMaintainMustbeAPerformer" value="self.source.oclIsKindOf(Performer)"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Instruction" eSuperTypes="#//Resource"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Passport" eSuperTypes="#//Resource"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Performer" eSuperTypes="#//Machinery">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="hasAPhysicalType"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="hasAPhysicalType" value="self.kind=MachineryType::physical"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Checkpoint" eSuperTypes="#//Machinery">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="isNotACompound"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="isNotACompound" value="self.kind&lt;>MachineryType::compound"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Network" eSuperTypes="#//Machinery">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="isNotAnInterface"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="isNotAnInterface" value="self.kind&lt;>MachineryType::interface"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sort" eType="#//NetworkType"
+        defaultValueLiteral="Energy">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="name" value="sort"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Attacker" eSuperTypes="#//Performer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Address" abstract="true" eSuperTypes="#//IdentifiedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="QualifiedElement" abstract="true" eSuperTypes="#//IdentifiedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="usageArea" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="usagePeriod" upperBound="2"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="usageLevel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="comment" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dataType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="validity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modifications" upperBound="-1"
+        eType="#//Modification" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PhysicalAddress" abstract="true" eSuperTypes="#//Address"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NetworkAddress" abstract="true" eSuperTypes="#//VirtualAddress"/>
+  <eClassifiers xsi:type="ecore:EClass" name="KnowledgeComponentAdapter" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="KnowledgeComponentReference" eSuperTypes="#//KnowledgeComponentAdapter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reference" lowerBound="1"
+        eType="#//KnowledgeComponent" eKeys="#//IdentifiedElement/id"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        volatile="true" transient="true" unsettable="true" derived="true" iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InformationSource" eSuperTypes="#//KnowledgeComponent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Interface" eSuperTypes="#//Machinery">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="isAnInterface"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="isAnInterface" value="self.kind=MachineryType::interface"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="NetworkType">
+    <eLiterals name="Energy"/>
+    <eLiterals name="Matter_Data"/>
+    <eLiterals name="Control"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KnowledgeRepresentation" eSuperTypes="#//IdentifiedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="compositeRelationsArePartOfElements"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="compositeRelationsArePartOfElements" value="self.elements->includesAll(self.compositeRelations)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//KnowledgeComponent" eOpposite="#//KnowledgeComponent/inViews"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compositeRelations" upperBound="-1"
+        eType="#//Relation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IPV4Address" eSuperTypes="#//NetworkAddress">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="#//IPV4Type"
+        defaultValueLiteral="0.0.0.0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IPV6Address" eSuperTypes="#//NetworkAddress">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="#//IPV6Type"
+        defaultValueLiteral="0000:0000:0000:0000:0000:0000:0000:0000"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FilePath" eSuperTypes="#//VirtualAddress">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GeographicCoordinate" abstract="true"
+      eSuperTypes="#//PhysicalAddress">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="decimalValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"
+        defaultValueLiteral="0.0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Area" eSuperTypes="#//PhysicalAddress">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Longitude" eSuperTypes="#//GeographicCoordinate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Latitude" eSuperTypes="#//GeographicCoordinate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Elevation" eSuperTypes="#//GeographicCoordinate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GenericAddress" eSuperTypes="#//Address">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="IPV4Type" instanceClassName="java.lang.String">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="IPV4Type"/>
+      <details key="baseType" value="http://www.eclipse.org/emf/2003/XMLType#string"/>
+      <details key="pattern" value="(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VirtualAddress" abstract="true" eSuperTypes="#//Address"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="IPV6Type" instanceClassName="java.lang.String">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="IPV6Type"/>
+      <details key="baseType" value="http://www.eclipse.org/emf/2003/XMLType#string"/>
+      <details key="pattern" value="((([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}:[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){5}:([0-9A-Fa-f]{1,4}:)?[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){4}:([0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){3}:([0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){2}:([0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}((b((25[0-5])|(1d{2})|(2[0-4]d)|(d{1,2}))b).){3}(b((25[0-5])|(1d{2})|(2[0-4]d)|(d{1,2}))b))|(([0-9A-Fa-f]{1,4}:){0,5}:((b((25[0-5])|(1d{2})|(2[0-4]d)|(d{1,2}))b).){3}(b((25[0-5])|(1d{2})|(2[0-4]d)|(d{1,2}))b))|(::([0-9A-Fa-f]{1,4}:){0,5}((b((25[0-5])|(1d{2})|(2[0-4]d)|(d{1,2}))b).){3}(b((25[0-5])|(1d{2})|(2[0-4]d)|(d{1,2}))b))|([0-9A-Fa-f]{1,4}::([0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})|(::([0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){1,7}:))"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GeographicPoint">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="x" lowerBound="1" eType="#//Longitude"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="y" lowerBound="1" eType="#//Latitude"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="z" eType="#//Elevation"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GeographicArea" eSuperTypes="#//PhysicalAddress">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="points" lowerBound="2"
+        upperBound="-1" eType="#//GeographicPoint" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PostCode" eSuperTypes="#//PhysicalAddress">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Modification">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="who" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="what" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="why" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="when" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="comments" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//InformationSource"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EntryPoint" eSuperTypes="#//Interface"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExitPoint" eSuperTypes="#//Interface"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Match" eSuperTypes="#//Check">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="targetMatchMustBeAPassport sourceMatchMustBeACheckpoint"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="targetMatchMustBeAPassport" value="self.target.oclIsKindOf(Passport)"/>
+      <details key="sourceMatchMustBeACheckpoint" value="self.source.oclIsKindOf(Checkpoint)"/>
+    </eAnnotations>
+  </eClassifiers>
+</ecore:EPackage>

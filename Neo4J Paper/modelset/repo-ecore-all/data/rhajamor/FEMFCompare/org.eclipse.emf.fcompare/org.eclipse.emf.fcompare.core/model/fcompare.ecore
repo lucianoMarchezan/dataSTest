@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="fcompare" nsURI="http://www.eclipse.org/emf/fcompare" nsPrefix="org.eclipse.emf.fcompare.core.fcompare">
+  <eClassifiers xsi:type="ecore:EEnum" name="DiffType">
+    <eLiterals name="DIFFERENCE" literal="Difference"/>
+    <eLiterals name="CONFLICT" value="1" literal="Conflict"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DiffStatus">
+    <eLiterals name="MERGED" literal="Merged"/>
+    <eLiterals name="UNMERGED" value="1" literal="UnMerged"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DiffOrigin">
+    <eLiterals name="LEFT" literal="Left"/>
+    <eLiterals name="RIGHT" value="1" literal="Right"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Diff">
+    <eOperations name="merge">
+      <eParameters name="side" eType="#//DiffOrigin"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="#//DiffStatus"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//DiffType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//DiffEntry"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//DiffEntry"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//DiffEntry"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DiffEntry">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="origin" eType="#//DiffOrigin"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FEngine">
+    <eOperations name="compute">
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+        <eTypeArguments/>
+      </eGenericType>
+    </eOperations>
+    <eOperations name="merge" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="differences">
+        <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+          <eTypeArguments/>
+        </eGenericType>
+      </eParameters>
+      <eParameters name="side" eType="#//DiffOrigin"/>
+    </eOperations>
+    <eOperations name="rollBack"/>
+    <eOperations name="commit"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="differences" upperBound="-1"
+        eType="#//Diff"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="strategy" eType="#//DiffStrategy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DiffStrategy" abstract="true">
+    <eOperations name="compute" eType="#//Diff"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EagerStrategy" eSuperTypes="#//DiffStrategy"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LazyStrategy" eSuperTypes="#//DiffStrategy"/>
+</ecore:EPackage>

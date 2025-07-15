@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="constraintLang" nsURI="http://www.iobserve.org/rac/constraint/ConstraintLang"
+    nsPrefix="constraintLang">
+  <eClassifiers xsi:type="ecore:EClass" name="Model">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="imports" upperBound="-1"
+        eType="#//Import" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operations" upperBound="-1"
+        eType="#//Operation" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Import">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="importedNamespace" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Operation">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceReference" eType="#//SourceReference"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Selection" eSuperTypes="#//Operation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputs" upperBound="-1"
+        eType="#//SelectInput" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordType" eType="ecore:EClass platform:/resource/de.cau.cs.se.instrumentation.rl/model/generated/RecordLang.ecore#//RecordType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="paremterExpressions" upperBound="-1"
+        eType="#//ParameterExpression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SelectInput">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordType" eType="ecore:EClass platform:/resource/de.cau.cs.se.instrumentation.rl/model/generated/RecordLang.ecore#//RecordType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="selectConstraint" eType="#//SelectConstaintExpression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SelectConstaintExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="ecore:EClass platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" eType="#//LogicOperator"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="ecore:EClass platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="constraint" eType="#//SelectConstaintExpression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="comperator" eType="#//Comparator"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompareOperand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ParameterExpression" eSuperTypes="#//CompareOperand">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="input" eType="#//SelectInput"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="propertyReference" eType="ecore:EClass platform:/resource/de.cau.cs.se.instrumentation.rl/model/generated/RecordLang.ecore#//Property"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Filter" eSuperTypes="#//Operation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="constraint" eType="#//ConstraintExpression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConstraintExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//ConstraintExpression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" eType="#//LogicOperator"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//PropertyConstraint"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="constraint" eType="#//ConstraintExpression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="typeSelection" eType="#//TypeSelection"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="propertyConstraint" eType="#//PropertyConstraint"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PropertyConstraint">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//PropertyConstraint"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" eType="#//LogicOperator"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//PropertyConstraint"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="constraint" eType="#//PropertyConstraint"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" eType="ecore:EClass platform:/resource/de.cau.cs.se.instrumentation.rl/model/generated/RecordLang.ecore#//Property"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="comparator" eType="#//Comparator"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//Literal"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TypeSelection"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ConcreteType" eSuperTypes="#//TypeSelection">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass platform:/resource/de.cau.cs.se.instrumentation.rl/model/generated/RecordLang.ecore#//Type"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TemplateTypeSelection" eSuperTypes="#//TypeSelection">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="types" unique="false" upperBound="-1"
+        eType="ecore:EClass platform:/resource/de.cau.cs.se.instrumentation.rl/model/generated/RecordLang.ecore#//TemplateType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RecordTypeSelection" eSuperTypes="#//TypeSelection">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modifier" eType="#//RecordTypeModifier"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass platform:/resource/de.cau.cs.se.instrumentation.rl/model/generated/RecordLang.ecore#//RecordType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="RecordTypeModifier">
+    <eLiterals name="SUPER" literal="super"/>
+    <eLiterals name="EXTENDS" value="1" literal="extends"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SourceReference">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="filter" eType="#//Operation"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="default" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Literal" eSuperTypes="#//CompareOperand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ArrayLiteral" eSuperTypes="#//Literal">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="literals" upperBound="-1"
+        eType="#//Literal" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StringLiteral" eSuperTypes="#//Literal">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntLiteral" eSuperTypes="#//Literal">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FloatLiteral" eSuperTypes="#//Literal">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloatObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanLiteral" eSuperTypes="#//Literal">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BuiltInValueLiteral" eSuperTypes="#//Literal">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="LogicOperator">
+    <eLiterals name="AND" literal="&amp;"/>
+    <eLiterals name="OR" value="1" literal="|"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Comparator">
+    <eLiterals name="EQ" literal="=="/>
+    <eLiterals name="NE" value="1" literal="!="/>
+    <eLiterals name="GR" value="2" literal=">"/>
+    <eLiterals name="LW" value="3" literal="&lt;"/>
+    <eLiterals name="GE" value="4" literal=">="/>
+    <eLiterals name="LE" value="5" literal="&lt;="/>
+    <eLiterals name="LIKE" value="6" literal="~"/>
+  </eClassifiers>
+</ecore:EPackage>

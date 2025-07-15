@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="robotcomposer"
+    nsURI="http://www.roboidstudio.org/model/robotcomposer" nsPrefix="org.roboid.studio.robotcomposer">
+  <eClassifiers xsi:type="ecore:EClass" name="RobotComposerElement" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RobotDiagram" eSuperTypes="#//RobotComposerElement">
+    <eOperations name="addChild">
+      <eParameters name="child" eType="#//RoboidBlock"/>
+    </eOperations>
+    <eOperations name="removeChild">
+      <eParameters name="child" eType="#//RoboidBlock"/>
+    </eOperations>
+    <eOperations name="addAssociation">
+      <eParameters name="association" eType="#//Association"/>
+    </eOperations>
+    <eOperations name="removeAssociation">
+      <eParameters name="association" eType="#//Association"/>
+    </eOperations>
+    <eOperations name="createRoboidBlock" eType="#//RoboidBlock">
+      <eParameters name="roboid" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Roboid"/>
+    </eOperations>
+    <eOperations name="getRoboidBlock" eType="#//RoboidBlock">
+      <eParameters name="roboid" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Roboid"/>
+    </eOperations>
+    <eOperations name="findRoboidBlock" eType="#//RoboidBlock">
+      <eParameters name="roboid" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Roboid"/>
+    </eOperations>
+    <eOperations name="findRoboidBlock" eType="#//RoboidBlock">
+      <eParameters name="device" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Device"/>
+    </eOperations>
+    <eOperations name="refreshRoboidBlocks"/>
+    <eOperations name="connectAll"/>
+    <eOperations name="connect">
+      <eParameters name="sourceDevice" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Device"/>
+      <eParameters name="targetDevice" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Device"/>
+      <eParameters name="isProxy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eOperations>
+    <eOperations name="getAllReferences" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject">
+      <eParameters name="selection" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="robot" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Robot"
+        transient="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="grid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="blocks" upperBound="-1"
+        eType="#//RoboidBlock" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associations" upperBound="-1"
+        eType="#//Association" transient="true" containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Association" eSuperTypes="#//RobotComposerElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//ConnectableElement"
+        transient="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//ConnectableElement"
+        transient="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="proxy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        transient="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConnectableElement" abstract="true"
+      eSuperTypes="#//RobotComposerElement">
+    <eOperations name="addIncoming">
+      <eParameters name="association" eType="#//Association"/>
+    </eOperations>
+    <eOperations name="addOutgoing">
+      <eParameters name="association" eType="#//Association"/>
+    </eOperations>
+    <eOperations name="removeIncoming">
+      <eParameters name="association" eType="#//Association"/>
+    </eOperations>
+    <eOperations name="removeOutgoing">
+      <eParameters name="association" eType="#//Association"/>
+    </eOperations>
+    <eOperations name="canConnectTo" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="target" eType="#//ConnectableElement"/>
+    </eOperations>
+    <eOperations name="canConnectFrom" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="source" eType="#//ConnectableElement"/>
+    </eOperations>
+    <eOperations name="canReconnectTo" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="oldTarget" eType="#//ConnectableElement"/>
+      <eParameters name="newTarget" eType="#//ConnectableElement"/>
+    </eOperations>
+    <eOperations name="canReconnectFrom" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="oldSource" eType="#//ConnectableElement"/>
+      <eParameters name="newSource" eType="#//ConnectableElement"/>
+    </eOperations>
+    <eOperations name="refreshName"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incomings" upperBound="-1"
+        eType="#//Association" transient="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoings" upperBound="-1"
+        eType="#//Association" transient="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="diagram" eType="#//RobotDiagram"
+        transient="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoboidBlock" eSuperTypes="#//ConnectableElement">
+    <eOperations name="addChild">
+      <eParameters name="child" eType="#//DeviceElement"/>
+    </eOperations>
+    <eOperations name="removeChild">
+      <eParameters name="child" eType="#//DeviceElement"/>
+    </eOperations>
+    <eOperations name="removeAllChildren"/>
+    <eOperations name="collectAllDeviceNames" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eParameters name="names" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="deepCopy" eType="#//RoboidBlock">
+      <eParameters name="newDiagram" eType="#//RobotDiagram"/>
+    </eOperations>
+    <eOperations name="createDeviceElement" eType="#//DeviceElement">
+      <eParameters name="device" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Device"/>
+    </eOperations>
+    <eOperations name="getDeviceElement" eType="#//DeviceElement">
+      <eParameters name="device" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Device"/>
+    </eOperations>
+    <eOperations name="findDeviceElement" eType="#//DeviceElement">
+      <eParameters name="device" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Device"/>
+    </eOperations>
+    <eOperations name="getSourceDevice" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Device"/>
+    <eOperations name="setSourceDevice">
+      <eParameters name="device" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Device"/>
+    </eOperations>
+    <eOperations name="canDelete" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="canCopy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="canCut" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="connectAll"/>
+    <eOperations name="disconnectAll"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roboid" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Roboid"
+        resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="devices" upperBound="-1"
+        eType="#//DeviceElement" transient="true" containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeviceElement" eSuperTypes="#//ConnectableElement">
+    <eOperations name="isConnectedTo" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="targetDevice" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Device"/>
+    </eOperations>
+    <eOperations name="connectTo">
+      <eParameters name="targetElement" eType="#//DeviceElement"/>
+      <eParameters name="isProxy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eOperations>
+    <eOperations name="connectTo">
+      <eParameters name="targetDevice" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Device"/>
+      <eParameters name="isProxy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eOperations>
+    <eOperations name="disconnectFrom">
+      <eParameters name="targetElement" eType="#//DeviceElement"/>
+    </eOperations>
+    <eOperations name="disconnectFrom">
+      <eParameters name="targetDevice" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Device"/>
+    </eOperations>
+    <eOperations name="reconnectTo">
+      <eParameters name="oldTargetDevice" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Device"/>
+      <eParameters name="newTargetDevice" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Device"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="device" eType="ecore:EClass platform:/plugin/org.roboid.robot.model/model/robot.ecore#//Device"
+        transient="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="PropertyChangeListener" instanceClassName="java.beans.PropertyChangeListener"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Rectangle" instanceClassName="org.eclipse.draw2d.geometry.Rectangle"/>
+</ecore:EPackage>

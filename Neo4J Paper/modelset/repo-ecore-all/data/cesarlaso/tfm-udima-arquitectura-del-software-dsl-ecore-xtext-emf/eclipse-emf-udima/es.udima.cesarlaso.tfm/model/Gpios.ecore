@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="gpios" nsURI="http://tfm.cesarlaso.udima.es/gpios" nsPrefix="es.udima.cesarlaso.tfm.gpios">
+  <eClassifiers xsi:type="ecore:EClass" name="Pin" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DigitalPin" abstract="true" eSuperTypes="#//Pin">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Activa o desactiva un PIN"/>
+    </eAnnotations>
+    <eOperations name="read" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="write" lowerBound="1">
+      <eParameters name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eOperations>
+    <eOperations name="attachInterrupt" lowerBound="1">
+      <eParameters name="mode" lowerBound="1" eType="#//InterruptMode"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AnalogPin" abstract="true" eSuperTypes="#//Pin">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Escribe valores analogicos mediante la generación de un PWM &#xA;&#xA;https://playground.arduino.cc/ArduinoNotebookTraduccion/Appendix3&#xA;"/>
+    </eAnnotations>
+    <eOperations name="read" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eOperations name="write" lowerBound="1">
+      <eParameters name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resolution" lowerBound="1"
+        eType="#//DacResolution" defaultValueLiteral="Bits8"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DigitalInputPin" eSuperTypes="#//DigitalPin"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DigitalOutputPin" eSuperTypes="#//DigitalPin"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AnalogInputPin" eSuperTypes="#//AnalogPin"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AnalogOutputPin" eSuperTypes="#//AnalogPin"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="DacResolution">
+    <eLiterals name="Bits8" value="8" literal="Bits8"/>
+    <eLiterals name="Bits12" value="12" literal="Bits12"/>
+    <eLiterals name="Bits16" value="16" literal="Bits16"/>
+    <eLiterals name="Bits24" value="24" literal="Bits24"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="InterruptMode">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Modo de interrupción"/>
+    </eAnnotations>
+    <eLiterals name="Rising" value="1">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="La interrupción se activa cuando el estado pasa de bajo a alto"/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="Falling" value="2">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="La interrupción se activa cuando el estado pasa de alto a bajo"/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="Changes" value="3">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="La interrupción se activa cuando cambia de estado"/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="Low" value="4">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="La interrupción se activa de forma continua mientras el estado sea bajo"/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="High" value="5">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="La interrupción se activa de forma continua mientras el estado sea alto"/>
+      </eAnnotations>
+    </eLiterals>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PinResistor">
+    <eLiterals name="PullUp"/>
+    <eLiterals name="PullDown" value="1"/>
+  </eClassifiers>
+</ecore:EPackage>

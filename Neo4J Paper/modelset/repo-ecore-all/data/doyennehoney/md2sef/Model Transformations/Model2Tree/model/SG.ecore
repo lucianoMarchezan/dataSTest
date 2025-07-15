@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="sgf" nsURI="http://devs.org/sgf" nsPrefix="sgf">
+  <eSubpackages name="tree" nsURI="http://devs.org/tree" nsPrefix="tree">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+      <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+      <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    </eAnnotations>
+    <eClassifiers xsi:type="ecore:EClass" name="Tree">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+        <details key="constraints" value="UniqueTreeID IDCanNotBeEmpty"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="UniqueTreeID" value="self.ID&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(n | Tree.allInstances().ID&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->count(n) = 1)"/>
+        <details key="IDCanNotBeEmpty" value="&#xA;&#x9;&#x9;&#x9;&#x9;self.ID.size() > 0"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Root" lowerBound="1"
+          eType="#//tree/Root" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Coordinator" ordered="false"
+          upperBound="-1" eType="#//tree/Coordinator" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Simulator" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//tree/Simulator" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Root" eSuperTypes="#//tree/Node">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="child" lowerBound="1"
+          eType="#//tree/BasicNode"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Coordinator" eSuperTypes="#//tree/BasicNode">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+        <details key="constraints" value="UniqueChildren ChildrenCantIncludeSelf CantOccurAsChildOfRootAndCoordinator"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="UniqueChildren" value="self.children&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(n | Coordinator.allInstances().children&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->count(n) = 1)"/>
+        <details key="ChildrenCantIncludeSelf" value="self.children&#xA;&#x9;&#x9;&#x9;&#x9;->excludes(self)"/>
+        <details key="CantOccurAsChildOfRootAndCoordinator" value="not (Coordinator.allInstances().children&#xA;&#x9;&#x9;&#x9;&#x9;->includes(self) and Root.allInstances().child&#xA;&#x9;&#x9;&#x9;&#x9;->includes(self))"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="children" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//tree/BasicNode"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Simulator" eSuperTypes="#//tree/BasicNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="BasicNode" abstract="true" eSuperTypes="#//tree/Node">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+        <details key="constraints" value="MustBeAChild"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="MustBeAChild" value="Coordinator.allInstances().children&#xA;&#x9;&#x9;&#x9;&#x9;->includes(self) or Root.allInstances().child&#xA;&#x9;&#x9;&#x9;&#x9;->includes(self)"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Node" abstract="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+        <details key="constraints" value="UniqueID IDCanNotBeEmpty"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="UniqueID" value="self.ID&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(n | Node.allInstances().ID&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->count(n) = 1)"/>
+        <details key="IDCanNotBeEmpty" value="&#xA;&#x9;&#x9;&#x9;&#x9;self.ID.size() > 0"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="skeleton" nsURI="http://devs.org/skeleton" nsPrefix="skeleton">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+      <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+      <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    </eAnnotations>
+    <eClassifiers xsi:type="ecore:EClass" name="Skeleton">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+        <details key="constraints" value="uniqueID IDCanNotBeEmpty"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="uniqueID" value="self.ID&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(n | Skeleton.allInstances().ID&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->count(n) = 1)"/>
+        <details key="IDCanNotBeEmpty" value="&#xA;&#x9;&#x9;&#x9;&#x9;self.ID.size() > 0"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="tree" eType="#//tree/Tree"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="rootskel" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//tree/Root" containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="bundle" nsURI="http://devs.org/bundle" nsPrefix="bundle">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+      <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+      <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    </eAnnotations>
+    <eClassifiers xsi:type="ecore:EClass" name="Bundle">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+        <details key="constraints" value="UniqueBundleID AllRootsFromSkeletonAreNotInBundle AllRootsFromTreeAreNotInBundle AllCoordinatorsAreNotInBundle AllSimulatorsAreNotInBundle IDCanNotBeEmpty"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="UniqueBundleID" value="self.ID&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(n | Bundle.allInstances().ID&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->count(n) = 1)"/>
+        <details key="AllRootsFromSkeletonAreNotInBundle" value="self.Process.nodes&#xA;&#x9;&#x9;&#x9;&#x9;->includesAll(self.skeleton.rootskel)"/>
+        <details key="AllRootsFromTreeAreNotInBundle" value="self.Process.nodes&#xA;&#x9;&#x9;&#x9;&#x9;->includes(self.skeleton.tree.Root)"/>
+        <details key="AllCoordinatorsAreNotInBundle" value="self.Process.nodes&#xA;&#x9;&#x9;&#x9;&#x9;->includesAll(self.skeleton.tree.Coordinator)"/>
+        <details key="AllSimulatorsAreNotInBundle" value="self.Process.nodes&#xA;&#x9;&#x9;&#x9;&#x9;->includesAll(self.skeleton.tree.Simulator)"/>
+        <details key="IDCanNotBeEmpty" value="&#xA;&#x9;&#x9;&#x9;&#x9;self.ID.size() > 0"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="skeleton" lowerBound="1"
+          eType="#//skeleton/Skeleton"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Process" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//bundle/Process" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Process">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+        <details key="constraints" value="UniqueProcessID UniqueNodes ProcessIsNotInBundle IDCanNotBeEmpty"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="UniqueProcessID" value="self.ID&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(n | Process.allInstances().ID&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->count(n) = 1)"/>
+        <details key="UniqueNodes" value="self.nodes&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(n | Process.allInstances().nodes&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->count(n) = 1)"/>
+        <details key="ProcessIsNotInBundle" value="Bundle.allInstances().Process&#xA;&#x9;&#x9;&#x9;&#x9;->includes(self)"/>
+        <details key="IDCanNotBeEmpty" value="&#xA;&#x9;&#x9;&#x9;&#x9;self.ID.size() > 0"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//tree/Node"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="vm" nsURI="http://devs.org/vm" nsPrefix="vm">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+      <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+      <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    </eAnnotations>
+    <eClassifiers xsi:type="ecore:EClass" name="VM">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+        <details key="constraints" value="UniqueVMID IDCanNotBeEmpty"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="UniqueVMID" value="self.ID&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(n | VM.allInstances().ID&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->count(n) = 1)"/>
+        <details key="IDCanNotBeEmpty" value="&#xA;&#x9;&#x9;&#x9;&#x9;self.ID.size() > 0"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="protocol" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="processors" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//vm/Processor" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Processor">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+        <details key="constraints" value="UniqueProcessorID UniqueProcessorIP IDCanNotBeEmpty"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="UniqueProcessorID" value="self.ID&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(n | Processor.allInstances().ID&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->count(n) = 1)"/>
+        <details key="UniqueProcessorIP" value="self.IP&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(n | Processor.allInstances().IP&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->count(n) = 1)"/>
+        <details key="IDCanNotBeEmpty" value="&#xA;&#x9;&#x9;&#x9;&#x9;self.ID.size() > 0"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="IP" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="graph" nsURI="http://devs.org/graph" nsPrefix="graph">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+      <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+      <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    </eAnnotations>
+    <eClassifiers xsi:type="ecore:EClass" name="Graph">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+        <details key="constraints" value="UniqueGraphID AllProcessesMustBeInMapping AllProcessorsMustBeInMapping IDCanNotBeEmpty"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="UniqueGraphID" value="self.ID&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(n | Graph.allInstances().ID&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->count(n) = 1)"/>
+        <details key="AllProcessesMustBeInMapping" value="self.mappings.processes&#xA;&#x9;&#x9;&#x9;&#x9;->includesAll(self.bundle.Process)"/>
+        <details key="AllProcessorsMustBeInMapping" value="self.mappings.processor&#xA;&#x9;&#x9;&#x9;&#x9;->includesAll(self.vm.processors)"/>
+        <details key="IDCanNotBeEmpty" value="&#xA;&#x9;&#x9;&#x9;&#x9;self.ID.size() > 0"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="bundle" lowerBound="1"
+          eType="#//bundle/Bundle"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="vm" lowerBound="1" eType="#//vm/VM"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="mappings" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//graph/Mapping" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Mapping">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+        <details key="constraints" value="UniqueMappingID MappingIsNotInGraph IDCanNotBeEmpty UniqueProcessorsInMapping UniqueProcessesInMapping"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="UniqueMappingID" value="self.ID&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(n | Mapping.allInstances().ID&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->count(n) = 1)"/>
+        <details key="MappingIsNotInGraph" value="Graph.allInstances().mappings&#xA;&#x9;&#x9;&#x9;&#x9;->includes(self)"/>
+        <details key="IDCanNotBeEmpty" value="&#xA;&#x9;&#x9;&#x9;&#x9;self.ID.size() > 0"/>
+        <details key="UniqueProcessorsInMapping" value="&#xA;&#x9;&#x9;&#x9;&#x9;Mapping.allInstances()->forAll(p1, p2 |&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;p1 &lt;> p2 implies p1.processor &lt;> p2.processor )"/>
+        <details key="UniqueProcessesInMapping" value="&#xA;&#x9;&#x9;&#x9;&#x9;self.processes ->forAll(n | Mapping.allInstances().processes&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->count(n) = 1)"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="processes" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//bundle/Process"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="processor" lowerBound="1"
+          eType="#//vm/Processor"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

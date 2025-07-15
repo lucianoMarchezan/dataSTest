@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="brewery" nsURI="http://brewery/1.0" nsPrefix="brewery">
+  <eClassifiers xsi:type="ecore:EClass" name="Yeast">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="flocculation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="attenuation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="manufacturer" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="range" lowerBound="1" eType="#//TemperatureRange"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Inventory">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="yeast" upperBound="-1"
+        eType="#//Yeast" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TemperatureRange">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unit" eType="#//TemperatureUnit"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="low" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="high" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TemperatureUnit">
+    <eLiterals name="Celsius" literal="C"/>
+    <eLiterals name="Farenheit" value="1" literal="F"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Fermenter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="yeast" lowerBound="1" eType="#//Yeast"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="started" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MashStep">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="temperature" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pause" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="complete" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="riseTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MashSchedule">
+    <eOperations name="complete" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eParameters name="step" eType="#//MashStep"/>
+    </eOperations>
+    <eOperations name="next" eType="#//MashStep"/>
+    <eOperations name="hasNext" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="steps" upperBound="-1"
+        eType="#//MashStep" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="totalTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Sensor">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Pin">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConsoleCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConsoleReply" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorReply" eSuperTypes="#//ConsoleReply">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="temperature" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ArduinoController" eSuperTypes="#//SerialPortEventListener">
+    <eOperations name="scan" upperBound="-1" eType="#//CommPortIdentifier"/>
+    <eOperations name="configure" eExceptions="#//UnsupportedCommOperationException">
+      <eParameters name="dataRate" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="port" eType="#//SerialPort"/>
+    </eOperations>
+    <eOperations name="start" eType="#//SerialPort" eExceptions="#//PortInUseException #//UnsupportedCommOperationException #//IOException">
+      <eParameters name="serialPortName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="sendSensorCommand" eExceptions="#//IOException"/>
+    <eOperations name="sendSetpointCommand" eExceptions="#//IOException">
+      <eParameters name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eOperations>
+    <eOperations name="sendSensorPCommand" eExceptions="#//IOException">
+      <eParameters name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="sendSensorICommand" eExceptions="#//IOException">
+      <eParameters name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="sendSensorDCommand" eExceptions="#//IOException">
+      <eParameters name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="addListener">
+      <eParameters name="listener" eType="#//ConsoleParserEventListener"/>
+    </eOperations>
+    <eOperations name="setEventBroker" eType="#//IEventBroker">
+      <eParameters name="eventBroker" eType="#//IEventBroker"/>
+    </eOperations>
+    <eOperations name="sendPIDCommand" eExceptions="#//IOException"/>
+    <eOperations name="sendTuneCommand" eExceptions="#//IOException">
+      <eParameters name="p" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="i" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="d" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="writer" eType="#//Writer"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reader" eType="#//Reader"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="currentPort" eType="#//SerialPort"
+        changeable="false" unsettable="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="CommPortIdentifier" instanceClassName="gnu.io.CommPortIdentifier"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="PortInUseException" instanceClassName="gnu.io.PortInUseException"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="SerialPort" instanceClassName="gnu.io.SerialPort"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="UnsupportedCommOperationException"
+      instanceClassName="gnu.io.UnsupportedCommOperationException"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="IOException" instanceClassName="java.io.IOException"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Writer" instanceClassName="java.io.BufferedWriter"
+      serializable="false"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Reader" instanceClassName="java.io.BufferedReader"
+      serializable="false"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="StringBuilder" instanceClassName="java.lang.StringBuilder"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="Command">
+    <eLiterals name="sensor"/>
+    <eLiterals name="setpoint"/>
+    <eLiterals name="p" literal=""/>
+    <eLiterals name="i"/>
+    <eLiterals name="d"/>
+    <eLiterals name="pid"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SerialPortEventListener" instanceClassName="gnu.io.SerialPortEventListener"
+      abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ConsoleParserEventListener" instanceClassName="brewery.ui.monitor.ConsoleParserEventListener"
+      abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="IEventBroker" instanceClassName="org.eclipse.e4.core.services.events.IEventBroker"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PID" eSuperTypes="#//ConsoleReply">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="p" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="i" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="d" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ngt" nsURI="http://qualab.jp/vstep/" nsPrefix="ngt">
+  <eClassifiers xsi:type="ecore:EClass" name="ViewPoint" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassifierViewPoint" eSuperTypes="#//ViewPoint">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="testCasesNumber" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="qualityRisk" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="coverage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inheritedBy" upperBound="-1"
+        eType="#//Inheritance" eOpposite="#//Inheritance/superClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inherit" eType="#//Inheritance"
+        eOpposite="#//Inheritance/subClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="consist" upperBound="-1"
+        eType="#//Composite" eOpposite="#//Composite/owner"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compose" eType="#//Composite"
+        eOpposite="#//Composite/property"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="combine" upperBound="-1"
+        eType="#//Combination" eOpposite="#//Combination/factor"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="priorTo" upperBound="-1"
+        eType="#//Sequence" eOpposite="#//Sequence/priority"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="posteriorTo" upperBound="-1"
+        eType="#//Sequence" eOpposite="#//Sequence/posterority"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relate" upperBound="-1"
+        eType="#//General" eOpposite="#//General/element"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="regard" upperBound="-1"
+        eType="#//Frame" eOpposite="#//Frame/element"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="belongTo" eType="#//Container"
+        eOpposite="#//Container/containViewPoint" eKeys="#//Container/name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RelationViewPoint" abstract="true" eSuperTypes="#//ViewPoint"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Inheritance" eSuperTypes="#//RelationViewPoint">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="superClass" lowerBound="1"
+        eType="#//ClassifierViewPoint" eOpposite="#//ClassifierViewPoint/inheritedBy"
+        eKeys="#//ClassifierViewPoint/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subClass" lowerBound="1"
+        eType="#//ClassifierViewPoint" eOpposite="#//ClassifierViewPoint/inherit"
+        eKeys="#//ClassifierViewPoint/name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Composite" eSuperTypes="#//RelationViewPoint">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owner" lowerBound="1" eType="#//ClassifierViewPoint"
+        eOpposite="#//ClassifierViewPoint/consist" eKeys="#//ClassifierViewPoint/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" lowerBound="1"
+        eType="#//ClassifierViewPoint" eOpposite="#//ClassifierViewPoint/compose"
+        eKeys="#//ClassifierViewPoint/name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Combination" eSuperTypes="#//RelationViewPoint">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="combinationNumber" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="qualityRisk" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="coverage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="factor" lowerBound="2"
+        upperBound="2" eType="#//ClassifierViewPoint" eOpposite="#//ClassifierViewPoint/combine"
+        eKeys="#//ClassifierViewPoint/name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Sequence" eSuperTypes="#//RelationViewPoint">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="priority" lowerBound="1"
+        eType="#//ClassifierViewPoint" eOpposite="#//ClassifierViewPoint/priorTo"
+        eKeys="#//ClassifierViewPoint/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="posterority" lowerBound="1"
+        eType="#//ClassifierViewPoint" eOpposite="#//ClassifierViewPoint/posteriorTo"
+        eKeys="#//ClassifierViewPoint/name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="General" eSuperTypes="#//RelationViewPoint">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mame" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="element" lowerBound="2"
+        upperBound="2" eType="#//ClassifierViewPoint" eOpposite="#//ClassifierViewPoint/relate"
+        eKeys="#//ClassifierViewPoint/name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Frame" eSuperTypes="#//RelationViewPoint">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="element" lowerBound="2"
+        upperBound="2" eType="#//ClassifierViewPoint" eOpposite="#//ClassifierViewPoint/regard"
+        eKeys="#//ClassifierViewPoint/name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Container">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containViewPoint" lowerBound="1"
+        upperBound="-1" eType="#//ClassifierViewPoint" eOpposite="#//ClassifierViewPoint/belongTo"
+        eKeys="#//ClassifierViewPoint/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containContainer" lowerBound="1"
+        upperBound="-1" eType="#//Container" eOpposite="#//Container/belongTo" eKeys="#//Container/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="belongTo" upperBound="-1"
+        eType="#//Container" eOpposite="#//Container/containContainer" eKeys="#//Container/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="priorTo" eType="#//Container"
+        eOpposite="#//Container/posteriorTo" eKeys="#//Container/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="posteriorTo" eType="#//Container"
+        eOpposite="#//Container/priorTo" eKeys="#//Container/name"/>
+  </eClassifiers>
+</ecore:EPackage>

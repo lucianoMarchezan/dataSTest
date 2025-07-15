@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="myDsl" nsURI="http://www.xtext.org/example/mydsl/MyDsl" nsPrefix="myDsl">
+  <eClassifiers xsi:type="ecore:EClass" name="Document">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedImports" upperBound="-1"
+        eType="#//Import" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedOCLDocument" eType="ecore:EClass platform:/plugin/org.eclipse.ocl.xtext.completeocl/model/CompleteOCLCS.ecore#//CompleteOCLDocumentCS"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedProperties" upperBound="-1"
+        eType="#//Property" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Import">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="importURI" eType="ecore:EDataType ../../org.eclipse.ocl.pivot/model/Pivot.ecore#//String"
+        defaultValueLiteral=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Property" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UnaryProperty" abstract="true" eSuperTypes="#//Property">
+    <eTypeParameters name="O"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operand" containment="true">
+      <eGenericType eTypeParameter="#//UnaryProperty/O"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BinaryProperty" abstract="true" eSuperTypes="#//Property">
+    <eTypeParameters name="L"/>
+    <eTypeParameters name="R"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" containment="true">
+      <eGenericType eTypeParameter="#//BinaryProperty/L"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" containment="true">
+      <eGenericType eTypeParameter="#//BinaryProperty/R"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanOrOCLLiteral" eSuperTypes="#//SimpleSERE"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OCLLiteral" eSuperTypes="#//BooleanOrOCLLiteral">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="literal" eType="ecore:EClass ../../org.eclipse.ocl.xtext.base/model/BaseCS.ecore#//ConstraintCS"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanLiteral" eSuperTypes="#//BooleanOrOCLLiteral">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="literal" eType="ecore:EClass ../../org.eclipse.ocl.xtext.essentialocl/model/EssentialOCLCS.ecore#//BooleanLiteralExpCS"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NotBooleanOrOCLLiteral" eSuperTypes="#//BooleanOrOCLLiteral">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="literal" eType="#//BooleanOrOCLLiteral"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SERE" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FusionSERE" abstract="true" eSuperTypes="#//SERE">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hd" eType="#//SimpleSERE"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tl" eType="#//SimpleSERE"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConcatenationSERE" abstract="true" eSuperTypes="#//SERE">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hd" eType="#//SimpleSERE"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tl" eType="#//SimpleSERE"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimpleSERE" eSuperTypes="#//SERE"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Sequence" abstract="true" eSuperTypes="#//SimpleSERE"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RepeatedSERE" abstract="true" eSuperTypes="#//Sequence #//CompoundSERE"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WildCard" eSuperTypes="#//RepeatedSERE">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="count" eType="#//Count"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LengthOne" eSuperTypes="#//RepeatedSERE"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanCountedConsecutiveRepetition"
+      eSuperTypes="#//RepeatedSERE">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//BooleanOrOCLLiteral"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="count" eType="#//Count"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanConsecutiveRepetition" eSuperTypes="#//RepeatedSERE">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//BooleanOrOCLLiteral"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanCountedNonConsecutiveRepetition"
+      eSuperTypes="#//RepeatedSERE">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//BooleanOrOCLLiteral"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="count" eType="#//Count"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanCountedGotoRepetition" eSuperTypes="#//RepeatedSERE">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//BooleanOrOCLLiteral"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="count" eType="#//Count"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SequenceCountedConsecutiveRepetition"
+      eSuperTypes="#//RepeatedSERE">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//Sequence"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="count" eType="#//Count"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SequenceConsecutiveRepetition" eSuperTypes="#//RepeatedSERE">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//Sequence"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BracedSERE" eSuperTypes="#//Sequence #//CompoundSERE">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//SERE"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompoundSERE" eSuperTypes="#//SimpleSERE"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BinaryCompoundSERE" abstract="true"
+      eSuperTypes="#//CompoundSERE">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//CompoundSERE"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//CompoundSERE"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SEREOr" eSuperTypes="#//BinaryCompoundSERE"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SEREAndNLM" eSuperTypes="#//BinaryCompoundSERE"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SEREAndLM" eSuperTypes="#//BinaryCompoundSERE"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SEREWithin" eSuperTypes="#//BinaryCompoundSERE"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Count">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="COUNT" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Range" eSuperTypes="#//Count">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="LOWER_BOUND" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="HIGHER_BOUND" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanProperty">
+    <eGenericSuperTypes eClassifier="#//UnaryProperty">
+      <eTypeArguments eClassifier="#//BooleanOrOCLLiteral"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AlwaysProperty">
+    <eGenericSuperTypes eClassifier="#//UnaryProperty">
+      <eTypeArguments eClassifier="#//Property"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NeverBooleanProperty">
+    <eGenericSuperTypes eClassifier="#//UnaryProperty">
+      <eTypeArguments eClassifier="#//BooleanOrOCLLiteral"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NeverSequenceProperty">
+    <eGenericSuperTypes eClassifier="#//UnaryProperty">
+      <eTypeArguments eClassifier="#//Sequence"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SequenceProperty">
+    <eGenericSuperTypes eClassifier="#//UnaryProperty">
+      <eTypeArguments eClassifier="#//Sequence"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SequenceTightProperty">
+    <eGenericSuperTypes eClassifier="#//UnaryProperty">
+      <eTypeArguments eClassifier="#//Sequence"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NextEProperty">
+    <eGenericSuperTypes eClassifier="#//UnaryProperty">
+      <eTypeArguments eClassifier="#//BooleanOrOCLLiteral"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NextEventAProperty">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="range" eType="#//Range"
+        containment="true"/>
+    <eGenericSuperTypes eClassifier="#//BinaryProperty">
+      <eTypeArguments eClassifier="#//BooleanOrOCLLiteral"/>
+      <eTypeArguments eClassifier="#//Property"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EventuallyBooleanProperty">
+    <eGenericSuperTypes eClassifier="#//UnaryProperty">
+      <eTypeArguments eClassifier="#//BooleanOrOCLLiteral"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EventuallySequenceProperty">
+    <eGenericSuperTypes eClassifier="#//UnaryProperty">
+      <eTypeArguments eClassifier="#//Sequence"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AndProperty">
+    <eGenericSuperTypes eClassifier="#//BinaryProperty">
+      <eTypeArguments eClassifier="#//Property"/>
+      <eTypeArguments eClassifier="#//Property"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbortProperty">
+    <eGenericSuperTypes eClassifier="#//BinaryProperty">
+      <eTypeArguments eClassifier="#//Property"/>
+      <eTypeArguments eClassifier="#//BooleanOrOCLLiteral"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OrPropertyBooleanProperty">
+    <eGenericSuperTypes eClassifier="#//BinaryProperty">
+      <eTypeArguments eClassifier="#//Property"/>
+      <eTypeArguments eClassifier="#//BooleanOrOCLLiteral"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OrBooleanPropertyProperty">
+    <eGenericSuperTypes eClassifier="#//BinaryProperty">
+      <eTypeArguments eClassifier="#//BooleanOrOCLLiteral"/>
+      <eTypeArguments eClassifier="#//Property"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImpliesProperty">
+    <eGenericSuperTypes eClassifier="#//BinaryProperty">
+      <eTypeArguments eClassifier="#//BooleanOrOCLLiteral"/>
+      <eTypeArguments eClassifier="#//Property"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SuffixImplicationProperty">
+    <eGenericSuperTypes eClassifier="#//BinaryProperty">
+      <eTypeArguments eClassifier="#//Sequence"/>
+      <eTypeArguments eClassifier="#//Property"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OverlappingSuffixImplicationProperty">
+    <eGenericSuperTypes eClassifier="#//BinaryProperty">
+      <eTypeArguments eClassifier="#//Sequence"/>
+      <eTypeArguments eClassifier="#//Property"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EquivalenceProperty">
+    <eGenericSuperTypes eClassifier="#//BinaryProperty">
+      <eTypeArguments eClassifier="#//BooleanOrOCLLiteral"/>
+      <eTypeArguments eClassifier="#//BooleanOrOCLLiteral"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UntilProperty">
+    <eGenericSuperTypes eClassifier="#//BinaryProperty">
+      <eTypeArguments eClassifier="#//Property"/>
+      <eTypeArguments eClassifier="#//BooleanOrOCLLiteral"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BeforeProperty">
+    <eGenericSuperTypes eClassifier="#//BinaryProperty">
+      <eTypeArguments eClassifier="#//BooleanOrOCLLiteral"/>
+      <eTypeArguments eClassifier="#//BooleanOrOCLLiteral"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OverlappingUntilProperty">
+    <eGenericSuperTypes eClassifier="#//BinaryProperty">
+      <eTypeArguments eClassifier="#//BooleanOrOCLLiteral"/>
+      <eTypeArguments eClassifier="#//BooleanOrOCLLiteral"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+</ecore:EPackage>

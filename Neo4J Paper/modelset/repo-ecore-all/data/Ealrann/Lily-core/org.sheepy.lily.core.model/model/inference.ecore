@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="inference" nsURI="org.sheepy.lily.core.model.inference" nsPrefix="inference">
+  <eClassifiers xsi:type="ecore:EClass" name="IInferenceObject" abstract="true" interface="true">
+    <eOperations name="lInferenceObject" unique="false" eType="#//IInferenceObject">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return this;"/>
+      </eAnnotations>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Inferer" abstract="true" eSuperTypes="#//IInferenceObject">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="*&#xA;An Inferer takes &quot;decisions&quot; regarding its rules, and launch Actions on the executor."/>
+    </eAnnotations>
+    <eOperations name="lExecutor" unique="false" eType="#//IInferenceObject">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return this;"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"
+        eType="#//LRule" containment="true" resolveProxies="false">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="createChild" value="false"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Sensor" abstract="true" eSuperTypes="#//IInferenceObject">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="*&#xA;A Sensor generate notifications for the NotifiedObject"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LRule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="notification" eType="#//AbstractNotification"
+        containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="action" eType="ecore:EClass action.ecore#//Action"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conditions" upperBound="-1"
+        containment="true" resolveProxies="false">
+      <eGenericType eClassifier="#//Condition">
+        <eTypeArguments/>
+      </eGenericType>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractNotification" abstract="true">
+    <eOperations name="match" unique="false" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return this.eClass().equals(compareTo.eClass());"/>
+      </eAnnotations>
+      <eParameters name="compareTo" unique="false" eType="#//AbstractNotification"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LNotification" abstract="true" eSuperTypes="#//AbstractNotification"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ParameteredNotification" abstract="true"
+      eSuperTypes="#//AbstractNotification">
+    <eTypeParameters name="T">
+      <eBounds eClassifier="ecore:EClass types.ecore#//Parameter"/>
+    </eTypeParameters>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Condition" abstract="true" interface="true">
+    <eTypeParameters name="T">
+      <eBounds eClassifier="ecore:EClass types.ecore#//Parameter"/>
+    </eTypeParameters>
+    <eOperations name="getType" unique="false">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="throw new &lt;%java.lang.UnsupportedOperationException%>();"/>
+      </eAnnotations>
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
+        <eTypeArguments eTypeParameter="#//Condition/T"/>
+      </eGenericType>
+    </eOperations>
+    <eOperations name="match" unique="false" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="throw new &lt;%java.lang.UnsupportedOperationException%>();"/>
+      </eAnnotations>
+      <eParameters name="compareTo" unique="false">
+        <eGenericType eTypeParameter="#//Condition/T"/>
+      </eParameters>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" containment="true"
+        resolveProxies="false">
+      <eGenericType eTypeParameter="#//Condition/T"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definition" eType="#//LNotification"/>
+  </eClassifiers>
+</ecore:EPackage>

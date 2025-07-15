@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="dssl" nsURI="http://mem4cds.telecom-paristech.fr/languages/dssl/"
+    nsPrefix="dssl">
+  <eClassifiers xsi:type="ecore:EClass" name="IdentifiedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DsslSpecification" eSuperTypes="#//IdentifiedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="developedDsl" lowerBound="1"
+        eType="#//Dsl"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedContexts" lowerBound="1"
+        upperBound="-1" eType="#//ContextSpecification" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedEntityTypes" lowerBound="1"
+        upperBound="-1" eType="#//EntityType" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EntityType" abstract="true" eSuperTypes="#//IdentifiedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="category" upperBound="-1"
+        eType="ecore:EClass ../../fr.labsticc.framework.settings.model/model/settings.ecore#//Category"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedInteractionFeatures"
+        upperBound="-1" eType="#//InteractionFeature" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ContextSpecification" eSuperTypes="#//IdentifiedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedEntityInstances" lowerBound="1"
+        upperBound="-1" eType="#//EntityInstance" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="developedDsl" lowerBound="1"
+        eType="#//Dsl" changeable="false" volatile="true" transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedConnections" upperBound="-1"
+        eType="#//EntityInstancesConnection" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Dsl" eSuperTypes="#//EntityType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedSyntaxes" lowerBound="2"
+        upperBound="-1" eType="#//Syntax" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="concreteSyntaxes" lowerBound="1"
+        upperBound="-1" eType="#//ConcreteSyntax" changeable="false" volatile="true"
+        transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="abstractsyntax" lowerBound="1"
+        eType="#//AbstractSyntax" changeable="false" volatile="true" transient="true"
+        derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supportingTools" upperBound="-1"
+        eType="#//SoftwareTool" eOpposite="#//SoftwareTool/supportedLanguages"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedSemantics" upperBound="-1"
+        eType="#//Semantics" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedFeatureDiagrams" upperBound="-1"
+        eType="#//FeatureDiagram" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedDocumentations" upperBound="-1"
+        eType="#//Documentation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="maintenanceService" eType="#//MaintenanceService"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Syntax" abstract="true" eSuperTypes="#//IdentifiedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractSyntax" abstract="true" eSuperTypes="#//Syntax"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ConcreteSyntax" abstract="true" eSuperTypes="#//Syntax">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="language" eType="ecore:EClass ../../fr.labsticc.framework.constraints.model/model/constraints.ecore#//NaturalConstraintLanguage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ECoreAbstractSyntax" eSuperTypes="#//AbstractSyntax">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="packages" lowerBound="1"
+        upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SiriusConcreteSyntax" eSuperTypes="#//ConcreteSyntax">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="siriusSpecification" lowerBound="1"
+        upperBound="-1" eType="ecore:EClass ../../org.eclipse.sirius/model/viewpoint.ecore#//description/Group"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Tool" abstract="true" eSuperTypes="#//EntityType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedBy" upperBound="-1"
+        eType="#//User" eOpposite="#//User/uses"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controlledBy" upperBound="-1"
+        eType="#//Tool" eOpposite="#//Tool/controls"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controls" upperBound="-1"
+        eType="#//Tool" eOpposite="#//Tool/controlledBy"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="User" eSuperTypes="#//EntityType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uses" lowerBound="1" upperBound="-1"
+        eType="#//Tool" eOpposite="#//Tool/usedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ageMin" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ageMax" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="perception" upperBound="-1"
+        eType="#//PhysicalSystem"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="spokenLanguages" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkPlace" eSuperTypes="#//EntityType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Computer" eSuperTypes="#//HardwareTool">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executes" upperBound="-1"
+        eType="#//SoftwareTool" eOpposite="#//SoftwareTool/executedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="displays" upperBound="-1"
+        eType="#//Display"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mouses" upperBound="-1"
+        eType="#//Mouse"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SoftwareTool" eSuperTypes="#//Tool">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supportedLanguages" upperBound="-1"
+        eType="#//Dsl" eOpposite="#//Dsl/supportingTools"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executedBy" lowerBound="1"
+        upperBound="-1" eType="#//Computer" eOpposite="#//Computer/executes"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OperatingSystem" eSuperTypes="#//SoftwareTool"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Semantics" abstract="true" eSuperTypes="../../org.eclipse.sirius/model/viewpoint.ecore#//description/IdentifiedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FeatureDiagram" eSuperTypes="#//IdentifiedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ModelChecker" eSuperTypes="#//SoftwareTool"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ModelSimulator" eSuperTypes="#//SoftwareTool"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Documentation" abstract="true" interface="true"
+      eSuperTypes="#//EntityType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MaintenanceService" eSuperTypes="../../org.eclipse.sirius/model/viewpoint.ecore#//description/IdentifiedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EntityInstance" eSuperTypes="#//IdentifiedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entityType" lowerBound="1"
+        eType="#//EntityType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EntityInstancesConnection" eSuperTypes="#//IdentifiedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceFeature" lowerBound="1"
+        eType="#//InteractionFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="destinationFeature" lowerBound="1"
+        eType="#//InteractionFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceEntityInstance" lowerBound="1"
+        eType="#//EntityInstance"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="destinationEntityInstance"
+        lowerBound="1" eType="#//EntityInstance"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PhysicalSystem" eSuperTypes="#//EntityType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controlledBy" upperBound="-1"
+        eType="#//SoftwareTool"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputs" upperBound="-1"
+        eType="#//Dsl"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="visual" upperBound="-1"
+        eType="#//User"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InteractionFeature" eSuperTypes="#//IdentifiedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="feature" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EReference"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Display" eSuperTypes="#//HardwareTool">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resolutionX" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resolutionY" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="supportedColors" lowerBound="1"
+        upperBound="-1" eType="#//ColorScheme"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ColorScheme">
+    <eLiterals name="ColorsTrue"/>
+    <eLiterals name="Colors65536" value="1"/>
+    <eLiterals name="MonoChrome" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Mouse" eSuperTypes="#//PhysicalSystem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="HardwareTool" eSuperTypes="#//Tool"/>
+</ecore:EPackage>

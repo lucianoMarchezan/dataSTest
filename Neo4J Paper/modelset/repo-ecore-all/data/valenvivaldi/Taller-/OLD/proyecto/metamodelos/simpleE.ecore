@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="simplee" nsURI="simpleE" nsPrefix="simplee">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="Attribute" eSuperTypes="#//ER">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inKeys" upperBound="-1"
+        eType="#//Key" eOpposite="#//Key/attributes"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isMultivalued" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//PrimaryType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ofRelationship" eType="#//Relationship"
+        eOpposite="#//Relationship/attributes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ofEntity" eType="#//Entity"
+        eOpposite="#//Entity/attributes"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Entity" eSuperTypes="#//ER">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="nombreAlMenos4letras unicaPK clavesAtributosPropios uniqueName attrNameUnique inherit PrimaryKeys"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="nombreAlMenos4letras" value="&#xA;&#x9;&#x9;&#x9;self.name.size() >= 4"/>
+      <details key="unicaPK" value="&#xA;&#x9;    &#x9;self.keys-> select(c|c.oclIsKindOf(Primary_keys))-> size()&lt;=1"/>
+      <details key="clavesAtributosPropios" value="&#xA;&#x9;    &#x9;self.keys->forAll(c | attributes->includesAll(c.attributes))"/>
+      <details key="uniqueName" value="&#xA;&#x9;    &#x9;Entity.allInstances()->forAll(e1,e2|e1&lt;>e2 implies e1.name &lt;> e2.name)"/>
+      <details key="attrNameUnique" value="&#xA;&#x9;    &#x9;self.attributes->forAll(e1,e2 | e1 &lt;> e2 implies e1.name &lt;> e2.name)"/>
+      <details key="inherit" value="&#xA;&#x9;    &#x9;(self.superclass &lt;> null) implies (self &lt;> self.superclass)"/>
+      <details key="PrimaryKeys" value="&#xA;&#x9;    &#x9;((self.keys->select(c | c.oclIsKindOf(Primary_keys))->size())=0) implies self.superclass &lt;> null"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="#//Attribute" containment="true" eOpposite="#//Attribute/ofEntity"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="keys" upperBound="-1" eType="#//Key"
+        containment="true" eOpposite="#//Key/entityKey"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="superclass" eType="#//Entity"
+        eOpposite="#//Entity/child"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="child" upperBound="-1"
+        eType="#//Entity" eOpposite="#//Entity/superclass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="diagram" lowerBound="1"
+        eType="#//DiagramER" eOpposite="#//DiagramER/entities"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="isSourceOf" upperBound="-1"
+        eType="#//Relationship" eOpposite="#//Relationship/source"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="isDestinationOf" upperBound="-1"
+        eType="#//Relationship" eOpposite="#//Relationship/destination"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="childHasIntersection" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Key" eSuperTypes="#//ER">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" lowerBound="1"
+        upperBound="-1" eType="#//Attribute" eOpposite="#//Attribute/inKeys"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entityKey" lowerBound="1"
+        eType="#//Entity" eOpposite="#//Entity/keys"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ER" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Primary_keys" eSuperTypes="#//Key"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramER" eSuperTypes="#//ER">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entities" upperBound="-1"
+        eType="#//Entity" containment="true" eOpposite="#//Entity/diagram"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relations" upperBound="-1"
+        eType="#//Relationship" containment="true" eOpposite="#//Relationship/diagram"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Relationship" eSuperTypes="#//ER">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="uniqueNamerelationships attrNameUnique RelationName"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="uniqueNamerelationships" value="&#xA;&#x9;    &#x9;Relationship.allInstances()->forAll(e1,e2|e1&lt;>e2 implies e1.name &lt;> e2.name)"/>
+      <details key="attrNameUnique" value="&#xA;&#x9;    &#x9;self.attributes->forAll(e1,e2 | e1 &lt;> e2 implies e1.name &lt;> e2.name)"/>
+      <details key="RelationName" value="&#xA;&#x9;    &#x9;Entity.allInstances()->forAll(e | e.name &lt;> self.name)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//Entity" eOpposite="#//Entity/isSourceOf"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="destination" lowerBound="1"
+        eType="#//Entity" eOpposite="#//Entity/isDestinationOf"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="#//Attribute" containment="true" eOpposite="#//Attribute/ofRelationship"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cardinality" eType="#//Cardinality"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="diagram" lowerBound="1"
+        eType="#//DiagramER" eOpposite="#//DiagramER/relations"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Cardinality">
+    <eLiterals name="OneToOne" literal="1...1"/>
+    <eLiterals name="OneToN" value="1" literal="1...N"/>
+    <eLiterals name="NtoOne" value="2" literal="N...1"/>
+    <eLiterals name="NtoN" value="3" literal="N...N"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PrimaryType">
+    <eLiterals name="String"/>
+    <eLiterals name="Integer" value="1"/>
+    <eLiterals name="Real" value="2"/>
+    <eLiterals name="Datatime" value="3" literal=""/>
+  </eClassifiers>
+</ecore:EPackage>

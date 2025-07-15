@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="process" nsURI="org.sheepy.lily.vulkan.model.process" nsPrefix="process">
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractProcess" abstract="true" eSuperTypes="vulkan.ecore#//IProcess">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="descriptorSetPkg" eType="ecore:EClass resource.ecore#//DescriptorSetPkg"
+        containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="waitingFenceDuringAcquire"
+        unique="false" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="propertyDescription" value="If fenceEnabled, will wait during acquire. Useless for a render process that already wait for image acquiring"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resetAllowed" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="signals" upperBound="-1"
+        eType="ecore:EClass resource.ecore#//Semaphore">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="propertyCategory" value="Semaphores"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="waitFor" upperBound="-1"
+        eType="ecore:EClass resource.ecore#//Semaphore">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="propertyCategory" value="Semaphores"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extensionPkg" eType="#//ProcessExtensionPkg"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Configuration" abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PipelinePkg">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pipelines" upperBound="-1"
+        eType="#//AbstractPipeline" containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IPipelineTask" abstract="true" interface="true"
+      eSuperTypes="../../org.sheepy.lily.core.model/model/types.ecore#//LNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="enabled" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractPipeline" abstract="true" eSuperTypes="../../org.sheepy.lily.core.model/model/types.ecore#//LNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="enabled" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stage" unique="false" eType="ecore:EEnum ../../org.sheepy.vulkan.model/model/enumeration.ecore#//ECommandStage"
+        defaultValueLiteral="Render"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TaskPipeline" abstract="true" eSuperTypes="#//AbstractPipeline vulkan.ecore#//IResourceContainer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="taskPkg" eType="#//TaskPkg"
+        containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VkPipeline" abstract="true" eSuperTypes="#//TaskPipeline">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="descriptorSetPkg" eType="ecore:EClass resource.ecore#//DescriptorSetPkg"
+        containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="specializationData" eType="ecore:EClass resource.ecore#//ConstantBuffer"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pushConstantRanges" upperBound="-1"
+        eType="ecore:EClass ../../org.sheepy.vulkan.model/model/pipeline.ecore#//PushConstantRange"
+        containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="layout" upperBound="-1"
+        eType="ecore:EClass resource.ecore#//DescriptorSet"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TaskPkg">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tasks" upperBound="-1"
+        eType="#//IPipelineTask" containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Pipeline" eSuperTypes="#//TaskPipeline"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CompositePipeline" eSuperTypes="#//AbstractPipeline">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pipelines" upperBound="-1"
+        eType="#//TaskPipeline" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="repeat" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PipelineBarrier" eSuperTypes="#//IPipelineTask">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="barriers" lowerBound="1"
+        upperBound="-1" eType="ecore:EClass ../../org.sheepy.vulkan.model/model/barrier.ecore#//Barrier"
+        containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="srcStage" unique="false"
+        eType="ecore:EEnum ../../org.sheepy.vulkan.model/model/enumeration.ecore#//EPipelineStage"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dstStage" unique="false"
+        eType="ecore:EEnum ../../org.sheepy.vulkan.model/model/enumeration.ecore#//EPipelineStage"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="srcQueue" eType="#//AbstractProcess"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dstQueue" eType="#//AbstractProcess"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="recordDuringStage" lowerBound="1"
+        eType="ecore:EEnum ../../org.sheepy.vulkan.model/model/enumeration.ecore#//ECommandStage"
+        defaultValueLiteral="Inherited"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompositeTask">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="repeatCount" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tasks" upperBound="-1"
+        eType="#//IPipelineTask" containment="true" resolveProxies="false"/>
+    <eGenericSuperTypes eClassifier="#//IPipelineTask"/>
+    <eGenericSuperTypes eClassifier="ecore:EClass ../../org.sheepy.lily.core.model/model/maintainer.ecore#//Maintainable">
+      <eTypeArguments eClassifier="#//CompositeTask"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BindDescriptorSets" eSuperTypes="#//IPipelineTask">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="descriptorSets" upperBound="-1"
+        eType="ecore:EClass resource.ecore#//DescriptorSet"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bindPoint" lowerBound="1"
+        eType="ecore:EEnum ../../org.sheepy.vulkan.model/model/enumeration.ecore#//EBindPoint"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PushConstant" abstract="true" eSuperTypes="#//IPipelineTask">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stages" lowerBound="1"
+        upperBound="-1" eType="ecore:EEnum ../../org.sheepy.vulkan.model/model/enumeration.ecore#//EShaderStage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PushConstantBuffer" eSuperTypes="#//PushConstant">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="buffer" lowerBound="1"
+        eType="ecore:EClass resource.ecore#//ConstantBuffer"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FlushTransferBufferTask" eSuperTypes="#//IPipelineTask">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transferBuffer" lowerBound="1"
+        eType="ecore:EClass resource.ecore#//TransferBuffer"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stage" lowerBound="1" eType="ecore:EEnum ../../org.sheepy.vulkan.model/model/enumeration.ecore#//ECommandStage"
+        defaultValueLiteral="Transfer"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="flushDuringUpdate" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CopyBufferTask" eSuperTypes="#//IPipelineTask">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stage" lowerBound="1" eType="ecore:EEnum ../../org.sheepy.vulkan.model/model/enumeration.ecore#//ECommandStage"
+        defaultValueLiteral="Transfer"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"
+        unsettable="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="srcBuffer" lowerBound="1"
+        eType="ecore:EClass resource.ecore#//IBuffer"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dstBuffer" lowerBound="1"
+        eType="ecore:EClass resource.ecore#//IBuffer"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IProcessExtension" abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ProcessExtensionPkg">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extensions" upperBound="-1"
+        eType="#//IProcessExtension" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PrepareCompositeTransfer" eSuperTypes="#//IPipelineTask">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compositeBuffer" lowerBound="1"
+        eType="ecore:EClass resource.ecore#//CompositeBuffer"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mode" lowerBound="1" eType="ecore:EEnum resource.ecore#//EFlushMode"
+        defaultValueLiteral="PUSH"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="prepareDuringUpdate" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stage" lowerBound="1" eType="ecore:EEnum ../../org.sheepy.vulkan.model/model/enumeration.ecore#//ECommandStage"
+        defaultValueLiteral="Transfer"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parts" lowerBound="1" upperBound="-1"
+        eType="ecore:EClass resource.ecore#//BufferPart"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transferBuffer" lowerBound="1"
+        eType="ecore:EClass resource.ecore#//TransferBuffer"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SwapBindingsTask" eSuperTypes="../../org.sheepy.lily.core.model/model/cadence.ecore#//ICadenceTask">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="task" lowerBound="1" eType="#//BindDescriptorSets"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="descriptorSets" lowerBound="1"
+        upperBound="-1" eType="ecore:EClass resource.ecore#//DescriptorSet"/>
+  </eClassifiers>
+</ecore:EPackage>

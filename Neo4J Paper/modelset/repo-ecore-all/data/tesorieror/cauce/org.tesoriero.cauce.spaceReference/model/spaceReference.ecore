@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="rsmm" nsURI="http://tesoriero.org/cauce/spaceReference/1.0"
+    nsPrefix="rsmm">
+  <eClassifiers xsi:type="ecore:EClass" name="SystemInformationFlowReferenceSpace">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referentialSpaces" upperBound="-1"
+        eType="#//ReferentialSpace" containment="true" eOpposite="#//ReferentialSpace/system"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="spaceToSpaceReferenceDependencies"
+        upperBound="-1" eType="#//SpaceToSpaceReferenceDependency" containment="true"
+        eOpposite="#//SpaceToSpaceReferenceDependency/system"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="spaceToEntityReferenceDependencies"
+        upperBound="-1" eType="#//SpaceToEntityReferenceDependency" containment="true"
+        eOpposite="#//SpaceToEntityReferenceDependency/system"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entityReferences" upperBound="-1"
+        eType="#//ContextAwareEntityReference" containment="true" eOpposite="#//ContextAwareEntityReference/system"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="rsmm-default"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0" iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReferentialSpace">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" lowerBound="1"
+        eType="#//SystemInformationFlowReferenceSpace" eOpposite="#//SystemInformationFlowReferenceSpace/referentialSpaces"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ongoingReferenceDependencies"
+        upperBound="-1" eType="#//ReferenceDependency" eOpposite="#//ReferenceDependency/parent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incomingReferenceDependency"
+        eType="#//SpaceToSpaceReferenceDependency" eOpposite="#//SpaceToSpaceReferenceDependency/child"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1" iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ContextAwareEntityReference">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" lowerBound="1"
+        eType="#//SystemInformationFlowReferenceSpace" eOpposite="#//SystemInformationFlowReferenceSpace/entityReferences"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incomingReferenceDependency"
+        lowerBound="1" eType="#//SpaceToEntityReferenceDependency" eOpposite="#//SpaceToEntityReferenceDependency/child"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1" iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="entity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SpaceToEntityReferenceDependency" eSuperTypes="#//ReferenceDependency">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" lowerBound="1"
+        eType="#//SystemInformationFlowReferenceSpace" eOpposite="#//SystemInformationFlowReferenceSpace/spaceToEntityReferenceDependencies"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="child" lowerBound="1" eType="#//ContextAwareEntityReference"
+        eOpposite="#//ContextAwareEntityReference/incomingReferenceDependency"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SpaceToSpaceReferenceDependency" eSuperTypes="#//ReferenceDependency">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" lowerBound="1"
+        eType="#//SystemInformationFlowReferenceSpace" eOpposite="#//SystemInformationFlowReferenceSpace/spaceToSpaceReferenceDependencies"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="child" lowerBound="1" eType="#//ReferentialSpace"
+        eOpposite="#//ReferentialSpace/incomingReferenceDependency"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReferenceDependency" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cardinality" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+        eType="#//ReferentialSpace" eOpposite="#//ReferentialSpace/ongoingReferenceDependencies"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        iD="true"/>
+  </eClassifiers>
+</ecore:EPackage>

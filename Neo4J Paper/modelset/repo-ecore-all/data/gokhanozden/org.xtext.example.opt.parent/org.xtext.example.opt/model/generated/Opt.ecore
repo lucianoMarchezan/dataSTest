@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="opt" nsURI="http://www.xtext.org/example/opt/Opt" nsPrefix="opt">
+  <eClassifiers xsi:type="ecore:EClass" name="Model">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//Type" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Type">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Optimizer" eSuperTypes="#//Type">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objective" eType="#//Objective"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stoppingcriteria" eType="#//Stopping_Criteria"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="optimizationmethod" eType="#//OptimizationMethod"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="seed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="minmax" eType="#//MinMax"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OptimizationMethod"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EvolutionaryStrategies" eSuperTypes="#//Type #//OptimizationMethod">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mu" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lambda" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sigma" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="strategy" eType="#//ESStrategy"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ESStrategy">
+    <eLiterals name="COMMA" literal="COMMA"/>
+    <eLiterals name="PLUS" value="1" literal="PLUS"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Variable" eSuperTypes="#//Type">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//VariableType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="group" eType="#//VariableGroup"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="highValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="VariableGroup">
+    <eLiterals name="FACTOR" literal="FACTOR"/>
+    <eLiterals name="RESPONSE" value="1" literal="RESPONSE"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="VariableType">
+    <eLiterals name="BOOLEAN" literal="BOOLEAN"/>
+    <eLiterals name="INTEGER" value="1" literal="INTEGER"/>
+    <eLiterals name="DECIMAL" value="2" literal="DECIMAL"/>
+    <eLiterals name="STRING" value="3" literal="STRING"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Objective"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="MinMax">
+    <eLiterals name="Min" literal="Min"/>
+    <eLiterals name="Max" value="1" literal="Max"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Simulation" eSuperTypes="#//Type #//Objective">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelFileFolderPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="functionName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="initialization" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelType" eType="#//SimModelType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//Expression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//Expression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Function" eSuperTypes="#//Type #//Objective">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="function1" eType="#//Expression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SimModelType">
+    <eLiterals name="STATIC" literal="STATIC"/>
+    <eLiterals name="CONTINUOUS" value="1" literal="CONTINUOUS"/>
+    <eLiterals name="DISCRETEEVENT" value="2" literal="DISCRETEEVENT"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Stopping_Criteria"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Convergence" eSuperTypes="#//Type #//Stopping_Criteria">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="convergenceThreshold" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="convergencerange" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Duration" eSuperTypes="#//Type #//Stopping_Criteria">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="durationtime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EndTime" eSuperTypes="#//Type #//Stopping_Criteria">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="endtime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MaxIteration" eSuperTypes="#//Type #//Stopping_Criteria">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxiteration" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Threshold" eSuperTypes="#//Type #//Stopping_Criteria">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="thresholdvalue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntConstant" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DecimalConstant" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="variableRef" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variable" eType="#//Variable"/>
+  </eClassifiers>
+</ecore:EPackage>

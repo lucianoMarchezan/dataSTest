@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="remytt_model" nsURI="http://www.remyrobotics.com/remytt_model"
+    nsPrefix="com.remyrobotics">
+  <eClassifiers xsi:type="ecore:EClass" name="Kitchen">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="storage" eType="#//Storage"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ovenConveyors" lowerBound="1"
+        upperBound="-1" eType="#//OvenConveyor" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="giverRobots" lowerBound="1"
+        upperBound="-1" eType="#//AxisRobot" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="takerRobots" lowerBound="1"
+        upperBound="-1" eType="#//AxisRobot" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="workTable" lowerBound="1"
+        eType="#//Table" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="waitTable" lowerBound="1"
+        eType="#//Table" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AxisRobot">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="holds" eType="#//Holdable"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mozzarellaDispenser" eType="#//MozzarellaDispenser"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cutter" eType="#//Cutter"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sauceDispenser" eType="#//SauceDispenser"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Ingredient" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OvenConveyor">
+    <eOperations name="waitForPizza" eType="#//PizzaCrust"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="input" upperBound="6" eType="#//PizzaCrust"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="output" upperBound="6"
+        eType="#//PizzaCrust" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="baking" upperBound="12"
+        eType="#//PizzaCrust" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Process" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Table">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="things" upperBound="-1"
+        eType="#//Holdable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Mozzarella" eSuperTypes="#//Ingredient"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TomatoSauce" eSuperTypes="#//Ingredient"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PizzaCrust" eSuperTypes="#//Holdable">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processes" upperBound="-1"
+        eType="#//Process" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="orderId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Box" eSuperTypes="#//Ingredient #//Holdable"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MozzarellaDispenser">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mozzarella" upperBound="-1"
+        eType="#//Mozzarella" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SauceDispenser">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tomatoSauce" upperBound="-1"
+        eType="#//TomatoSauce" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Holdable" abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Storage">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="boxes" upperBound="-1"
+        eType="#//Box" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="crusts" upperBound="-1"
+        eType="#//PizzaCrust" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Bake" eSuperTypes="#//Process"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AddIngredient" eSuperTypes="#//Process">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ingredient" upperBound="-1"
+        eType="#//Ingredient" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Cut" eSuperTypes="#//Process"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Cutter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NoPizzaCrust" eSuperTypes="#//PizzaCrust"/>
+</ecore:EPackage>

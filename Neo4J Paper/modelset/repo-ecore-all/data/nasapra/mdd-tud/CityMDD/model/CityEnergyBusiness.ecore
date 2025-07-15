@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="cityenergybusiness" nsURI="http://cityenergybusiness/1.0" nsPrefix="cityenergybusiness">
+  <eClassifiers xsi:type="ecore:EClass" name="Addressable" abstract="true" interface="true">
+    <eOperations name="getCity"/>
+    <eOperations name="getStreet"/>
+    <eOperations name="getHouseNum"/>
+    <eOperations name="getZipCode"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer" eSuperTypes="#//Addressable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="customerId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="billDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unpaid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="presentBill" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usage" eType="#//Meter"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Employee" abstract="true" eSuperTypes="#//Addressable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="employeeID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PowerOperations" abstract="true" interface="true">
+    <eOperations name="getstatistics" eType="#//Statistics"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessOperation" abstract="true" eSuperTypes="#//PowerOperations">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statistics" upperBound="-1"
+        eType="#//Statistics" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="customers" upperBound="-1"
+        eType="#//Customer" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InternalOperations" eSuperTypes="#//PowerOperations">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statistics" upperBound="-1"
+        eType="#//Statistics" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="EReference0" eType="#//Customer"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="employees" upperBound="-1"
+        eType="#//Employee"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Statistics" abstract="true" interface="true">
+    <eOperations name="processStatistics"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UsageStatistics" eSuperTypes="#//Statistics">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="totalUsage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProductionStatistics" eSuperTypes="#//Statistics">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="totalProductionCapacity"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="actualProduction" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SalesStatistics" eSuperTypes="#//Statistics">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="totalSales" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="profit" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EmployeeStatistics" eSuperTypes="#//Statistics">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="totalEmployees" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PowerDistribution">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Meter">
+    <eOperations name="EOperation0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="active" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="usage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CustomerSupport" eSuperTypes="#//PowerOperations #//BusinessOperation">
+    <eOperations name="getComplaints" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="totalRequest" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="totalComplaints" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="totalResolved" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="onlab" nsURI="hu.bme.mdsd.onlab" nsPrefix="hu.bme.mdsd.onlab">
+  <eClassifiers xsi:type="ecore:EClass" name="Object">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PassTheRiver">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lands" upperBound="-1"
+        eType="#//Land" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="danger" upperBound="-1"
+        eType="#//Danger" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="vehichles" upperBound="-1"
+        eType="#//Vehichle" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="passangers" upperBound="-1"
+        eType="#//Passanger" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Vehichle" eSuperTypes="#//Object">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="seats" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        transient="true" defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="freeseats" upperBound="2"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" transient="true"
+        derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lands" lowerBound="2" upperBound="2"
+        eType="#//Land" eOpposite="#//Land/vehichles"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actualLand" lowerBound="1"
+        eType="#//Land"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="passanger" upperBound="-1"
+        eType="#//Passanger" eOpposite="#//Passanger/travelOn"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Passanger" eSuperTypes="#//Object">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//Land"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dangerousfor" upperBound="-1"
+        eType="#//Passanger"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="land" eType="#//Land" eOpposite="#//Land/passangers"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="travelOn" eType="#//Vehichle"
+        eOpposite="#//Vehichle/passanger"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Land" eSuperTypes="#//Object">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="neighbours" lowerBound="1"
+        upperBound="-1" eType="#//Land" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="vehichles" lowerBound="1"
+        upperBound="-1" eType="#//Vehichle" eOpposite="#//Vehichle/lands"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="passangers" upperBound="-1"
+        eType="#//Passanger" eOpposite="#//Passanger/land"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Driver" eSuperTypes="#//Passanger">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="drivingLicences" lowerBound="1"
+        upperBound="-1" eType="#//Vehichle"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Danger">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guard" lowerBound="1" upperBound="-1"
+        eType="#//Passanger"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dangerousToEachOther" lowerBound="2"
+        upperBound="2" eType="#//Passanger"/>
+  </eClassifiers>
+</ecore:EPackage>

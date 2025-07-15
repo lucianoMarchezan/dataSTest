@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="plaovgraph"
+    nsURI="http://plaovgraph/1.0" nsPrefix="plaovgraph">
+  <eClassifiers xsi:type="ecore:EEnum" name="DecompositionCategory">
+    <eLiterals name="and"/>
+    <eLiterals name="or" value="1"/>
+    <eLiterals name="xor" value="2"/>
+    <eLiterals name="inc_or" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="IsFeatureTypes">
+    <eLiterals name="no"/>
+    <eLiterals name="yes" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CorrelationCategory">
+    <eLiterals name="make"/>
+    <eLiterals name="break" value="1"/>
+    <eLiterals name="help" value="2"/>
+    <eLiterals name="hurt" value="3"/>
+    <eLiterals name="unknown" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="AdviceCategory">
+    <eLiterals name="around"/>
+    <eLiterals name="before" value="1"/>
+    <eLiterals name="after" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="IntertypeCategory">
+    <eLiterals name="element"/>
+    <eLiterals name="attribute" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PrimitiveTypes">
+    <eLiterals name="include"/>
+    <eLiterals name="substitute" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="OperatorTypes">
+    <eLiterals name="and"/>
+    <eLiterals name="or" value="1"/>
+    <eLiterals name="not" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ElementTypes">
+    <eLiterals name="task"/>
+    <eLiterals name="goal" value="1"/>
+    <eLiterals name="softgoal" value="2"/>
+    <eLiterals name="task_ref" value="3"/>
+    <eLiterals name="goal_ref" value="4"/>
+    <eLiterals name="softgoal_ref" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Aspect_Oriented_Model">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="goalmodel" lowerBound="1"
+        upperBound="-1" eType="#//Goal_Model" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Goal_Model">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="element" upperBound="-1"
+        eType="#//Element" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relationship" upperBound="-1"
+        eType="#//Relationship" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" upperBound="-1"
+        eType="#//Property" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Element" eSuperTypes="#//Goal_Model">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//ElementTypes"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Relationship" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//Goal_Model"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//Goal_Model"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Property" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IsFeature" eSuperTypes="#//Property">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" lowerBound="1" eType="#//IsFeatureTypes"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Cardinality" eSuperTypes="#//Property">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//Element"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//Goal_Model"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cardinalityMin" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cardinalityMax" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GroupFeature" eSuperTypes="#//Property">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        upperBound="-1" eType="#//Element"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//Goal_Model"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cardinalityGroupMin" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cardinalityGroupMax" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Generic_Property" eSuperTypes="#//Property">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Contribution" eSuperTypes="#//Relationship">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" lowerBound="1" eType="#//DecompositionCategory"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Correlation" eSuperTypes="#//Relationship">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" lowerBound="1" eType="#//CorrelationCategory"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Crosscutting" eSuperTypes="#//Relationship">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pointcut" lowerBound="1"
+        upperBound="-1" eType="#//Pointcut" containment="true" eKeys="#//Pointcut/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="advice" upperBound="-1"
+        eType="#//Advice" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="intertype" upperBound="-1"
+        eType="#//IntertypeDeclaration" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Pointcut">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operand" lowerBound="1"
+        upperBound="-1" eType="#//Operand" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Operand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="primitive" lowerBound="1"
+        eType="#//PrimitiveTypes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="joinpointPointcut" lowerBound="1"
+        eType="#//Element"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operator" eType="#//Operator"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Operator">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1"
+        eType="#//OperatorTypes"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Advice">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//AdviceCategory"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="joinpointAdvice" upperBound="-1"
+        eType="#//Element"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="idPointcut" lowerBound="1"
+        upperBound="-1" eType="#//Pointcut" eKeys="#//Pointcut/name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntertypeDeclaration">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//IntertypeCategory"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="newElement" upperBound="-1"
+        eType="#//Element" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="newAttribute" upperBound="-1"
+        eType="#//Attribute" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="idPointcut" lowerBound="1"
+        upperBound="-1" eType="#//Pointcut"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Attribute">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

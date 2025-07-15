@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="arithm" nsURI="http://www.emftext.org/language/arithm" nsPrefix="arithm">
+  <eClassifiers xsi:type="ecore:EClass" name="Calc">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expr" lowerBound="1" upperBound="-1"
+        eType="#//Expr" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Expr" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BitShiftExpr" eSuperTypes="#//Expr">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" lowerBound="2"
+        upperBound="-1" eType="#//BitShiftExprChild" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operators" lowerBound="1"
+        upperBound="-1" eType="#//BitShiftOp"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BitShiftExprChild" abstract="true" eSuperTypes="#//Expr"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AdditiveExpr" eSuperTypes="#//BitShiftExprChild">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" lowerBound="2"
+        upperBound="-1" eType="#//AdditiveExprChild" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operators" lowerBound="1"
+        upperBound="-1" eType="#//AdditiveOp"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AdditiveExprChild" abstract="true" eSuperTypes="#//BitShiftExprChild"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MultiplicativeExpr" eSuperTypes="#//AdditiveExprChild">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" lowerBound="2"
+        upperBound="-1" eType="#//MultiplicativeExprChild" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operators" lowerBound="1"
+        upperBound="-1" eType="#//MultiplicativeOp"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MultiplicativeExprChild" abstract="true"
+      eSuperTypes="#//AdditiveExprChild"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Number" eSuperTypes="#//MultiplicativeExprChild">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="BitShiftOp">
+    <eLiterals name="LEFT"/>
+    <eLiterals name="RIGHT"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="AdditiveOp">
+    <eLiterals name="ADD"/>
+    <eLiterals name="SUB"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="MultiplicativeOp">
+    <eLiterals name="MUL"/>
+    <eLiterals name="DIV"/>
+  </eClassifiers>
+</ecore:EPackage>

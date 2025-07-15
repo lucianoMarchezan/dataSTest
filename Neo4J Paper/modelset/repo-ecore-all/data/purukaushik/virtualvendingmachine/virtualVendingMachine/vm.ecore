@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="virtualVendingMachine" nsURI="http://virtualVendingMachine"
+    nsPrefix="virtualVendingMachine">
+  <eClassifiers xsi:type="ecore:EClass" name="VirtualVendingMachine">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_bOutOfOrder" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="m_pdProducts" eType="#//ProductDatabase"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="m_psProductSelector" eType="#//ProductSelector"
+        containment="true" eOpposite="#//ProductSelector/m_vvmMachine"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="m_odOutputDisplay" eType="#//OutputDisplay"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="m_pmPayMachine" eType="#//PayMachine"
+        containment="true" eOpposite="#//PayMachine/m_vvmOwner"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="m_pdDispenser" eType="#//ProductDispenser"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PayMachine">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="m_vvmOwner" eType="#//VirtualVendingMachine"
+        eOpposite="#//VirtualVendingMachine/m_pmPayMachine"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_dMaximumBalance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="m_crRegister" eType="#//CashRegister"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_dBalance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="0.00"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_bOutOfOrder" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProductSelector">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="m_vvmMachine" eType="#//VirtualVendingMachine"
+        eOpposite="#//VirtualVendingMachine/m_psProductSelector"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CashRegister">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_iNumQuarters" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_iNumDimes" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_iNumNickels" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_iNumDollars" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="m_alReceipts" upperBound="-1"
+        eType="#//SunCardReceipt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SunCardReceipt">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_iAccount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_dAmountDeducted" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProductDispenser"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ProductDatabase">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="products" upperBound="-1"
+        eType="#//Product" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Product">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_iID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_sName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_sDescription" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_dPrice" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_iQuantity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_iIcon" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OutputDisplay">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="m_sCurrentOutput" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Icon" instanceClassName="javax.swing.Icon"/>
+</ecore:EPackage>

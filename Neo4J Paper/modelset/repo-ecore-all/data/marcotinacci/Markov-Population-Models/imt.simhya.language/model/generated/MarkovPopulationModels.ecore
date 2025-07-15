@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="markovPopulationModels" nsURI="http://www.simhya.imt/language/MarkovPopulationModels"
+    nsPrefix="markovPopulationModels">
+  <eClassifiers xsi:type="ecore:EClass" name="main">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="populationDef" eType="#//population"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="agentDef" eType="#//agent"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="population">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="agents" upperBound="-1"
+        eType="#//init" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tran" upperBound="-1" eType="#//gl_tran"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="init">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="agentRef" eType="#//agent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
+        eType="#//stateInit" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="stateInit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stateRef" eType="#//state_ref"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="card" eType="#//Expression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="gl_tran">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lTran" upperBound="-1"
+        eType="#//loc_tran" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rate" eType="#//Expression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="loc_tran">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stateRef" eType="#//state"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sCond" eType="#//state_cond"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="aCond" eType="#//action_cond"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="state_cond">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stateRef" eType="#//state_ref"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="state_ref">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stateRef" eType="#//state"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="action_cond">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actionRef" eType="#//label"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="agent">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="act" upperBound="-1" eType="#//label"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="s" upperBound="-1" eType="#//state"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="label">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="state">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="spontaneousAct" upperBound="-1"
+        eType="#//action" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Expression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="action">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actRef" eType="#//label"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stateRef" eType="#//state"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="localRate" eType="#//Expression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="anystate" eSuperTypes="#//state_cond #//action_cond"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SummationSubtraction" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//Expression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="op" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//Expression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MultiplicationDivision" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//Expression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="op" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//Expression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntExpression" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FloatExpression" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Reference" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stateRef" eType="#//state_ref"
+        containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

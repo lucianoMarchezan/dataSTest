@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="contest" nsURI="http://www.gymcalc.de/contest/1.0" nsPrefix="contest">
+  <eClassifiers xsi:type="ecore:EClass" name="ContestType">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Contest Type is the representation of a contest in gymnastics.&#xA;It is intended to cover all data that is needed for the calculation of the contest.&#xA;It is the root and container for other data that is related to the contest."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="class" upperBound="-1"
+        eType="#//ClassType" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="chain" upperBound="-1"
+        eType="#//ChainType" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="juri" upperBound="-1" eType="#//JuriType"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="station" upperBound="-1"
+        eType="#//StationType" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="addressbook" eType="#//addressbook/AddressBookType"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lookuptables" eType="#//LookupTablesType"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lookupmaps" eType="#//LookupMapsType"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="diszipline" upperBound="-1"
+        eType="#//DisziplineType" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="winner" upperBound="-1"
+        eType="#//WinnerType" containment="true" resolveProxies="false" eOpposite="#//WinnerType/class"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="calculationkey" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FinalClassType" eSuperTypes="#//ClassType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="originatingDiszipline"
+        eType="#//DisziplineType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WinnerType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="result" eType="#//ResultType"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="organization" eType="#//addressbook/OrganizationType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="disable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="class" lowerBound="1" eType="#//ClassType"
+        transient="true" eOpposite="#//ClassType/winner"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AthletType" eSuperTypes="#//WinnerType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="person" lowerBound="1"
+        eType="#//addressbook/PersonType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="team" eType="#//TeamType"
+        transient="true" resolveProxies="false" eOpposite="#//TeamType/athlet"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="chain" eType="#//ChainType"
+        transient="true" resolveProxies="false" eOpposite="#//ChainType/athlet"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TeamType" eSuperTypes="#//WinnerType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="athlet" lowerBound="1"
+        upperBound="-1" eType="#//AthletType" resolveProxies="false" eOpposite="#//AthletType/team"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ChainType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="athlet" upperBound="-1"
+        eType="#//AthletType" resolveProxies="false" eOpposite="#//AthletType/chain"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="station" upperBound="-1"
+        eType="#//StationType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FinalChainType" eSuperTypes="#//ChainType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="finalClass" eType="#//FinalClassType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orderMap" eType="#//LookupMapType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DisziplineType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" unique="false" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="station" eType="#//StationType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lookuptable" eType="#//LookupTableType"
+        transient="true" eOpposite="#//LookupTableType/disziplines"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="calculationkey" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="calculationFunction" eType="#//FunctionType"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StationType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" unique="false" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResultType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rank" unique="false" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="points" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble" defaultValueLiteral="0.0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="juriresult" upperBound="-1"
+        eType="#//JuriResultType" containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AthletResultType" eSuperTypes="#//ResultType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TeamResultType" eSuperTypes="#//ResultType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JuriResultType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="diszipline" lowerBound="1"
+        eType="#//DisziplineType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" unique="false" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="juriResultDetail" upperBound="-1"
+        eType="#//JuriResultDetailType" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TeamJuriResultType" eSuperTypes="#//JuriResultType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="juriResult" lowerBound="1"
+        upperBound="-1" eType="#//JuriResultType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JuristType">
+    <eOperations name="getName" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="person" lowerBound="1"
+        eType="#//addressbook/PersonType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="organization" eType="#//addressbook/OrganizationType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="juri" lowerBound="1" eType="#//JuriType"
+        transient="true" eOpposite="#//JuriType/jurist"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="wishApparatus" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="license" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JuriType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="jurist" upperBound="-1"
+        eType="#//JuristType" containment="true" resolveProxies="false" eOpposite="#//JuristType/juri"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="diszipline" upperBound="-1"
+        eType="#//DisziplineType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LookupTablesType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="table" upperBound="-1"
+        eType="#//LookupTableType" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LookupTableType">
+    <eOperations name="getValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="minVal" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxVal" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="disziplines" upperBound="-1"
+        eType="#//DisziplineType" transient="true" eOpposite="#//DisziplineType/lookuptable"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LookupMapsType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="map" upperBound="-1" eType="#//LookupMapType"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LookupMapType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entries" upperBound="-1"
+        eType="#//IntToIntEntry" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JuriResultDetailType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntToIntEntry" instanceClassName="java.util.Map$Entry">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AverageFunctionType" eSuperTypes="#//FunctionType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="disziplines" upperBound="-1"
+        eType="#//DisziplineType"/>
+  </eClassifiers>
+  <eSubpackages name="addressbook" nsURI="http://www.gymcalc.de/addressbook/1.0" nsPrefix="addressbook">
+    <eClassifiers xsi:type="ecore:EClass" name="AddressBookType">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="address" upperBound="-1"
+          eType="#//addressbook/AddressType" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="person" upperBound="-1"
+          eType="#//addressbook/PersonType" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="organization" upperBound="-1"
+          eType="#//addressbook/OrganizationType" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PersonType">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          iD="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" unique="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="firstname" unique="false"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="dateofbirth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="address" eType="#//addressbook/AddressType"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OrganizationType">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          iD="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="address" eType="#//addressbook/AddressType"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AddressType">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="city" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="zip" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="street" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          iD="true"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

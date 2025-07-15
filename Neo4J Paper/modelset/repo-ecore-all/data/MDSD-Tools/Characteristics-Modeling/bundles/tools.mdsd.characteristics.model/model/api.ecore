@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="api" nsURI="http://www.mdsd.tools/characteristics/api/1.0" nsPrefix="api">
+  <eClassifiers xsi:type="ecore:EClass" name="CharacteristicsModelingRealm">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="valueTypePropertiesService"
+        lowerBound="1" eType="#//ValueTypePropertiesService" transient="true" derived="true"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="serializationService" lowerBound="1"
+        eType="#//SerializationService" transient="true" derived="true" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configuration" upperBound="-1"
+        eType="#//ConfigurationItem" containment="true" eOpposite="#//ConfigurationItem/modelingRealm"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ValueTypePropertiesService" eSuperTypes="#//ValueTypePropertiesProvider">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="valueTypePropertiesProvider"
+        upperBound="-1" eType="#//ValueTypePropertiesProvider" changeable="false"
+        transient="true" derived="true" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ValueTypePropertiesProvider" abstract="true"
+      eSuperTypes="#//RegisteredService">
+    <eOperations name="getProperty">
+      <eGenericType eClassifier="#//Optional">
+        <eTypeArguments eTypeParameter="#//ValueTypePropertiesProvider/getProperty/T"/>
+      </eGenericType>
+      <eTypeParameters name="T"/>
+      <eParameters name="propertyType" lowerBound="1">
+        <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
+          <eTypeArguments eTypeParameter="#//ValueTypePropertiesProvider/getProperty/T"/>
+        </eGenericType>
+      </eParameters>
+      <eParameters name="valueType" eType="ecore:EClass characteristics.ecore#//valuetype/ValueType"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Optional" instanceClassName="java.util.Optional"
+      serializable="false">
+    <eTypeParameters name="T"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StaticManifestationSerializationService"
+      abstract="true" eSuperTypes="#//RegisteredService #//StaticManifestationSerializing"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceRegistration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="forType" upperBound="-1"
+        eType="ecore:EClass characteristics.ecore#//valuetype/ValueType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="forProperty" upperBound="-1">
+      <eGenericType eClassifier="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaClass">
+        <eTypeArguments/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="forEClass" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RegisteredService" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registrations" upperBound="-1"
+        eType="#//ServiceRegistration" changeable="false" volatile="true" transient="true"
+        derived="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SerializationService" eSuperTypes="#//StaticManifestationSerializing">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="staticManifestationSerializationServices"
+        upperBound="-1" eType="#//StaticManifestationSerializationService" changeable="false"
+        transient="true" derived="true" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StaticManifestationSerializing" abstract="true"
+      interface="true">
+    <eOperations name="serializeStatic" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eParameters name="valueType" eType="ecore:EClass characteristics.ecore#//valuetype/ValueType"/>
+      <eParameters name="manifestationObject" eType="ecore:EDataType characteristics.ecore#//manifestation/EManifestationObject"/>
+    </eOperations>
+    <eOperations name="deserializeStatic" eType="ecore:EDataType characteristics.ecore#//manifestation/EManifestationObject">
+      <eParameters name="valueType" eType="ecore:EClass characteristics.ecore#//valuetype/ValueType"/>
+      <eParameters name="serialized" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConfigurationItem" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelingRealm" eType="#//CharacteristicsModelingRealm"
+        eOpposite="#//CharacteristicsModelingRealm/configuration"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProfileActivation" eSuperTypes="#//ConfigurationItem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activatedProfile" lowerBound="1"
+        eType="ecore:EClass characteristics.ecore#//characteristic/CharacteristicProfile"/>
+  </eClassifiers>
+</ecore:EPackage>

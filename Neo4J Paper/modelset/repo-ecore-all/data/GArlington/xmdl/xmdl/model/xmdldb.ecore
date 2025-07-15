@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="xmdldb"
+    nsURI="http://www.xmdl.org/xmdldb.ecore" nsPrefix="org.xmdl.db">
+  <eClassifiers xsi:type="ecore:EClass" name="DModel" eSuperTypes="#//DBase">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xProject" lowerBound="1"
+        eType="ecore:EClass xmdl.ecore#//XProject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="xModel" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dPackages" upperBound="-1"
+        eType="#//DPackage" containment="true" eOpposite="#//DPackage/model"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DPackage" eSuperTypes="#//DBase">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xPackage" lowerBound="1"
+        eType="ecore:EClass xmdl.ecore#//XPackage"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="model" lowerBound="1" eType="#//DModel"
+        eOpposite="#//DModel/dPackages"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dTables" upperBound="-1"
+        eType="#//DTable" containment="true" eOpposite="#//DTable/dPackage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DTable" eSuperTypes="#//Persistable #//DBase">
+    <eOperations name="getIndices" upperBound="-1" eType="#//DIndex"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xClass" lowerBound="1"
+        eType="ecore:EClass xmdl.ecore#//XClass"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dPackage" eType="#//DPackage"
+        eOpposite="#//DPackage/dTables"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dFields" upperBound="-1"
+        eType="#//DField" containment="true" eOpposite="#//DField/dTable"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DField" eSuperTypes="#//Persistable #//DBase">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xAttribute" lowerBound="1"
+        eType="ecore:EClass xmdl.ecore#//XAttribute"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dTable" eType="#//DTable"
+        eOpposite="#//DTable/dFields"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="length" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="indices" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="foreign" eType="#//DField"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XMDLDBModel" eSuperTypes="xmdl.ecore#//XModel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DIndex">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unique" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dTable" lowerBound="1"
+        eType="#//DTable"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dfields" upperBound="-1"
+        eType="#//DField"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Persistable" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="persistent" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DBase" abstract="true" interface="true">
+    <eOperations name="accept" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="visitor" eType="#//DVisitor"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DVisitor" abstract="true" interface="true">
+    <eOperations name="visitEnter" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="d" eType="#//DModel"/>
+    </eOperations>
+    <eOperations name="visitLeave" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="d" eType="#//DModel"/>
+    </eOperations>
+    <eOperations name="visitEnter" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="d" eType="#//DPackage"/>
+    </eOperations>
+    <eOperations name="visitLeave" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="d" eType="#//DPackage"/>
+    </eOperations>
+    <eOperations name="visitEnter" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="d" eType="#//DTable"/>
+    </eOperations>
+    <eOperations name="visitLeave" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="d" eType="#//DTable"/>
+    </eOperations>
+    <eOperations name="visit" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="d" eType="#//DField"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DVisitorBase" eSuperTypes="#//DVisitor"/>
+</ecore:EPackage>

@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="vehicleconfig" nsURI="http://jkk.sze.hu/vehicleconfig" nsPrefix="vehicleconfig">
+  <eClassifiers xsi:type="ecore:EClass" name="Vehicle" eSuperTypes="#//RootElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="kinematicparameters" lowerBound="1"
+        eType="#//KinematicParameters" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="geometrysettings" lowerBound="1"
+        eType="#//GeometrySettings" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sensorconfiguration" eType="#//SensorConfiguration"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transmissionsetup" lowerBound="1"
+        eType="#//TransmissionSetup" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dynamicparameters" lowerBound="1"
+        eType="#//DynamicParameters" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lowlevelcontrol" upperBound="-1"
+        eType="#//LowLevelControl" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="simulationconfiguration"
+        eType="#//SimulationConfiguration" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sensorcatalogue" upperBound="-1"
+        eType="#//SensorCatalogue"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KinematicParameters">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="wheelbase" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rear_track" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="front_track" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="wheelparameters" lowerBound="1"
+        eType="#//WheelParameters" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="steeringparameters" lowerBound="1"
+        eType="#//SteeringParameters" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reference_point" eType="#//VehicleReferencePoint"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="boundingbox" lowerBound="1"
+        eType="#//BoundingBox" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WheelParameters">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="wheel_radius" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="wheel_width" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Odometry" eSuperTypes="#//SensorModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="vehicle_status" eType="#//ControlMiddlewareTopic"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GeometrySettings">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="shell" lowerBound="1" eType="#//GeometricDefinition"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="wheelgeometry" eType="#//GeometricDefinition"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AngleParameters" eSuperTypes="#//SensorSettings">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="min_angle" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="max_angle" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorSettings" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="samples" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resolution" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DistanceSettings" eSuperTypes="#//SensorSettings">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="min_distance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="max_distance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorModel" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mass" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="update_rate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="model" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sensormiddlewaretopic"
+        eType="#//SensorMiddlewareTopic"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sensorcatalogue" eType="#//SensorCatalogue"
+        eOpposite="#//SensorCatalogue/sensormodel"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Laser" eSuperTypes="#//SensorModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="distancesettings" lowerBound="1"
+        eType="#//DistanceSettings" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="angleparameters" lowerBound="1"
+        eType="#//AngleParameters" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorConfiguration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sensorplacement" upperBound="-1"
+        eType="#//SensorPlacement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Displacement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="z" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SteeringParameters">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="inner_angle" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="outer_angle" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransmissionSetup">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="motor_front_left" eType="#//Motor"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="motor_front_right" eType="#//Motor"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="motor_rear_right" eType="#//Motor"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="motor_rear_left" eType="#//Motor"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="EngineParameters" upperBound="-1"
+        eType="#//EngineParameters" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Motor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="engineparameters" lowerBound="1"
+        eType="#//EngineParameters"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EngineParameters">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxtorque" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImuSensor" eSuperTypes="#//SensorModel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JointStateTopic" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="joint_id" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DynamicParameters">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inertialparameters" lowerBound="1"
+        eType="#//InertialParameters" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="aerodynamicparameters"
+        lowerBound="1" eType="#//AeroDynamicParameters" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="wheeldynamics" lowerBound="1"
+        eType="#//WheelDynamics" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InertialParameters">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cog_ratio" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="0.5"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mass" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="1.0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AeroDynamicParameters">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="air_resistance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="0.31"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GeometricDefinition">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="meshpath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="collisionmesh" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="package" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="displacement" eType="#//Displacement"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rotation" eType="#//Rotation"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Rotation">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="roll" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pitch" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="yaw" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LIDAR" eSuperTypes="#//SensorModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="horizontal_angle_param"
+        eType="#//AngleParameters" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="vertical_angle_param" eType="#//AngleParameters"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="max_range" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="min_range" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resolution" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rpm" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Camera" eSuperTypes="#//SensorModel">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//CameraType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cameraparameters" lowerBound="1"
+        eType="#//CameraParameters" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CameraType">
+    <eLiterals name="RGB"/>
+    <eLiterals name="DEPTH" value="1"/>
+    <eLiterals name="STEREO" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GNSS" eSuperTypes="#//SensorModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="geolocation" lowerBound="1"
+        eType="#//Geolocation" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Geolocation">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="longitude" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="latitude" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CameraParameters">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="clip_near" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="clip_far" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="horizontal_fov" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="VehicleReferencePoint">
+    <eLiterals name="REAR_AXLE"/>
+    <eLiterals name="COG" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LowLevelControl">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="low_level_node" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="message" upperBound="-1"
+        eType="#//MessageMapping" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="can_model_path" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="canports" eType="#//LowLevelPort"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="middlewaretopic" upperBound="-1"
+        eType="#//ControlMiddlewareTopic" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MessageMapping">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="low_level_msg_name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="signalmapping" upperBound="-1"
+        eType="#//SignalMapping" containment="true" eOpposite="#//SignalMapping/messagemapping"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="enabled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lowlevelport" eType="#//LowLevelPort"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SignalMapping">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="low_level_signal_name"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="middlewaremsgfield" eType="#//MiddleWareMsgField"
+        eOpposite="#//MiddleWareMsgField/signalmapping"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="messagemapping" eType="#//MessageMapping"
+        eOpposite="#//MessageMapping/signalmapping"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transformationfunction"
+        eType="#//TransformationFunction" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ControlMiddlewareTopic" eSuperTypes="#//MiddlewareTopic">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="middlewaremsgfield" upperBound="-1"
+        eType="#//MiddleWareMsgField" containment="true" eOpposite="#//MiddleWareMsgField/middlewaretopic"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sync" eType="#//SignalMapping"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LowLevelPort">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bitrate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NetworkDefinition">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ip_address" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="port" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MiddleWareMsgField">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="signalmapping" eType="#//SignalMapping"
+        eOpposite="#//SignalMapping/middlewaremsgfield"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="middlewaretopic" eType="#//ControlMiddlewareTopic"
+        eOpposite="#//ControlMiddlewareTopic/middlewaremsgfield"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransformationFunction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tx_func" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rx_func" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MiddlewareTopic">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="middleware_msg_topic_name"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stamped" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="middleware_msg_type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WheelDynamics">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="wheel_mass" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BoundingBox">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="depth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorPlacement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rotation" eType="#//Rotation"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="displacement" lowerBound="1"
+        eType="#//Displacement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sensormodel" eType="#//SensorModel"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="networkdefinition" eType="#//NetworkDefinition"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="localizer" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RootElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimulationControlPlugin" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VehicleControlPlugin" eSuperTypes="#//SimulationControlPlugin">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="velocitypid" eType="#//PIDControlParameters"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="steerpid" eType="#//PIDControlParameters"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PIDControlParameters">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="p" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="i" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="d" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimulationConfiguration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="simulationcontrolplugin"
+        upperBound="-1" eType="#//SimulationControlPlugin" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorCatalogue" eSuperTypes="#//RootElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sensormodel" upperBound="-1"
+        eType="#//SensorModel" containment="true" eOpposite="#//SensorModel/sensorcatalogue"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rosconfiguration" lowerBound="1"
+        eType="#//RosConfiguration" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorMiddlewareTopic" eSuperTypes="#//MiddlewareTopic">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="frequency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RosConfiguration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rostopicconfiguration"
+        upperBound="-1" eType="#//SensorMiddlewareTopic" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SignalView" eSuperTypes="#//RootElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lowlevelmessage" upperBound="-1"
+        eType="#//LowLevelMessage" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LowLevelMessage">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lowlevelsignal" upperBound="-1"
+        eType="#//LowLevelSignal" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LowLevelSignal"/>
+</ecore:EPackage>

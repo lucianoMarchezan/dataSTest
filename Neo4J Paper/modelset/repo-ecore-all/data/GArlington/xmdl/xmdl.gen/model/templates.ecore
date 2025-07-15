@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="templates"
+    nsURI="http://www.metys.com/merlin/generation/templates.ecore" nsPrefix="templates">
+  <eClassifiers xsi:type="ecore:EDataType" name="ClassLoader" instanceClassName="java.lang.ClassLoader"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="IProgressMonitor" instanceClassName="org.eclipse.core.runtime.IProgressMonitor"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="JavaProject" instanceClassName="org.eclipse.jdt.core.IJavaProject"
+      serializable="false"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="JETEmitter" instanceClassName="org.eclipse.emf.codegen.jet.JETEmitter"
+      serializable="false"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="List" instanceClassName="java.util.List"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Path" instanceClassName="org.eclipse.core.runtime.IPath"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Resource" instanceClassName="org.eclipse.core.resources.IResource"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="StringArray" instanceClassName="java.lang.String[]"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JETTemplateContainer">
+    <eOperations name="getContainerPath" eType="#//Path"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="javaJETSource" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="jetTemplates" upperBound="-1"
+        eType="#//JETTemplate" containment="true" eOpposite="#//JETTemplate/templateContainer"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JETTemplate" abstract="true">
+    <eOperations name="getPluginVariablesList" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="templateFilePath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="outputDirectoryPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pluginVariables" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="templateContainer" lowerBound="1"
+        eType="#//JETTemplateContainer" eOpposite="#//JETTemplateContainer/jetTemplates"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1"
+        eType="#//JETTemplateAnnotation" containment="true" eOpposite="#//JETTemplateAnnotation/template"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="additionalGeneratorArguments"
+        upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JavaJETTemplate" eSuperTypes="#//JETTemplate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TextJETTemplate" eSuperTypes="#//JETTemplate">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="outputFileName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="filePrefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileSuffix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GIFTemplate" eSuperTypes="#//JETTemplate">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="outputFileName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileSuffix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="filePrefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JETTemplateAnnotation">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="template" eType="#//JETTemplate"
+        eOpposite="#//JETTemplate/annotations"/>
+  </eClassifiers>
+  <eSubpackages name="jetmapping" nsURI="http://www.metys.com/merlin/generation/templates/jetmapping.ecore"
+      nsPrefix="templates.jetmapping">
+    <eClassifiers xsi:type="ecore:EClass" name="JETTemplateMappingRoot" eSuperTypes="../../../../plugin/org.eclipse.emf.mapping/model/Mapping.ecore#//MappingRoot"/>
+    <eClassifiers xsi:type="ecore:EClass" name="JETTemplateMapping" eSuperTypes="../../../../plugin/org.eclipse.emf.mapping/model/Mapping.ecore#//Mapping"/>
+    <eClassifiers xsi:type="ecore:EClass" name="JETMappingGenerator" eSuperTypes="../../../../plugin/org.eclipse.emf.codegen.ecore/model/GenModel.ecore#//GenBase">
+      <eOperations name="setMethod">
+        <eParameters name="jetEmitter" eType="#//JETEmitter"/>
+        <eParameters name="className" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eParameters name="cl" eType="#//ClassLoader"/>
+      </eOperations>
+      <eOperations name="canGenerate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eParameters name="object" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+      </eOperations>
+      <eOperations name="generate">
+        <eParameters name="object" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        <eParameters name="progressMonitor" eType="#//IProgressMonitor"/>
+      </eOperations>
+      <eOperations name="generate">
+        <eParameters name="object" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        <eParameters name="jettemplate" eType="#//JETTemplate"/>
+        <eParameters name="progressMonitor" eType="#//IProgressMonitor"/>
+      </eOperations>
+      <eOperations name="generateText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        <eParameters name="generatedObject" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        <eParameters name="jetFilePath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eParameters name="compiledJETFilesDir" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eParameters name="previousGenerated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eParameters name="progressMonitor" eType="#//IProgressMonitor"/>
+      </eOperations>
+      <eOperations name="generateJava" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        <eParameters name="generatedObject" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        <eParameters name="jetFilePath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eParameters name="compiledJETFilesDir" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eParameters name="previousGenerated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eParameters name="progressMonitor" eType="#//IProgressMonitor"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="mappingRoot" lowerBound="1"
+          eType="#//jetmapping/JETTemplateMappingRoot"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="currentGeneratedObject"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="classLoader" eType="#//ClassLoader"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

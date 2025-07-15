@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="kgraph" nsURI="http://eclipse.org/gef/KGraph" nsPrefix="kgraph">
+  <eClassifiers xsi:type="ecore:EClass" name="KGraphElement" abstract="true" eSuperTypes="#//EMapPropertyHolder">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="This is the superclass of all elements of a graph such as nodes, edges, ports,&#xA;and labels. A graph element may contain an arbitrary number of additional&#xA;data instances."/>
+    </eAnnotations>
+    <eOperations name="getData" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Returns the first data instance that matches the given class. Classes&#xA;can be obtained using the static package methods of the corresponding&#xA;EMF model.&#xA;@return graph data for the given type, or {@code null} if there is none"/>
+      </eAnnotations>
+      <eParameters name="type" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+    </eOperations>
+    <eOperations name="getData">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Returns the first data instance that matches the given class.&#xA;@param type the class of graph data to retrieve&#xA;@return graph data for the given type, or {@code null} if there is none"/>
+      </eAnnotations>
+      <eGenericType eTypeParameter="#//KGraphElement/getData.1/T"/>
+      <eTypeParameters name="T">
+        <eBounds eClassifier="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      </eTypeParameters>
+      <eParameters name="type">
+        <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
+          <eTypeArguments eTypeParameter="#//KGraphElement/getData.1/T"/>
+        </eGenericType>
+      </eParameters>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="data" upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"
+        containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Each element of this list may contain additional data for the model element."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The optional identifier string can be used for serialization."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KLabeledGraphElement" abstract="true"
+      eSuperTypes="#//KGraphElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Labeled graph elements contain an arbitrary number of labels."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="labels" upperBound="-1"
+        eType="#//KLabel" containment="true" eOpposite="#//KLabel/container">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Any graph element may have multiple labels."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KGraphData" eSuperTypes="#//EMapPropertyHolder">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="This class can be extended to hold arbitrary additional data for&#xA;graph elements, such as rendering information."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KNode" eSuperTypes="#//KLabeledGraphElement #//KShapeLayout">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="All nodes except exactly one node must have an assigned parent node. The node&#xA;without parent is the top node of the graph and represents the graph itself.&#xA;&lt;p>The parent-child relationship of nodes can be used to describe hierarchy in&#xA;nested graphs.&lt;/p>"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//KNode" containment="true" eOpposite="#//KNode/parent">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The children together with their edges form a subgraph that is contained&#xA;in this parent node."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//KNode"
+        eOpposite="#//KNode/children">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The containing node, or {@code null} if this is the top-level node representing&#xA;the graph."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ports" upperBound="-1"
+        eType="#//KPort" containment="true" eOpposite="#//KPort/container">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Each node may have an arbitrary number of ports. Edges may or may not be&#xA;connected to ports."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingEdges" upperBound="-1"
+        eType="#//KEdge" containment="true" eOpposite="#//KEdge/sourceNode"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incomingEdges" upperBound="-1"
+        eType="#//KEdge" eOpposite="#//KEdge/targetNode"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KEdge" eSuperTypes="#//KLabeledGraphElement #//KEdgeLayout">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="An edge must be assigned a source and a target node, but the source and target ports&#xA;are optional. The source and target references are opposite to the lists of outgoing and&#xA;incoming edges of nodes and ports, respectively."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceNode" lowerBound="1"
+        eType="#//KNode" eOpposite="#//KNode/outgoingEdges">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The source node is expected to be set for each edge. This is especially&#xA;important because the source node is defined to be the container of the&#xA;edge, which is relevant for many EMF features such as XML storage or&#xA;copying. The source reference is opposite to the nodes' list of outgoing&#xA;edges, hence those references are synchronized automatically."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetNode" lowerBound="1"
+        eType="#//KNode" eOpposite="#//KNode/incomingEdges">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The target node is expected to be set for each edge.&#xA;The target reference is opposite to the nodes' list of incoming&#xA;edges, hence those references are synchronized automatically."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourcePort" eType="#//KPort"
+        eOpposite="#//KPort/outgoingEdges">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="This reference is optional, as a node may have no ports."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetPort" eType="#//KPort"
+        eOpposite="#//KPort/incomingEdges">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="This reference is optional, as a node may have no ports."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KPort" eSuperTypes="#//KLabeledGraphElement #//KShapeLayout">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Each port must be assigned a containing node. A port may have incoming&#xA;edges as well as outgoing edges, but usually either one or the other kind is&#xA;referenced."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="container" lowerBound="1"
+        eType="#//KNode" eOpposite="#//KNode/ports">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Each port must be assigned a containing node. This is especially&#xA;important because the node is defined to be the container of the&#xA;port, which is relevant for many EMF features such as XML storage or&#xA;copying."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingEdges" upperBound="-1"
+        eType="#//KEdge" eOpposite="#//KEdge/sourcePort"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incomingEdges" upperBound="-1"
+        eType="#//KEdge" eOpposite="#//KEdge/targetPort"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KLabel" eSuperTypes="#//KGraphElement #//KShapeLayout">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Each label must be assigned a parent graph element and a text string."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="container" lowerBound="1"
+        eType="#//KLabeledGraphElement" eOpposite="#//KLabeledGraphElement/labels"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KShapeLayout" abstract="true" interface="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Graph elements that represent shapes can be assigned a two-dimensional&#xA;position and a size.&#xA;&lt;p>&#xA;Layout coordinates for nodes, ports, and node labels are relative to the container&#xA;node. The insets of the parent node are not included in the relative coordinates&#xA;of child nodes, but they are included in the relative coordinates of ports and&#xA;node labels. For edge labels the rules defined in {@link KEdgeLayout} apply.&#xA;Port labels are relative to their ports.&#xA;&lt;/p>"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="xpos" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ypos" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KEdgeLayout" abstract="true" interface="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="The layout of edges is determined by a sequence of points: a point touching&#xA;the source port or source node, a list of bend points, and a point touching the&#xA;target port or target node.&#xA;&lt;p>&#xA;All layout coordinates for edges are defined to be relative to the parent of&#xA;the source node, except when the target node is directly or indirectly contained&#xA;in the source node, in which case all coordinates are relative to the source node&#xA;itself. The insets of the reference node are not included in relative coordinates.&#xA;&lt;/p>"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourcePoint" eType="#//KPoint"
+        containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The source point is the point at which the edge touches the source node&#xA;or source port. The coordinates of source points must obey the general&#xA;rules for edge coordinates defined above."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetPoint" eType="#//KPoint"
+        containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The target point is the point at which the edge touches the target node&#xA;or target port. The coordinates of target points must obey the general&#xA;rules for edge coordinates defined above."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bendPoints" upperBound="-1"
+        eType="#//KPoint" containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The coordinates of bend points must obey the general rules for edge&#xA;coordinates defined above."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KPoint">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="xpos" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ypos" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EMapPropertyHolder" abstract="true"
+      eSuperTypes="#//IPropertyHolder">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A property holder implementation based on {@link org.eclipse.emf.common.util.EMap} which can be used in Ecore models."/>
+    </eAnnotations>
+    <eOperations name="makePersistent">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Serialize all entries of the properties map using {@link Object#toString()}&#xA;and write them into the list of persistent entries. The previous content is cleared."/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transientProperties" upperBound="-1"
+        eType="#//IPropertyToObjectMap" transient="true" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="persistentProperties" upperBound="-1"
+        eType="#//PropertyMapping" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IPropertyToObjectMap" instanceClassName="java.util.Map$Entry">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A map entry for EMap property holders."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" lowerBound="1" transient="true">
+      <eGenericType eClassifier="#//IProperty">
+        <eTypeArguments/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        transient="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="IProperty" instanceClassName="org.eclipse.gef4.kgraph.properties.IProperty">
+    <eTypeParameters name="T"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IPropertyHolder" instanceClassName="org.eclipse.gef4.kgraph.properties.IPropertyHolder"
+      abstract="true" interface="true">
+    <eOperations name="setProperty">
+      <eTypeParameters name="T"/>
+      <eParameters name="property" lowerBound="1">
+        <eGenericType eClassifier="#//IProperty">
+          <eTypeArguments eTypeParameter="#//IPropertyHolder/setProperty/T"/>
+        </eGenericType>
+      </eParameters>
+      <eParameters name="value">
+        <eGenericType eTypeParameter="#//IPropertyHolder/setProperty/T"/>
+      </eParameters>
+    </eOperations>
+    <eOperations name="getProperty">
+      <eGenericType eTypeParameter="#//IPropertyHolder/getProperty/T"/>
+      <eTypeParameters name="T"/>
+      <eParameters name="property" lowerBound="1">
+        <eGenericType eClassifier="#//IProperty">
+          <eTypeArguments eTypeParameter="#//IPropertyHolder/getProperty/T"/>
+        </eGenericType>
+      </eParameters>
+    </eOperations>
+    <eOperations name="copyProperties">
+      <eParameters name="holder" lowerBound="1" eType="#//IPropertyHolder"/>
+    </eOperations>
+    <eOperations name="getAllProperties" lowerBound="1">
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+        <eTypeArguments eClassifier="#//IProperty">
+          <eTypeArguments/>
+        </eTypeArguments>
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+      </eGenericType>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PropertyMapping">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

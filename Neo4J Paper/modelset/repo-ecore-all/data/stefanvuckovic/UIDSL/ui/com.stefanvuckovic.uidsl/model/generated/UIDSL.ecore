@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="uIDSL" nsURI="http://www.stefanvuckovic.com/uidsl/UIDSL" nsPrefix="uIDSL">
+  <eClassifiers xsi:type="ecore:EClass" name="UIModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="concepts" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Member" eSuperTypes="platform:/resource/com.stefanvuckovic.domainmodel/model/generated/DomainModel.ecore#//SelectionMember"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Field" eSuperTypes="#//Member"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Method" eSuperTypes="#//Member">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="params" upperBound="-1"
+        eType="#//Variable" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Variable">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass platform:/resource/com.stefanvuckovic.domainmodel/model/generated/DomainModel.ecore#//AttributeType"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UIContainer">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="serverComponents" upperBound="-1"
+        eType="#//Variable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//UIElement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Page" eSuperTypes="#//UIContainer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="params" upperBound="-1"
+        eType="#//Variable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="template" eType="#//Template"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UIElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UIComponent">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
+        eType="#//PropertyValue" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nested" eType="#//NestedComponent"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NestedComponent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ChildUIComponent" eSuperTypes="#//NestedComponent">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cardinality" eType="ecore:EEnum platform:/resource/com.stefanvuckovic.domainmodel/model/generated/DomainModel.ecore#//CardinalityType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="comp" eType="#//UIComponent"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AllowedNestedComponents"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PropertyValue">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="required" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="valueProperty" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//TypeExpression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UIComponentInstance" eSuperTypes="#//Component">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="component" eType="#//UIComponent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
+        eType="#//PropertyValueInstance" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="childElements" upperBound="-1"
+        eType="#//Component" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LogicElement" eSuperTypes="#//UIElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//UIElement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IFStatement" eSuperTypes="#//LogicElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="ecore:EClass platform:/resource/com.stefanvuckovic.domainmodel/model/generated/DomainModel.ecore#//Expression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Iterator" eSuperTypes="#//LogicElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//IterationExpression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PropertyValueInstance">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" eType="#//PropertyValue"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="ecore:EClass platform:/resource/com.stefanvuckovic.domainmodel/model/generated/DomainModel.ecore#//Expression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Template" eSuperTypes="#//UIContainer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Fragment" eSuperTypes="#//UIContainer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="params" upperBound="-1"
+        eType="#//Variable" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IterationExpression" eSuperTypes="platform:/resource/com.stefanvuckovic.domainmodel/model/generated/DomainModel.ecore#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="var" eType="#//Variable"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="ecore:EClass platform:/resource/com.stefanvuckovic.domainmodel/model/generated/DomainModel.ecore#//Expression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FragmentCall" eSuperTypes="#//UIElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="frag" eType="#//Fragment"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="params" upperBound="-1"
+        eType="ecore:EClass platform:/resource/com.stefanvuckovic.domainmodel/model/generated/DomainModel.ecore#//Expression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TypeExpression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PropertyRuntimeType" eSuperTypes="#//TypeExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" eType="#//PropertyValue"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PropertySingleRuntimeType" eSuperTypes="#//TypeExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="propertyType" eType="#//PropertyRuntimeType"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DefaultConfigurations">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="defaults" upperBound="-1"
+        eType="#//DefaultComponentConfig" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DefaultComponentConfig">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass platform:/resource/com.stefanvuckovic.domainmodel/model/generated/DomainModel.ecore#//AttributeType"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputComp" eType="#//UIComponent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputComp" eType="#//UIComponent"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DefaultComponent" eSuperTypes="#//Component">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="ecore:EClass platform:/resource/com.stefanvuckovic.domainmodel/model/generated/DomainModel.ecore#//Expression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Component" eSuperTypes="#//UIElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CustomDefaultComponentsDefinition">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="defaults" upperBound="-1"
+        eType="#//CustomDefaultComponentDefinition" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CustomDefaultComponentDefinition">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="compType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//Variable"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="implicits" upperBound="-1"
+        eType="#//Variable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//UIElement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServerComponent" eSuperTypes="platform:/resource/com.stefanvuckovic.domainmodel/model/generated/DomainModel.ecore#//Concept">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="members" upperBound="-1"
+        eType="#//Member" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InlineVariable" eSuperTypes="#//Variable"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExistingNestedComponents" eSuperTypes="#//NestedComponent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nestedComponents" eType="#//AllowedNestedComponents"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AllAllowedComponents" eSuperTypes="#//AllowedNestedComponents"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CustomAllowedComponents" eSuperTypes="#//AllowedNestedComponents">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="components" unique="false"
+        upperBound="-1" eType="#//UIComponent"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TemplateFragment" eSuperTypes="#//UIElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//UIElement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TemplateFragmentOverride" eSuperTypes="#//UIElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="overridenFragment" eType="#//TemplateFragment"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//UIElement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MemberSelectionExpression" eSuperTypes="platform:/resource/com.stefanvuckovic.domainmodel/model/generated/DomainModel.ecore#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receiver" eType="ecore:EClass platform:/resource/com.stefanvuckovic.domainmodel/model/generated/DomainModel.ecore#//Expression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="member" eType="ecore:EClass platform:/resource/com.stefanvuckovic.domainmodel/model/generated/DomainModel.ecore#//SelectionMember"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isMethod" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="params" upperBound="-1"
+        eType="ecore:EClass platform:/resource/com.stefanvuckovic.domainmodel/model/generated/DomainModel.ecore#//Expression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PageCall" eSuperTypes="platform:/resource/com.stefanvuckovic.domainmodel/model/generated/DomainModel.ecore#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="page" eType="#//Page"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="params" upperBound="-1"
+        eType="ecore:EClass platform:/resource/com.stefanvuckovic.domainmodel/model/generated/DomainModel.ecore#//Expression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VariableReference" eSuperTypes="platform:/resource/com.stefanvuckovic.domainmodel/model/generated/DomainModel.ecore#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="#//Variable"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectGeneralType" eSuperTypes="platform:/resource/com.stefanvuckovic.domainmodel/model/generated/DomainModel.ecore#//AttributeType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EnumGeneralType" eSuperTypes="platform:/resource/com.stefanvuckovic.domainmodel/model/generated/DomainModel.ecore#//AttributeType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CollectionGeneralType" eSuperTypes="platform:/resource/com.stefanvuckovic.domainmodel/model/generated/DomainModel.ecore#//AttributeType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AnyType" eSuperTypes="platform:/resource/com.stefanvuckovic.domainmodel/model/generated/DomainModel.ecore#//AttributeType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PageType" eSuperTypes="platform:/resource/com.stefanvuckovic.domainmodel/model/generated/DomainModel.ecore#//AttributeType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="VoidType" eSuperTypes="platform:/resource/com.stefanvuckovic.domainmodel/model/generated/DomainModel.ecore#//AttributeType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AlternativeType" eSuperTypes="platform:/resource/com.stefanvuckovic.domainmodel/model/generated/DomainModel.ecore#//AttributeType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="types" upperBound="-1"
+        eType="ecore:EClass platform:/resource/com.stefanvuckovic.domainmodel/model/generated/DomainModel.ecore#//AttributeType"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimpleType" eSuperTypes="#//TypeExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass platform:/resource/com.stefanvuckovic.domainmodel/model/generated/DomainModel.ecore#//AttributeType"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InputUIComponent" eSuperTypes="#//DefaultComponent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OutputUIComponent" eSuperTypes="#//DefaultComponent"/>
+</ecore:EPackage>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="KappaRules" nsURI="http://www.es.tu-darmstadt.de/KappaRules"
+    nsPrefix="KappaRules">
+  <eClassifiers xsi:type="ecore:EClass" name="KappaRuleContainer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"
+        eType="#//KappaRule" containment="true" eOpposite="#//KappaRule/container"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KappaRule" abstract="true" eSuperTypes="../../de.tu.darmstadt.es.KappaStructure/model/kappaStructure.ecore#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//Source"
+        containment="true" eOpposite="#//Source/rule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//Target"
+        containment="true" eOpposite="#//Target/rule"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rating" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mappings" upperBound="-1"
+        eType="#//Mapping" containment="true" eOpposite="#//Mapping/rule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subruleCalls" upperBound="-1"
+        eType="#//SubRuleCalls" containment="true" eOpposite="#//SubRuleCalls/parentRule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="container" eType="#//KappaRuleContainer"
+        eOpposite="#//KappaRuleContainer/rules"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Source" eSuperTypes="#//Graph">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rule" lowerBound="1" eType="#//KappaRule"
+        eOpposite="#//KappaRule/source"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Target" eSuperTypes="#//Graph">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rule" lowerBound="1" eType="#//KappaRule"
+        eOpposite="#//KappaRule/target"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ForwardRule" eSuperTypes="#//KappaRule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="opposite" eType="#//BackwardRule"
+        eOpposite="#//BackwardRule/opposite"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BackwardRule" eSuperTypes="#//KappaRule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="opposite" eType="#//ForwardRule"
+        eOpposite="#//ForwardRule/opposite"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Modifier">
+    <eLiterals name="NONE"/>
+    <eLiterals name="CREATE" value="1"/>
+    <eLiterals name="DELETE" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ModifiableElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modifier" lowerBound="1"
+        eType="#//Modifier"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="symbol" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Graph" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
+        eType="#//Node" containment="true" eOpposite="#//Node/graph"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="edges" upperBound="-1"
+        eType="#//Edge" containment="true" eOpposite="#//Edge/graph"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="kappaModel" lowerBound="1"
+        eType="ecore:EClass ../../de.tu.darmstadt.es.KappaStructure/model/kappaStructure.ecore#//KappaContainer"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="#//ModifiableElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="graph" lowerBound="1" eType="#//Graph"
+        eOpposite="#//Graph/nodes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incommingEdges" upperBound="-1"
+        eType="#//Edge" eOpposite="#//Edge/to"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingEdges" upperBound="-1"
+        eType="#//Edge" eOpposite="#//Edge/from"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="element" lowerBound="1"
+        eType="ecore:EClass ../../de.tu.darmstadt.es.KappaStructure/model/kappaStructure.ecore#//KappaElement"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="indexOfElement" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Edge" eSuperTypes="#//ModifiableElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="graph" eType="#//Graph"
+        eOpposite="#//Graph/edges"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="to" lowerBound="1" eType="#//Node"
+        eOpposite="#//Node/incommingEdges"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="from" eType="#//Node" eOpposite="#//Node/outgoingEdges"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reference" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Mapping">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rule" lowerBound="1" eType="#//KappaRule"
+        eOpposite="#//KappaRule/mappings"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceElement" lowerBound="1"
+        eType="#//ModifiableElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetElement" lowerBound="1"
+        eType="#//ModifiableElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SubRule" eSuperTypes="#//KappaRule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SubRuleCalls">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentRule" eType="#//KappaRule"
+        eOpposite="#//KappaRule/subruleCalls"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subrule" lowerBound="1"
+        eType="#//SubRule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//ModifiableElement"/>
+  </eClassifiers>
+</ecore:EPackage>

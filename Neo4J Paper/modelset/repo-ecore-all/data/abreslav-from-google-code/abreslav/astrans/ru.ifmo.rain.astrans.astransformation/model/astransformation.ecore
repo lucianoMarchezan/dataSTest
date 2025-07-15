@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="astransformation"
+    nsURI="http://rain.ifmo.ru/~breslav/2007/astransformation" nsPrefix="astransformation">
+  <eClassifiers xsi:type="ecore:EClass" name="Named" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Transformation" eSuperTypes="#//Named">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mappingRules" upperBound="-1"
+        eType="#//MappingRule" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="main" lowerBound="1" eType="#//MappingRule"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resolverClassName" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="traceClassName" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Parameter" eSuperTypes="#//Named">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MappingRule" eSuperTypes="#//Named">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameter" lowerBound="1"
+        eType="#//Parameter" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="result" lowerBound="1"
+        eType="#//Parameter" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignAttributeStatements"
+        upperBound="-1" eType="#//AssignAttribute" containment="true" eOpposite="#//AssignAttribute/mappingRule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignReferenceStatements"
+        upperBound="-1" eType="#//AssignReference" containment="true" eOpposite="#//AssignReference/mappingRule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="writeTraceStatement" lowerBound="1"
+        eType="#//WriteTrace" containment="true" eOpposite="#//WriteTrace/mappingRule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resolveObjectStatements"
+        upperBound="-1" eType="#//ResolveObject" containment="true" eOpposite="#//ResolveObject/mappingRule"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AssignAttribute">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mappingRule" lowerBound="1"
+        eType="#//MappingRule" eOpposite="#//MappingRule/assignAttributeStatements"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dest" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AssignReference">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mappingRule" lowerBound="1"
+        eType="#//MappingRule" eOpposite="#//MappingRule/assignReferenceStatements"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dest" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mappingNeeded" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WriteTrace">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mappingRule" lowerBound="1"
+        eType="#//MappingRule" eOpposite="#//MappingRule/writeTraceStatement"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="traceMethodName" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResolveObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mappingRule" lowerBound="1"
+        eType="#//MappingRule" eOpposite="#//MappingRule/resolveObjectStatements"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dest" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resolverMethodName" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

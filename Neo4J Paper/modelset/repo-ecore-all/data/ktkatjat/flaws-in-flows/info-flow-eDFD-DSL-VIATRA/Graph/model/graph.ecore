@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="graph" nsURI="http://www.example.org/graph" nsPrefix="graph">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="eDFDFlowTracking" value="../../eDFDFlowTracking1/model/eDFDFlowTracking1.ecore#/"/>
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
+  </eAnnotations>
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="Edge" eSuperTypes="#//Identifiable">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" upperBound="-1"
+        eType="#//Node"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//Node"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="EdgeLabel" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="graphassets" upperBound="-1"
+        eType="#//GraphAsset"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="visited" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Identifiable" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GraphAsset" eSuperTypes="#//Identifiable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Label" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//Node"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targets" lowerBound="1"
+        upperBound="-1" eType="#//Node"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Encrypted" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="#//Identifiable">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="AttackerObservationViolation EncryptSemanticConstraint DecryptSemanticConstraint StoreSemanticConstraint BusinessSemanticConstraint ComparatorSemanticConstraint JoinerSemanticConstraint DiscarderSemanticConstraint CopierSemanticConstraint ForwardSemanticConstraint SplitterSemanticConstraint UserSemanticConstraint VerifierSemanticConstraint AuthenticatorSemanticConstraint"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="AttackerObservationViolation" value="&#xA;&#x9;&#x9;-- if a node is malicious then there is a violation if any of the outgoing or incoming edges are private!&#xA;&#x9;&#x9;&#x9;if self.Attacker = true&#xA;&#x9;&#x9;&#x9;then&#xA;&#x9;&#x9;&#x9;&#x9;self.outedges->forAll(e |&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;e.EdgeLabel &lt; 1&#xA;&#x9;&#x9;&#x9;&#x9;) &#xA;&#x9;&#x9;&#x9;&#x9;and&#xA;&#x9;&#x9;&#x9;&#x9;self.inedges->forAll(e |&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;e.EdgeLabel &lt; 1&#xA;&#x9;&#x9;&#x9;&#x9;)&#xA;&#x9;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;&#x9;true&#xA;&#x9;&#x9;&#x9;endif&#xA;&#x9;&#x9;"/>
+      <details key="EncryptSemanticConstraint" value="&#xA;&#x9;&#x9;&#x9;self.responsibility->select(r | r.ID.matches('^.*EncryptOrHash.*$'))&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(r |&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;--there has to be something incoming and something outgoing&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;r.incomingassets->size() > 0 and r.outgoingassets->size() > 0&#xA;&#x9;&#x9;&#x9;&#x9;)&#xA;&#x9;&#x9;"/>
+      <details key="DecryptSemanticConstraint" value="&#xA;&#x9;&#x9;&#x9;self.responsibility->select(r | r.ID.matches('^.*Descrypt.*$'))&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(r |&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;--same as encrypt&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;r.incomingassets->size() > 0 and r.outgoingassets->size() > 0&#xA;&#x9;&#x9;&#x9;&#x9;)&#xA;&#x9;&#x9;"/>
+      <details key="StoreSemanticConstraint" value="&#xA;&#x9;&#x9;&#x9;self.responsibility->select(r | r.ID.matches('^.*Store.*$'))&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(r |&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;--there has to either be sth on the input or output&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;r.incomingassets->size() > 0 or r.outgoingassets->size() > 0&#xA;&#x9;&#x9;&#x9;&#x9;)&#xA;&#x9;&#x9;"/>
+      <details key="BusinessSemanticConstraint" value="&#xA;&#x9;&#x9;&#x9;self.responsibility->select(r | r.ID.matches('^.*Business.*$'))&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(r |&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;--same as store&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;r.incomingassets->size() > 0 or r.outgoingassets->size() > 0&#xA;&#x9;&#x9;&#x9;&#x9;)&#xA;&#x9;&#x9;"/>
+      <details key="ComparatorSemanticConstraint" value="&#xA;&#x9;&#x9;&#x9;self.responsibility->select(r | r.ID.matches('^.*Comparator.*$'))&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(r |&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;-- comparator needs at least 2 on input and at least 1 on output&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;r.incomingassets->size() >= 2 and r.outgoingassets->size() >= 1&#xA;&#x9;&#x9;&#x9;&#x9;)&#xA;&#x9;&#x9;"/>
+      <details key="JoinerSemanticConstraint" value="&#xA;&#x9;&#x9;&#x9;self.responsibility->select(r | r.ID.matches('^.*Joiner.*$'))&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(r | &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;-- needs at least 2 on the input, at least one on the output and the number of outputs &lt; number of inputs&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;r.incomingassets->size() >= 2 and r.outgoingassets->size() >= 1 and r.outgoingassets->size() &lt; r.incomingassets->size()&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;)&#xA;&#x9;&#x9;"/>
+      <details key="DiscarderSemanticConstraint" value="&#xA;&#x9;&#x9;-- after it is discarded is should not appear on output &#xA;&#x9;&#x9;&#x9;self.responsibility->select(r | r.ID.matches('^.*Discarder.*$'))&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(r | &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;-- what ever is on the input, it should not appear on the output anymore&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;r.incomingassets->forAll(a | r.outgoingassets->excludes(a))&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;-- discarded assets are not considered a risk, so the attacker observation can violate the asset labels&#xA;&#x9;&#x9;&#x9;&#x9;)&#xA;&#x9;&#x9;"/>
+      <details key="CopierSemanticConstraint" value="&#xA;&#x9;&#x9;&#x9;self.responsibility->select(r | r.ID.matches('^.*Copier.*$'))&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(r | &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;-- there has to be at least 1 incoming and 1 outgoing asset, and there has to be a responsibility on this node that stores the incoming assets locally&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;r.outgoingassets->size() > 0 and r.incomingassets->size() > 0 and &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;self.responsibility->select(r1 | r1.ID.matches('^.*Store.*$'))&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;->select(r2 | r2.incomingassets->select(asset | r.incomingassets->includes(asset))->size()>0 or  &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  r2.outgoingassets->select(asset | r.incomingassets->includes(asset))->size()>0&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;)&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;->size() > 0&#xA;&#x9;&#x9;&#x9;&#x9;)&#xA;&#x9;&#x9;"/>
+      <details key="ForwardSemanticConstraint" value="&#xA;&#x9;&#x9;&#x9;self.responsibility->select(r | r.ID.matches('^.*Forward.*$'))&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(r | &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;r.outgoingassets->size() > 0 and r.incomingassets->size() > 0&#xA;&#x9;&#x9;&#x9;&#x9;)&#xA;&#x9;&#x9;"/>
+      <details key="SplitterSemanticConstraint" value="&#xA;&#x9;&#x9;&#x9;self.responsibility->select(r | r.ID.matches('^.*Splitter.*$'))&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(r | &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;-- negated join operation&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;r.outgoingassets->size() >= 2 and r.incomingassets->size() >= 1 and r.incomingassets->size() &lt; r.outgoingassets->size()&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;)&#xA;&#x9;&#x9;"/>
+      <details key="UserSemanticConstraint" value="&#xA;&#x9;&#x9;&#x9;self.responsibility->select(r | r.ID.matches('^.*User.*$'))&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(r |  &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;r.incomingassets->size() > 0&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;)&#xA;&#x9;&#x9;"/>
+      <details key="VerifierSemanticConstraint" value="&#xA;&#x9;&#x9;&#x9;self.responsibility->select(r | r.ID.matches('^.*Verifier.*$'))&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(r |  &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;r.incomingassets->size() > 0&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;)&#xA;&#x9;&#x9;"/>
+      <details key="AuthenticatorSemanticConstraint" value="&#xA;&#x9;&#x9;&#x9;self.responsibility->select(r | r.ID.matches('^.*Authenticator.*$'))&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(r |&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;-- same as comparator!&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;r.incomingassets->size() >= 2 and r.outgoingassets->size() >= 1&#xA;&#x9;&#x9;&#x9;&#x9;)&#xA;&#x9;&#x9;"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outedges" upperBound="-1"
+        eType="#//Edge" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="responsibility" upperBound="-1"
+        eType="#//NodeResponsibility" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="AttackerObservation" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="visited" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inedges" upperBound="-1"
+        eType="#//Edge"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Attacker" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Subgraphs" eSuperTypes="#//Identifiable">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
+        eType="#//Node" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assets" upperBound="-1"
+        eType="#//GraphAsset" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NodeResponsibility" eSuperTypes="#//Identifiable">
+    <eOperations name="findMostRestrictiveLabel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="self.incomingassets->collect(a | a.Label)->asSequence()->last()"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="findLeastRestrictiveLabel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="self.incomingassets->collect(a | a.Label)->asSequence()->first()"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operation" upperBound="-1"
+        eType="ecore:EEnum ../../eDFDFlowTracking1/model/eDFDFlowTracking1.ecore#//ResponsibilityType"
+        defaultValueLiteral="Store"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingassets" upperBound="-1"
+        eType="#//GraphAsset"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incomingassets" upperBound="-1"
+        eType="#//GraphAsset"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Graph">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subgraphs" upperBound="-1"
+        eType="#//Subgraphs" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

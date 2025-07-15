@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="manufacturingSystem" nsURI="com.chalmers.manufacturingSystem"
+    nsPrefix="com.chalmers">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
+  </eAnnotations>
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkPiece">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasType" lowerBound="1"
+        eType="#//WorkPieceType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ManufacturingStep" eSuperTypes="#//Step"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ManufacturingSystem">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="ans_1 ans_2 ans_3 ans_4 ans_5 ans_6 ans_7 ans_81 ans_82"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="ans_1" value="Step.allInstances()->forAll(ms | ms.responsible->size()=1)"/>
+      <details key="ans_2" value="Responsible.allInstances()->forAll(r|Step.allInstances().responsible->count(r)>=1 and Step.allInstances().responsible->count(r)&lt;=3) -> forAll(m:ManufacturingSystemElement|m.name &lt;> null)"/>
+      <details key="ans_3" value="self->forAll(ms | self.consistsOf->selectByKind(Step).responsible->forAll(r | r &lt;> self.responsible))"/>
+      <details key="ans_4" value="self.consistsOf.transition -> selectByKind(StoragePoint) -> isEmpty()"/>
+      <details key="ans_5" value="StoragePoint.allInstances().transition->isEmpty()"/>
+      <details key="ans_6" value="self.consistsOf.transition->forAll(target | self.consistsOf->includes(target))"/>
+      <details key="ans_7" value="Step.allInstances()->select(step| let s1:Set(WorkPieceType) = step.transition->selectByKind(Step).output.input->selectByKind(WorkPieceCondition).requiresType->asSet() in s1->intersection(step->selectByKind(Step).output.outputTypes->asSet())->notEmpty())"/>
+      <details key="ans_81" value="self->forAll(ms|ms.start.stores->asSet()->includesAll(ms.consistsOf->selectByKind(CompositeManufacturingStep).output.input->selectByKind(WorkPieceCondition).requiresType->asSet())->notEmpty())"/>
+      <details key="ans_82" value="self->forAll(ms|ms.end.stores->asSet()->includesAll(ms.consistsOf->selectByKind(CompositeManufacturingStep).output.outputTypes->asSet())->notEmpty())"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="consistsOf" lowerBound="1"
+        upperBound="-1" eType="#//ManufacturingSystemElement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="start" lowerBound="1" upperBound="-1"
+        eType="#//StoragePoint"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="end" lowerBound="1" upperBound="-1"
+        eType="#//StoragePoint"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uses" upperBound="-1" eType="#//WorkPieceType"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transforms" upperBound="-1"
+        eType="#//WorkPiece" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="responsible" eType="#//Responsible"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="staff" upperBound="-1"
+        eType="#//Responsible" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransportStep" eSuperTypes="#//Step"/>
+  <eClassifiers xsi:type="ecore:EClass" name="QualityAssuranceStep" eSuperTypes="#//Step"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Step" abstract="true" eSuperTypes="#//ManufacturingSystemElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="speed" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="input" lowerBound="1" upperBound="-1"
+        eType="#//InputCondition" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="output" lowerBound="1"
+        upperBound="-1" eType="#//OutputDecision" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Responsible">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="BinaryType">
+    <eLiterals name="and"/>
+    <eLiterals name="or" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InputCondition">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StoragePoint" eSuperTypes="#//ManufacturingSystemElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="ans_91 ans_92"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="ans_91" value="self->select(previous|previous.transition->selectByKind(Step)->notEmpty())->forAll(previous|previous.oclIsKindOf(StoragePoint))"/>
+      <details key="ans_92" value="self->select(previous|previous.transition->selectByKind(Step)->notEmpty())->selectByKind(Step)->forAll(s|s.oclAsType(Step).speed &lt;= s.transition.oclAsType(Step).speed->min())"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stores" upperBound="-1"
+        eType="#//WorkPieceType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ManufacturingSystemElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transition" upperBound="-1"
+        eType="#//ManufacturingSystemElement"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="responsible" eType="#//Responsible"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompositeManufacturingStep" eSuperTypes="#//Step">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" lowerBound="1"
+        eType="#//ManufacturingSystem" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkPieceType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OutputDecision">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputTypes" eType="#//WorkPieceType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="input" lowerBound="1" upperBound="-1"
+        eType="#//InputCondition"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkPieceCondition" eSuperTypes="#//InputCondition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiresType" lowerBound="1"
+        eType="#//WorkPieceType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BinaryCondition" eSuperTypes="#//InputCondition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" lowerBound="1" eType="#//InputCondition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" lowerBound="1" eType="#//InputCondition"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//BinaryType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Negation" eSuperTypes="#//InputCondition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" lowerBound="1"
+        eType="#//InputCondition"/>
+  </eClassifiers>
+</ecore:EPackage>

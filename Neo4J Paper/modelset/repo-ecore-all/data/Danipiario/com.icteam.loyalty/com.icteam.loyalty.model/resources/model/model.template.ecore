@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="template" nsURI="http://com.icteam.loyalty/model/template" nsPrefix="com.icteam.loyalty.model.template">
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractEMFTemplate" abstract="true">
+    <eTypeParameters name="T">
+      <eBounds eClassifier="ecore:EClass model.interfaces.ecore#//Serializable"/>
+    </eTypeParameters>
+    <eOperations name="getMetamodel">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return entityManager == null ? null : entityManager.getMetamodel().managedType(getDbModelClass());"/>
+      </eAnnotations>
+      <eGenericType eClassifier="ecore:EDataType model.interfaces.ecore#//ManagedType">
+        <eTypeArguments eTypeParameter="#//AbstractEMFTemplate/T"/>
+      </eGenericType>
+    </eOperations>
+    <eOperations name="buildFetches">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="// nothing"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="checkDynamicFilters">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="for (EStructuralFeature feature : dynamicFilterFeatures) {&#xD;&#xA;            if (ModelUtil.isI18NFeature(feature)) {&#xD;&#xA;                for (String dynamicFilter : dynamicFilters) {&#xD;&#xA;                    if (!ModelUtil.checkMinLengthI18N(dynamicFilter)) {&#xD;&#xA;                        throw new AppException(EStatusReason.MIN_CHARACTER_SEARCH_LENGTH, ModelProperties.getInstance().minSearchCharacterI18N());&#xD;&#xA;                    }&#xD;&#xA;                }&#xD;&#xA;            }&#xD;&#xA;        }"/>
+      </eAnnotations>
+      <eParameters name="dynamicFilterFeatures" upperBound="-1" eType="ecore:EDataType model.interfaces.ecore#//EStructuralFeature"/>
+      <eParameters name="dynamicFilters" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="buildWheres"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="entityManager" eType="ecore:EDataType model.interfaces.ecore#//EntityManager">
+      <eAnnotations source="http://com.icteam.loyalty/where">
+        <details key="clause" value="NONE"/>
+      </eAnnotations>
+      <eAnnotations source="http://com.icteam.loyalty/property">
+        <details key="copy" value="false"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="wheres" upperBound="-1"
+        eType="ecore:EDataType model.interfaces.ecore#//Predicate">
+      <eAnnotations source="http://com.icteam.loyalty/where">
+        <details key="clause" value="NONE"/>
+      </eAnnotations>
+      <eAnnotations source="http://com.icteam.loyalty/property">
+        <details key="copy" value="false"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="builder" eType="ecore:EDataType model.interfaces.ecore#//CriteriaBuilder">
+      <eAnnotations source="http://com.icteam.loyalty/where">
+        <details key="clause" value="NONE"/>
+      </eAnnotations>
+      <eAnnotations source="http://com.icteam.loyalty/property">
+        <details key="copy" value="false"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="criteria">
+      <eAnnotations source="http://com.icteam.loyalty/where">
+        <details key="clause" value="NONE"/>
+      </eAnnotations>
+      <eAnnotations source="http://com.icteam.loyalty/property">
+        <details key="copy" value="false"/>
+      </eAnnotations>
+      <eGenericType eClassifier="ecore:EDataType model.interfaces.ecore#//CriteriaQuery">
+        <eTypeArguments/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="root">
+      <eAnnotations source="http://com.icteam.loyalty/where">
+        <details key="clause" value="NONE"/>
+      </eAnnotations>
+      <eAnnotations source="http://com.icteam.loyalty/property">
+        <details key="copy" value="false"/>
+      </eAnnotations>
+      <eGenericType eClassifier="ecore:EDataType model.interfaces.ecore#//From">
+        <eTypeArguments/>
+        <eTypeArguments eTypeParameter="#//AbstractEMFTemplate/T"/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="excludedFeatures" upperBound="-1"
+        eType="ecore:EDataType model.interfaces.ecore#//EStructuralFeature">
+      <eAnnotations source="http://com.icteam.loyalty/where">
+        <details key="clause" value="NONE"/>
+      </eAnnotations>
+      <eAnnotations source="http://com.icteam.loyalty/property">
+        <details key="copy" value="false"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eGenericSuperTypes eClassifier="ecore:EClass model.interfaces.ecore#//IEMFTemplate">
+      <eTypeArguments eTypeParameter="#//AbstractEMFTemplate/T"/>
+    </eGenericSuperTypes>
+    <eGenericSuperTypes eClassifier="ecore:EClass model.interfaces.ecore#//IEMFModel"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DictionaryEMFTemplate">
+    <eAnnotations source="http://com.icteam.loyalty/property">
+      <details key="dbModel" value="com.icteam.loyalty.model.DictionaryEMF"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://com.icteam.loyalty/where">
+        <details key="clause" value="LIKE_IGNORE_CASE"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="language" eType="ecore:EClass model.interfaces.ecore#//Language"
+        resolveProxies="false"/>
+    <eGenericSuperTypes eClassifier="#//AbstractEMFTemplate">
+      <eTypeArguments eClassifier="ecore:EEnum model.interfaces.ecore#//DistinctEMF"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+</ecore:EPackage>

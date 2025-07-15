@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="GD_assignment1_EMF" nsURI="http://www.example.org/GD_assignment1_EMF"
+    nsPrefix="GD_assignment1_EMF">
+  <eClassifiers xsi:type="ecore:EClass" name="User">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="userID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="userName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="balance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sharedBicycleServiceProvider"
+        lowerBound="1" eType="#//SharedBicycleServiceProvider" eOpposite="#//SharedBicycleServiceProvider/user"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeTransaction" eType="#//ActiveTransaction"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transactionRecords" lowerBound="1"
+        eType="#//TransactionRecords" eOpposite="#//TransactionRecords/user"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Bike">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bikeID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeTransaction" eType="#//ActiveTransaction"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="#//StatusOfBike"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sharedbicycleserviceprovider"
+        lowerBound="1" eType="#//SharedBicycleServiceProvider" eOpposite="#//SharedBicycleServiceProvider/bike"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SharedBicycleServiceProvider">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="user" upperBound="-1" eType="#//User"
+        eOpposite="#//User/sharedBicycleServiceProvider"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="providerName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="manager" lowerBound="3"
+        upperBound="-1" eType="#//Manager" eOpposite="#//Manager/sharedBicycleServiceProvider"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bike" lowerBound="1" upperBound="-1"
+        eType="#//Bike" eOpposite="#//Bike/sharedbicycleserviceprovider"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Transaction" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="price" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="user" lowerBound="1" eType="#//User"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bike" lowerBound="1" eType="#//Bike"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="#//StatusOfTransaction"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ActiveTransaction" eSuperTypes="#//Transaction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="financeManager" lowerBound="1"
+        eType="#//FinanceManager" eOpposite="#//FinanceManager/activeTransaction"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transactionManager" lowerBound="1"
+        eType="#//TransactionManager" eOpposite="#//TransactionManager/activeTransaction"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isBalanceLow" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isUsingAnOtherBike" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PassedTransaction" eSuperTypes="#//Transaction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transactionRecords" lowerBound="1"
+        eType="#//TransactionRecords" eOpposite="#//TransactionRecords/passedTransaction"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransactionRecords">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="user" lowerBound="1" eType="#//User"
+        eOpposite="#//User/transactionRecords"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="passedTransaction" upperBound="-1"
+        eType="#//PassedTransaction" eOpposite="#//PassedTransaction/transactionRecords"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Manager" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sharedBicycleServiceProvider"
+        lowerBound="1" eType="#//SharedBicycleServiceProvider" eOpposite="#//SharedBicycleServiceProvider/manager"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FinanceManager" eSuperTypes="#//Manager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeTransaction" upperBound="-1"
+        eType="#//ActiveTransaction" eOpposite="#//ActiveTransaction/financeManager"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransactionManager" eSuperTypes="#//Manager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeTransaction" upperBound="-1"
+        eType="#//ActiveTransaction" eOpposite="#//ActiveTransaction/transactionManager"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UserManager" eSuperTypes="#//Manager"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="StatusOfTransaction">
+    <eLiterals name="WaitingForCheck"/>
+    <eLiterals name="Success" value="1"/>
+    <eLiterals name="Canceled" value="2"/>
+    <eLiterals name="InProgress" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="StatusOfBike">
+    <eLiterals name="FunctionallyIntact"/>
+    <eLiterals name="NeedRepair" value="1"/>
+  </eClassifiers>
+</ecore:EPackage>

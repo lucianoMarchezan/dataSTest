@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="WebRequirementsMetamodel"
+    nsURI="http://WebRequirementsMetamodel" nsPrefix="WebRequirementsMetamodel">
+  <eClassifiers xsi:type="ecore:EClass" name="SD">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="creationDate" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral="21/03/2001"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dependencies" upperBound="-1"
+        eType="#//IDependency" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actors" upperBound="-1"
+        eType="#//Actor" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="StrategicDependencies"
+        upperBound="-1" eType="#//Argumentable" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SR">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="iRelationships" upperBound="-1"
+        eType="#//Relationship" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="iElement" upperBound="-1"
+        eType="#//IntentionalElement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Description" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntentionalElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Actor" eSuperTypes="#//Dependable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="iBeliefs" upperBound="-1"
+        eType="#//Belief" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="StrategicRelationships"
+        eType="#//SR" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Belief" eSuperTypes="#//IntentionalElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Goal" eSuperTypes="#//Argumentable"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Task" eSuperTypes="#//Argumentable"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Resource" eSuperTypes="#//Argumentable"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Softgoal" eSuperTypes="#//Argumentable"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Argumentable" abstract="true" eSuperTypes="#//IntentionalElement #//Dependable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="criticality" eType="#//Criticality"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="evaluation" eType="#//Evaluation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Criticality">
+    <eLiterals name="open"/>
+    <eLiterals name="critical" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Evaluation">
+    <eLiterals name="satisfacied"/>
+    <eLiterals name="denied" value="1"/>
+    <eLiterals name="weaklySatisfacied" value="2"/>
+    <eLiterals name="weaklyDenied" value="3"/>
+    <eLiterals name="undecided" value="4"/>
+    <eLiterals name="conflict" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Content" eSuperTypes="#//Resource #//WebRequirements"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WebRequirements">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="InitialStatus" eType="#//InitialStatus"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="SolicitedBy" eType="#//stakeholders"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ImplementedIn" lowerBound="1"
+        eType="#//RichInternetApplication"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="InitialStatus">
+    <eLiterals name="implemented"/>
+    <eLiterals name="no_implemented" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="stakeholders">
+    <eLiterals name="client"/>
+    <eLiterals name="developer" value="1"/>
+    <eLiterals name="end_user" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Navigational" eSuperTypes="#//Task #//WebRequirements"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Service" eSuperTypes="#//Task #//WebRequirements"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Personalization" eSuperTypes="#//Task #//WebRequirements"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Layout" eSuperTypes="#//Task #//WebRequirements"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Relationship" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Description" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Decomposition" eSuperTypes="#//Relationship">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Element" lowerBound="1"
+        eType="#//IntentionalElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="SubElement" lowerBound="1"
+        eType="#//IntentionalElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MeansEnd" eSuperTypes="#//Relationship">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Means" lowerBound="1" eType="#//IntentionalElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Ends" lowerBound="1" eType="#//IntentionalElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Contribution" eSuperTypes="#//Relationship">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Contributor" lowerBound="1"
+        eType="#//IntentionalElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Contributed" lowerBound="1"
+        eType="#//IntentionalElement"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//ContributionType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="WeightOnClient" lowerBound="1"
+        eType="#//WeightValue"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="WeightOnServer" lowerBound="1"
+        eType="#//WeightValue"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ContributionType">
+    <eLiterals name="and"/>
+    <eLiterals name="or" value="1"/>
+    <eLiterals name="break" value="2"/>
+    <eLiterals name="hurt" value="3"/>
+    <eLiterals name="someNegative" value="4"/>
+    <eLiterals name="unknow" value="5"/>
+    <eLiterals name="equal" value="6"/>
+    <eLiterals name="somePositive" value="7"/>
+    <eLiterals name="help" value="8"/>
+    <eLiterals name="make" value="9"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Correlation" eSuperTypes="#//Relationship">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//CorrelationType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CorrelationType">
+    <eLiterals name="break"/>
+    <eLiterals name="hurt" value="1"/>
+    <eLiterals name="someNegative" value="2"/>
+    <eLiterals name="unknow" value="3"/>
+    <eLiterals name="equal" value="4"/>
+    <eLiterals name="somePositive" value="5"/>
+    <eLiterals name="make" value="7"/>
+    <eLiterals name="help" value="6"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IDependency" eSuperTypes="#//Relationship">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DependencyTo" upperBound="-1"
+        eType="#//Dependable" eOpposite="#//Dependable/DependencyFrom"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DependencyFrom" upperBound="-1"
+        eType="#//Dependable" eOpposite="#//Dependable/DependencyTo"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="RichInternetApplication">
+    <eLiterals name="ServerSide"/>
+    <eLiterals name="ClientSide" value="1"/>
+    <eLiterals name="Undefined" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Dependable" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DependencyFrom" eType="#//IDependency"
+        eOpposite="#//IDependency/DependencyTo"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DependencyTo" eType="#//IDependency"
+        eOpposite="#//IDependency/DependencyFrom"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="WeightValue">
+    <eLiterals name="no" literal="no"/>
+    <eLiterals name="help" value="1" literal="help"/>
+    <eLiterals name="hurt" value="-1" literal="hurt"/>
+    <eLiterals name="somePositive" value="2" literal="somePositive"/>
+    <eLiterals name="someNegative" value="-2" literal="someNegative"/>
+    <eLiterals name="break" value="-4" literal="break"/>
+    <eLiterals name="make" value="4" literal="make"/>
+  </eClassifiers>
+</ecore:EPackage>

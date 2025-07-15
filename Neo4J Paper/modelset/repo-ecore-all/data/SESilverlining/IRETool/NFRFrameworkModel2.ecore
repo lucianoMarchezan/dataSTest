@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="NFRFrameworkModel" nsURI="http://www.example.org/NFRFrameworkModel"
+    nsPrefix="NFRFrameworkModel">
+  <eClassifiers xsi:type="ecore:EClass" name="NFRFramework">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="softgoalMembers" upperBound="-1"
+        eType="#//SoftGoal" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SoftGoal" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="child" upperBound="-1"
+        eType="#//SoftGoal" eOpposite="#//SoftGoal/parents"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parents" upperBound="-1"
+        eType="#//SoftGoal" eOpposite="#//SoftGoal/child"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="goalType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="goalTopic" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contribTypeToParent" eType="#//Contribution"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="satisficingLabel" eType="#//SatisficingLavelType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NFRSoftgoal" eSuperTypes="#//SoftGoal"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OperationalizingSoftgoal" eSuperTypes="#//SoftGoal"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ClaimSoftgoal" eSuperTypes="#//SoftGoal"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Contribution" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetSoftgoal" eType="#//SoftGoal"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Decomposition" abstract="true" eSuperTypes="#//Contribution"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Satisficing" abstract="true" eSuperTypes="#//Contribution"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ANDDecomposition" eSuperTypes="#//Decomposition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ORDecomposition" eSuperTypes="#//Decomposition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Make" eSuperTypes="#//PositiveSatisficing"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Help" eSuperTypes="#//PositiveSatisficing"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Hurt" eSuperTypes="#//NegativeSatisficing"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Break" eSuperTypes="#//NegativeSatisficing"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PositiveSatisficing" abstract="true"
+      eSuperTypes="#//Satisficing"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NegativeSatisficing" abstract="true"
+      eSuperTypes="#//Satisficing"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SomePlus" eSuperTypes="#//PositiveSatisficing"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SomeMinus" eSuperTypes="#//NegativeSatisficing"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="SatisficingLavelType">
+    <eLiterals name="Undecided"/>
+    <eLiterals name="Satisficed" value="1"/>
+    <eLiterals name="WeaklySatisficed" value="2"/>
+    <eLiterals name="WeaklyDenided" value="3"/>
+    <eLiterals name="Denied" value="4"/>
+    <eLiterals name="Conflict" value="5"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="temporal" nsURI="http://net.sf.xqz/temporal/1.0.0" nsPrefix="temporal">
+  <eClassifiers xsi:type="ecore:EClass" name="TimeLine">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="T1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="T1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="start" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="finish" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"
+        defaultValueLiteral="5000"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="#//EXECUTION_STATUS"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cmdEngine" eType="ecore:EClass engine.ecore#//CmdPipe"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orchestror" eType="#//Orchestror"
+        eOpposite="#//Orchestror/timelines"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="time" eType="#//TimeInfo"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="EXECUTION_STATUS">
+    <eLiterals name="PLAY"/>
+    <eLiterals name="STOP" value="1"/>
+    <eLiterals name="FORWARD" value="2"/>
+    <eLiterals name="BACKWARD" value="3"/>
+    <eLiterals name="FROZEN" value="4"/>
+    <eLiterals name="RECORD" value="5"/>
+    <eLiterals name="UNDEFINED" value="7"/>
+    <eLiterals name="MUTE" value="6"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Orchestror">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="timelines" upperBound="-1"
+        eType="#//TimeLine" containment="true" eOpposite="#//TimeLine/orchestror"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="application" eType="ecore:EClass engine.ecore#//EngineApplication"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="time" eType="#//TimeInfo"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="clock" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TimeInfo">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="start" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cursor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tick" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+  </eClassifiers>
+</ecore:EPackage>

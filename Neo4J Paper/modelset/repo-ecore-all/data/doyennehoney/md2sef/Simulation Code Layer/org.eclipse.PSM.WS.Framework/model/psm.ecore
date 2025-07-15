@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ws" nsURI="http://www.psm.org/ws" nsPrefix="ws">
+  <eSubpackages name="middleware" nsURI="http://psm.org/middleware" nsPrefix="middleware">
+    <eClassifiers xsi:type="ecore:EClass" name="Middleware" abstract="true">
+      <eOperations name="bind"/>
+      <eOperations name="establish"/>
+      <eOperations name="send"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="uses" eType="#//middleware/VM"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="process" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//bundle/Process"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="WebService" eSuperTypes="#//middleware/Middleware">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="stubs" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//middleware/Stub" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="registry" lowerBound="1"
+          eType="#//middleware/Repository"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="VM">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="protocol" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="processors" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//middleware/Processor" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Processor">
+      <eOperations name="receive"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="IP" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ServiceImpl" eSuperTypes="#//middleware/ServiceDescription">
+      <eOperations name="receive"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Stub">
+      <eOperations name="receive"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="impl" lowerBound="1"
+          eType="#//middleware/ServiceImpl"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Repository">
+      <eOperations name="lookup"/>
+      <eOperations name="rebind"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="services" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//middleware/ServiceDescription"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ServiceDescription" abstract="true"
+        interface="true"/>
+  </eSubpackages>
+  <eSubpackages name="tree" nsURI="http://psm.org/Tree" nsPrefix="tree">
+    <eClassifiers xsi:type="ecore:EClass" name="Tree">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Root" lowerBound="1"
+          eType="#//tree/Root" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Coordinator" ordered="false"
+          upperBound="-1" eType="#//tree/Coordinator" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Simulator" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//tree/Simulator" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Root" eSuperTypes="#//tree/Node">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="child" lowerBound="1"
+          eType="#//tree/BasicNode"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Coordinator" eSuperTypes="#//tree/BasicNode">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="children" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//tree/BasicNode"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CDEVSCoordinator" eSuperTypes="#//tree/Coordinator"/>
+    <eClassifiers xsi:type="ecore:EClass" name="PDEVSCoordinator" eSuperTypes="#//tree/Coordinator"/>
+    <eClassifiers xsi:type="ecore:EClass" name="FlatCoordinator" eSuperTypes="#//tree/Coordinator"/>
+    <eClassifiers xsi:type="ecore:EClass" name="NodeCoordinator" eSuperTypes="#//tree/Coordinator"/>
+    <eClassifiers xsi:type="ecore:EClass" name="P_Coordinator" eSuperTypes="#//tree/Coordinator"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Simulator" abstract="true" eSuperTypes="#//tree/BasicNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="CDEVSSimulator" eSuperTypes="#//tree/Simulator"/>
+    <eClassifiers xsi:type="ecore:EClass" name="PDEVSSimulator" eSuperTypes="#//tree/Simulator"/>
+    <eClassifiers xsi:type="ecore:EClass" name="P_Simulator" eSuperTypes="#//tree/Simulator"/>
+    <eClassifiers xsi:type="ecore:EClass" name="BasicNode" abstract="true" eSuperTypes="#//tree/Node">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Node" abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="skeleton" nsURI="http://psm.org/skeleton" nsPrefix="skeleton">
+    <eClassifiers xsi:type="ecore:EClass" name="Skeleton">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="tree" eType="#//tree/Tree"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="rootskel" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//tree/Root" containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="bundle" nsURI="http://psm.org/bundle" nsPrefix="bundle">
+    <eClassifiers xsi:type="ecore:EClass" name="Bundle">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="skeleton" lowerBound="1"
+          eType="#//skeleton/Skeleton"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Process" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//bundle/Process" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Process">
+      <eOperations name="receive"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//tree/Node"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="middleware" lowerBound="1"
+          eType="#//middleware/Middleware"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

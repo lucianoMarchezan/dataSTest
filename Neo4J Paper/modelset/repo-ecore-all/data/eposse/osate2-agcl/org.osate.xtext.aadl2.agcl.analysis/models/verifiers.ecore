@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="verifiers" nsURI="http://verifiers/1.0" nsPrefix="org.osate.xtext.aadl2.agcl.analysis.verifiers">
+  <eClassifiers xsi:type="ecore:EClass" name="VerificationResult" abstract="true"
+      interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Positive" eSuperTypes="#//VerificationResult"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Negative" eSuperTypes="#//VerificationResult">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="counterexample" eType="#//CounterExample"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Model" abstract="true" interface="true">
+    <eOperations name="text" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="This method should return a textual representation of the model. &#xA;&#xA;@param args&#x9;information that may be required to produced the textual representation&#xA;"/>
+      </eAnnotations>
+      <eParameters name="args" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="model" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="context" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Specification" abstract="true" interface="true">
+    <eOperations name="text" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="This method should return a textual representation of the specification. &#xA;&#xA;@param args&#x9;information that may be required to produced the textual representation&#xA;"/>
+      </eAnnotations>
+      <eParameters name="args" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="spec" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="context" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CounterExample" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UniversalModel" abstract="true" interface="true"
+      eSuperTypes="#//Model"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ModelChecker" abstract="true">
+    <eOperations name="setUp">
+      <eParameters name="resource" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"/>
+    </eOperations>
+    <eOperations name="makeVerificationUnit" lowerBound="1" eType="#//VerificationUnit">
+      <eParameters name="model" eType="#//Model"/>
+      <eParameters name="spec" eType="#//Specification"/>
+      <eParameters name="viewpoint" eType="#//Viewpoint"/>
+      <eParameters name="component" eType="#//Component"/>
+    </eOperations>
+    <eOperations name="makeVerificationUnit" lowerBound="1" eType="#//VerificationUnit">
+      <eParameters name="spec" eType="#//Specification"/>
+      <eParameters name="viewpoint" eType="#//Viewpoint"/>
+      <eParameters name="component" eType="#//Component"/>
+    </eOperations>
+    <eOperations name="checkVerificationUnit" lowerBound="1" eType="#//VerificationResult">
+      <eParameters name="verificationUnit" eType="#//VerificationUnit"/>
+    </eOperations>
+    <eOperations name="prepareInput" lowerBound="1" eType="#//ModelCheckerInput">
+      <eParameters name="verificationUnit" eType="#//VerificationUnit"/>
+    </eOperations>
+    <eOperations name="callExternal" lowerBound="1" eType="#//ModelCheckerOutput">
+      <eParameters name="input" eType="#//ModelCheckerInput"/>
+    </eOperations>
+    <eOperations name="processOutput" lowerBound="1" eType="#//VerificationResult">
+      <eParameters name="output" eType="#//ModelCheckerOutput"/>
+    </eOperations>
+    <eOperations name="addVerificationUnit" lowerBound="1">
+      <eParameters name="verificationUnit" eType="#//VerificationUnit"/>
+    </eOperations>
+    <eOperations name="removeVerificationUnit">
+      <eParameters name="verificationUnitName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="getVerificationUnit" lowerBound="1" eType="#//VerificationUnit">
+      <eParameters name="verificationUnitName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="checkAll" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resourceContext" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="results" eType="#//ResultsCollection"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="verificationUnits" upperBound="-1"
+        eType="#//VerificationUnit"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="viewpointCollection" eType="#//ViewpointCollection"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="componentCollection" eType="#//ComponentCollection"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NuSMVModelChecker" eSuperTypes="#//ModelChecker"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ModelCheckerInput" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="specification" eType="#//Specification"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="output" eType="#//ModelCheckerOutput"
+        eOpposite="#//ModelCheckerOutput/input"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="verificationUnit" eType="#//VerificationUnit"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ModelCheckerOutput" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="result" eType="#//VerificationResult"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="input" eType="#//ModelCheckerInput"
+        eOpposite="#//ModelCheckerInput/output"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NuSMVInput" eSuperTypes="#//ModelCheckerInput">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelFileName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="processing" value="skip"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sessionScriptFileName"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="processing" value="skip"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NuSMVOutput" eSuperTypes="#//ModelCheckerOutput">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="outputFileName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="processing" value="skip"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="counterExampleFileName"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="processing" value="skip"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NuSMVModel" eSuperTypes="#//Model">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="vars" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="init" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="trans" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NuSMVUniversalModel" eSuperTypes="#//NuSMVModel #//UniversalModel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NuSMVSpecification" eSuperTypes="#//Specification">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="logic" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Unknown" eSuperTypes="#//VerificationResult">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reason" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResultsCollection">
+    <eOperations name="recordResult">
+      <eParameters name="verificationUnit" eType="#//VerificationUnit"/>
+      <eParameters name="result" eType="#//VerificationResult"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entries" upperBound="-1"
+        eType="#//ResultEntry" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Component">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="object" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Viewpoint">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="object" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VerificationUnit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="model" eType="#//Model"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="specification" eType="#//Specification"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="viewpoint" eType="#//Viewpoint"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="component" eType="#//Component"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResultEntry">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="verificationUnit" eType="#//VerificationUnit"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="result" eType="#//VerificationResult"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ViewpointCollection">
+    <eOperations name="getViewpoint" lowerBound="1" eType="#//Viewpoint">
+      <eParameters name="viewpointName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="addViewpoint" lowerBound="1" eType="#//Viewpoint">
+      <eParameters name="viewpointName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="object" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    </eOperations>
+    <eOperations name="removeViewpoint">
+      <eParameters name="viewpointName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="containsViewpoint" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="viewpointName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="viewpoints" ordered="false"
+        upperBound="-1" eType="#//Viewpoint" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComponentCollection">
+    <eOperations name="getComponent" lowerBound="1" eType="#//Component">
+      <eParameters name="componentName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="addComponent" lowerBound="1" eType="#//Component">
+      <eParameters name="componentName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="object" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    </eOperations>
+    <eOperations name="removeComponent">
+      <eParameters name="componentName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="containsComponent" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="componentName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
+        eType="#//Component" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

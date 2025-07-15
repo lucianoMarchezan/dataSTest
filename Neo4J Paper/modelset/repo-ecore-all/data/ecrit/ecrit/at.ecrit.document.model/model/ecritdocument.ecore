@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ecritdocument" nsURI="http://www.ecrit.at/model/document/2014"
+    nsPrefix="ecritdocument">
+  <eClassifiers xsi:type="ecore:EClass" name="CommandStep" eSuperTypes="#//Step">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&lt;p>&#xA;A step that is associated with a command.&#xA;&lt;/p>"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="command" eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//commands/Command"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Step" abstract="true" eSuperTypes="#//DocumentedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&lt;b>&#xA;ISO/IEC2008&#xA;&lt;/b>&#xA;A step: One element (numbered list item) in a procedure that tells a user to perform an action&#xA;(or actions)&#xA;&lt;/p>"/>
+    </eAnnotations>
+    <eOperations name="isCommandStep" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executableBy" upperBound="-1"
+        eType="#//User"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initiatableBy" upperBound="-1"
+        eType="#//InitiatableItem" eOpposite="#//InitiatableItem/associatedStep"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="possibleError" upperBound="-1"
+        eType="#//ErrorMessage"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="keybinding" eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//commands/KeyBinding"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Document">
+    <eOperations name="findOrCreateCommandStepByCommand" eType="#//CommandStep">
+      <eParameters name="command" lowerBound="1" eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//commands/Command"/>
+    </eOperations>
+    <eOperations name="getDocumentedElementByMUiElement" eType="#//DocumentedElement">
+      <eParameters name="mUiElement" eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//ui/UIElement"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="step" upperBound="-1" eType="#//Step"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="creationDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="documentVersion" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="productVersion" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="applicationLayout" lowerBound="1"
+        eType="#//ApplicationLayout" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="applicationProperties"
+        lowerBound="1" eType="#//ApplicationProperties"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="User"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ErrorMessage"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DirectStep" eSuperTypes="#//Step">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contribution" eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//Contribution"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InitiatableItem">
+    <eOperations name="getLocationDescription">
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+        <eTypeArguments/>
+        <eTypeArguments/>
+      </eGenericType>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="item" eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//ui/menu/Item"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="itemType" eType="#//InitiatableItemType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containingWindow" eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//ui/basic/Window"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containingPart" eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//ui/basic/Part"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containingMenu" eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//ui/menu/Menu"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containingToolbar" eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//ui/menu/ToolBar"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="visibleWhen" eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//ui/Expression"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedStep" eType="#//Step"
+        eOpposite="#//Step/initiatableBy"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="InitiatableItemType">
+    <eLiterals name="MENU"/>
+    <eLiterals name="TOOLBAR"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ApplicationLayout">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="perspective" upperBound="-1"
+        eType="#//DocumentedPerspective" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="part" upperBound="-1" eType="#//DocumentedPart"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="window" upperBound="-1"
+        eType="#//DocumentedWindow" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="menu" upperBound="-1" eType="#//DocumentedMenu"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trimBar" upperBound="-1"
+        eType="#//DocumentedTrimBar" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trim" upperBound="-1" eType="#//DocumentedTrim"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="toolBar" upperBound="-1"
+        eType="#//DocumentedToolBar"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DocumentedElement" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="precondition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="postcondition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DocumentedPerspective" eSuperTypes="#//DocumentedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelElement" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//ui/advanced/Perspective"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedParts" upperBound="-1"
+        eType="#//DocumentedPart"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="IOException" instanceClassName="java.io.IOException"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DocumentedPart" eSuperTypes="#//DocumentedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelElement" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//ui/basic/Part"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedInPerspective"
+        upperBound="-1" eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//ui/advanced/Perspective"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initiatableItems" upperBound="-1"
+        eType="#//InitiatableItem"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedMenus" upperBound="-1"
+        eType="#//DocumentedMenu"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DocumentedWindow" eSuperTypes="#//DocumentedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelElement" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//ui/basic/Window"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedPerspective" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//ui/advanced/Perspective"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedMenus" upperBound="-1"
+        eType="#//DocumentedMenu"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedTrimBars" upperBound="-1"
+        eType="#//DocumentedTrimBar"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ApplicationProperties">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="about" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="requiresLogin" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="requiresInstallation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="perspectiveSwitcher" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hasConceptOfMultipleUsers"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="userRolesDescription" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="faq" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DocumentedMenu" eSuperTypes="#//DocumentedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelElement" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//ui/menu/Menu"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedInPart" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//ui/basic/Part"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedInWindow" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//ui/basic/Window"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedMenuItems" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//ui/menu/MenuElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DocumentedTrimBar" eSuperTypes="#//DocumentedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelElement" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//ui/basic/TrimBar"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedInWindow" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//ui/basic/Window"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedTrimElements"
+        upperBound="-1" eType="#//DocumentedTrim"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedToolBars" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//ui/menu/ToolBar"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedToolBarElements"
+        upperBound="-1" eType="#//DocumentedToolBar"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DocumentedTrim" eSuperTypes="#//DocumentedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelElement" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//ui/basic/TrimElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedInTrimBar" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//ui/basic/TrimBar"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DocumentedToolBar" eSuperTypes="#//DocumentedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelElement" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//ui/menu/ToolBarElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedInTrimBar" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//ui/basic/TrimBar"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedInToolBar" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.e4.ui.model.workbench/model/UIElements.ecore#//ui/menu/ToolBar"/>
+  </eClassifiers>
+</ecore:EPackage>

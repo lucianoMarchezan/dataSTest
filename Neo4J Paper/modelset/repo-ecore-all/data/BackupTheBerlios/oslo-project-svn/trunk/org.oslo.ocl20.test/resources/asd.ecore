@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="asd"
+    nsURI="http:///asd.ecore" nsPrefix="asd">
+  <eSubpackages name="core" nsURI="http:///asd/core.ecore" nsPrefix="asd.core">
+    <eSubpackages name="datatypes" nsURI="http:///asd/core/datatypes.ecore" nsPrefix="asd.core.datatypes">
+      <eClassifiers xsi:type="ecore:EClass" name="ASDTaggedValue" abstract="true">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ASDStringValue" eSuperTypes="#//core/datatypes/ASDTaggedValue">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ASDColor">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ASDCoordinate">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ASDAlignment">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="element" nsURI="http:///asd/core/element.ecore" nsPrefix="asd.core.element">
+      <eClassifiers xsi:type="ecore:EClass" name="ASDElement" abstract="true">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="additionalProperties"
+            eType="#//core/datatypes/ASDStringValue" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="comment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="documentation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="identifier" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="qualifiedName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+            derived="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="theScope" eType="#//core/element/ASDScope"
+            transient="true" eOpposite="#//core/element/ASDScope/theContainedElements"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="theDirectedRelationship"
+            upperBound="-1" eType="#//core/structure/ASDDirectedRelationship" containment="true"
+            eOpposite="#//core/structure/ASDDirectedRelationship/theElement"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="theDirectedRelationshipTarget"
+            upperBound="-1" eType="#//core/structure/ASDDirectedRelationship" eOpposite="#//core/structure/ASDDirectedRelationship/theElementTarget"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="theRepresentation"
+            upperBound="-1" eType="#//core/representation/ASDRepresentation" eOpposite="#//core/representation/ASDRepresentation/theElement"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ASDScope" abstract="true" eSuperTypes="#//core/element/ASDElement">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="theContainedElements"
+            upperBound="-1" eType="#//core/element/ASDElement" containment="true"
+            eOpposite="#//core/element/ASDElement/theScope"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="structure" nsURI="http:///asd/core/structure.ecore" nsPrefix="asd.core.structure">
+      <eClassifiers xsi:type="ecore:EClass" name="ASDDirectedRelationship" abstract="true"
+          eSuperTypes="#//core/element/ASDElement">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="theElement" lowerBound="1"
+            eType="#//core/element/ASDElement" transient="true" eOpposite="#//core/element/ASDElement/theDirectedRelationship"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="theElementTarget" lowerBound="1"
+            upperBound="-1" eType="#//core/element/ASDElement" eOpposite="#//core/element/ASDElement/theDirectedRelationshipTarget"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ASDTrace" abstract="true" eSuperTypes="#//core/structure/ASDDirectedRelationship"/>
+      <eClassifiers xsi:type="ecore:EClass" name="ASDConnector" abstract="true" eSuperTypes="#//core/structure/ASDDirectedRelationship">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="theConnectableElement"
+            lowerBound="1" eType="#//core/structure/ASDConnectableElement" transient="true"
+            eOpposite="#//core/structure/ASDConnectableElement/theConnector"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="theConnectableElementTarget"
+            lowerBound="1" upperBound="-1" eType="#//core/structure/ASDConnectableElement"
+            eOpposite="#//core/structure/ASDConnectableElement/theConnectorTarget"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ASDConnectableElement" abstract="true"
+          eSuperTypes="#//core/element/ASDElement">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="theConnector" upperBound="-1"
+            eType="#//core/structure/ASDConnector" containment="true" eOpposite="#//core/structure/ASDConnector/theConnectableElement"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="theConnectorTarget"
+            upperBound="-1" eType="#//core/structure/ASDConnector" eOpposite="#//core/structure/ASDConnector/theConnectableElementTarget"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="representation" nsURI="http:///asd/core/representation.ecore"
+        nsPrefix="asd.core.representation">
+      <eClassifiers xsi:type="ecore:EClass" name="ASDRepresentation" abstract="true">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="theElement" eType="#//core/element/ASDElement"
+            eOpposite="#//core/element/ASDElement/theRepresentation"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="backgroundColor" eType="#//core/datatypes/ASDColor"
+            containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="foregroundColor" eType="#//core/datatypes/ASDColor"
+            containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ASDTextualRepresentation" eSuperTypes="#//core/representation/ASDRepresentation">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="displayedText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+            derived="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ASDGraphicalRepresentation" eSuperTypes="#//core/representation/ASDRepresentation"/>
+    </eSubpackages>
+  </eSubpackages>
+  <eSubpackages name="activities" nsURI="http:///asd/activities.ecore" nsPrefix="asd.activities"/>
+  <eSubpackages name="tools" nsURI="http:///asd/tools.ecore" nsPrefix="asd.tools">
+    <eSubpackages name="simulink" nsURI="http:///asd/tools/simulink.ecore" nsPrefix="asd.tools.simulink">
+      <eClassifiers xsi:type="ecore:EClass" name="SLSystem" eSuperTypes="#//core/element/ASDElement">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="sysCreated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="sysCreator" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="sysLastModifiedBy"
+            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="sysLastModifiedDate"
+            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="sysName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="sysStatusBar" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="sysToolBar" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="sysVersion" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="theBlockToSystem" upperBound="-1"
+            eType="#//tools/simulink/SLBlock" containment="true" eOpposite="#//tools/simulink/SLBlock/theSystemToBlock"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="theLineToSystem" upperBound="-1"
+            eType="#//tools/simulink/SLLine" containment="true" eOpposite="#//tools/simulink/SLLine/theSystemToLine"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="theAnnotationToSystem"
+            upperBound="-1" eType="#//tools/simulink/SLAnnotation" containment="true"
+            eOpposite="#//tools/simulink/SLAnnotation/theSystemToAnnotation"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="SLBlock" eSuperTypes="#//core/element/ASDElement">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="color" eType="#//core/datatypes/ASDColor"
+            containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//core/datatypes/ASDCoordinate"
+            containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="theSystemToBlock" lowerBound="1"
+            eType="#//tools/simulink/SLSystem" transient="true" eOpposite="#//tools/simulink/SLSystem/theBlockToSystem"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="SLAnnotation">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="theSystemToAnnotation"
+            lowerBound="1" eType="#//tools/simulink/SLSystem" transient="true" eOpposite="#//tools/simulink/SLSystem/theAnnotationToSystem"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="SLLine">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="theSystemToLine" lowerBound="1"
+            eType="#//tools/simulink/SLSystem" transient="true" eOpposite="#//tools/simulink/SLSystem/theLineToSystem"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="SLPort"/>
+      <eSubpackages name="blocktypes" nsURI="http:///asd/tools/simulink/blocktypes.ecore"
+          nsPrefix="asd.tools.simulink.blocktypes">
+        <eClassifiers xsi:type="ecore:EClass" name="SLSinus" eSuperTypes="#//tools/simulink/SLBlock">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="Sine Wave: Output a sine wave:&#xD;&#xA;&#xD;&#xA;   O(t) = Amp*Sin(Freq*t+Phase) + Bias&#xD;&#xA;&#xD;&#xA;Sine type determines the computational technique used. The parameters in the two types are related through:&#xD;&#xA;&#xD;&#xA;Samples per period = 2*pi / (Frequency * Sample time)&#xD;&#xA;&#xD;&#xA;Number of offset samples = Phase * Samples per period / (2*pi)&#xD;&#xA;&#xD;&#xA;Use the sample-based sine type if numerical problems due to running for large times (e.g. overflow in absolute time) occur."/>
+          </eAnnotations>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="amplitude" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloatObject"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="bias" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloatObject"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="frequency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloatObject"/>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="phase" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloatObject"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="SLGain" eSuperTypes="#//tools/simulink/SLBlock">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="Gain: Element-wise gain (y = K.*u) or matrix gain (y = K*u or y = u*K)."/>
+          </eAnnotations>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="gain" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="SLBusCreator" eSuperTypes="#//tools/simulink/SLBlock">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="Bus Creator: This block creates a bus signal from its inputs."/>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="SLBusSelector" eSuperTypes="#//tools/simulink/SLBlock">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="Bus Selector: This block accepts a bus as input which can be created from a Mux, Bus Creator, Bus Selector or a block that defines its output using a bus object. The left listbox shows the signals in the input bus. Use the Select button to select the output signals. The right listbox shows the selections. Use the Up, Down, or Remove button to reorder the selections. Check 'Muxed output' to multiplex the output."/>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="SLConstant" eSuperTypes="#//tools/simulink/SLBlock">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="Constant: Output the constant specified by the 'Constant value' parameter. If 'Constant value' is a vector and 'Interpret vector parameters as 1-D' is on, treat the constant value as a 1-D array. Otherwise, output a matrix with the same dimensions as the constant value."/>
+          </eAnnotations>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="constantValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="SLDataTypeConversion" eSuperTypes="#//tools/simulink/SLBlock">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="Data Type Conversion: Convert the input to the data type and scaling of the output. &#xD;&#xA;&#xD;&#xA;The conversion has two possible goals. One goal is to have the Real World Values of the input and the output be equal.  The other goal is to have the Stored Integer Values of the input and the output be equal.  Overflows and quantization errors can prevent the goal from being fully achieved."/>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="SLDemux" eSuperTypes="#//tools/simulink/SLBlock">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="Demux: Split either (a) vector signals into scalars or smaller vectors, or (b) bus signals produced by the Mux block into their constituent scalar, vector, or matrix signals.&#xD;&#xA;Check 'Bus Selection Mode' to split bus signals."/>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="SLDiscreteTimeIntegrator" eSuperTypes="#//tools/simulink/SLBlock">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="Discrete-Time Integrator: Discrete-time integration of the input signal."/>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="SLGround" eSuperTypes="#//tools/simulink/SLBlock">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="Ground: Used to 'ground' input signals.  (Prevents warnings about unconnected input ports.)  Outputs zero."/>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="SLInport" eSuperTypes="#//tools/simulink/SLBlock">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="Inport: Provide an input port for a subsystem or model. For Triggered Subsystems, if 'Latch (buffer) input' is selected, then the Inport block produces the value of the input at the previous time step. The other parameters can be used to explicitly specify the input signal attributes."/>
+          </eAnnotations>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="portNumber" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="SLIntegrator" eSuperTypes="#//tools/simulink/SLBlock">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="Integrator: Continuous-time integration of the input signal."/>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="SLLogicalOperator" eSuperTypes="#//tools/simulink/SLBlock">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="Logical Operator: Logical operators.  For a single input, operators are applied across the input vector.  For multiple inputs, operators are applied across the inputs."/>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="SLMux" eSuperTypes="#//tools/simulink/SLBlock">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="Mux: Multiplex scalar, vector, or matrix signals into a bus."/>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="SLOutport" eSuperTypes="#//tools/simulink/SLBlock">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="Outport: Provide an output port for a subsystem or model.  The 'Output when disabled' and 'Initial output' parameters only apply to conditionally executed subsystems. When a conditionally executed subsystem is disabled, the output is either held at its last value or set to the 'Initial output'."/>
+          </eAnnotations>
+          <eStructuralFeatures xsi:type="ecore:EAttribute" name="portNumber" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="SLProduct" eSuperTypes="#//tools/simulink/SLBlock">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="Product: Multiply or divide inputs.  Choose element-wise or matrix product and specify one of the following:&#xD;&#xA;a) * or / for each input port (e.g., **/*)&#xD;&#xA;b) scalar specifies the number of input ports to be multiplied &#xD;&#xA;Scalar value of '1' for element-wise product causes all elements of a single input vector to be multiplied.&#xD;&#xA;If / is specified with matrix product, compute the inverse of the corresponding input."/>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="SLRelationalOperator" eSuperTypes="#//tools/simulink/SLBlock">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="Relational Operator: Applies the selected relational operator to the inputs and outputs the result. The top (or left) input corresponds to the first operand."/>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="Saturation" eSuperTypes="#//tools/simulink/SLBlock">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="Saturation: Limit input signal to the upper and lower saturation values."/>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="SLScope" eSuperTypes="#//tools/simulink/SLBlock">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="Scope: simulink/Commonly Used Blocks/Scope"/>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="SLSubsystem" eSuperTypes="#//tools/simulink/SLBlock">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="Subsystem: A subsystem block template containing an inport and outport block."/>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="SLSum" eSuperTypes="#//tools/simulink/SLBlock">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="Sum: Add or subtract inputs.  Specify one of the following:&#xD;&#xA;a) string containing + or - for each input port, | for spacer between ports (e.g. ++|-|++)&#xD;&#xA;b) scalar >= 1. A value > 1 sums all inputs; 1 sums elements of a single input vector"/>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="SLSwitch" eSuperTypes="#//tools/simulink/SLBlock">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="Switch: Pass through input 1 when input 2 satisfies the selected criterion; otherwise, pass through input 3.  The inputs are numbered top to bottom (or left to right). The input 1 pass-through criteria are input 2 greater than or equal, greater than, or not equal to the threshhold.  The first and third input ports are data ports, and the second input port is the control port."/>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="SLTerminator" eSuperTypes="#//tools/simulink/SLBlock">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="Terminator: Used to 'terminate' output signals.  (Prevents warnings about unconnected output ports.)"/>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xsi:type="ecore:EClass" name="SLUnitDelay" eSuperTypes="#//tools/simulink/SLBlock">
+          <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+            <details key="documentation" value="Unit Delay: Sample and hold with one sample period delay."/>
+          </eAnnotations>
+        </eClassifiers>
+      </eSubpackages>
+    </eSubpackages>
+    <eSubpackages name="matlab" nsURI="http:///asd/tools/matlab.ecore" nsPrefix="asd.tools.matlab">
+      <eClassifiers xsi:type="ecore:EClass" name="MLFunction" eSuperTypes="#//core/element/ASDElement">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="definition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="stateflow" nsURI="http:///asd/tools/stateflow.ecore" nsPrefix="asd.tools.stateflow"/>
+    <eSubpackages name="doors" nsURI="http:///asd/tools/doors.ecore" nsPrefix="asd.tools.doors"/>
+    <eSubpackages name="cte" nsURI="http:///asd/tools/cte.ecore" nsPrefix="asd.tools.cte"/>
+    <eSubpackages name="mtest" nsURI="http:///asd/tools/mtest.ecore" nsPrefix="asd.tools.mtest"/>
+  </eSubpackages>
+</ecore:EPackage>

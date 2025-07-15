@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="Y3853992" nsURI="http://Y3853992" nsPrefix="">
+  <eAnnotations source="gmf"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RequirementsModel">
+    <eAnnotations source="gmf.diagram">
+      <details key="model.extension" value="Y3853992"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requirements" upperBound="-1"
+        eType="#//Requirement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="testCases" upperBound="-1"
+        eType="#//TestCase" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="teamMembers" upperBound="-1"
+        eType="#//TeamMember" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conflicts" upperBound="-1"
+        eType="#//Conflict" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="RequirementType">
+    <eLiterals name="Customer"/>
+    <eLiterals name="System" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Requirement">
+    <eAnnotations source="gmf.node">
+      <details key="label" value="identifier, type"/>
+      <details key="label.view.pattern" value="{1} requirement {0}"/>
+      <details key="border.color" value="30,144,255"/>
+      <details key="border.width" value="3"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="identifier" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="gmf.label">
+        <details key="label.pattern" value="Description: {0}"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="progress" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat" derived="true">
+      <eAnnotations source="gmf.label">
+        <details key="label.pattern" value="Progress: {0}"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//RequirementType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="decomposition" upperBound="-1"
+        eType="#//Requirement" eOpposite="#//Requirement/parentDecomposition">
+      <eAnnotations source="gmf.link">
+        <details key="target.decoration" value="arrow"/>
+        <details key="color" value="30,144,255"/>
+        <details key="width" value="3"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentDecomposition" upperBound="-1"
+        eType="#//Requirement" eOpposite="#//Requirement/decomposition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="teamMembers" lowerBound="1"
+        upperBound="-1" eType="#//TeamMember" eOpposite="#//TeamMember/requirements"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="testCases" upperBound="-1"
+        eType="#//TestCase" eOpposite="#//TestCase/verifies"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Conflict">
+    <eAnnotations source="gmf.link">
+      <details key="source" value="first"/>
+      <details key="target" value="second"/>
+      <details key="style" value="dot"/>
+      <details key="color" value="255,99,71"/>
+      <details key="width" value="2"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="first" eType="#//Requirement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="second" eType="#//Requirement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TestCase">
+    <eAnnotations source="gmf.node">
+      <details key="figure" value="polygon"/>
+      <details key="polygon.x" value="40 80 40 0"/>
+      <details key="polygon.y" value="0 60 120 60"/>
+      <details key="margin" value="20"/>
+      <details key="label" value="description"/>
+      <details key="label.view.pattern" value="Test case: {0}"/>
+      <details key="border.color" value="60,179,113"/>
+      <details key="border.width" value="3"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="verifies" lowerBound="1"
+        upperBound="-1" eType="#//Requirement" eOpposite="#//Requirement/testCases">
+      <eAnnotations source="gmf.link">
+        <details key="style" value="dash"/>
+        <details key="target.decoration" value="arrow"/>
+        <details key="color" value="60,179,113"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TeamMember">
+    <eAnnotations source="gmf.node">
+      <details key="figure" value="ellipse"/>
+      <details key="margin" value="10"/>
+      <details key="label" value="name"/>
+      <details key="label.view.pattern" value="Team member: {0}"/>
+      <details key="border.color" value="255,165,0"/>
+      <details key="border.width" value="3"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requirements" upperBound="-1"
+        eType="#//Requirement" eOpposite="#//Requirement/teamMembers">
+      <eAnnotations source="gmf.link">
+        <details key="style" value="dot"/>
+        <details key="target.decoration" value="arrow"/>
+        <details key="color" value="255,165,0"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="RTSJ" nsURI="http://www.sag.org/rtsj/mm" nsPrefix="rtsj">
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RTElement" abstract="true" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="priority" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cost" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="deadline" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RTPackage" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rtElement" upperBound="-1"
+        eType="#//RTElement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Thread" abstract="true" eSuperTypes="#//RTElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rtElement" upperBound="-1"
+        eType="#//RTElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RTPeriodicThread" eSuperTypes="#//Thread">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="period" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RTAperiodicThread" eSuperTypes="#//Thread"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExternalHappening" eSuperTypes="#//NamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AsyncEvent" abstract="true" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="handler" lowerBound="1"
+        eType="#//AsyncEventHandler" eOpposite="#//AsyncEventHandler/event"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="externalHappening" lowerBound="1"
+        upperBound="-1" eType="#//ExternalHappening"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AsyncEventHandler" abstract="true" eSuperTypes="#//RTElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="event" upperBound="-1"
+        eType="#//AsyncEvent" eOpposite="#//AsyncEvent/handler"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="eaStar" nsURI="http://eaStar/1.0" nsPrefix="eaStar">
+  <eSubpackages name="root" nsURI="http://org/msee/slmtoolbox/modeling/model/lang/eaStar.ecore/root"
+      nsPrefix="org.msee.slmtoolbox.modeling.model.lang.eaStar.root">
+    <eClassifiers xsi:type="ecore:EClass" name="EaModel" eSuperTypes="#//generalElements/EaBaseElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="process" lowerBound="1"
+          eType="#//generalElements/EaProcess" containment="true" eOpposite="#//generalElements/EaProcess/model"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="organizations" upperBound="-1"
+          eType="#//coreElements/EaOrganization" containment="true" eOpposite="#//coreElements/EaOrganization/model"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="generalElements" nsURI="http://org/msee/slmtoolbox/modeling/model/lang/eaStar.ecore/generalElements"
+      nsPrefix="org.msee.slmtoolbox.modeling.model.lang.eaStar.root.generalElements">
+    <eClassifiers xsi:type="ecore:EClass" name="EaBaseElement" abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          iD="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="code" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EaProcess" eSuperTypes="#//generalElements/EaBaseElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="flowElements" upperBound="-1"
+          eType="#//generalElements/EaFlowElement" containment="true" eOpposite="#//generalElements/EaFlowElement/process"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="canBe" eType="#//coreElements/EaStructuralExtendedActivity"
+          eOpposite="#//coreElements/EaStructuralExtendedActivity/isA"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="model" lowerBound="1"
+          eType="#//root/EaModel" eOpposite="#//root/EaModel/process"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="decompositionCode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="osmioticProcess" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          defaultValueLiteral="UNDEFINED"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EaFlowElement" abstract="true" eSuperTypes="#//generalElements/EaBaseElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="process" lowerBound="1"
+          eType="#//generalElements/EaProcess" eOpposite="#//generalElements/EaProcess/flowElements"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="coreElements" nsURI="http://org/msee/slmtoolbox/modeling/model/lang/eaStar.ecore/coreElements"
+      nsPrefix="org.msee.slmtoolbox.modeling.model.lang.eaStar.root.coreElements">
+    <eClassifiers xsi:type="ecore:EClass" name="EaFlow" abstract="true" eSuperTypes="#//generalElements/EaFlowElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isTrigger" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="triggerInfo" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+          eType="#//coreElements/EaFlowNode" eOpposite="#//coreElements/EaFlowNode/outFlows"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+          eType="#//coreElements/EaFlowNode" eOpposite="#//coreElements/EaFlowNode/inFlows"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EaFlowNode" abstract="true" eSuperTypes="#//generalElements/EaFlowElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="organization" eType="#//coreElements/EaOrganization"
+          eOpposite="#//coreElements/EaOrganization/flowNode"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="inFlows" upperBound="-1"
+          eType="#//coreElements/EaFlow" eOpposite="#//coreElements/EaFlow/target"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outFlows" upperBound="-1"
+          eType="#//coreElements/EaFlow" eOpposite="#//coreElements/EaFlow/source"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EaLogicalOperator" abstract="true"
+        eSuperTypes="#//coreElements/EaFlowNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="EaConnector" abstract="true" eSuperTypes="#//coreElements/EaFlowNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="EaExtendedActivity" abstract="true"
+        eSuperTypes="#//coreElements/EaFlowNode">
+      <eOperations name="toString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="mission" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="functionalRules" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="minCost" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxCost" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="averageCost" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="minTimeDelay" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxTimeDelay" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="averageTimeDelay" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isStarting" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isEnding" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="decompositionCode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="osmoseWorld" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          defaultValueLiteral="UNDEFINED"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EaResource" abstract="true" eSuperTypes="#//coreElements/EaFlowNode">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="unitaryCost" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="capabilities" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EaITResource" eSuperTypes="#//coreElements/EaResource">
+      <eOperations name="toString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="if (eIsProxy()) return super.toString();&#xD;&#xA;StringBuffer result = new StringBuffer();&#xD;&#xA;result.append(&quot;IT Resource &quot;);&#xD;&#xA;result.append(this.getName());&#xD;&#xA;return result.toString();"/>
+        </eAnnotations>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EaHumanResource" eSuperTypes="#//coreElements/EaResource">
+      <eOperations name="toString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="if (eIsProxy()) return super.toString();&#xD;&#xA;StringBuffer result = new StringBuffer();&#xD;&#xA;result.append(&quot;Human Resource &quot;);&#xD;&#xA;result.append(this.getName());&#xD;&#xA;return result.toString();"/>
+        </eAnnotations>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EaMaterialResource" eSuperTypes="#//coreElements/EaResource">
+      <eOperations name="toString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="if (eIsProxy()) return super.toString();&#xD;&#xA;StringBuffer result = new StringBuffer();&#xD;&#xA;result.append(&quot;Material Resource &quot;);&#xD;&#xA;result.append(this.getName());&#xD;&#xA;return result.toString();"/>
+        </eAnnotations>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EaOr" eSuperTypes="#//coreElements/EaLogicalOperator">
+      <eOperations name="toString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="if (eIsProxy()) return super.toString();&#xD;&#xA;StringBuffer result = new StringBuffer();&#xD;&#xA;result.append(&quot;OR Logical Operator &quot;);&#xD;&#xA;result.append(this.getName());&#xD;&#xA;return result.toString();"/>
+        </eAnnotations>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EaAnd" eSuperTypes="#//coreElements/EaLogicalOperator">
+      <eOperations name="toString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="if (eIsProxy()) return super.toString();&#xD;&#xA;StringBuffer result = new StringBuffer();&#xD;&#xA;result.append(&quot;AND Logical Operator &quot;);&#xD;&#xA;result.append(this.getName());&#xD;&#xA;return result.toString();"/>
+        </eAnnotations>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EaDivergingAnd" eSuperTypes="#//coreElements/EaAnd"/>
+    <eClassifiers xsi:type="ecore:EClass" name="EaDivergingOr" eSuperTypes="#//coreElements/EaOr"/>
+    <eClassifiers xsi:type="ecore:EClass" name="EaConvergingAnd" eSuperTypes="#//coreElements/EaAnd"/>
+    <eClassifiers xsi:type="ecore:EClass" name="EaConvergingOr" eSuperTypes="#//coreElements/EaOr"/>
+    <eClassifiers xsi:type="ecore:EClass" name="EaInternalConnector" eSuperTypes="#//coreElements/EaConnector">
+      <eOperations name="toString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="if (eIsProxy()) return super.toString();&#xD;&#xA;StringBuffer result = new StringBuffer();&#xD;&#xA;result.append(&quot;Internal Connector &quot;);&#xD;&#xA;result.append(this.getName());&#xD;&#xA;return result.toString();"/>
+        </eAnnotations>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EaExternalConnector" eSuperTypes="#//coreElements/EaConnector">
+      <eOperations name="toString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="if (eIsProxy()) return super.toString();&#xD;&#xA;StringBuffer result = new StringBuffer();&#xD;&#xA;result.append(&quot;External Connector &quot;);&#xD;&#xA;result.append(this.getName());&#xD;&#xA;return result.toString();"/>
+        </eAnnotations>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EaProcessConnector" eSuperTypes="#//coreElements/EaConnector">
+      <eOperations name="toString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="if (eIsProxy()) return super.toString();&#xD;&#xA;StringBuffer result = new StringBuffer();&#xD;&#xA;result.append(&quot;Process Connector &quot;);&#xD;&#xA;result.append(this.getName());&#xD;&#xA;return result.toString();"/>
+        </eAnnotations>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="processRef" lowerBound="1"
+          eType="#//generalElements/EaProcess"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EaOutputInputFlow" eSuperTypes="#//coreElements/EaFlow">
+      <eOperations name="toString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="if (eIsProxy()) return super.toString();&#xD;&#xA;StringBuffer result = new StringBuffer();&#xD;&#xA;result.append(&quot;Output Input Flow &quot;);&#xD;&#xA;result.append(this.getName());&#xD;&#xA;return result.toString();"/>
+        </eAnnotations>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EaSupportFlow" eSuperTypes="#//coreElements/EaFlow">
+      <eOperations name="toString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="if (eIsProxy()) return super.toString();&#xD;&#xA;StringBuffer result = new StringBuffer();&#xD;&#xA;result.append(&quot;Support Flow&quot;);&#xD;&#xA;result.append(this.getName());&#xD;&#xA;return result.toString();"/>
+        </eAnnotations>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="resourceRole" eType="#//coreElements/EaResourceRole"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="responsibility" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EaControlFlow" eSuperTypes="#//coreElements/EaFlow">
+      <eOperations name="toString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="if (eIsProxy()) return super.toString();&#xD;&#xA;StringBuffer result = new StringBuffer();&#xD;&#xA;result.append(&quot;Control Flow &quot;);&#xD;&#xA;result.append(this.getName());&#xD;&#xA;return result.toString();"/>
+        </eAnnotations>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EaOrganization" eSuperTypes="#//generalElements/EaBaseElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="flowNode" upperBound="-1"
+          eType="#//coreElements/EaFlowNode" eOpposite="#//coreElements/EaFlowNode/organization"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="model" lowerBound="1"
+          eType="#//root/EaModel" eOpposite="#//root/EaModel/organizations"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EaAtomicExtendedActivity" eSuperTypes="#//coreElements/EaExtendedActivity"/>
+    <eClassifiers xsi:type="ecore:EClass" name="EaStructuralExtendedActivity" eSuperTypes="#//coreElements/EaExtendedActivity">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="isA" eType="#//generalElements/EaProcess"
+          eOpposite="#//generalElements/EaProcess/canBe"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="EaResourceRole">
+      <eLiterals name="responsibleFor" literal="responsibleFor"/>
+      <eLiterals name="participatesIn" value="1" literal="participatesIn"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

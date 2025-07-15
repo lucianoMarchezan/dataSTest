@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="temon" nsURI="http://temon.hu" nsPrefix="temon">
+  <eSubpackages name="ast" nsURI="http://temon.hu/ast" nsPrefix="ast">
+    <eClassifiers xsi:type="ecore:EClass" name="Node" abstract="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="VisibleNode" abstract="true" eSuperTypes="#//ast/Node">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="start" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="length" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="WhitespaceNode" eSuperTypes="#//ast/VisibleNode">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="terminal" eType="#//grammar/Terminal"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TerminalNode" eSuperTypes="#//ast/VisibleNode">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="terminal" eType="#//grammar/Terminal"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="RemovedTerminalNode" eSuperTypes="#//ast/TerminalNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="InsertedTerminalNode" eSuperTypes="#//ast/TerminalNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="InsertedFeatureSetTerminalNode" eSuperTypes="#//ast/InsertedTerminalNode #//ast/FeatureSetTerminalNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="FeatureSet" abstract="true" interface="true">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="featureName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FeatureSetValue" eSuperTypes="#//ast/Node #//ast/FeatureSet">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FeatureSetTerminalNode" eSuperTypes="#//ast/TerminalNode #//ast/FeatureSet"/>
+    <eClassifiers xsi:type="ecore:EClass" name="CompositeNode" eSuperTypes="#//ast/Node">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="nonterminal" eType="#//grammar/Rule"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+          eType="#//ast/Node" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FeatureSetCompositeNode" eSuperTypes="#//ast/CompositeNode #//ast/FeatureSet"/>
+    <eClassifiers xsi:type="ecore:EClass" name="PushElement" eSuperTypes="#//ast/Node">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="eclass" lowerBound="1"
+          eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FeatureSetPushElement" eSuperTypes="#//ast/PushElement #//ast/FeatureSet"/>
+    <eClassifiers xsi:type="ecore:EClass" name="PopElement" eSuperTypes="#//ast/Node"/>
+  </eSubpackages>
+  <eSubpackages name="grammar" nsURI="http://temon.hu/grammar" nsPrefix="grammar">
+    <eClassifiers xsi:type="ecore:EClass" name="GrammarModel">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="terminals" upperBound="-1"
+          eType="#//grammar/Terminal" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"
+          eType="#//grammar/Rule" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="startItem" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="import" upperBound="-1"
+          eType="#//grammar/GrammarModel"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="eimport" upperBound="-1"
+          eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Terminal">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="regex" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="hide" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="convertFrom" upperBound="-1"
+          eType="#//grammar/Replace" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="convertTo" upperBound="-1"
+          eType="#//grammar/Replace" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="priority" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+          defaultValueLiteral="1"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="superTerminal" eType="#//grammar/Terminal"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Replace">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="search" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="replace" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Rule">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="nonTerminal" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="body" upperBound="-1"
+          eType="#//grammar/RuleItem" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="RuleItem" abstract="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="SyntaxItem" abstract="true" eSuperTypes="#//grammar/RuleItem">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="optional" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="many" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TerminalItem" eSuperTypes="#//grammar/SyntaxItem">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="featureName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="terminal" lowerBound="1"
+          eType="#//grammar/Terminal"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="NonTerminalItem" eSuperTypes="#//grammar/SyntaxItem">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="featureName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="nonTerminal" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SetValue" eSuperTypes="#//grammar/RuleItem">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="featureName" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Push" eSuperTypes="#//grammar/RuleItem">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="eclass" lowerBound="1"
+          eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="featureName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Pop" eSuperTypes="#//grammar/RuleItem"/>
+  </eSubpackages>
+  <eSubpackages name="tokens" nsURI="http://temon.hu/tokens" nsPrefix="tokens">
+    <eClassifiers xsi:type="ecore:EClass" name="Token">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="terminal" eType="#//grammar/Terminal"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="start" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="length" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TokenList">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="tokens" upperBound="-1"
+          eType="#//tokens/Token" containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

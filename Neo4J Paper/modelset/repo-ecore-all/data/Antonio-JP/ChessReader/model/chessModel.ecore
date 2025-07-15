@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="chessModel" nsURI="http://www.example.org/chessModel" nsPrefix="chessModel">
+  <eClassifiers xsi:type="ecore:EClass" name="Board" abstract="true" interface="true"
+      eSuperTypes="#//ICopiable">
+    <eOperations name="move" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="source" eType="#//Spot"/>
+      <eParameters name="target" eType="#//Spot"/>
+    </eOperations>
+    <eOperations name="copy" eType="#//Board"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="spot" lowerBound="64" upperBound="64"
+        eType="#//Spot" changeable="false" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="state" eType="#//GameState"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Spot" abstract="true" interface="true"
+      eSuperTypes="#//ICopiable">
+    <eOperations name="copy" eType="#//Spot"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="piece" eType="#//Piece"
+        eOpposite="#//Piece/spot"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="#//Color"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Piece" abstract="true" interface="true"
+      eSuperTypes="#//ICopiable">
+    <eOperations name="copy" eType="#//Piece"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="spot" eType="#//Spot" eOpposite="#//Spot/piece"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="#//Color"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Color">
+    <eLiterals name="WHITE" literal="WHITE"/>
+    <eLiterals name="BLACK" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="GameState">
+    <eLiterals name="PLAYING"/>
+    <eLiterals name="CHECK" value="1"/>
+    <eLiterals name="CHECKMATE" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ICopiable" abstract="true" interface="true">
+    <eOperations name="copy" lowerBound="1" eType="#//ICopiable"/>
+  </eClassifiers>
+</ecore:EPackage>

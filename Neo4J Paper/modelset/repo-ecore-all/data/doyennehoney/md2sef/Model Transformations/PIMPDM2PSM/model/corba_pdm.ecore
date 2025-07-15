@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="PSM" nsURI="http://www.platform.org/pdm" nsPrefix="pdm">
+  <eClassifiers xsi:type="ecore:EClass" name="Middleware" abstract="true">
+    <eOperations name="bind"/>
+    <eOperations name="establish"/>
+    <eOperations name="send"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uses" eType="//VM"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CORBA" eSuperTypes="//Middleware">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="impl" lowerBound="1" eType="//ContractImpl"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="proxy" ordered="false"
+        lowerBound="1" upperBound="-1" eType="//Proxy" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orb" ordered="false" lowerBound="1"
+        upperBound="-1" eType="//Registry"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WebService" eSuperTypes="//Middleware"/>
+  <eClassifiers xsi:type="ecore:EClass" name="VM">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="protocol" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processors" ordered="false"
+        lowerBound="1" upperBound="-1" eType="//Processor" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Processor">
+    <eOperations name="receive"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="IP" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ContractImpl" eSuperTypes="//Contract">
+    <eOperations name="receive"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Proxy" eSuperTypes="//Contract">
+    <eOperations name="receive"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Registry">
+    <eOperations name="lookup"/>
+    <eOperations name="rebind"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Contract" abstract="true">
+    <eOperations name="receive"/>
+  </eClassifiers>
+</ecore:EPackage>

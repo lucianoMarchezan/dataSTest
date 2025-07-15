@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="tests" nsURI="http://org.xilaew.atg.model.tests" nsPrefix="org.xilaew.atg.model.tests">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+    <details key="documentation" value="In general test case for a single function looks like the follwing:&#xD;&#xA;1: set up the System Under Test(SUT). The SUT might be a Class or Component containing the function to be tested. If necessary create a new instance of the SUT.&#xD;&#xA;2: All publicly visible Variables, that have an influence on the execution of the function under Test are set to specified values.&#xD;&#xA;3: Call the function with specified parameter values.&#xD;&#xA;4: test all visible variables to be set as expected after the function call. There are especially the return value, output parameters, as well as fields of the SUT to be checked. The variables to be tested for specific values are stored in the testForValue containment reference of the TestCase."/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="TestSuite">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A collection of test cases.&#xD;&#xA;for Activity test case generator a test suite is intended to contain always the same SUT as well as the same function. And the Values referenced as paramters, initValues or testforValues should change from test case to testcase."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tests" upperBound="-1"
+        eType="#//TestCase" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sut" upperBound="-1" eType="#//SUT"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TestCase">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initValues" upperBound="-1"
+        eType="#//Value" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="function" eType="#//FunctionCall"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="testForValue" upperBound="-1"
+        eType="#//Value" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Variable"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionCall">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//Value" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activity" eType="ecore:EClass ActivityTestCaseGraph.ecore#//TCGActivity"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SUT">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="packageName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Value">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
+        eType="ecore:EClass ActivityTestCaseGraph.ecore#//TCGVariable"/>
+  </eClassifiers>
+</ecore:EPackage>

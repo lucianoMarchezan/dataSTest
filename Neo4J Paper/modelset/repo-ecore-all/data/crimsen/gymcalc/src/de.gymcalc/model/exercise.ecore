@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="exercise" nsURI="http://www.gymcalc.de/exercise/1.0"
+    nsPrefix="exercise">
+  <eClassifiers xsi:type="ecore:EClass" name="Exercise">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" ordered="false"
+        upperBound="-1" eType="#//ElementInstance" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="finalelement" eType="#//ElementInstance"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ruleset" lowerBound="1"
+        eType="#//Ruleset"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="athlet" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/de.gymcalc.contest/model/contest.ecore#//AthletType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="diszipline" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/de.gymcalc.contest/model/contest.ecore#//DisziplineType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="initialValue" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" defaultValueLiteral="0.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="videoRef" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//AnyURI"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="events" ordered="false"
+        upperBound="-1" eType="#//ExerciseEvent" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IElement" abstract="true">
+    <eOperations name="getGroup" lowerBound="1" eType="#//ElementGroup"/>
+    <eOperations name="getName" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eOperations name="getDifficulty" lowerBound="1" eType="#//Difficulty"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Element" eSuperTypes="#//IElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="group" lowerBound="1" eType="#//ElementGroup"
+        eOpposite="#//ElementGroup/elements"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="difficulty" eType="#//Difficulty"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+        iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ElementInstance" eSuperTypes="#//IElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="element" lowerBound="1"
+        eType="#//Element"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Ruleset">
+    <eOperations name="getPoints" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eParameters name="exercise" eType="#//Exercise"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"
+        eType="#//Rule"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Rule">
+    <eOperations name="getPoints" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eParameters name="exercise" eType="#//Exercise"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RuleElements" eSuperTypes="#//Rule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="minDifficulty" lowerBound="1"
+        eType="#//Difficulty"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="countOfElements" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="difficultyValueMap" upperBound="-1"
+        eType="#//DifficultyValueEntry" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RuleGroup" eSuperTypes="#//Rule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="countOfGroups" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="minDifficulty" lowerBound="1"
+        eType="#//Difficulty"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RuleSpecialGroup" eSuperTypes="#//RuleGroup">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="groups" upperBound="-1"
+        eType="#//ElementReferenceGroup"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RuleFinalElement" eSuperTypes="#//Rule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="difficultyValueMap" upperBound="-1"
+        eType="#//DifficultyValueEntry" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InitialValue">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="excercise" lowerBound="1"
+        eType="#//Exercise"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ruleset" lowerBound="1"
+        eType="#//Ruleset"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ElementGroup">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//Element" containment="true" eOpposite="#//Element/group"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ElementReferenceGroup">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//Element"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Gadget">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="groups" upperBound="-1"
+        eType="#//ElementGroup" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referenceGroups" upperBound="-1"
+        eType="#//ElementReferenceGroup" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Difficulty">
+    <eLiterals name="TE" literal="difficultyTE"/>
+    <eLiterals name="NE" value="1" literal="difficultyNE"/>
+    <eLiterals name="A" value="2" literal="difficultyA"/>
+    <eLiterals name="B" value="3" literal="difficultyB"/>
+    <eLiterals name="C" value="4" literal="difficultyC"/>
+    <eLiterals name="D" value="5" literal="difficultyD"/>
+    <eLiterals name="E" value="6" literal="difficultyE"/>
+    <eLiterals name="F" value="7" literal="difficultyF"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExerciseRuleCont">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gadgets" upperBound="-1"
+        eType="#//Gadget" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rulesets" upperBound="-1"
+        eType="#//Ruleset" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"
+        eType="#//Rule" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExerciseCont">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exercises" upperBound="-1"
+        eType="#//Exercise" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DifficultyValueEntry">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="difficulty" lowerBound="1"
+        eType="#//Difficulty"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExerciseEvent">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="startTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="durationTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ElementEvent" eSuperTypes="#//ExerciseEvent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="element" lowerBound="1"
+        eType="#//ElementInstance"/>
+  </eClassifiers>
+</ecore:EPackage>

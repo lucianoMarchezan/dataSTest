@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="delta" nsURI="http://hergin/delta" nsPrefix="delta">
+  <eClassifiers xsi:type="ecore:EClass" name="ModelTransformationDesignPattern">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="units" lowerBound="1" upperBound="-1"
+        eType="#//TransformationUnit" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="patternMetamodels" lowerBound="1"
+        upperBound="-1" eType="#//PatternMetamodel" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="types" upperBound="-1"
+        eType="#//Type" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variables" upperBound="-1"
+        eType="#//Variable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transformationUnitRelations"
+        lowerBound="1" upperBound="-1" eType="#//TransformationUnitRelation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1"
+        eType="#//Annotation" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransformationUnit" abstract="true"
+      eSuperTypes="#//DesignPatternElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceBack" eType="#//Sequence"
+        eOpposite="#//Sequence/source"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetBack" eType="#//Sequence"
+        eOpposite="#//Sequence/target"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conditionBack" eType="#//Decision"
+        eOpposite="#//Decision/condition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="successBack" eType="#//Decision"
+        eOpposite="#//Decision/success"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="failBack" eType="#//Decision"
+        eOpposite="#//Decision/fail"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransformationUnitRelation" abstract="true"
+      eSuperTypes="#//DesignPatternElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Decision" eSuperTypes="#//TransformationUnitRelation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="#//TransformationUnit"
+        eOpposite="#//TransformationUnit/conditionBack"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="success" eType="#//TransformationUnit"
+        eOpposite="#//TransformationUnit/successBack"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fail" eType="#//TransformationUnit"
+        eOpposite="#//TransformationUnit/failBack"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Sequence" eSuperTypes="#//TransformationUnitRelation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//TransformationUnit"
+        eOpposite="#//TransformationUnit/sourceBack"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//TransformationUnit"
+        eOpposite="#//TransformationUnit/targetBack"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PatternMetamodel" eSuperTypes="#//DesignPatternElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//Element" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Rule" eSuperTypes="#//TransformationUnit">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isExhaustive" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" eType="#//Action"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="constraints" lowerBound="1"
+        eType="#//Constraint" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="negativeConstraints" upperBound="-1"
+        eType="#//NegativeConstraint" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="forbiddenConstraints" upperBound="-1"
+        eType="#//ForbiddenConstraint" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PseudoUnit" abstract="true" eSuperTypes="#//TransformationUnit"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Start" eSuperTypes="#//PseudoUnit"/>
+  <eClassifiers xsi:type="ecore:EClass" name="End" eSuperTypes="#//PseudoUnit">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="result" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransformationBlock" eSuperTypes="#//TransformationUnit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="units" upperBound="-1"
+        eType="#//TransformationUnit" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Expression" abstract="true" eSuperTypes="#//DesignPatternElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operatesOn" upperBound="-1"
+        eType="#//Variable"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Constraint" eSuperTypes="#//Expression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Action" eSuperTypes="#//Expression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NegativeConstraint" eSuperTypes="#//Constraint">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="group" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ForbiddenConstraint" eSuperTypes="#//Constraint"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Variable" eSuperTypes="#//DesignPatternElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="exists" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//Type"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tags" upperBound="-1" eType="#//Tag"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Type" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Element" abstract="true" eSuperTypes="#//Type">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="traceSourceBack" upperBound="-1"
+        eType="#//Trace" eOpposite="#//Trace/source"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="traceTargetBack" upperBound="-1"
+        eType="#//Trace" eOpposite="#//Trace/target"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Entity" eSuperTypes="#//Element">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceBack" upperBound="-1"
+        eType="#//Relation" eOpposite="#//Relation/source"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetBack" upperBound="-1"
+        eType="#//Relation" eOpposite="#//Relation/target"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Relation" eSuperTypes="#//Element">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//Entity"
+        eOpposite="#//Entity/sourceBack"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//Entity"
+        eOpposite="#//Entity/targetBack"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Trace" eSuperTypes="#//Type">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//Element"
+        eOpposite="#//Element/traceSourceBack"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//Element"
+        eOpposite="#//Element/traceTargetBack"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Tag" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="negation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConditionTag" eSuperTypes="#//Tag"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ActionTag" eSuperTypes="#//Tag"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Profile">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conditionTag" eType="#//ConditionTag"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actionTag" eType="#//ActionTag"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DesignPatternElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="annotation" eType="#//Annotation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Annotation">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="note" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

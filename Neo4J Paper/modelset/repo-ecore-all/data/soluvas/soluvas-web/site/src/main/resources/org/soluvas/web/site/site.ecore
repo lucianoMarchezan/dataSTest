@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="site" nsURI="http://www.soluvas.org/schema/web.site/1.0" nsPrefix="site">
+  <eClassifiers xsi:type="ecore:EClass" name="Section">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A large division of web application.&#xA;&#xA;For example, Bippo Mall is divided into 4 sections: sys, mall, shop, and pub."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pages" upperBound="-1"
+        eType="#//Page" containment="true" eOpposite="#//Page/section"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SiteCatalog" eSuperTypes="#//SectionCollection">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="The site catalog is used to define all *logical* sections and pages in a site.&#xA;&#xA;It is used in 2 ways:&#xA;1. at generation time, to generate concrete page classes, Wicket HTML markup, and JS files.&#xA;2. at runtime, to inspect *logical* sections and pages in the site.&#xA;&#xA;Note that information about actual concrete page classes etc. are not visible here, and if needed, then it should be described using another schema."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SectionCollection">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sections" upperBound="-1"
+        eType="#//Section" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Page" abstract="true" interface="true">
+    <eOperations name="getClassSimpleName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Returns the class simple name, which is simply the name + &quot;Page&quot; suffix."/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The resulting simple name of the Wicket Page subclass, e.g. &quot;ProductSysTable&quot;, without the &quot;Page&quot; suffix."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mountPoint" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Where the page is mounted, relative to application root, e.g. /product/sys, or a URI template with parameters: /product/sys/show/${productId}&#xA;&#xA;mountPoint is highly recommended for SEO and easy URI typing, but not mandatory."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="params" upperBound="-1"
+        eType="#//PageParam" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="section" eType="#//Section"
+        eOpposite="#//Section/pages"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GenericPage" eSuperTypes="#//Page">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A page that that specifies the literal Wicket page class name"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RawEntityTablePage" eSuperTypes="#//Page #//EntityPage">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Lists raw entities in a page using Backbone and jQuery DataTables.&#xA;&#xA;For normal entities see EntityTablePage.&#xA;&#xA;Entities can be added, shown, and deleted.&#xA;&#xA;Features:&#xA;* client-side paging support&#xA;* client-side quick search&#xA;* client-side table column sorting&#xA;&#xA;TODO: support push for dynamic add/remove and show status."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EntityTablePage" eSuperTypes="#//Page #//EntityPage">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Lists normal entities in a page using Backbone and jQuery DataTables.&#xA;&#xA;For raw entities see RawEntity TablePage.&#xA;&#xA;Supported folders:&#xA;1. Published (virtual; published only)&#xA;2. All Items (virtual; except deleted)&#xA;3. Drafts (virtual)&#xA;4. Trash (virtual)&#xA;&#xA;Actions on entities:&#xA;1. add&#xA;2. show&#xA;3. delete&#xA;4. undelete&#xA;5. publish (draft->published)&#xA;6. unpublish (published->draft; some entities may not support this)&#xA;&#xA;Features:&#xA;* client-side paging support&#xA;* client-side quick search&#xA;* client-side table column sorting&#xA;&#xA;TODO: support push for dynamic add/remove and show status."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EntityEditPage" eSuperTypes="#//Page #//EntityPage">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Edit page for normal entities"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RawEntityEditPage" eSuperTypes="#//Page #//EntityPage">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Edit page for raw entities"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RawEntityNewPage" eSuperTypes="#//Page #//EntityPage">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="New normal entity page"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EntityNewPage" eSuperTypes="#//Page #//EntityPage">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="New raw entity page"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ContentPage" eSuperTypes="#//Page">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Contains static but editable HTML content."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DashboardPage" eSuperTypes="#//Page">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A page that can be customized by admin.&#xA;&#xA;Typically used for homepage.&#xA;&#xA;The layout is a bit different than other pages because it has a header and a slider/carousel after the header.&#xA;The sidebar is below the header and the carousel."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PageParam">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Parameter name for the page, e.g. &quot;productId&quot;."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LoginPage" eSuperTypes="#//Page">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Login page, that also serves as a SSO register page for Facebook, Twitter, Google, etc."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registerPage" eType="#//RegisterPage"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resetPasswordPage" eType="#//ResetPasswordPage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RegisterPage" eSuperTypes="#//Page">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Register as user via email."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResetPasswordPage" eSuperTypes="#//Page">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Used to reset password if user forgets the password."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EntityPage" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="entityClass" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Full name of the class that represents the entity.&#xA;&#xA;This is required for:&#xA;1. Getting the EntityRepository for the entity, scoped to the active tenant&#xA;2. Getting the EntityDescriptor which provides metadata about the entity, scoped to the active tenant&#xA;"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PermalinkCatalog">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="permalinks" upperBound="-1"
+        eType="#//Permalink" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Permalink">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Permalink configuration for an entity."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="namespace" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="e.g. person, shop, etc."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="template" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Recognized values are:&#xA;&#xA;&lt;ol>&#xA;&lt;li>baseUri (from WebAddress, automatically chosen whether relative ('/'), absolute plain HTTP, or absolute HTTPS),&#xA;including scheme and port, and trailing slash.&lt;/li>&#xA;&lt;li>slugPath&lt;/li>&#xA;&lt;/ol>&#xA;&#xA;&lt;p>Reference: https://github.com/damnhandy/Handy-URI-Templates"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PermalinkManager">
+    <eOperations name="relative" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Get permalink URI relative to current website, no switch of HTTP(S) protocol."/>
+      </eAnnotations>
+      <eParameters name="kind" eType="ecore:EEnum ../../../../../../../../org.soluvas.commons/src/main/resources/org/soluvas/commons/commons.ecore#//EntityKind"/>
+      <eParameters name="slugPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="absolute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Get absolute permalink URI, considering the recommended protocol for the entity show page, e.g. plain HTTP vs secure HTTPS."/>
+      </eAnnotations>
+      <eParameters name="webHost" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="kind" eType="ecore:EEnum ../../../../../../../../org.soluvas.commons/src/main/resources/org/soluvas/commons/commons.ecore#//EntityKind"/>
+      <eParameters name="slugPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="unsecureAbsolute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Get absolute permalink URI, plain HTTP only."/>
+      </eAnnotations>
+      <eParameters name="webHost" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="kind" eType="ecore:EEnum ../../../../../../../../org.soluvas.commons/src/main/resources/org/soluvas/commons/commons.ecore#//EntityKind"/>
+      <eParameters name="slugPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="secureAbsolute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Get absolute permalink URI, secure HTTPS."/>
+      </eAnnotations>
+      <eParameters name="webHost" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="kind" eType="ecore:EEnum ../../../../../../../../org.soluvas.commons/src/main/resources/org/soluvas/commons/commons.ecore#//EntityKind"/>
+      <eParameters name="slugPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="JavaScriptMode">
+    <eLiterals name="development">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Use original JS."/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="minified" value="1">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Use minified JS."/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="aggregated_minified" value="2">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Aggregate all JavaScript, then minify it."/>
+      </eAnnotations>
+    </eLiterals>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RequireManager">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="javaScriptMode" lowerBound="1"
+        eType="#//JavaScriptMode" changeable="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cacheBust" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A string used to bust CDN cache, e.g. &quot;2013-02-16 18:43:22+07:00&quot;.&#xA;&#xA;This will be appended as a query string to &quot;relative&quot; js, skin, and img URIs. Relative here in reference to webAddres URIs. Absolute URIs won't be cache-busted."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AlexaSysConfig" abstract="true" interface="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="SysConfig for Alexa Verify and Alexa Certify.&#xA;&#xA;&lt;p>Note: Alexa Certify is paid, Verify is free by &lt;a href=&quot;http://www.alexa.com/siteowners/claim&quot;>claiming your site&lt;/a>."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="alexaVerifyId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Note: Alexa Certify is paid, Verify is free by &lt;a href=&quot;http://www.alexa.com/siteowners/claim&quot;>claiming your site&lt;/a>."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="alexaCertifyEnabled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="false">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Whether Alexa Certify feature is enabled."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="alexaCertifyAccount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Account ID for Alexa Certify."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="alexaCertifyDomain" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Domain for Alexa Certify, e.g. &quot;berbatik.com&quot;."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="alexaCertifyJsCdn" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Alexa Certify JavaScript CDN, embedded inside Alexa's script, which will be used to dynamically generate the script. e.g. &quot;d31qbv1cthcecs.cloudfront.net&quot;"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="alexaCertifyImageCdn" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Alexa Certify Image CDN, embedded inside Alexa's script, which will be used to dynamically generate the script. e.g. &quot;d5nxst8fruw4z.cloudfront.net&quot;"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="LiveChatProvider" instanceClassName="org.soluvas.web.olark.LiveChatProvider"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LiveChatSysConfig" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="liveChatEnabled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="false">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Whether live chat feature is enabled."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="liveChatProviderId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Live chat provider, if enabled. Available choices: OLARK, LIVECHATINC."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="liveChatProvider" lowerBound="1"
+        eType="#//LiveChatProvider" changeable="false" volatile="true" transient="true"
+        derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Live chat provider, if enabled. Available choices: OLARK, LIVECHATINC."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="liveChatSiteId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Live chat site ID, if enabled. This is provider-specific."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GoogleAnalyticsSysConfig">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="googleAnalyticsEnabled"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="false">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Whether Google Analytics is enabled."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="googleAnalyticsTrackingId"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Google Analytics Tracking ID, which is mandatory if enabled."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="googleAnalyticsCookieDomain"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Cookie domain for Google Analytics, if different than the default settings (usually the &quot;www&quot; subdomain)."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="googleAnalyticsDisplayFeatures"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="&lt;a href=&quot;https://support.google.com/analytics/answer/2700409&quot;>Google Analytics Advertising Features&lt;/a> allow you to enable features in Analytics that aren't available through standard implementations. Advertising Features include:&#xA;&#xA;&lt;ol>&#xA;&lt;li>Remarketing with Google Analytics&lt;/li>&#xA;&lt;li>Google Display Network Impression Reporting&lt;/li>&#xA;&lt;li>DoubleClick Platform integrations&lt;/li>&#xA;&lt;li>Google Analytics Demographics and Interest Reporting&lt;/li>&#xA;&lt;/ol>&#xA;&#xA;&lt;p>By enabling these advertising features, you enable Google Analytics to collect data about your traffic via Google advertising cookies and anonymous identifiers, in addition to data collected through a standard Google Analytics implementation. Regardless of how you send data to Google Analytics (for example, via the Google Analytics tracking code, Google Analytics SDK, or the Measurement Protocol), if you use Google Analytics Advertising Features, you must adhere to this policy.&#xA;&#xA;&lt;p>You will not facilitate the merging of personally-identifiable information with non-personally identifiable information collected through any Google advertising product or feature unless you have robust notice of, and the user's prior affirmative (i.e., opt-in) consent to, that merger.&#xA;&#xA;&lt;p>If you've enabled any Google Analytics Advertising Features, you are required to notify your visitors by disclosing the following information in your privacy policy:&#xA;&#xA;&lt;ol>&#xA;&lt;li>The Google Analytics Advertising Features you've implemented.&lt;/li>&#xA;&lt;li>How you and third-party vendors use first-party cookies (such as the Google Analytics cookie) or other first-party identifiers, and third-party cookies (such as the DoubleClick cookie) or other third-party identifiers together.&lt;/li>&#xA;&lt;li>How visitors can opt-out of the Google Analytics Advertising Features you use, including through Ads Settings, Ad Settings for mobile apps, or any other available means (for example, the NAI's consumer opt-out).&lt;/li>&#xA;&lt;/ol>&#xA;&#xA;&lt;p>We also encourage you to point users to Google Analytics' &lt;a href=&quot;https://tools.google.com/dlpage/gaoptout/&quot;>currently available opt-outs&lt;/a> for the web.&#xA;&#xA;&lt;p>Because laws across countries and territories vary, and because Google Analytics can be used in many ways, Google is unable to provide the exact language you need to include in your privacy policy. Only you understand the unique aspects and special considerations of your business, and your privacy policy should account for this information that only you can provide."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ThemePref" abstract="true" interface="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Theme Preference, usable by App, Tenant, Shop, Person, and possibly Article/Category/Product.&#xA;&#xA;&lt;p>Should be extended, e.g. {@link id.co.bippo.common.BippoThemePref} contains bippo-specific theme preferences in additional to Soluvas Web's.&#xA;&#xA;&lt;p>&lt;b>Notes:&lt;/b> These may be disabled for a tenant by FeatureSet, which has veto power.&#xA;A ThemePref feature usually requires data from AppManifest/Mall/SysConfig, so without the data, the theme won't be able to show it anyway.&#xA;Not all Themes support all ThemePref features."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="navbarColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="HTML color that is usually used for the navbar background color (color 1), but depends on theme."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="navbarTextColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="HTML color that is usually used for the navbar text color (color 2), but depends on theme."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="outlineColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="HTML color usually used for link or button outlines (color 3), but it depends on theme."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="backgroundColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="HTML color usually used for the overall page background color (color 4), but it depends on theme."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="highlightColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="HTML color usually used for highlight background color selected/active elements (color 5), but it depends on theme."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="twitterLinkVisible" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="facebookLinkVisible" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="youTubeLinkVisible" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="footnoteVisible" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Displays the footnote specified in {@link org.soluvas.commons.AppManifest#getFootnote()}.&#xA;The footnote is shown on all frontend pages, usually positioned below the main content, but above the footer."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Interaction">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Used for providing sound effects (themeable) during or after interactions.&#xA;&#xA;&lt;p>&lt;b>Note&lt;/b>: Sound effects are generally only playable during user actions, so for example we can't play sound on page load.&#xA;&#xA;&lt;p>A sound theme depend on other themes, so it can use sounds from them.&#xA;&#xA;&lt;p>See &lt;a href=&quot;https://idbippo.atlassian.net/browse/BC-1811&quot;>BC-1811: Integrasi growl / Wicket feedback dengan sound effect&lt;/a>.&#xA;"/>
+    </eAnnotations>
+    <eLiterals name="login">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Tenant user logs in to tenant."/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="logout" value="1">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Tenant user logs out from tenant."/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="info" value="2">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="General notification."/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="question" value="16">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Question or confirmation box, usually a modal."/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="warning" value="3">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Warning notification."/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="error" value="4">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Error notification."/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="deleted" value="5">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="One or more entities have been deleted."/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="added" value="6">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="One or more entities have been added."/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="modified" value="7">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="One or more entities have been modified."/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="searched" value="8">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Search results have been shown."/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="filtered" value="9">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Filtered results have been shown."/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="loading_light" value="10">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Loading loop for light/short operations, usually without progress bar. e.g. {@link com.vaynberg.wicket.select2.Select2Choice}."/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="loading_heavy" value="11">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Loading loop for heavy/long operations, usually with either AJAX spinner or progress bar. e.g. {@link org.soluvas.web.site.widget.AutoDisableAjaxButton}."/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="message_sent" value="12">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Message or comment sent."/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="message_received" value="13">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Message or comment (long, non-private) received."/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="im_received" value="18">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Short/private instant message received."/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="im_sent" value="17">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Short/private instant message sent."/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="liked" value="14">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Liked or starred or watched."/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="unliked" value="15">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Unliked or unstarred or unwatched."/>
+      </eAnnotations>
+    </eLiterals>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GoogleSysConfig">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="SysConfig for &lt;a href=&quot;https://developers.google.com/+/&quot;>Google+ Sign-in&lt;/a> and &lt;a href=&quot;https://www.google.com/webmasters/tools/home&quot;>Google Webmasters Toolkit&lt;/a>."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="googleApiKey" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="&lt;a href=&quot;https://developers.google.com/console/help/using-keys&quot;>Public API access&lt;/a>&#xA;&#xA;&lt;p>Use of this key does not require any user action or consent, does not grant access to any account information, and is not used for authorization.&#xA;&#xA;&lt;p>Get this from &lt;a href=&quot;https://console.developers.google.com/&quot;>Google Developers Console&lt;/a> - API Project - APIs &amp; auth - Credentials - Public API access."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="googleClientId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="&lt;a href=&quot;https://developers.google.com/console/help/generating-oauth2&quot;>OAuth 2.0 Client ID&lt;/a>&#xA;&#xA;&lt;p>OAuth 2.0 allows users to share specific data with you (for example, contact lists) while keeping their usernames, passwords, and other information private.&#xA;&#xA;&lt;p>Get this from &lt;a href=&quot;https://console.developers.google.com/&quot;>Google Developers Console&lt;/a> - API Project - APIs &amp; auth - Credentials - OAuth."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="googleClientSecret" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="&lt;a href=&quot;https://developers.google.com/console/help/generating-oauth2&quot;>OAuth 2.0 Client Secret&lt;/a>&#xA;&#xA;&lt;p>OAuth 2.0 allows users to share specific data with you (for example, contact lists) while keeping their usernames, passwords, and other information private.&#xA;&#xA;&lt;p>Get this from &lt;a href=&quot;https://console.developers.google.com/&quot;>Google Developers Console&lt;/a> - API Project - APIs &amp; auth - Credentials - OAuth."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="googleVerifyId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Google site verification ID provided by &lt;a href=&quot;https://www.google.com/webmasters/tools/home&quot;>Google Webmasters Toolkit&lt;/a>, e.g. {@code google187974e610426105}."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GooglePlusSysConfig" abstract="true"
+      interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="googlePlusId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="googlePlusKind" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="googlePlusUrl" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="googlePlusDisplayName"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BingSysConfig" abstract="true" interface="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="This will serve {@code /BingSiteAuth.xml} with the following content (for example):&#xA;&#xA;&lt;pre>&#xA;&amp;lt;?xml version=&quot;1.0&quot;?>&#xA;&amp;lt;users>&#xA;&#x9;&amp;lt;user>81F7B85A49DDECE76EB169D2EFA46809&lt;/user>&#xA;&amp;lt;/users>&#xA;&lt;/pre>&#xA;&#xA;Go to &lt;a href=&quot;https://www.bing.com/webmaster/home/mysites&quot;>Bing Webmaster&lt;/a> to get Bing Verify ID for your website."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bingVerifyId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PerfectAudienceSysConfig" abstract="true"
+      interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="perfectAudienceId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="perfectAudienceEnabled"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StarterSysConfig" eSuperTypes="../../../../../../../../org.soluvas.commons/src/main/resources/org/soluvas/commons/commons.ecore#//GeneralSysConfig #//GoogleSysConfig #//GoogleAnalyticsSysConfig ../../../../../../../../org.soluvas.commons/src/main/resources/org/soluvas/commons/commons.ecore#//MongoSysConfig">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Typical SysConfig for &quot;Starter&quot; style apps.&#xA;This is a temporary quick workaround before rethinking SysConfig mechanism,&#xA;which should be JSON-based (not requiring Eclipse/EMF), and supports app-, env-, hotel-, tenant-, person- and entity- levels of SysConfigs."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ZendeskConfig" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="zendeskEnabled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="zendeskDomain" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="zendeskUserName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="zendeskToken" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GoogleRemarketingSysConfig">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="googleRemarketingEnabled"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="googleRemarketingTagId"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ZendeskChatSysConfig" abstract="true"
+      interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="zendeskChatEnabled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+</ecore:EPackage>

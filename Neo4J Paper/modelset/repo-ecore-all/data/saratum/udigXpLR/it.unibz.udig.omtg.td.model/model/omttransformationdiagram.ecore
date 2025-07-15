@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="td" nsURI="it.unibz.udig/omtg/td" nsPrefix="td">
+  <eClassifiers xsi:type="ecore:EClass" name="OMTTransformationDiagram">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classes" upperBound="-1"
+        eType="#//OMTClass" containment="true" eOpposite="#//OMTClass/diagram"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relations" upperBound="-1"
+        eType="#//OMTTDConnection" containment="true" eOpposite="#//OMTTDConnection/diagram"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OMTClass">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="diagram" eType="#//OMTTransformationDiagram"
+        eOpposite="#//OMTTransformationDiagram/classes"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="&lt; ... >"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="constraint" eType="#//Rectangle"
+        defaultValueLiteral="0,0,50,50"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incomingRelations" upperBound="-1"
+        eType="#//OMTOperation" eOpposite="#//OMTOperation/target"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingRelations" upperBound="-1"
+        eType="#//OMTOperation" eOpposite="#//OMTOperation/source"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incomingTrOperation" eType="#//OMTTROperation"
+        eOpposite="#//OMTTROperation/target"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingTrOperation" eType="#//OMTTROperation"
+        eOpposite="#//OMTTROperation/source"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="#//ClassAttribute" containment="true" eOpposite="#//ClassAttribute/omtclass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operations" upperBound="-1"
+        eType="#//ClassOperation" containment="true" eOpposite="#//ClassOperation/omtclass"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="temporary" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OMTConventionalClass" eSuperTypes="#//OMTClass"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OMTGeoreferencedClass" eSuperTypes="#//OMTClass"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OMTGeoFieldClass" eSuperTypes="#//OMTClass">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="representation" lowerBound="1"
+        eType="#//OMTGeoFieldClassKind" defaultValueLiteral="Triangular Irregular Network"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OMTGeoObjectGeometryClass" eSuperTypes="#//OMTClass">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="representation" eType="#//OMTGeoObjectGeometryClassKind"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OMTGeoObjectTopologyClass" eSuperTypes="#//OMTClass">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="representation" eType="#//OMTGeoObjectTopologyClassKind"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OMTTDConnection">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="diagram" eType="#//OMTTransformationDiagram"
+        eOpposite="#//OMTTransformationDiagram/relations"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bendpoints" upperBound="-1"
+        eType="#//Point"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OMTOperation" eSuperTypes="#//OMTTDConnection">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//OMTClass"
+        eOpposite="#//OMTClass/incomingRelations"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//OMTClass"
+        eOpposite="#//OMTClass/outgoingRelations"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OMTTROperation" eSuperTypes="#//OMTTDConnection">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//OMTClass"
+        eOpposite="#//OMTClass/incomingTrOperation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//OMTClass"
+        eOpposite="#//OMTClass/outgoingTrOperation"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operation" eType="#//TROperatorKind"
+        defaultValueLiteral="Centroid determination"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassAttribute" eSuperTypes="#//ClassElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="omtclass" eType="#//OMTClass"
+        eOpposite="#//OMTClass/attributes"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassOperation" eSuperTypes="#//ClassElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="omtclass" eType="#//OMTClass"
+        eOpposite="#//OMTClass/operations"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Rectangle" instanceClassName="org.eclipse.draw2d.geometry.Rectangle"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Point" instanceClassName="org.eclipse.draw2d.geometry.Point"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="OMTGeoFieldClassKind">
+    <eLiterals name="TRIANGULAR_IRREGULAR_NETWORK" literal="Triangular Irregular Network"/>
+    <eLiterals name="ISOLINE" value="1" literal="Isoline"/>
+    <eLiterals name="PLANAR_SUBDIVISION" value="2" literal="Planar Subdivision"/>
+    <eLiterals name="TESSELATION" value="3" literal="Tesselation"/>
+    <eLiterals name="SAMPLING" value="4" literal="Sampling"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="OMTGeoObjectGeometryClassKind">
+    <eLiterals name="POINT" literal="Point"/>
+    <eLiterals name="LINE" value="1" literal="Line"/>
+    <eLiterals name="POLYGON" value="2" literal="Polygon"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="OMTGeoObjectTopologyClassKind">
+    <eLiterals name="UNIDIRECTIONAL_LINE" literal="Unidirectional Line"/>
+    <eLiterals name="BIDIRECTIONAL_LINE" value="1" literal="Bidirectional Line"/>
+    <eLiterals name="NODE" value="2" literal="Node"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TROperatorKind">
+    <eLiterals name="CENTROID" literal="Centroid determination"/>
+    <eLiterals name="CONVEX_HULL" value="1" literal="Convex hull"/>
+    <eLiterals name="AGGREGATION" value="8" literal="Aggregation"/>
+  </eClassifiers>
+</ecore:EPackage>

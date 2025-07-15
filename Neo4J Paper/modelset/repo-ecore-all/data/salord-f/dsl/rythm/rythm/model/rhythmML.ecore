@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="rhythmML" nsURI="http://www.polytech.unice.fr/rhythmML" nsPrefix="rml">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
+  </eAnnotations>
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Rhythm" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="BPM" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tracks" lowerBound="1"
+        upperBound="-1" eType="#//Track" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Track" abstract="true" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sections" lowerBound="1"
+        upperBound="-1" eType="#//Section" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="patterns" upperBound="-1"
+        eType="#//Pattern" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="composition" lowerBound="1"
+        eType="#//Composition" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="offsets" upperBound="-1"
+        eType="#//NoteOffset" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Section" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="patternLoops" upperBound="-1"
+        eType="#//PatternLoop" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="patternModifications" upperBound="-1"
+        eType="#//PatternModification" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Pattern" eSuperTypes="#//NamedElement #//Bar"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Bar">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="beats" lowerBound="1" upperBound="-1"
+        eType="#//Beat" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Beat">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ticks" upperBound="-1"
+        eType="#//Tick" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DRUM_NOTES">
+    <eLiterals name="SD" value="1"/>
+    <eLiterals name="BLANK" value="2"/>
+    <eLiterals name="CH" value="3"/>
+    <eLiterals name="OH" value="4"/>
+    <eLiterals name="CC" value="5"/>
+    <eLiterals name="RC" value="6"/>
+    <eLiterals name="BD" value="6"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PatternLoop">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="loopNumber" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pattern" lowerBound="1"
+        eType="#//Pattern"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PatternModification">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="everyIterationIsDigit"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="everyIterationIsDigit" value="(self.everyIteration = -1) or (self.everyIteration > 1 and self.everyIteration &lt; 10)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pattern" eType="#//Pattern"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="iterationBegin" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="beatNumber" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="beat" eType="#//Beat" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="iterationEnd" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="everyIteration" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Composition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sections" lowerBound="1"
+        upperBound="-1" eType="#//Section"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="NOTES">
+    <eLiterals name="DO"/>
+    <eLiterals name="DO_SHARP" value="1"/>
+    <eLiterals name="RE" value="2"/>
+    <eLiterals name="RE_SHARP" value="3"/>
+    <eLiterals name="MI" value="4"/>
+    <eLiterals name="FA" value="5"/>
+    <eLiterals name="FA_SHARP" value="6"/>
+    <eLiterals name="SOL" value="7"/>
+    <eLiterals name="SOL_SHARP" value="8"/>
+    <eLiterals name="LA" value="9"/>
+    <eLiterals name="LA_SHARP" value="10"/>
+    <eLiterals name="SI" value="11"/>
+    <eLiterals name="BLANK" value="12"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Tick">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="notes" upperBound="-1"
+        eType="#//Note" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DrumTrack" eSuperTypes="#//Track">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="drumNotesOnly offsetDrumNotesOnly patternModifDrunNotesOnly"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="drumNotesOnly" value="self.patterns.beats.ticks.notes -> forAll(oclIsKindOf(DrumNote))"/>
+      <details key="offsetDrumNotesOnly" value="self.offsets -> forAll( offset | offset.note.oclIsKindOf(DrumNote))"/>
+      <details key="patternModifDrunNotesOnly" value="self.sections.patternModifications.beat.ticks.notes -> forAll(oclIsKindOf(DrumNote))"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Note" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pitch" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DrumNote" eSuperTypes="#//Note">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="drumNote" eType="#//DRUM_NOTES"
+        defaultValueLiteral=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassicTrack" eSuperTypes="#//Track">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="classicNotesOnly offsetClassicNotesOnly patternModifClassicNotesOnly"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="classicNotesOnly" value="self.patterns.beats.ticks.notes -> forAll(oclIsKindOf(ClassicNote))"/>
+      <details key="offsetClassicNotesOnly" value="self.offsets -> forAll( offset | offset.note.oclIsKindOf(ClassicNote))"/>
+      <details key="patternModifClassicNotesOnly" value="self.sections.patternModifications.beat.ticks.notes -> forAll(oclIsKindOf(ClassicNote))"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="instrument" eType="#//Instrument"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassicNote" eSuperTypes="#//Note">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="note" eType="#//NOTES"
+        defaultValueLiteral=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NoteOffset">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"
+        defaultValueLiteral="0.0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="note" lowerBound="1" eType="#//Note"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Instrument">
+    <eLiterals name="piano" literal="piano"/>
+    <eLiterals name="guitar" value="1" literal="guitar"/>
+    <eLiterals name="trumpet" value="2" literal="trumpet"/>
+    <eLiterals name="banjo" value="3" literal="banjo"/>
+  </eClassifiers>
+</ecore:EPackage>

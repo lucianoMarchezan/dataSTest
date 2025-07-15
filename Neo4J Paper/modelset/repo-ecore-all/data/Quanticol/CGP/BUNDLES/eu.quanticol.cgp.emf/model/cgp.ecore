@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="cgp" nsURI="http://www.quanticol.eu/cgp" nsPrefix="cgp">
+  <eClassifiers xsi:type="ecore:EClass" name="SpatialModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nodePrototypes" upperBound="-1"
+        eType="#//NodePrototype" containment="true" eOpposite="#//NodePrototype/model"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="componentPrototypes" upperBound="-1"
+        eType="#//ComponentPrototype" containment="true" eOpposite="#//ComponentPrototype/model"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectionPrototypes" upperBound="-1"
+        eType="#//ConnectionPrototype" containment="true" eOpposite="#//ConnectionPrototype/model"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="locatedElements" upperBound="-1"
+        eType="#//LocatedElement" containment="true" eOpposite="#//LocatedElement/model"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectionInstances" upperBound="-1"
+        eType="#//ConnectionInstance" containment="true" eOpposite="#//ConnectionInstance/model"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NodePrototype">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="model" lowerBound="1" eType="#//SpatialModel"
+        eOpposite="#//SpatialModel/nodePrototypes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="colour" lowerBound="1"
+        eType="#//Colour" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComponentPrototype">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="model" lowerBound="1" eType="#//SpatialModel"
+        eOpposite="#//SpatialModel/componentPrototypes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="states" lowerBound="1"
+        upperBound="-1" eType="#//State" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initState" eType="#//State"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="colour" lowerBound="1"
+        eType="#//Colour" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="shape" lowerBound="1" eType="#//Shape"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConnectionPrototype">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="model" lowerBound="1" eType="#//SpatialModel"
+        eOpposite="#//SpatialModel/connectionPrototypes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="colour" lowerBound="1"
+        eType="#//Colour" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NodeInstance" eSuperTypes="#//LocatedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="prototype" eType="#//NodePrototype"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incomingConnections" upperBound="-1"
+        eType="#//ConnectionInstance" eOpposite="#//ConnectionInstance/to"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingConnections" upperBound="-1"
+        eType="#//ConnectionInstance" eOpposite="#//ConnectionInstance/from"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LocatedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="model" lowerBound="1" eType="#//SpatialModel"
+        eOpposite="#//SpatialModel/locatedElements"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComponentInstance" eSuperTypes="#//LocatedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="prototype" eType="#//ComponentPrototype"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConnectionInstance">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="from" eType="#//NodeInstance"
+        eOpposite="#//NodeInstance/outgoingConnections"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="to" eType="#//NodeInstance"
+        eOpposite="#//NodeInstance/incomingConnections"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="prototype" eType="#//ConnectionPrototype"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="model" lowerBound="1" eType="#//SpatialModel"
+        eOpposite="#//SpatialModel/connectionInstances"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="State">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allowedConnections" upperBound="-1"
+        eType="#//ConnectionPrototype"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="component" lowerBound="1"
+        eType="#//ComponentPrototype"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allowedNodes" upperBound="-1"
+        eType="#//NodePrototype"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Colour">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="red" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="green" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="blue" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Shape">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="&quot;circle&quot;"/>
+  </eClassifiers>
+</ecore:EPackage>

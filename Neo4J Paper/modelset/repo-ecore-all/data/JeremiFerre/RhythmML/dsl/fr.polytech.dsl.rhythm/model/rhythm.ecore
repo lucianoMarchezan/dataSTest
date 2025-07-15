@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="rhythm" nsURI="http://fr.polytech.dsl/rhythm" nsPrefix="rhythm">
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Music" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tracks" lowerBound="1"
+        upperBound="-1" eType="#//Track" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sections" upperBound="-1"
+        eType="#//Section" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="soundBankPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Track" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="instrument" lowerBound="1"
+        eType="#//Instrument" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Section" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tempo" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="signature" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bars" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Instrument" abstract="true" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="layers" upperBound="-1"
+        eType="#//Layer" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sections" upperBound="-1"
+        eType="#//SectionLayer" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="BatteryNoteType">
+    <eLiterals name="SNARE_DRUM"/>
+    <eLiterals name="BASS_DRUM" value="1"/>
+    <eLiterals name="CLOSED_HIHAT" value="2"/>
+    <eLiterals name="OPENED_HIHAT" value="3"/>
+    <eLiterals name="CRASH_CYMBAL" value="4"/>
+    <eLiterals name="RIDE_CYMBAL" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Battery" eSuperTypes="#//Instrument"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Melody" eSuperTypes="#//Instrument">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="instrument" eType="#//Instruments"
+        defaultValueLiteral="PIANO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="other" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Note" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" eType="#//Duration"
+        defaultValueLiteral="QUARTER"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BatteryNote" eSuperTypes="#//Note">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="noteType" eType="#//BatteryNoteType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EmptyNote" eSuperTypes="#//Note"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Layer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="notes" upperBound="-1"
+        eType="#//Note" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MelodyNote" eSuperTypes="#//Note">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="noteType" eType="#//MelodyNoteType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="octaveOffset" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="octaveAbsolute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="MelodyNoteType">
+    <eLiterals name="C"/>
+    <eLiterals name="D" value="1"/>
+    <eLiterals name="E" value="2"/>
+    <eLiterals name="F" value="3"/>
+    <eLiterals name="G" value="4"/>
+    <eLiterals name="A" value="5"/>
+    <eLiterals name="B" value="6"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompositeNote" eSuperTypes="#//Note">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="notes" upperBound="-1"
+        eType="#//Note" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="repeats" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SectionLayer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="layers" upperBound="-1"
+        eType="#//Layer" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="section" lowerBound="1"
+        eType="#//Section"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Instruments">
+    <eLiterals name="PIANO"/>
+    <eLiterals name="GUITAR" value="1"/>
+    <eLiterals name="HARPSICHORD" value="2"/>
+    <eLiterals name="CLAVINET" value="3"/>
+    <eLiterals name="VIOLIN" value="4"/>
+    <eLiterals name="SYNTH_BASS_1" value="5"/>
+    <eLiterals name="OCARINA" value="6"/>
+    <eLiterals name="ACOUSTIC_BASS" value="7"/>
+    <eLiterals name="CHURCH_ORGAN" value="8"/>
+    <eLiterals name="MUSIC_BOX" value="9"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Duration">
+    <eLiterals name="WHOLE"/>
+    <eLiterals name="HALF" value="1"/>
+    <eLiterals name="QUARTER" value="2"/>
+    <eLiterals name="EIGHTH" value="3"/>
+    <eLiterals name="SIXTEENTH" value="4" literal="SIXTEENTH"/>
+    <eLiterals name="THIRTY_SECOND" value="5" literal="THIRTY_SECOND"/>
+  </eClassifiers>
+</ecore:EPackage>

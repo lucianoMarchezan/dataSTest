@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="democles" nsURI="platform:/plugin/org.moflon.tie.gt.controlflow.democles/model/Democles.ecore"
+    nsPrefix="org.moflon.tie.gt.controlflow.democles">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+    <details key="basePackage" value="org.moflon.sdm.runtime"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="ContinueStatement" eSuperTypes="#//CFNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RepetitionNode" abstract="true" eSuperTypes="#//CompoundNode">
+    <eOperations name="hasShortcuts" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lastNodes" upperBound="-1"
+        eType="#//CFNode" eOpposite="#//CFNode/header"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Loop" abstract="true" eSuperTypes="#//RepetitionNode">
+    <eOperations name="getRelevantScope" eType="#//Scope"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="loopAlongTrue" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReturnStatement" eSuperTypes="#//CFNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="HeadControlledLoop" eSuperTypes="#//Loop">
+    <eOperations name="accept">
+      <eParameters name="visitor" eType="#//Visitor"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TailControlledLoop" eSuperTypes="#//Loop">
+    <eOperations name="accept">
+      <eParameters name="visitor" eType="#//Visitor"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ForEach" eSuperTypes="#//RepetitionNode">
+    <eOperations name="accept">
+      <eParameters name="visitor" eType="#//Visitor"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompoundNode" abstract="true" eSuperTypes="#//CFNode">
+    <eOperations name="getRelevantScope" eType="#//Scope"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scopes" lowerBound="1"
+        upperBound="-1" eType="#//Scope" containment="true" eOpposite="#//Scope/parent"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RegularPatternInvocation" eSuperTypes="#//PatternInvocation">
+    <eOperations name="isMultipleMatch" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CFVariable">
+    <eOperations name="isOnlyDefined" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="references" upperBound="-1"
+        eType="#//VariableReference" eOpposite="#//VariableReference/from"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scope" lowerBound="1" eType="#//Scope"
+        eOpposite="#//Scope/variables"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reassignments" upperBound="-1"
+        eType="#//Action" eOpposite="#//Action/reassignedVariables"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="constructor" eType="#//Action"
+        eOpposite="#//Action/constructedVariables"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="destructors" upperBound="-1"
+        eType="#//NodeDeletion" eOpposite="#//NodeDeletion/destructedVariables"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="local" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CFNode">
+    <eOperations name="accept">
+      <eParameters name="visitor" eType="#//Visitor"/>
+    </eOperations>
+    <eOperations name="getRelevantScope" eType="#//Scope"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scope" lowerBound="1" eType="#//Scope"
+        eOpposite="#//Scope/contents"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mainAction" eType="#//Action"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1"
+        eType="#//Action" containment="true" eOpposite="#//Action/cfNode"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="next" eType="#//CFNode"
+        eOpposite="#//CFNode/prev"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="prev" eType="#//CFNode"
+        eOpposite="#//CFNode/next"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="header" eType="#//RepetitionNode"
+        eOpposite="#//RepetitionNode/lastNodes"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" ordered="false" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BindingPatternInvocation" eSuperTypes="#//RegularPatternInvocation"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Adornment" instanceClassName="org.gervarro.democles.common.Adornment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SingleResultPatternInvocation" eSuperTypes="#//PatternInvocation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="returnType" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Scope">
+    <eOperations name="accept">
+      <eParameters name="visitor" eType="#//Visitor"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//CompoundNode"
+        eOpposite="#//CompoundNode/scopes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nextScope" eType="#//Scope"
+        containment="true" eOpposite="#//Scope/previousScope"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="previousScope" eType="#//Scope"
+        eOpposite="#//Scope/nextScope"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contents" upperBound="-1"
+        eType="#//CFNode" containment="true" eOpposite="#//CFNode/scope"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variables" upperBound="-1"
+        eType="#//CFVariable" containment="true" eOpposite="#//CFVariable/scope"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Action">
+    <eOperations name="hasReferencedFreeParameters" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reassignedVariables" upperBound="-1"
+        eType="#//CFVariable" eOpposite="#//CFVariable/reassignments"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cfNode" lowerBound="1"
+        eType="#//CFNode" eOpposite="#//CFNode/actions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="constructedVariables" upperBound="-1"
+        eType="#//CFVariable" eOpposite="#//CFVariable/constructor"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="next" eType="#//Action"
+        eOpposite="#//Action/prev"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="prev" eType="#//Action"
+        eOpposite="#//Action/next"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UniformNoOperationVisitor" eSuperTypes="#//Visitor">
+    <eOperations name="visitForEach">
+      <eParameters name="forEach" eType="#//ForEach"/>
+    </eOperations>
+    <eOperations name="visitHeadControlledLoop">
+      <eParameters name="headControlledLoop" eType="#//HeadControlledLoop"/>
+    </eOperations>
+    <eOperations name="visitIfStatement">
+      <eParameters name="ifStatement" eType="#//IfStatement"/>
+    </eOperations>
+    <eOperations name="visitTailControlledLoop">
+      <eParameters name="tailControlledLoop" eType="#//TailControlledLoop"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NodeDeletion" eSuperTypes="#//Action">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="destructedVariables" upperBound="-1"
+        eType="#//CFVariable" eOpposite="#//CFVariable/destructors"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IfStatement" eSuperTypes="#//CompoundNode">
+    <eOperations name="accept">
+      <eParameters name="visitor" eType="#//Visitor"/>
+    </eOperations>
+    <eOperations name="getRelevantScope" eType="#//Scope"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PatternInvocation" abstract="true" eSuperTypes="#//Action">
+    <eOperations name="hasReferencedFreeParameters" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="isMultipleMatch" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pattern" lowerBound="1"
+        eType="ecore:EClass http://gervarro.org/democles/specification.ecore#//Pattern"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//VariableReference" containment="true" eOpposite="#//VariableReference/invocation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Visitor">
+    <eOperations name="visitHeadControlledLoop">
+      <eParameters name="headControlledLoop" eType="#//HeadControlledLoop"/>
+    </eOperations>
+    <eOperations name="visitIfStatement">
+      <eParameters name="ifStatement" eType="#//IfStatement"/>
+    </eOperations>
+    <eOperations name="visitNode">
+      <eParameters name="node" eType="#//CFNode"/>
+    </eOperations>
+    <eOperations name="visitScope">
+      <eParameters name="scope" eType="#//Scope"/>
+    </eOperations>
+    <eOperations name="visitTailControlledLoop">
+      <eParameters name="tailControlledLoop" eType="#//TailControlledLoop"/>
+    </eOperations>
+    <eOperations name="visitForEach">
+      <eParameters name="forEach" eType="#//ForEach"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VariableReference">
+    <eOperations name="isFree" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="isConstructed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="isReassigned" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="invocation" lowerBound="1"
+        eType="#//PatternInvocation" eOpposite="#//PatternInvocation/parameters"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="to" lowerBound="1" eType="ecore:EClass http://gervarro.org/democles/specification.ecore#//Variable"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="from" lowerBound="1" eType="#//CFVariable"
+        eOpposite="#//CFVariable/references"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ezdmxctrl"
+    nsURI="http://ezdmxctrl/1.0" nsPrefix="ezdmxctrl">
+  <eClassifiers xsi:type="ecore:EClass" name="DMXUniverseCtrl" eSuperTypes="../../net.sf.xqz.engine/model/engine.ecore#//IConnectedUnit">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ver" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="channels" upperBound="-1"
+        eType="#//DMXChannel" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fixtures" upperBound="-1"
+        eType="#//DMXFixtureValuations" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="addrRangeMin" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="addrRangeMax" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="manager" eType="#//DMXProject"
+        eOpposite="#//DMXProject/universes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cues" upperBound="-1" eType="#//DMXFixtureValuations"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="steps" upperBound="-1"
+        eType="#//DMXCueSequence" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DMXChannel">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="values" upperBound="-1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DMXFixture" eSuperTypes="#//DMXFixtureValuations">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="params" upperBound="-1"
+        eType="ecore:EClass ../../net.sf.smbt.osc/model/osccmd.ecore#//OscCmd" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definition" eType="ecore:EClass ../src-utils/net/sf/smbt/dmx/utils/fixture/qxf.ecore#//FixtureDefinition"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="vendor" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="values" upperBound="-1"
+        eType="#//ChannelValues" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DMXProject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="universes" upperBound="-1"
+        eType="#//DMXUniverseCtrl" containment="true" eOpposite="#//DMXUniverseCtrl/manager"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scenes" upperBound="-1"
+        eType="#//DMXScene" containment="true" eOpposite="#//DMXScene/manager"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="library" eType="#//DMXLibrary"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fixtureDefinitions" upperBound="-1"
+        eType="ecore:EClass ../src-utils/net/sf/smbt/dmx/utils/fixture/qxf.ecore#//FixtureDefinition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lastAddress" eType="ecore:EClass ../../net.sf.smbt.xcp/model/xcp.ecore#//XCPAddress"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="selection" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DMXScene">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="manager" eType="#//DMXProject"
+        eOpposite="#//DMXProject/scenes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fixtures" upperBound="-1"
+        eType="#//DMXFixture"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fx" upperBound="-1" eType="#//DMXFx"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bus" upperBound="-1" eType="#//DMXBus"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DMXFx">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="manager" eType="#//DMXLibrary"
+        eOpposite="#//DMXLibrary/fx"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="motion" eType="#//DMXfixtureMotion"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="behavior" eType="#//DMXFixtureBehavior"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DMXBus">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="time" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ELong"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DMXLibrary">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fixtures" upperBound="-1"
+        eType="ecore:EClass ../src-utils/net/sf/smbt/dmx/utils/fixture/qxf.ecore#//FixtureDefinition"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="projects" upperBound="-1"
+        eType="#//DMXProject" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fx" upperBound="-1" eType="#//DMXFx"
+        containment="true" eOpposite="#//DMXFx/manager"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DMXfixtureMotion">
+    <eLiterals name="CIRCLE"/>
+    <eLiterals name="EIGHT" value="1"/>
+    <eLiterals name="LISSAJOUX" value="2"/>
+    <eLiterals name="STAR" value="3"/>
+    <eLiterals name="RAMP_UP" value="4"/>
+    <eLiterals name="RAMP_DOWN" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DMXFixtureBehavior">
+    <eLiterals name="LOOP"/>
+    <eLiterals name="ONCE" value="1"/>
+    <eLiterals name="PING_PONG" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ChannelValues">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="channel" eType="ecore:EClass ../src-utils/net/sf/smbt/dmx/utils/fixture/qxf.ecore#//Channel"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fx" upperBound="-1" eType="#//DMXFx"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DMXFixtureSet" eSuperTypes="#//DMXFixtureValuations">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//DMXFixtureValuations" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DMXFixtureValuations">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="universe" eType="#//DMXUniverseCtrl"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DMXCueSequence">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="prev" eType="#//DMXFixtureValuations"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="next" eType="#//DMXFixtureValuations"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="start" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ELong"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ELong"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="speed" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//ELong"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="loop" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="times" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ChannelKind">
+    <eLiterals name="COLOUR" literal="Colour"/>
+    <eLiterals name="GOBO" value="1" literal="Gobo"/>
+    <eLiterals name="MAINTENANCE" value="2" literal="Maintenance"/>
+    <eLiterals name="FX" value="3" literal="Effect"/>
+    <eLiterals name="SPEED" value="4" literal="Speed"/>
+    <eLiterals name="BEAM" value="5" literal="Beam"/>
+    <eLiterals name="INTENSITY" value="6" literal="Intensity"/>
+    <eLiterals name="SHUTTER" value="7" literal="Shutter"/>
+    <eLiterals name="TILT" value="8" literal="Tilt"/>
+    <eLiterals name="PAN" value="9" literal="Pan"/>
+    <eLiterals name="PRISM" value="10" literal="Prism"/>
+    <eLiterals name="NOTHING" value="11" literal="Nothing"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ColourKind">
+    <eLiterals name="RED" literal="Red"/>
+    <eLiterals name="GREEN" value="1" literal="Green"/>
+    <eLiterals name="BLUE" value="2" literal="Blue"/>
+    <eLiterals name="CYAN" value="3" literal="Cyan"/>
+    <eLiterals name="MAGENTA" value="4" literal="Magenta"/>
+    <eLiterals name="YELLOW" value="5" literal="Yellow"/>
+  </eClassifiers>
+</ecore:EPackage>

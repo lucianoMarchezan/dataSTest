@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="symo" nsURI="http://www.dlr.de/symo4pd/model/2016/" nsPrefix="symo">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+    <details key="documentation" value="The symopd package is part of the SYMO4PD Ecore model and  includes all the basic elements to describe a technical system. This includes the description of the system structure and the system behavior. In addition, the organization of systems in system component libraries and project repositories."/>
+    <details key="source" value="premise.ecore"/>
+  </eAnnotations>
+  <eAnnotations source="http://www.eclipse.org/OCL/Import"/>
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ProjectRepository" eSuperTypes="symo_element.ecore#//ARepository symo_base.ecore#//ANameItem">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A project repository stores systems. "/>
+      <details key="source" value="premise.ecore#ProjectRepository"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="systems" upperBound="-1"
+        eType="#//SystemElement" containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The collection of systems."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComponentRepository" eSuperTypes="symo_element.ecore#//ARepository">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A component repository stores system elements as reusable elements. "/>
+      <details key="source" value="premise.ecore#ComponentRepository"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
+        eType="#//SystemElement" containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A collection of system components."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemElement" eSuperTypes="symo_element.ecore#//AElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A system component is a member of a set of components that constitutes a system. Also this component may be a major product, service or function of a system. The term subsystem is sometimes used instead of component."/>
+      <details key="source" value="premise.ecore#SystemComponent"/>
+    </eAnnotations>
+    <eOperations name="isSystemElement" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Returns false in case the SystemElement is root of a system description."/>
+        <details key="body" value="return true;"/>
+        <details key="source" value="premise.ecore#SystemComponent"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="ecore:EClass symo_element.ecore#//Parameter" containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The set of system component parameters."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connections" upperBound="-1">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The set of physical connections amoung system components."/>
+      </eAnnotations>
+      <eGenericType eClassifier="ecore:EClass symo_element.ecore#//Connection">
+        <eTypeArguments eClassifier="#//SystemElement"/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relations" upperBound="-1">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The set of relations amoung system components."/>
+      </eAnnotations>
+      <eGenericType eClassifier="ecore:EClass symo_element.ecore#//Relation">
+        <eTypeArguments eClassifier="ecore:EClass symo_element.ecore#//AElement"/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="calculations" upperBound="-1"
+        eType="ecore:EClass symo_element.ecore#//Calculation">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The set of calculation of system parameters."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//SystemElement" containment="true" eOpposite="#//SystemElement/parent">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The set of sub system elements."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//SystemElement"
+        eOpposite="#//SystemElement/children"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="behaviors" upperBound="-1"
+        eType="#//StateMaschine" containment="true" eOpposite="#//StateMaschine/parent"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StateMaschine" eSuperTypes="symo_element.ecore#//ADiscussedItem">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A hierarchical state maschine describes the behaveior of a SystemElement."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//SystemElement"
+        eOpposite="#//SystemElement/behaviors">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The Containing SystemElement"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transitions" upperBound="-1"
+        eType="ecore:EClass symo_element.ecore#//Transition" containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A set of transition."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stereoTypes" upperBound="-1"
+        eType="ecore:EClass symo_element.ecore#//Stereotype">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A collection of stereotypes which specify a system element"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="metaData" upperBound="-1"
+        eType="ecore:EClass symo_element.ecore#//MetaData" containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A collecion of meta data."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+</ecore:EPackage>

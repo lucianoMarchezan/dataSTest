@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="cloneDetectionDSL" nsURI="http://www.simonbaars.com/cdd/CloneDetectionDSL"
+    nsPrefix="cloneDetectionDSL">
+  <eClassifiers xsi:type="ecore:EClass" name="CloneDetection">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="project" eType="#//Project"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="root" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="match" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="exclude" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="size" eType="#//Size" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="paths" upperBound="-1"
+        eType="#//LibraryPath" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="notCompare" upperBound="-1"
+        eType="#//DoNotCompare" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compare" upperBound="-1"
+        eType="#//Compare" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Project">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LibraryPath">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SearchRoot">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" eType="#//Nodes"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Match">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="target" eType="#//MatchTarget"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="MatchTarget">
+    <eLiterals name="Subtree" literal="Subtree"/>
+    <eLiterals name="LLOC" value="1" literal="LLOC"/>
+    <eLiterals name="SLOC" value="2" literal="SLOC"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Exclude"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Node">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="under" eType="#//Under"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="node" eType="#//Node" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Nodes" eSuperTypes="#//Exclude #//DoNotCompare">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="node" eType="#//Node" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" eType="#//Nodes"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Size"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MinSize" eSuperTypes="#//Size">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expr" eType="#//MetricExpr"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="brackets" eType="#//MinSize"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" eType="#//BoolOperator"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="size" eType="#//MinSize"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MetricExpr">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="amount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="metric" eType="#//SizeMetric"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SizeMetric">
+    <eLiterals name="tokens" literal="tokens"/>
+    <eLiterals name="declarations" value="1" literal="declarations"/>
+    <eLiterals name="statements" value="2" literal="statements"/>
+    <eLiterals name="nodes" value="3" literal="nodes"/>
+    <eLiterals name="lines" value="4" literal="lines"/>
+    <eLiterals name="cyclomatic_complexity" value="5" literal="cyclomatic_complexity"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="BoolOperator">
+    <eLiterals name="AND" literal="&amp;"/>
+    <eLiterals name="OR" value="1" literal="|"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DoNotCompare"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Compare">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" eType="#//Nodes"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="comparisonMethod" eType="#//Method"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="deepestNode" eType="#//Node"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="perc" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Method">
+    <eLiterals name="Subnodes" literal="Subnodes"/>
+    <eLiterals name="StringMatch" value="1" literal="StringMatch"/>
+    <eLiterals name="CompleteMatch" value="2" literal="CompleteMatch"/>
+    <eLiterals name="FQI" value="3" literal="FQI"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Under">
+    <eLiterals name="OneLevel" literal="->"/>
+    <eLiterals name="AnyLevel" value="1" literal="=>"/>
+  </eClassifiers>
+</ecore:EPackage>

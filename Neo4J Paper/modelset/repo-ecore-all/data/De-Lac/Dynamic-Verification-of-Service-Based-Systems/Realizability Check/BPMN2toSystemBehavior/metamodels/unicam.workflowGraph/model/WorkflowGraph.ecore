@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="workflowgraph" nsURI="http://workflowgraph/1.0.4" nsPrefix="">
+  <eClassifiers xsi:type="ecore:EClass" name="WfgNode" abstract="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="a node of the workflowGraph could be an action (for instance a message exchange) or a gateway (parallel or choice)"/>
+    </eAnnotations>
+    <eOperations name="add_set_successor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="node" eType="#//WfgNode"/>
+    </eOperations>
+    <eOperations name="add_set_predecessor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="node" eType="#//WfgNode"/>
+    </eOperations>
+    <eOperations name="remove_unset_successor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="node" eType="#//WfgNode"/>
+    </eOperations>
+    <eOperations name="remove_unset_predecessor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="node" eType="#//WfgNode"/>
+    </eOperations>
+    <eOperations name="clone" lowerBound="1" eType="#//WfgNode"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" unique="false" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Gateway" abstract="true" eSuperTypes="#//WfgNode">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="the name of the relatives fork and merge should be THE SAME"/>
+    </eAnnotations>
+    <eOperations name="getBranches" lowerBound="1" upperBound="-1" eType="#//Branch"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fork" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="should be true if the gateway is a starting one.&#xA;if it's true, merge should be false."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="merge" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="should be true if the gateway is an ending one.&#xA;if it's true, fork should be false."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refMerge" lowerBound="1"
+        eType="#//Gateway" eOpposite="#//Gateway/refFork"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refFork" lowerBound="1"
+        eType="#//Gateway" eOpposite="#//Gateway/refMerge"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="predecessors" ordered="false"
+        upperBound="-1" eType="#//WfgNode"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="successors" upperBound="-1"
+        eType="#//WfgNode"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gatewayRef" eType="ecore:EClass ../../org.eclipse.bpmn2/model/BPMN20.ecore#//Gateway"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExclusiveChoice" eSuperTypes="#//Gateway"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ParallelExecution" eSuperTypes="#//Gateway"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Action" abstract="true" eSuperTypes="#//WfgNode">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="The action rapresented by the node. This is an simplified class of the real action, pointed by refObject.&#xA;For instance...  let's take the ChoreographyTask. This model rapresents it with the class MessageExchange where there are the sender, receiver and req&amp;resp. Anyway the real object ChoreographyTask is pointed by refObject&#xA;"/>
+    </eAnnotations>
+    <eTypeParameters name="GenericType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="successor" ordered="false"
+        eType="#//WfgNode"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="predecessor" ordered="false"
+        eType="#//WfgNode"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkFlowGraph">
+    <eOperations name="initialize">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="It should be called just after the transformation of model to a WFG, when all the nodes have been already loaded. (it should be automatically called in an ATL rule). &#xA;It links starting gateways to endings and viceversa, and load branches in gateways as sequence of nodes"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="removeNode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="node" eType="#//WfgNode"/>
+    </eOperations>
+    <eOperations name="addNode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="node" eType="#//WfgNode"/>
+    </eOperations>
+    <eOperations name="createNewExclusiveChoice" lowerBound="1" eType="#//ExclusiveChoice">
+      <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="merge" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eParameters name="fork" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eOperations>
+    <eOperations name="createNewParallelExecution" lowerBound="1" eType="#//ParallelExecution">
+      <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="merge" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eParameters name="fork" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eOperations>
+    <eOperations name="removeNodes" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="nodes" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList"/>
+    </eOperations>
+    <eOperations name="toDOTforGraphViz" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations name="createNewMessageExchange" lowerBound="1" eType="#//MessageExchange">
+      <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="request" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="response" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="sender" eType="#//Participant"/>
+      <eParameters name="receiver" eType="#//Participant"/>
+    </eOperations>
+    <eOperations name="saveModel">
+      <eParameters name="filename" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gateways" ordered="false"
+        upperBound="-1" eType="#//Gateway" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="startingNode" ordered="false"
+        lowerBound="1" eType="#//WfgNode" volatile="true" unsettable="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="endingNode" ordered="false"
+        lowerBound="1" eType="#//WfgNode" volatile="true" unsettable="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//Action" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participants" lowerBound="2"
+        upperBound="-1" eType="#//Participant" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="innerGateway" eType="#//Gateway"
+        volatile="true" unsettable="true" derived="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MessageExchange" eSuperTypes="#//Action">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="It's the simplified vision of a ChoreographyTask, with the participants and message exchanged. There should always be the requeste message (sender->receiver). The response (receiver->sender) is facultative. If there is, it means it's a synchronous message exchange, otherwise the response should be mapped in another MessageExchange instance."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="request" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="synchResponse" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sender" lowerBound="1"
+        eType="#//Participant"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receiver" lowerBound="1"
+        eType="#//Participant"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="choreographyTaskRef" eType="ecore:EClass ../../org.eclipse.bpmn2/model/BPMN20.ecore#//ChoreographyTask"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Branch">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="a list of nodes, that constitutes a branch of a gateway. the predecessor of the first node is the starting gateway. The successor of the last node of the branch is the closing gateway."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
+        eType="#//WfgNode"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Participant">
+    <eTypeParameters name="P"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participantRef" eType="ecore:EClass ../../org.eclipse.bpmn2/model/BPMN20.ecore#//Participant"/>
+  </eClassifiers>
+</ecore:EPackage>

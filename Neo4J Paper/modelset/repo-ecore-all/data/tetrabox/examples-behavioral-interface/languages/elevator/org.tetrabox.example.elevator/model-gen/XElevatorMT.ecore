@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="elevator" nsURI="http://org.tetrabox.example.xelevatormt/elevator/" nsPrefix="elevator">
+  <eClassifiers xsi:type="ecore:EClass" name="Floor">
+    <eOperations name="hasUpperFloorLitButton">
+      <eAnnotations source="aspect"/>
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eOperations>
+    <eOperations name="hasLowerFloorLitButton">
+      <eAnnotations source="aspect"/>
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="next" eType="//Floor" eOpposite="//Floor/previous"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nr" changeable="false" volatile="true" transient="true" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="get" value="int i = 0;&#xA;Floor previous = this.previous;&#xA;while (previous != null) {&#xA;&#x9;previous = previous.getPrevious();&#xA;&#x9;i++;&#xA;}&#xA;return i; "/>
+      </eAnnotations>
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="floorButtons" upperBound="-1" eType="//Button" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="previous" eType="//Floor" eOpposite="//Floor/next"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Button" abstract="true">
+    <eOperations name="press">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eOperations name="notPressed">
+      <eAnnotations source="aspect"/>
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requestedFloor" eType="//Floor"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pressed" unique="false">
+      <eAnnotations source="aspect"/>
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Elevator">
+    <eOperations name="run">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eOperations name="openDoorUp">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eOperations name="openDoorDown">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eOperations name="closeDoor">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eOperations name="changeToDown">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eOperations name="changeToUp">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eOperations name="moveUp">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eOperations name="moveDown">
+      <eAnnotations source="aspect"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elevatorButtons" upperBound="-1" eType="//ElevatorButton" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="doorsOpen" unique="false">
+      <eAnnotations source="aspect"/>
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="goingUp" unique="false">
+      <eAnnotations source="aspect"/>
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentFloor" unique="false" eType="//Floor">
+      <eAnnotations source="aspect"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ElevatorButton" eSuperTypes="//Button"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FloorButton" abstract="true" eSuperTypes="//Button"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UpButton" eSuperTypes="//FloorButton"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DownButton" eSuperTypes="//FloorButton"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ElevatorSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elevators" upperBound="-1" eType="//Elevator" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="floors" upperBound="-1" eType="//Floor" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="spem2"
+    nsURI="http:///spem2.ecore" nsPrefix="spem2">
+  <eClassifiers xsi:type="ecore:EClass" name="WorkProduct">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isDeliverable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="responsible" eType="#//ProcessRole"
+        derived="true" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="responsibleRoles" eType="#//ProcessRole"
+        eOpposite="#//ProcessRole/workProducts"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Process" lowerBound="1"
+        eType="#//Process" transient="true" eOpposite="#//Process/WorkProduct"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProcessPerformer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="work" eType="#//WorkDefinition"
+        derived="true" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProcessRole" eSuperTypes="#//ProcessPerformer">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="workProducts" upperBound="-1"
+        eType="#//WorkProduct" eOpposite="#//WorkProduct/responsibleRoles"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activities" upperBound="-1"
+        eType="#//Activity" eOpposite="#//Activity/assistants"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Process" lowerBound="1"
+        eType="#//Process" transient="true" eOpposite="#//Process/ProcessRole"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ActionState"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Step" eSuperTypes="#//ActionState">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activities" lowerBound="1"
+        eType="#//Activity" transient="true" eOpposite="#//Activity/steps"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Activity" eSuperTypes="#//WorkDefinition">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assistant" eType="#//ProcessRole"
+        derived="true" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="step" eType="#//Step" derived="true"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="steps" upperBound="-1"
+        eType="#//Step" containment="true" eOpposite="#//Step/activities"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assistants" upperBound="-1"
+        eType="#//ProcessRole" eOpposite="#//ProcessRole/activities"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Process" lowerBound="1"
+        eType="#//Process" transient="true" eOpposite="#//Process/Activity"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkDefinition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="performer" eType="#//ProcessPerformer"
+        derived="true" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentWork" eType="#//WorkDefinition"
+        derived="true" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Process">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Activity" lowerBound="1"
+        upperBound="-1" eType="#//Activity" containment="true" eOpposite="#//Activity/Process"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ProcessRole" lowerBound="1"
+        upperBound="-1" eType="#//ProcessRole" containment="true" eOpposite="#//ProcessRole/Process"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="WorkProduct" lowerBound="1"
+        upperBound="-1" eType="#//WorkProduct" containment="true" eOpposite="#//WorkProduct/Process"/>
+  </eClassifiers>
+</ecore:EPackage>

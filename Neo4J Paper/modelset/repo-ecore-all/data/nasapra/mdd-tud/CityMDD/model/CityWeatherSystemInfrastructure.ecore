@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="cityweathersysteminfrastructure" nsURI="http://cityweathersysteminfrastructure/1.0"
+    nsPrefix="cityweathersysteminfrastructure">
+  <eClassifiers xsi:type="ecore:EClass" name="Measurable" abstract="true" interface="true">
+    <eOperations name="getValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal"/>
+    <eOperations name="getUnit" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Temperature" abstract="true" eSuperTypes="#//Measurable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Humidity" abstract="true" eSuperTypes="#//Measurable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AtmosphericPressure" abstract="true"
+      eSuperTypes="#//Measurable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MeasurementDevice" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="measurement" eType="#//Measurable"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Thermometer" eSuperTypes="#//MeasurementDevice">
+    <eOperations name="getPresentTemperature" eType="#//Measurable"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Barometer" eSuperTypes="#//MeasurementDevice">
+    <eOperations name="getPresentPressure" eType="#//Measurable"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Hygrometer" eSuperTypes="#//MeasurementDevice">
+    <eOperations name="getPresentHumidity" eType="#//Measurable"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AnalysisCenter">
+    <eOperations name="getAnalysis" eType="#//Analysis"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="AllDevices" upperBound="-1"
+        eType="#//MeasurementDevice" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Analysis" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DailyAnalysis" eSuperTypes="#//Analysis">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="EReference0" eType="#//Analysis"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MonthlyAnalysis" eSuperTypes="#//Analysis"/>
+  <eClassifiers xsi:type="ecore:EClass" name="YearlyAnalysis" eSuperTypes="#//Analysis"/>
+</ecore:EPackage>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="robotmodel" nsURI="plugin://glt.robot" nsPrefix="">
+  <eClassifiers xsi:type="ecore:EClass" name="Script">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="command" upperBound="-1"
+        eType="#//Statement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Statement" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IfStatement" eSuperTypes="#//Statement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" lowerBound="1"
+        eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="command" lowerBound="1"
+        upperBound="-1" eType="#//Statement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="command2" upperBound="-1"
+        eType="#//Statement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WhileStatement" eSuperTypes="#//Statement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" lowerBound="1"
+        eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="command" upperBound="-1"
+        eType="#//Statement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RepeatStatement" eSuperTypes="#//Statement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="command" upperBound="-1"
+        eType="#//Statement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="condition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Command" abstract="true" eSuperTypes="#//Statement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Comment" eSuperTypes="#//Command">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="command" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TraceCommand" eSuperTypes="#//Command">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="traceLiteral" lowerBound="1"
+        eType="#//TraceLiteral"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="command" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AtomicCommand" eSuperTypes="#//Command">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="command" lowerBound="1"
+        eType="#//CommandLiteral"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TraceLiteral">
+    <eLiterals name="trace"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CommandLiteral">
+    <eLiterals name="step" value="4" literal="step"/>
+    <eLiterals name="turnLeft" value="5" literal="turnLeft"/>
+    <eLiterals name="drop" value="6" literal="drop"/>
+    <eLiterals name="pick" value="7" literal="pick"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Expression" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NegatedExpression" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="negatedExpression" lowerBound="1"
+        eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AtomicExpression" abstract="true" eSuperTypes="#//Expression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BinaryExpression" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leftExpression" lowerBound="1"
+        eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rightExpression" lowerBound="1"
+        eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1"
+        eType="#//OperatorLiteral"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="OperatorLiteral">
+    <eLiterals name="and"/>
+    <eLiterals name="or"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Layout"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="Keyword">
+    <eLiterals name="Script" literal="Script"/>
+    <eLiterals name="runs" value="1" literal="runs"/>
+    <eLiterals name="as" value="2" literal="as"/>
+    <eLiterals name="end" value="3" literal="end"/>
+    <eLiterals name="step" value="4" literal="step"/>
+    <eLiterals name="turnLeft" value="5" literal="turnLeft"/>
+    <eLiterals name="drop" value="6" literal="drop"/>
+    <eLiterals name="pick" value="7" literal="pick"/>
+    <eLiterals name="trace" value="8" literal="trace"/>
+    <eLiterals name="full" value="9" literal="full"/>
+    <eLiterals name="heading" value="10" literal="heading"/>
+    <eLiterals name="north" value="11" literal="north"/>
+    <eLiterals name="if" value="12" literal="if"/>
+    <eLiterals name="do" value="13" literal="do"/>
+    <eLiterals name="else" value="14" literal="else"/>
+    <eLiterals name="while" value="15" literal="while"/>
+    <eLiterals name="repeat" value="16" literal="repeat"/>
+    <eLiterals name="times" value="17" literal="times"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DirectionLiteral">
+    <eLiterals name="north" literal="north"/>
+    <eLiterals name="south" value="1" literal="south"/>
+    <eLiterals name="east" value="2" literal="east"/>
+    <eLiterals name="west" value="3" literal="west"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HeadingExpression" eSuperTypes="#//AtomicExpression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="headingLiteral" lowerBound="1"
+        eType="#//HeadingLiteral"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="directionLiteral" lowerBound="1"
+        eType="#//DirectionLiteral"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WallAheadExpression" eSuperTypes="#//AtomicExpression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="wall" lowerBound="1" eType="#//WallLiteral"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ahead" lowerBound="1" eType="#//AheadLiteral"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NormalExpression" eSuperTypes="#//AtomicExpression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="literal" lowerBound="1"
+        eType="#//NormalExpressionLiteral"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="HeadingLiteral">
+    <eLiterals name="heading"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="WallLiteral">
+    <eLiterals name="wall" literal="wall"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="AheadLiteral">
+    <eLiterals name="ahead" literal="ahead"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="NormalExpressionLiteral">
+    <eLiterals name="full"/>
+    <eLiterals name="mark" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="GridLiteral">
+    <eLiterals name="buildWall"/>
+    <eLiterals name="destroyWall"/>
+    <eLiterals name="pickMark"/>
+    <eLiterals name="dropMark"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConstructionStatement" eSuperTypes="#//Statement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="command" eType="#//GridLiteral"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+</ecore:EPackage>

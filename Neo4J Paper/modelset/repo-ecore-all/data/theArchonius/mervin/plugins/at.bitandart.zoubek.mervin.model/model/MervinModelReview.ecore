@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="modelreview" nsURI="http://zoubek.bitandart.at/mervin/modelreview"
+    nsPrefix="at.bitandart.zoubek.mervin">
+  <eClassifiers xsi:type="ecore:EClass" name="ModelReview">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="repositoryURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="patchSets" upperBound="-1"
+        eType="#//PatchSet" containment="true" eOpposite="#//PatchSet/review"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="comments" upperBound="-1"
+        eType="#//Comment"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leftPatchSet" eType="#//PatchSet"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rightPatchSet" eType="#//PatchSet"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="selectedModelComparison"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.compare/model/compare.ecore#//Comparison"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="selectedDiagramComparison"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.compare/model/compare.ecore#//Comparison"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="showAdditions" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="showModifications" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="showDeletions" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="showLayoutChanges" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unifiedModelMap" eType="#//UnifiedModelMap"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentReviewer" eType="#//User"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="showComments" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PatchSet">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="review" eType="#//ModelReview"
+        eOpposite="#//ModelReview/patchSets"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="patches" upperBound="-1"
+        eType="#//Patch" eOpposite="#//Patch/patchSet"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="newInvolvedModels" upperBound="-1"
+        eType="#//ModelResource"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="newInvolvedDiagrams" upperBound="-1"
+        eType="#//DiagramResource"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="oldInvolvedModels" upperBound="-1"
+        eType="#//ModelResource"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="oldInvolvedDiagrams" upperBound="-1"
+        eType="#//DiagramResource"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelComparison" eType="ecore:EClass platform:/plugin/org.eclipse.emf.compare/model/compare.ecore#//Comparison"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="diagramComparison" eType="ecore:EClass platform:/plugin/org.eclipse.emf.compare/model/compare.ecore#//Comparison"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectChangeCount" changeable="false"
+        transient="true" unsettable="true" derived="true">
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+        <eTypeArguments eClassifier="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectChangeRefCount" changeable="false"
+        transient="true" unsettable="true" derived="true">
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+        <eTypeArguments eClassifier="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxObjectChangeCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        changeable="false" transient="true" defaultValueLiteral="0" unsettable="true"
+        derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxObjectChangeRefCount"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" changeable="false"
+        transient="true" defaultValueLiteral="0" unsettable="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allNewInvolvedDiagrams"
+        upperBound="-1" eType="ecore:EClass ../../org.eclipse.gmf.runtime.notation/model/notation.ecore#//Diagram"
+        changeable="false" volatile="true" transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allOldInvolvedDiagrams"
+        upperBound="-1" eType="ecore:EClass ../../org.eclipse.gmf.runtime.notation/model/notation.ecore#//Diagram"
+        changeable="false" volatile="true" transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="comments" upperBound="-1"
+        eType="#//Comment" eOpposite="#//Comment/patchset"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Patch">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="newPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="oldPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="newContent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByteArray"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="oldContent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByteArray"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="changeType" eType="#//PatchChangeType"
+        defaultValueLiteral="ADD"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="patchSet" eType="#//PatchSet"
+        eOpposite="#//PatchSet/patches"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramPatch" eSuperTypes="#//Patch">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="newDiagramResource" eType="#//DiagramResource"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="oldDiagramResource" eType="#//DiagramResource"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ModelPatch" eSuperTypes="#//Patch">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="newModelResource" eType="#//ModelResource"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="oldModelResource" eType="#//ModelResource"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Comment">
+    <eOperations name="resolvePatchSet">
+      <eParameters name="review" eType="#//ModelReview"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="author" lowerBound="1"
+        eType="#//User"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="creationTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commentLinks" upperBound="-1"
+        eType="#//CommentLink" containment="true" eOpposite="#//CommentLink/comment"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="replies" upperBound="-1"
+        eType="#//Comment" eOpposite="#//Comment/repliedTo"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="repliedTo" eType="#//Comment"
+        eOpposite="#//Comment/replies"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="patchset" eType="#//PatchSet"
+        eOpposite="#//PatchSet/comments"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="patchSetRefId" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ModelResource">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objects" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rootPackages" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EPackage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramResource" eSuperTypes="#//ModelResource">
+    <eOperations name="getDiagrams" upperBound="-1" eType="ecore:EClass ../../org.eclipse.gmf.runtime.notation/model/notation.ecore#//Diagram"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PatchChangeType">
+    <eLiterals name="ADD"/>
+    <eLiterals name="COPY" value="1"/>
+    <eLiterals name="DELETE" value="2"/>
+    <eLiterals name="MODIFY" value="3"/>
+    <eLiterals name="RENAME" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DifferenceOverlay" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkedView" eType="ecore:EClass ../../org.eclipse.gmf.runtime.notation/model/notation.ecore#//View"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="differences" upperBound="-1"
+        eType="#//Difference" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="commented" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dependentOverlays" upperBound="-1"
+        eType="#//DifferenceOverlay" eOpposite="#//DifferenceOverlay/dependencies"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dependencies" upperBound="-1"
+        eType="#//DifferenceOverlay" eOpposite="#//DifferenceOverlay/dependentOverlays"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NodeDifferenceOverlay" eSuperTypes="#//DifferenceOverlay"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EdgeDifferenceOverlay" eSuperTypes="#//DifferenceOverlay"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Difference" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rawDiffs" upperBound="-1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.compare/model/compare.ecore#//Diff"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LayoutDifference" abstract="true" interface="true"
+      eSuperTypes="#//Difference"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ModelDifference" abstract="true" interface="true"
+      eSuperTypes="#//Difference"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LocationDifference" eSuperTypes="#//LayoutDifference">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="moveDirection" eType="#//Vector"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="originalLocation" eType="#//Vector"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SizeDifference" eSuperTypes="#//LayoutDifference">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="widthChange" eType="#//DimensionChange"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="heightChange" eType="#//DimensionChange"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="originalDimension" eType="#//Dimension"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StateDifference" eSuperTypes="#//ModelDifference">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//StateDifferenceType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="StateDifferenceType">
+    <eLiterals name="ADDED" literal="ADDED"/>
+    <eLiterals name="DELETED" value="1"/>
+    <eLiterals name="MODIFIED" value="2"/>
+    <eLiterals name="UNKNOWN" value="3" literal="UNKNOWN"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DimensionChange">
+    <eLiterals name="SMALLER"/>
+    <eLiterals name="BIGGER" value="1"/>
+    <eLiterals name="UNKNOWN" value="3"/>
+    <eLiterals name="EQUAL" value="2" literal="EQUAL"/>
+    <eLiterals name="SET" value="4"/>
+    <eLiterals name="UNSET" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Vector" instanceClassName="org.eclipse.draw2d.geometry.Vector"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BendpointsDifference" eSuperTypes="#//LayoutDifference"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CommentLink">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="comment" eType="#//Comment"
+        eOpposite="#//Comment/commentLinks"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="start" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="length" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targets" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="User">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="UnifiedModelMap" instanceClassName="at.bitandart.zoubek.mervin.util.UnifiedModelMap"
+      serializable="false"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Dimension" instanceClassName="org.eclipse.draw2d.geometry.Dimension"/>
+</ecore:EPackage>

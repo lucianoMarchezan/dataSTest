@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model" nsURI="www.tugraz.at" nsPrefix="tugraz.at">
+  <eClassifiers xsi:type="ecore:EEnum" name="ParameterType">
+    <eLiterals name="SECRET"/>
+    <eLiterals name="CONST" value="1"/>
+    <eLiterals name="DATA" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Parameter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//ParameterType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByteArray"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionBlock">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="instructions" upperBound="-1"
+        eType="#//GenericInstruction"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GenericInstruction" abstract="true">
+    <eOperations name="toBer" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByteArray">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="You do not need to worry about this."/>
+        <details key="body" value="// This is just for demonstration do not worry about anything&#xD;&#xA;java.io.ByteArrayOutputStream str = new java.io.ByteArrayOutputStream();&#xD;&#xA;for(Parameter para : getParams()) {&#xD;&#xA;  try {&#xD;&#xA;    str.write(para.getValue());&#xD;&#xA;  } catch (java.io.IOException e) {&#xD;&#xA;    return new byte[0];&#xD;&#xA;  }&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;return str.toByteArray();"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getParams" upperBound="-1" eType="#//Parameter">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="You need to override the getParams - Method so that the generic Instruction gets access to the parameter"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="insNr" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        changeable="false" unsettable="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="instructions" upperBound="-1"
+        eType="#//Parameter"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionBlockRestriction">
+    <eTypeParameters name="T">
+      <eBounds eClassifier="#//FunctionBlock"/>
+    </eTypeParameters>
+    <eOperations name="check">
+      <eParameters name="param">
+        <eGenericType eTypeParameter="#//FunctionBlockRestriction/T"/>
+      </eParameters>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InstructionRestriction">
+    <eTypeParameters name="T">
+      <eBounds eClassifier="#//GenericInstruction"/>
+    </eTypeParameters>
+    <eOperations name="check">
+      <eParameters name="param">
+        <eGenericType eTypeParameter="#//InstructionRestriction/T"/>
+      </eParameters>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ParameterRestriction">
+    <eOperations name="check">
+      <eParameters name="param" eType="#//Parameter"/>
+    </eOperations>
+  </eClassifiers>
+</ecore:EPackage>

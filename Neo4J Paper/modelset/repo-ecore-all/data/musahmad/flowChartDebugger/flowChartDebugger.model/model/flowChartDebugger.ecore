@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="flowChartDebugger" nsURI="http://www.example.org/flowChartDebugger"
+    nsPrefix="flowChartDebugger">
+  <eAnnotations source="aspect"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Flowchart">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="step" upperBound="-1" eType="#//Step"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="current" eType="#//Step">
+      <eAnnotations source="aspect"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="start" lowerBound="1" eType="#//Start"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Step" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nextStep" upperBound="-1"
+        eType="#//Step" eOpposite="#//Step/previousStep"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="previousStep" upperBound="-1"
+        eType="#//Step" eOpposite="#//Step/nextStep"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hasRun" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="aspect"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Terminal" abstract="true" eSuperTypes="#//Step"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Process" eSuperTypes="#//Step"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InputOrOutput" eSuperTypes="#//Step"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Decision" eSuperTypes="#//Step">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ifTrue" eType="#//Step"
+        derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ifFalse" eType="#//Step"
+        derived="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Start" eSuperTypes="#//Terminal"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Stop" eSuperTypes="#//Terminal"/>
+</ecore:EPackage>

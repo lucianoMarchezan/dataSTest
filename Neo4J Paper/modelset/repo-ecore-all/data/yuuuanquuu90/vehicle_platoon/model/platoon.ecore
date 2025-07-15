@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="platoon" nsURI="http://www.example.org/platoon" nsPrefix="platoon">
+  <eClassifiers xsi:type="ecore:EClass" name="Platoon">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leader" lowerBound="1"
+        eType="#//PlatoonVehicle" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="follower" upperBound="-1"
+        eType="#//PlatoonVehicle" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="follows" eType="#//Platoon"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="joinplatoonCord" eType="#//JoinPlatoonCoord"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="length" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="desiredGapSize" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="members" lowerBound="1"
+        upperBound="-1" eType="#//PlatoonVehicle" eOpposite="#//PlatoonVehicle/platoon"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Vehicle" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="follows" eType="#//Vehicle"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="isAwareOf" eType="#//Vehicle"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="joinCord" eType="#//JoinPlatoonCoord"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JoinPlatoonCoord">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cordManager" lowerBound="1"
+        eType="#//Vehicle"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gapMaker" lowerBound="1"
+        eType="#//Vehicle"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="joiningVehicle" lowerBound="1"
+        eType="#//Vehicle"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JoiningVehicle" eSuperTypes="#//Vehicle">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="insertsIn" eType="#//FrontGap"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="wantsToJoin" eType="#//PlatoonVehicle"
+        eOpposite="#//PlatoonVehicle/joiningRequest"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="locatedIn" eType="#//JoiningPosition"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FrontGap">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="actualGapSize" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PlatoonVehicle" eSuperTypes="#//Vehicle">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="forms" eType="#//FrontGap"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="position" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="marks" eType="#//JoiningPosition"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="joiningRequest" eType="#//JoiningVehicle"
+        eOpposite="#//JoiningVehicle/wantsToJoin"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="platoon" eType="#//Platoon"
+        eOpposite="#//Platoon/members"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PlatooningSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="vehicles" upperBound="-1"
+        eType="#//Vehicle" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="platoon" upperBound="-1"
+        eType="#//Platoon" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JoiningPosition"/>
+</ecore:EPackage>

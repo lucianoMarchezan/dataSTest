@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="DPP" nsURI="http:///un/asydev/editor/dom/dpp.ecore" nsPrefix="un.asydev.editor.dpp">
+  <eClassifiers xsi:type="ecore:EClass" name="DomNamedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Document" eSuperTypes="#//DomNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dppContainer" lowerBound="1"
+        eType="#//DppContainer" containment="true" eKeys="#//DomNamedElement/name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DppContainer" eSuperTypes="#//DomNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="businessUnits" upperBound="-1"
+        eType="#//BusinessUnit" containment="true" eKeys="#//DomNamedElement/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="accesses" upperBound="-1"
+        eType="#//Access" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operations" upperBound="-1"
+        eType="#//AggregableOperation" containment="true" eKeys="#//DomNamedElement/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statuses" lowerBound="1"
+        upperBound="-1" eType="#//Status" containment="true" eKeys="#//DomNamedElement/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transitions" lowerBound="1"
+        upperBound="-1" eType="#//DPPTransition" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessUnit" eSuperTypes="#//DomNamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Access">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operations" lowerBound="1"
+        upperBound="-1" eType="#//AggregableOperation" eKeys="#//DomNamedElement/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="businessUnits" lowerBound="1"
+        upperBound="-1" eType="#//BusinessUnit" eKeys="#//DomNamedElement/name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AggregableOperation" eSuperTypes="#//DomNamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Status" eSuperTypes="#//DomNamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DPPTransition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="finalStatus" eType="#//Status"
+        eKeys="#//DomNamedElement/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operation" lowerBound="1"
+        eType="#//AggregableOperation" eKeys="#//DomNamedElement/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initialStatus" eType="#//Status"
+        eKeys="#//DomNamedElement/name"/>
+  </eClassifiers>
+</ecore:EPackage>

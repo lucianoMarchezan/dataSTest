@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="interfaces" nsURI="http://com.icteam.loyalty/model/interfaces"
+    nsPrefix="com.icteam.loyalty.model.interfaces">
+  <eClassifiers xsi:type="ecore:EClass" name="IEMFModel" abstract="true" interface="true"
+      eSuperTypes="#//IEditable">
+    <eOperations name="copyTo">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="        if (!deliver) {&#xD;&#xA;            destModel.eSetDeliver(false);&#xD;&#xA;        }&#xD;&#xA;&#xD;&#xA;        for (EStructuralFeature feature : eClass().getEAllStructuralFeatures()) {&#xD;&#xA;            if (feature.isChangeable()) {&#xD;&#xA;                Boolean copy = (Boolean) ModelUtil.getAnnotation(feature, com.icteam.loyalty.model.interfaces.EAnnotation.COPY);&#xD;&#xA;&#xD;&#xA;                if (copy) {&#xD;&#xA;                    destModel.eSet(feature, eGet(feature));&#xD;&#xA;                }&#xD;&#xA;            }&#xD;&#xA;        }&#xD;&#xA;&#xD;&#xA;        destModel.setDirty(isDirty());&#xD;&#xA;&#xD;&#xA;        if (!deliver) {&#xD;&#xA;            destModel.eSetDeliver(true);&#xD;&#xA;        }"/>
+      </eAnnotations>
+      <eTypeParameters name="C">
+        <eBounds eClassifier="#//IEMFModel"/>
+      </eTypeParameters>
+      <eParameters name="destModel">
+        <eGenericType eTypeParameter="#//IEMFModel/copyTo/C"/>
+      </eParameters>
+      <eParameters name="deliver" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eOperations>
+    <eOperations name="equals" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return ModelUtil.equals(this, obj);"/>
+      </eAnnotations>
+      <eParameters name="obj" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IEditable" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="editable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        transient="true" defaultValueLiteral="true">
+      <eAnnotations source="http://com.icteam.loyalty/property">
+        <details key="showAsColumn" value="false"/>
+      </eAnnotations>
+      <eAnnotations source="http://com.icteam.loyalty/where">
+        <details key="clause" value="NONE"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dirty" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        transient="true" defaultValueLiteral="false">
+      <eAnnotations source="http://com.icteam.loyalty/property">
+        <details key="showAsColumn" value="false"/>
+      </eAnnotations>
+      <eAnnotations source="http://com.icteam.loyalty/where">
+        <details key="clause" value="NONE"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IEMFEnhancedEnum" abstract="true" interface="true">
+    <eTypeParameters name="E">
+      <eBounds eClassifier="#//IEMFEnhancedEnum">
+        <eTypeArguments eTypeParameter="#//IEMFEnhancedEnum/E"/>
+      </eBounds>
+    </eTypeParameters>
+    <eOperations name="compareTo" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return getName().compareTo(o.getName());"/>
+      </eAnnotations>
+      <eParameters name="o">
+        <eGenericType eTypeParameter="#//IEMFEnhancedEnum/E"/>
+      </eParameters>
+    </eOperations>
+    <eOperations name="getName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations name="equals" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return ModelUtil.equals(this, obj);"/>
+      </eAnnotations>
+      <eParameters name="obj" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    </eOperations>
+    <eGenericSuperTypes eClassifier="#//Comparable">
+      <eTypeArguments eTypeParameter="#//IEMFEnhancedEnum/E"/>
+    </eGenericSuperTypes>
+    <eGenericSuperTypes eClassifier="#//Serializable"/>
+    <eGenericSuperTypes eClassifier="#//Cloneable"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Permission">
+    <eOperations name="isStarPermission" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return IConstants.STAR.equals(getAction());"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getPermission" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return getObject() + IConstants.UNDERSCORE + getAction();"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getPermissions" upperBound="-1" eType="#//Permission">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return new BasicEList&lt;>(CollectionUtils.select(ModelUtil.values(Permission.class), new BeanPropertyValueEqualsPredicate(&quot;object&quot;, getObject())));"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ADMINISTRATION_PERSPECTIVE_VIEW"
+        eType="#//Permission" changeable="false" volatile="true" transient="true"
+        resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="CONFIGURATION_PERSPECTIVE_VIEW"
+        eType="#//Permission" changeable="false" volatile="true" transient="true"
+        resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="object" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" changeable="false">
+      <eAnnotations source="http://com.icteam.loyalty/property">
+        <details key="showAsColumn" value="false"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="action" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" changeable="false"
+        defaultValueLiteral="">
+      <eAnnotations source="http://com.icteam.loyalty/property">
+        <details key="showAsColumn" value="false"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" iD="true"/>
+    <eGenericSuperTypes eClassifier="#//IEMFEnhancedEnum">
+      <eTypeArguments eClassifier="#//Permission"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Image" instanceClassName="org.eclipse.swt.graphics.Image"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="EStructuralFeature" instanceClassName="org.eclipse.emf.ecore.EStructuralFeature"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IEMFTemplate" abstract="true" interface="true">
+    <eTypeParameters name="T">
+      <eBounds eClassifier="#//Serializable"/>
+    </eTypeParameters>
+    <eOperations name="initialized" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="getResultCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELongObject">
+      <eParameters name="em" eType="#//EntityManager"/>
+    </eOperations>
+    <eOperations name="getFirstResult">
+      <eGenericType eTypeParameter="#//IEMFTemplate/getFirstResult/R"/>
+      <eTypeParameters name="R"/>
+      <eParameters name="em" eType="#//EntityManager"/>
+    </eOperations>
+    <eOperations name="getResultList" upperBound="-1">
+      <eGenericType eTypeParameter="#//IEMFTemplate/getResultList/R"/>
+      <eTypeParameters name="R"/>
+      <eParameters name="em" eType="#//EntityManager"/>
+    </eOperations>
+    <eOperations name="hasDynamicFilters" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return !dynamicFilterFeatures.isEmpty() &amp;&amp; !dynamicFilters.isEmpty();"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="setDynamicFilterFeatures">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="       checkDynamicFilters(dynamicFilterFeatures, getDynamicFilters());&#xD;&#xA;&#xD;&#xA;       eSet(ModelTemplatePackage.ABSTRACT_EMF_TEMPLATE__DYNAMIC_FILTER_FEATURES, dynamicFilterFeatures);&#xD;&#xA;"/>
+      </eAnnotations>
+      <eParameters name="dynamicFilterFeatures" upperBound="-1" eType="#//EStructuralFeature"/>
+    </eOperations>
+    <eOperations name="setRawFilter">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="        BasicEList&lt;String> filterList = ECollections.newBasicEList(StringUtils.stripAll(StringUtils.split(StringUtils.defaultString(rawFilter))));&#xD;&#xA;&#xD;&#xA;        checkDynamicFilters(getDynamicFilterFeatures(), filterList);&#xD;&#xA;&#xD;&#xA;        eSet(ModelTemplatePackage.ABSTRACT_EMF_TEMPLATE__DYNAMIC_FILTERS, filterList);&#xD;&#xA;"/>
+      </eAnnotations>
+      <eParameters name="rawFilter" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="hasDynamicOrder" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return dynamicOrderDirection != null &amp;&amp; !OrderDirectionEMF.NONE.equals(dynamicOrderDirection);"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getDbModelClass">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return  (Class&lt;T>) ModelUtil.getAnnotation(eClass(), EAnnotation.DB_MODEL);"/>
+      </eAnnotations>
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
+        <eTypeArguments eTypeParameter="#//IEMFTemplate/T"/>
+      </eGenericType>
+    </eOperations>
+    <eOperations name="getIdValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return eGet(eClass().getEIDAttribute());"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="distinct" lowerBound="1"
+        eType="#//DistinctEMF" defaultValueLiteral="SQL">
+      <eAnnotations source="http://com.icteam.loyalty/where">
+        <details key="clause" value="NONE"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="firstResult" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1">
+      <eAnnotations source="http://com.icteam.loyalty/where">
+        <details key="clause" value="NONE"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxResults" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1">
+      <eAnnotations source="http://com.icteam.loyalty/where">
+        <details key="clause" value="NONE"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="singleResult" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false">
+      <eAnnotations source="http://com.icteam.loyalty/where">
+        <details key="clause" value="NONE"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lightSearch" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false">
+      <eAnnotations source="http://com.icteam.loyalty/where">
+        <details key="clause" value="NONE"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nested" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false">
+      <eAnnotations source="http://com.icteam.loyalty/where">
+        <details key="clause" value="NONE"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="orderFeatures" upperBound="-1"
+        eType="#//FeaturePath" transient="true">
+      <eAnnotations source="http://com.icteam.loyalty/where">
+        <details key="clause" value="NONE"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="orderDirections" upperBound="-1"
+        eType="#//OrderDirectionEMF" transient="true">
+      <eAnnotations source="http://com.icteam.loyalty/where">
+        <details key="clause" value="NONE"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dynamicFilterFeatures"
+        upperBound="-1" eType="#//EStructuralFeature">
+      <eAnnotations source="http://com.icteam.loyalty/where">
+        <details key="clause" value="NONE"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dynamicFilters" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://com.icteam.loyalty/where">
+        <details key="clause" value="NONE"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dynamicOrderFeature" eType="#//FeaturePath"
+        transient="true">
+      <eAnnotations source="http://com.icteam.loyalty/where">
+        <details key="clause" value="NONE"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dynamicOrderDirection"
+        eType="#//OrderDirectionEMF" transient="true">
+      <eAnnotations source="http://com.icteam.loyalty/where">
+        <details key="clause" value="NONE"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dynamicFilterableFeatures"
+        upperBound="-1" eType="#//EStructuralFeature" changeable="false" transient="true">
+      <eAnnotations source="http://com.icteam.loyalty/where">
+        <details key="clause" value="NONE"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="EntityManager" instanceClassName="javax.persistence.EntityManager"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="DistinctEMF">
+    <eLiterals name="SQL"/>
+    <eLiterals name="CODE" value="1"/>
+    <eLiterals name="NONE" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="OrderDirectionEMF">
+    <eLiterals name="NONE"/>
+    <eLiterals name="ASC" value="1"/>
+    <eLiterals name="DESC" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Predicate" instanceClassName="javax.persistence.criteria.Predicate"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="CriteriaBuilder" instanceClassName="javax.persistence.criteria.CriteriaBuilder"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="CriteriaQuery" instanceClassName="javax.persistence.criteria.CriteriaQuery">
+    <eTypeParameters name="T"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="From" instanceClassName="javax.persistence.criteria.From">
+    <eTypeParameters name="Z"/>
+    <eTypeParameters name="X"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="ManagedType" instanceClassName="javax.persistence.metamodel.ManagedType">
+    <eTypeParameters name="X"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IPerspectiveProvider" abstract="true"
+      interface="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="defaultPerspective" ordered="false"
+        lowerBound="1" eType="#//Perspective" changeable="false" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IStatusEMFTemplate" abstract="true"
+      interface="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="status" eType="#//Status"
+        resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="EWhereClauseEMF">
+    <eLiterals name="EQUAL" literal=""/>
+    <eLiterals name="LIKE_IGNORE_CASE" value="1"/>
+    <eLiterals name="GREATER_EQUAL" value="2"/>
+    <eLiterals name="I18N" value="3"/>
+    <eLiterals name="NONE" value="4"/>
+    <eLiterals name="ENUM" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="EWhereTemplateClauseEMF">
+    <eLiterals name="EQUAL" literal=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="EDynamicFilterableEMF">
+    <eLiterals name="NO" literal=""/>
+    <eLiterals name="FILTER" value="1"/>
+    <eLiterals name="DEFAULT_FILTER" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IEMFSelectable" abstract="true" interface="true">
+    <eTypeParameters name="S">
+      <eBounds eClassifier="#//Serializable"/>
+    </eTypeParameters>
+    <eOperations name="getKey">
+      <eGenericType eTypeParameter="#//IEMFSelectable/S"/>
+    </eOperations>
+    <eOperations name="getDescription" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Locale" instanceClassName="java.util.Locale"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Comparable" instanceClassName="java.lang.Comparable"
+      abstract="true" interface="true">
+    <eTypeParameters name="T"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Serializable" instanceClassName="java.io.Serializable"
+      abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Status">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ATTIVO" eType="#//Status"
+        changeable="false" volatile="true" transient="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DISATTIVO" eType="#//Status"
+        changeable="false" volatile="true" transient="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" iD="true"/>
+    <eGenericSuperTypes eClassifier="#//IEMFEnhancedEnum">
+      <eTypeArguments eClassifier="#//Status"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StatusReason">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="OK" eType="#//StatusReason"
+        changeable="false" volatile="true" transient="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ERROR" eType="#//StatusReason"
+        changeable="false" volatile="true" transient="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="OBJECT_UNKNOWN" eType="#//StatusReason"
+        changeable="false" volatile="true" transient="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="MAX_LENGTH_IN_IN_CLAUSE_REACHED"
+        eType="#//StatusReason" changeable="false" volatile="true" transient="true"
+        resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="REFERENCED_OBJECT_FOUND"
+        eType="#//StatusReason" changeable="false" volatile="true" transient="true"
+        resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="CUSTOM_MESSAGE_ADD_ERROR"
+        eType="#//StatusReason" changeable="false" volatile="true" transient="true"
+        resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DELEGATED_SERVICE_NOT_FOUND"
+        eType="#//StatusReason" changeable="false" volatile="true" transient="true"
+        resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="MIN_CHARACTER_SEARCH_LENGTH"
+        eType="#//StatusReason" changeable="false" volatile="true" transient="true"
+        resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="CRON_EXPRESSION_INVALID"
+        eType="#//StatusReason" changeable="false" volatile="true" transient="true"
+        resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="SERVICE_NOT_FOUND" eType="#//StatusReason"
+        changeable="false" volatile="true" transient="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="code" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        changeable="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pluginId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" iD="true"/>
+    <eGenericSuperTypes eClassifier="#//IEMFEnhancedEnum">
+      <eTypeArguments eClassifier="#//StatusReason"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Perspective">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ADMINISTRATION" eType="#//Perspective"
+        changeable="false" volatile="true" transient="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="CONFIGURATION" eType="#//Perspective"
+        changeable="false" volatile="true" transient="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" iD="true"/>
+    <eGenericSuperTypes eClassifier="#//IEMFEnhancedEnum">
+      <eTypeArguments eClassifier="#//Perspective"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Language">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ITALIAN" eType="#//Language"
+        changeable="false" volatile="true" transient="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ENGLISH" eType="#//Language"
+        changeable="false" volatile="true" transient="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultLanguage" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" changeable="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="locale" lowerBound="1"
+        eType="#//Locale" changeable="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" iD="true"/>
+    <eGenericSuperTypes eClassifier="#//IEMFEnhancedEnum">
+      <eTypeArguments eClassifier="#//Language"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Action">
+    <eOperations name="isAllowed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="        org.eclipse.ui.services.IEvaluationService es = (org.eclipse.ui.services.IEvaluationService) org.eclipse.ui.PlatformUI.getWorkbench()&#xD;&#xA;                .getService(org.eclipse.ui.services.IEvaluationService.class);&#xD;&#xA;        org.eclipse.core.expressions.IEvaluationContext currentState = es.getCurrentState();&#xD;&#xA;&#xD;&#xA;        String perm = &quot;&quot;;&#xD;&#xA;        &#xD;&#xA;        EObject mainObject = eObject;&#xD;&#xA;        &#xD;&#xA;        if (eObject instanceof IContained) {&#xD;&#xA;            mainObject = ((IContained) eObject).getMainEObject();&#xD;&#xA;        }        &#xD;&#xA;&#xD;&#xA;        if (mainObject instanceof EMFModel) {&#xD;&#xA;            perm = ((EMFModel) mainObject).getPermissionObject() + &quot;_&quot;;&#xD;&#xA;        }&#xD;&#xA;&#xD;&#xA;        perm += getPermission();&#xD;&#xA;&#xD;&#xA;        org.eclipse.core.internal.expressions.ReferenceExpression referenceExpression = new org.eclipse.core.internal.expressions.ReferenceExpression(&#xD;&#xA;                perm);&#xD;&#xA;        org.eclipse.core.expressions.EvaluationResult result;&#xD;&#xA;        try {&#xD;&#xA;            result = referenceExpression.evaluate(currentState);&#xD;&#xA;            return org.eclipse.core.expressions.EvaluationResult.TRUE.equals(result);&#xD;&#xA;        } catch (org.eclipse.core.runtime.CoreException e) {&#xD;&#xA;            e.printStackTrace();&#xD;&#xA;        }&#xD;&#xA;&#xD;&#xA;        return false;"/>
+      </eAnnotations>
+      <eParameters name="eObject" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      <eParameters name="feature" eType="#//EStructuralFeature"/>
+    </eOperations>
+    <eOperations name="execute">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="        IHandlerService handlerService = (IHandlerService) PlatformUI.getWorkbench().getService(IHandlerService.class);&#xD;&#xA;        try {&#xD;&#xA;            org.eclipse.swt.widgets.Event e = new org.eclipse.swt.widgets.Event();&#xD;&#xA;            e.data = new Object[] { eObject, feature };&#xD;&#xA;&#xD;&#xA;            ICommandService commandService = (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class);&#xD;&#xA;            Category defCategory = commandService.getCategory(null);&#xD;&#xA;&#x9;     String commandId = getCommandId(eObject);&#xD;&#xA;&#xD;&#xA;            Command command = commandService.getCommand(commandId);&#xD;&#xA;&#xD;&#xA;            if (!command.isDefined()) {&#xD;&#xA;                command.define(commandId, LoyaltyItemProviderAdapter.getDiplayName(eObject, feature), defCategory);&#xD;&#xA;            }&#xD;&#xA;&#xD;&#xA;            handlerService.executeCommand(commandId, e);&#xD;&#xA;        } catch (org.eclipse.core.commands.ExecutionException | org.eclipse.core.commands.common.NotDefinedException&#xD;&#xA;                | org.eclipse.core.commands.NotEnabledException | org.eclipse.core.commands.NotHandledException e) {&#xD;&#xA;            throw new AppException(EStatusReason.ERROR, e);&#xD;&#xA;        }"/>
+      </eAnnotations>
+      <eParameters name="eObject" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      <eParameters name="feature" eType="#//EStructuralFeature"/>
+    </eOperations>
+    <eOperations name="getCommandId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="        if (isGeneral()) {&#xD;&#xA;            return getName().toLowerCase();&#xD;&#xA;        }&#xD;&#xA;            &#xD;&#xA;        String commandId = &quot;&quot;;&#xD;&#xA;&#xD;&#xA;        EObject mainObject = eObject;&#xD;&#xA;&#xD;&#xA;        if (eObject instanceof IContained) {&#xD;&#xA;            mainObject = ((IContained) eObject).getMainEObject();&#xD;&#xA;        }&#xD;&#xA;&#xD;&#xA;        if (mainObject instanceof EMFModel) {&#xD;&#xA;            commandId = ((EMFModel) mainObject).getPermissionObject() + &quot;_&quot;;&#xD;&#xA;        }&#xD;&#xA;&#xD;&#xA;        commandId += getPermission();&#xD;&#xA;        &#xD;&#xA;        return commandId;&#xD;&#xA;"/>
+      </eAnnotations>
+      <eParameters name="eObject" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="iconPath" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="permission" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="general" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eGenericSuperTypes eClassifier="#//IEMFEnhancedEnum">
+      <eTypeArguments eClassifier="#//Action"/>
+    </eGenericSuperTypes>
+    <eGenericSuperTypes eClassifier="#//IEditable"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Cloneable" instanceClassName="java.lang.Cloneable"
+      abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IContained" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mainEObject" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"
+        resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IContainedFeature" abstract="true" interface="true"
+      eSuperTypes="#//IContained">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mainFeature" eType="#//EStructuralFeature"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="ISearchProvider" instanceClassName="com.icteam.loyalty.model.interfaces.ISearchProvider"
+      serializable="false"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IEMFDelegant" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="delegatedId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" transient="true" defaultValueLiteral="false">
+      <eAnnotations source="http://com.icteam.loyalty/property">
+        <details key="showAsColumn" value="false"/>
+      </eAnnotations>
+      <eAnnotations source="http://com.icteam.loyalty/where">
+        <details key="clause" value="NONE"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="FeaturePath" instanceClassName="org.eclipse.emf.databinding.FeaturePath"
+      serializable="false"/>
+</ecore:EPackage>

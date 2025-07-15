@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="genandroid" nsURI="http://genandroid/1.0" nsPrefix="genandroid">
+  <eClassifiers xsi:type="ecore:EClass" name="AndroidProject" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataModel" lowerBound="1"
+        eType="#//DataModel" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="packagePrefix" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileHeader" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="presentationModel" eType="#//PresentationModel"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="javaSourceFolder" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral="src/main/java/"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resFolder" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral="src/main/res/"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="manifestFolder" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral="src/main/"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataModel" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataClasses" upperBound="-1"
+        eType="#//DataClassifier" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataAssociations" upperBound="-1"
+        eType="#//DataAssociation" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ViewActivity" abstract="true" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="accessibleViews" upperBound="-1"
+        eType="#//ViewActivity"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="triggerableBackgroundActivities"
+        upperBound="-1" eType="#//BackgroundActivity"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hasSupportForParentActivity"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="defaultParentActivity"
+        eType="#//ViewActivity"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EditableElementViewActivity" eSuperTypes="#//ElementViewActivity"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassListViewActivity" eSuperTypes="#//ListViewActivity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="listedElement" lowerBound="1"
+        eType="#//DataClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="presentedDetail" eType="#//ClassDetail"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="useCustomRowPresentation"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataClass" eSuperTypes="#//DataClassifier">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="storage" lowerBound="1"
+        eType="#//storageKind" defaultValueLiteral="SQLite"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataReferences" upperBound="-1"
+        eType="#//DataReference" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataAttributes" upperBound="-1"
+        eType="#//DataAttribute" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReferenceListViewActivity" eSuperTypes="#//ClassListViewActivity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reference" lowerBound="1"
+        eType="#//DataReference"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="from" lowerBound="1" eType="#//DataClass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassDetail">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mainAttributes" lowerBound="1"
+        upperBound="-1" eType="#//DataAttribute"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="secondaryAttributes" upperBound="-1"
+        eType="#//DataAttribute"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataAttribute" eSuperTypes="#//StructuralFeature">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="storage" lowerBound="1"
+        eType="#//storageKind" defaultValueLiteral="SQLite"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//NativeDataClass"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="simpleXmlType" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+        defaultValueLiteral="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="An attribute of simple kind, will be serialized in a simple attribute rather that in dedicated tag"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataReference" eSuperTypes="#//StructuralFeature">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="storage" lowerBound="1"
+        eType="#//storageKind" defaultValueLiteral="SQLite"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="containment" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="opposite" eType="#//DataAssociation"
+        eOpposite="#//DataAssociation/references"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//DataClass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ListViewActivity" eSuperTypes="#//ViewActivity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="selectItemAction" eType="#//ViewActivity"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isFilterable" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isLargeList" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="useIndexSearch" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttributeListViewActivity" eSuperTypes="#//ListViewActivity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attribute" lowerBound="1"
+        eType="#//DataAttribute"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="from" lowerBound="1" eType="#//DataClass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="storageKind">
+    <eLiterals name="SQLite"/>
+    <eLiterals name="XML" value="1"/>
+    <eLiterals name="ZippedXML" value="2"/>
+    <eLiterals name="File" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ElementViewActivity" eSuperTypes="#//ViewActivity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="element" lowerBound="1"
+        eType="#//DataClass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PreferenceViewActivity" eSuperTypes="#//ViewActivity"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="documentation" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StructuralFeature" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="derived" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerbound" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="upperBound" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"
+        defaultValueLiteral="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CustomViewActivity" eSuperTypes="#//ViewActivity">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isOrmLiteBaseActivity"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataClassifier" abstract="true" eSuperTypes="#//NamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NativeDataClass" eSuperTypes="#//DataClassifier">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="instanceClassName" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="databaseType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataAssociation" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="references" lowerBound="2"
+        upperBound="2" eType="#//DataReference" eOpposite="#//DataReference/opposite"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BackgroundActivity" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetIntent" eType="#//ViewActivity"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PresentationModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="viewActivities" upperBound="-1"
+        eType="#//ViewActivity" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="preferenceView" eType="#//PreferenceViewActivity"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classDetails" upperBound="-1"
+        eType="#//ClassDetail" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="welcomeView" lowerBound="1"
+        eType="#//ViewActivity"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="backgroundActivities" upperBound="-1"
+        eType="#//BackgroundActivity" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

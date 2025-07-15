@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="lintra" nsURI="http://lintra/1.0" nsPrefix="lintra">
+  <eClassifiers xsi:type="ecore:EClass" name="Master">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="launches" lowerBound="1"
+        upperBound="-1" eType="#//Slave"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Slave">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executes" eType="#//Transformation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Transformation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="primitives" upperBound="-1"
+        eType="#//MTLPrimitive" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Blackboard">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="areas" lowerBound="4" upperBound="4"
+        eType="#//Area" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Area">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" upperBound="-1"
+        eType="#//Element" eOpposite="#//Element/belongs"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MTLPrimitive" abstract="true" eSuperTypes="#//Primitive">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="accesses" lowerBound="1"
+        eType="#//Blackboard"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PartitionCreator" eSuperTypes="#//EnginePrimitive">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="area" lowerBound="1" eType="#//Area"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Composer" eSuperTypes="#//MTLPrimitive">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="primitives" upperBound="-1"
+        eType="#//MTLPrimitive" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CondChecker" eSuperTypes="#//MTLPrimitive">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="area" lowerBound="1" eType="#//Area"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Creator" eSuperTypes="#//MTLPrimitive">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="area" lowerBound="1" eType="#//Area"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Finder" eSuperTypes="#//MTLPrimitive">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="area" lowerBound="1" eType="#//Area"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Tracer" eSuperTypes="#//MTLPrimitive"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Primitive" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EnginePrimitive" eSuperTypes="#//Primitive"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RuleLayer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ModelPartition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Task" eSuperTypes="#//Element">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rl" lowerBound="1" eType="#//RuleLayer"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="p" lowerBound="1" eType="#//ModelPartition"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Element" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="belongs" lowerBound="1"
+        eType="#//Area" eOpposite="#//Area/contains"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Entity" abstract="true" eSuperTypes="#//Element">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Model">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entities" upperBound="-1"
+        eType="#//Entity" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

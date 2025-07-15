@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="carpilot" nsURI="http://www.example.org/carpilot" nsPrefix="carpilot">
+  <eClassifiers xsi:type="ecore:EClass" name="Car" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"
+        eType="#//Rule" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orders" lowerBound="1"
+        upperBound="-1" eType="#//Command" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Rule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="#//Condition"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="effect" lowerBound="1"
+        eType="#//RuleEffect" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Condition" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Command">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="direction" eType="#//Direction"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Direction">
+    <eLiterals name="forward"/>
+    <eLiterals name="left" value="1"/>
+    <eLiterals name="right" value="2"/>
+    <eLiterals name="backward" value="3"/>
+    <eLiterals name="stop" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Camera">
+    <eLiterals name="very_right" literal="very_right"/>
+    <eLiterals name="very_left" value="1" literal="very_left"/>
+    <eLiterals name="left" value="2"/>
+    <eLiterals name="right" value="3"/>
+    <eLiterals name="center" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Color">
+    <eLiterals name="red"/>
+    <eLiterals name="blue" value="1"/>
+    <eLiterals name="orange" value="2"/>
+    <eLiterals name="black" value="3"/>
+    <eLiterals name="white" value="4"/>
+    <eLiterals name="building" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ColorCondition" eSuperTypes="#//Condition">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="#//Color"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="camera" eType="#//Camera"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RuleEffect" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CommandEffect" eSuperTypes="#//RuleEffect">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="command" lowerBound="1"
+        eType="#//Command" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DistanceCondition" eSuperTypes="#//Condition">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sensor" eType="#//Sensor"
+        defaultValueLiteral="front"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="distance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" eType="#//AnalogOperand"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Sensor">
+    <eLiterals name="front"/>
+    <eLiterals name="distance_left" value="1"/>
+    <eLiterals name="distance_right" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="AnalogOperand">
+    <eLiterals name="greater"/>
+    <eLiterals name="greaterEquals" value="1"/>
+    <eLiterals name="equals" value="2"/>
+    <eLiterals name="notequals" value="4"/>
+    <eLiterals name="lowerEquals" value="4"/>
+    <eLiterals name="lower" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="NumericOperand">
+    <eLiterals name="equals" literal="=="/>
+    <eLiterals name="notequals" value="1" literal="!="/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbilityEffect" eSuperTypes="#//RuleEffect">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="direction" eType="#//Direction"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="disable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PersistingRule" eSuperTypes="#//Rule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stop" eType="#//Condition"
+        containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

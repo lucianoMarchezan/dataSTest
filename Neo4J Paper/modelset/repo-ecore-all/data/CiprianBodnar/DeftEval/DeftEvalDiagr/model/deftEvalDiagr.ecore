@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="deftEvalDiagr" nsURI="http://www.example.org/deftEvalDiagr"
+    nsPrefix="deftEvalDiagr">
+  <eClassifiers xsi:type="ecore:EClass" name="Corpus" abstract="true">
+    <eOperations name="geInputText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations name="setInputText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="inputText" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sentencetokenise" upperBound="-1"
+        eType="#//SentenceTokenise" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SentenceTokenise">
+    <eOperations name="tokenizeCorpus" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations name="getSentence" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="listOfSentence" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definitionmarker" upperBound="-1"
+        eType="#//DefinitionMarker" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="frequencycomputer" eType="#//FrequencyComputer"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DefinitionMarker">
+    <eOperations name="isDefinition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="tagSentence" eType="#//TaggedDefinition"/>
+    <eOperations name="getTaggedDefinition" eType="#//TaggedDefinition"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sentence" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="taggeddefinition" eType="#//TaggedDefinition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="asociator" eType="#//Asociator"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TaggedDefinition">
+    <eOperations name="sentenceTagger" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sentence" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="startTag" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="insideTag" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="outsideTag" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resultsender" upperBound="-1"
+        eType="#//ResultSender" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Asociator">
+    <eOperations name="associteDefinition" upperBound="-1" eType="#//TaggedDefinition"/>
+    <eOperations name="typeAssociation" eType="#//TypeOfAssociation"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="listOfDefinition" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TypeOfAssociation" eSuperTypes="#//Asociator">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="typeAssociation" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FrequencyComputer">
+    <eOperations name="frequencyList" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations name="dictionary" eType="#//Corpus"/>
+    <eOperations name="frequencies" eType="#//ResultSender"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sentence" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResultSender" abstract="true">
+    <eOperations name="sendResult" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resultDefinitions" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

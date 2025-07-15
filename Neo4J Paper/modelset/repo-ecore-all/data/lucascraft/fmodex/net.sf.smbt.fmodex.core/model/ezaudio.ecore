@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ezaudio"
+    nsURI="http://ezaudio/1.0" nsPrefix="ezaudio">
+  <eClassifiers xsi:type="ecore:EClass" name="AudioSystem">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fmodex" eType="#//System"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AudioFile">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="file" eType="#//File"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ext" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AudioMP3" eSuperTypes="#//AudioFile">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="samplingRate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AudioWAV" eSuperTypes="#//AudioFile">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="samplingRate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AudioOGG" eSuperTypes="#//AudioFile">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="samplingRate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AudioScene">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="clips" upperBound="-1"
+        eType="#//AudioClip"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AudioProject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scenes" upperBound="-1"
+        eType="#//AudioScene" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tracks" upperBound="-1"
+        eType="#//AudioTrack" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="clips" upperBound="-1"
+        eType="#//AudioClip" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="audioResources" upperBound="-1"
+        eType="#//AudioFile" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" eType="#//AudioSystem"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="effects" upperBound="-1"
+        eType="#//AudioMixer" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="speakers" upperBound="-1"
+        eType="#//Speaker" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="in" upperBound="-1" eType="#//Input"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sounds" upperBound="-1"
+        eType="#//ISound" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dspList" upperBound="-1"
+        eType="#//FMDSP" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="channels" upperBound="-1"
+        eType="#//IChannel" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="devices" upperBound="-1"
+        eType="#//Device" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AudioTrack">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="channel" eType="#//IChannel"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="clips" upperBound="-1"
+        eType="#//AudioClip"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="devices" upperBound="-1"
+        eType="#//Device"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AudioClip">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="file" eType="#//AudioFile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sound" eType="#//AudioSound"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="track" eType="#//AudioTrack"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="timeTag" eType="#//TimeTag"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AudioMIDI" eSuperTypes="#//AudioFile"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AudioChannel" eSuperTypes="#//IChannel">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fmodex" eType="#//Channel"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AudioMixer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="out" eType="#//Speaker"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="channel" upperBound="-1"
+        eType="#//IChannel"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="File" instanceClassName="java.io.File"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Speaker"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Input"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FMDSP">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fmodex" eType="#//DSP"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//DSP_KIND"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AudioChannelGroup" eSuperTypes="#//IChannel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//IChannel" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fmodex" eType="#//ChannelGroup"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AudioSound" eSuperTypes="#//ISound">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fmodex" eType="#//Sound"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="exinfo" eType="#//FMOD_CREATESOUNDEXINFO"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AudioReverb">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fmodex" eType="#//Reverb"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AudioSoundGroup" eSuperTypes="#//ISound">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//ISound" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fmodex" eType="#//SoundGroup"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ISound"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FMGeometry">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fmodex" eType="#//Grometry"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Sound" instanceClassName="org.jouvieje.fmodex.Sound"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="DSP" instanceClassName="org.jouvieje.fmodex.DSP"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Grometry" instanceClassName="org.jouvieje.fmodex.Geometry"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Reverb" instanceClassName="org.jouvieje.fmodex.Reverb"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="SoundGroup" instanceClassName="org.jouvieje.fmodex.SoundGroup"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="DSP_CALLBACK">
+    <eLiterals name="CREATE"/>
+    <eLiterals name="DIALOG" value="1"/>
+    <eLiterals name="GET_PARAM" value="2"/>
+    <eLiterals name="READ" value="3"/>
+    <eLiterals name="RELEASE" value="4"/>
+    <eLiterals name="RESET" value="5"/>
+    <eLiterals name="SET_PARAM" value="6"/>
+    <eLiterals name="SET_POSITION" value="7"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="FILE_CALLBACK">
+    <eLiterals name="ASYNC_CANCEL"/>
+    <eLiterals name="ASYNC_READ" value="1"/>
+    <eLiterals name="CLOSE" value="2"/>
+    <eLiterals name="OPEN" value="3"/>
+    <eLiterals name="READ" value="4"/>
+    <eLiterals name="SEEK" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="MEMORY_CALLBACK">
+    <eLiterals name="ALLOC"/>
+    <eLiterals name="FREE" value="1"/>
+    <eLiterals name="REALLOC" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SOUND_CALLBACK">
+    <eLiterals name="NON_BLOCK"/>
+    <eLiterals name="PCM_READ" value="1"/>
+    <eLiterals name="PCM_SET_POS" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CODEC_CALLBACK">
+    <eLiterals name="CLOSE"/>
+    <eLiterals name="GET_LENGTH" value="1"/>
+    <eLiterals name="GET_POSITION" value="2"/>
+    <eLiterals name="GET_WAVE_FORMAT" value="3"/>
+    <eLiterals name="META_DATA" value="4"/>
+    <eLiterals name="OPEN" value="5"/>
+    <eLiterals name="READ" value="6"/>
+    <eLiterals name="SET_POSITION" value="7"/>
+    <eLiterals name="SOUND_CREATE" value="8"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DSP_KIND">
+    <eLiterals name="CHORUS"/>
+    <eLiterals name="COMPRESSOR" value="1"/>
+    <eLiterals name="DELAY" value="2"/>
+    <eLiterals name="DISTORTION" value="3"/>
+    <eLiterals name="ECHO" value="4"/>
+    <eLiterals name="FFT_WINDOW" value="5"/>
+    <eLiterals name="FLANGE" value="6"/>
+    <eLiterals name="HIGH_PASS" value="7"/>
+    <eLiterals name="IT_ECHO" value="8"/>
+    <eLiterals name="IT_LOW_PASS" value="9"/>
+    <eLiterals name="LOW_PASS_SIMPLE" value="10"/>
+    <eLiterals name="LOW_PASS" value="11"/>
+    <eLiterals name="NORMALIZE" value="12"/>
+    <eLiterals name="OSCILLATOR" value="13"/>
+    <eLiterals name="PARAM_EQ" value="14"/>
+    <eLiterals name="PITCH_SHIFFT" value="15"/>
+    <eLiterals name="RESAMPLER" value="16"/>
+    <eLiterals name="REVERB" value="17"/>
+    <eLiterals name="SFX_REVERB" value="18"/>
+    <eLiterals name="TREMOLO" value="19"/>
+    <eLiterals name="TYPE" value="20"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="OPERATION">
+    <eLiterals name="OPEN_STATE"/>
+    <eLiterals name="OUTPUT_TYPE" value="1"/>
+    <eLiterals name="PLUGIN_TYPE" value="2"/>
+    <eLiterals name="RESULT" value="3"/>
+    <eLiterals name="SOUND_FORMAT" value="4"/>
+    <eLiterals name="SOUND_TYPE" value="5"/>
+    <eLiterals name="SOUNDGROUP_BEHAVIOR" value="6"/>
+    <eLiterals name="SPEAKER" value="7"/>
+    <eLiterals name="SPEAKER_MAP_TYPE" value="8"/>
+    <eLiterals name="SPEAKER_MODE" value="9"/>
+    <eLiterals name="SYSTEM_CALLBACK_TYPE" value="10"/>
+    <eLiterals name="TAG_DATA_TYPE" value="11"/>
+    <eLiterals name="TAG_TYPE" value="12"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="STRUCTURES">
+    <eLiterals name="ADVANCED_SETTINGS"/>
+    <eLiterals name="ASYNC_READ_INFO" value="1"/>
+    <eLiterals name="CD_TOC" value="2"/>
+    <eLiterals name="CODEC_DESCRIPTION" value="3"/>
+    <eLiterals name="CODEC_STATE" value="4"/>
+    <eLiterals name="CODEC_WAVE_FORMAT" value="5"/>
+    <eLiterals name="CREATE_SOUND_INFO" value="6"/>
+    <eLiterals name="DSP_DESCRIPTION" value="7"/>
+    <eLiterals name="DSP_PARAMETER_DESC" value="8"/>
+    <eLiterals name="DSP_STATE" value="9"/>
+    <eLiterals name="GUID" value="10"/>
+    <eLiterals name="MEMORY_USAGE_DETAILS" value="11"/>
+    <eLiterals name="REVERB_CHANNEL_PROPERTIES" value="12"/>
+    <eLiterals name="REVERB_PROPERTIES" value="13"/>
+    <eLiterals name="SYNC_POINT" value="14"/>
+    <eLiterals name="TAG" value="15"/>
+    <eLiterals name="VECTOR" value="16"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IChannel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dspList" upperBound="-1"
+        eType="#//FMDSP"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="FMOD_CREATESOUNDEXINFO" instanceClassName="org.jouvieje.fmodex.structures.FMOD_CREATESOUNDEXINFO"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Channel" instanceClassName="org.jouvieje.fmodex.Channel"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="ChannelGroup" instanceClassName="org.jouvieje.fmodex.ChannelGroup"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Device">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="track" eType="#//AudioTrack"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="channel" eType="#//AudioChannel"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="System" instanceClassName="org.jouvieje.fmodex.System"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TimeTag">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="time" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="#//CLIP_STATUS"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CLIP_STATUS">
+    <eLiterals name="PLAY"/>
+    <eLiterals name="PAUSE" value="1"/>
+    <eLiterals name="STOP" value="2"/>
+  </eClassifiers>
+</ecore:EPackage>

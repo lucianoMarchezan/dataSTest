@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="jzmui"
+    nsURI="http://jzmui/1.0" nsPrefix="jzmui">
+  <eClassifiers xsi:type="ecore:EClass" name="LemurLiveApp" eSuperTypes="../../../net.sf.xqz.engine/model/engine.ecore#//IConnectedUnit">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//JZUIElem" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configurations" eType="#//JZConfigurationManager"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JZUIElem" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fontStyle" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bounds" eType="#//Rectangle"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fontName" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="oscProps" upperBound="-1"
+        eType="#//JzOscVar" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="midiProps" upperBound="-1"
+        eType="#//JzMidiVar" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="parentTarget" eType="#//LemurPreferences"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scripts" upperBound="-1"
+        eType="#//Script" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetFeatures" upperBound="-1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Rectangle" instanceClassName="org.eclipse.draw2d.geometry.Rectangle"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JZContainer" eSuperTypes="#//JZUIElem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//JZUIElem" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JZWidget" abstract="true" interface="true"
+      eSuperTypes="#//JZUIElem">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="primaryOscTarget" eType="#//LEMUR_OSC_TARGET"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="primaryMidiTarget" eType="#//LEMUR_MIDI_TARGET"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JZBreakPoint" eSuperTypes="#//JZWidget">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="liveEditing" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="points" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="coordinates" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="background" eType="#//Color"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="firstPoint" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="light" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="friction" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hold" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="holdX" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="holdY" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="attraction" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="edit" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rest" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="speed" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="values" unique="false"
+        upperBound="-1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pathData" eType="#//PathData"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="grid" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gridX" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gridY" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="freeForm" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="physics" eType="#//BREAK_POINT_PHYSICS"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="#//Color"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JZFader" eSuperTypes="#//JZWidget">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unit" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="precision" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="#//Color"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="drag" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="friction" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="light" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tension" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="valueActive" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gridActive" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gridValue" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="attraction" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cursorMode" eType="#//FADER_CURSOR_MODE"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Physics" eType="#//FADER_PHYSICS"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="speed" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="capture" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="z" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JZGesture" eSuperTypes="#//JZWidget">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="transparent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="#//Color"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="angle" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pan" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pinch" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JZKnob" eSuperTypes="#//JZWidget">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="endlessKnob" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unit" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="precision" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="backgroud" eType="#//Color"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="foreground" eType="#//Color"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="attack" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sustain" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="decay" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="release" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hold" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="valueActive" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="grid" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cursorMode" eType="#//KNOB_CURSOR_MODE"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="controlMode" eType="#//KNOB_CONTROL"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="physics" eType="#//KNOB_PHYSICS"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="attraction" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="friction" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="speed" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JZLed" eSuperTypes="#//JZWidget">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="transparent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="columns" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rows" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="multicolor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bargraph" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="colorOff" eType="#//Color"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="colorOn" eType="#//Color"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="light" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelActive" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JZLemurMenu" eSuperTypes="#//JZWidget">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="scaleOutput" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="transparent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="font" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="#//Color"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="items" upperBound="-1"
+        eType="#//JZMenuItem" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="selection" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JZLemurMonitor" eSuperTypes="#//JZWidget">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unit" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="precision" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="font" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="transparent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="#//Color"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JZPads" eSuperTypes="#//JZWidget">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="numbers" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="columns" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rows" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="multilabel" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="multicolor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="colorOn" eType="#//Color"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="colorOff" eType="#//Color"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="values" unique="false"
+        upperBound="-1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="attack" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="decay" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hold" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="light" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="release" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sustain" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="#//Color"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelVisible" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="capture" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="friction" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tension" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JZSurfaceLCD" eSuperTypes="#//JZWidget">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="transparent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="target" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="display" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="font" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="top" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bottom" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JZSwitches" eSuperTypes="#//JZWidget">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="numbers" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="radio" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="columns" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rows" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="multilabel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="multicolor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="colorOn" eType="#//Color"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="colorOff" eType="#//Color"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="light" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelVisible" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="capture" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="paint" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JZText" eSuperTypes="#//JZWidget">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="font" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="transparent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="#//Color"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="light" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fontSize" eType="#//FONT_SIZE"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fontAlign" eType="#//TEXT_ALIGN"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JZCustomButton" eSuperTypes="#//JZWidget">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="outline" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="colorOff" eType="#//Color"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="colorOn" eType="#//Color"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="light" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="styleOffText" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="textAlign" eType="#//TEXT_ALIGN"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="styleOn" eType="#//LEMUR_STYLE"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="styleOff" eType="#//LEMUR_STYLE"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="styleOnText" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fontSize" eType="#//FONT_SIZE"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="capture" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mode" eType="#//CUSTOM_BUTTON_MODE"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JZSignalScope" eSuperTypes="#//JZWidget">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modeXY" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="transparent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="#//Color"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="data" unique="false" upperBound="-1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="friction" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="light" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tension" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelVisible" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="xb" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="yb" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timebase" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JZRange" eSuperTypes="#//JZWidget">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="horizontal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="#//Color"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="light" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelVisible" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="capture" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="grid" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gridValue" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="physics" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tension" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="friction" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="min_height" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="max_height" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="drag" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JZMultiBalls" eSuperTypes="#//JZWidget">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="numbers" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="multilabel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="multiColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="z" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="attack" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="decay" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="friction" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hold" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="holdX" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="holdY" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="release" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="speed" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sustain" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gridStepX" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gridStepY" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="light" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tension" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="data" upperBound="-1" eType="#//Point"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="numbersVisible" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="balls" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="#//Color"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelVisible" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="physics" eType="#//MULTIBALLS_PHYSICS"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cursorMode" eType="#//MULTIBALLS_CURSOR_MODE"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="attraction" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="capture" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gridActive" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ephemeral" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JZTrack" eSuperTypes="#//JZWidget">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modeXY" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="transparent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JZmultiSlider" eSuperTypes="#//JZWidget">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="horizontal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bipolar" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="slider" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gradient" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="multicolor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="light" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="values" unique="false"
+        upperBound="-1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="friction" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tension" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelVisible" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="#//Color"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="physics" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gridActive" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="capture" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gridValue" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JZMenuItem">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JZRingArea" eSuperTypes="#//JZWidget">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="speed" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="friction" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="attraction" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="attraction_x" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="attraction_y" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="#//Color"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="valueActive" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="capture" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OSCDynaProperties">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="customOscMsg" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lemurTrigger" eType="#//LemurTrigger"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eStructuralFeature" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="oscMsg" eType="ecore:EClass ezlemur.ecore#//LemurOscCmd"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="target" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="LemurTrigger">
+    <eLiterals name="ANY"/>
+    <eLiterals name="PASSES_OVER_ZERO" value="1" literal="Passes Over Zero"/>
+    <eLiterals name="PASSES_UNDER_ZERO" value="2" literal="Passes Under Zero"/>
+    <eLiterals name="CROSS_ZERO" value="3" literal="Cross Zero"/>
+    <eLiterals name="INCREASE" value="4" literal="Increase"/>
+    <eLiterals name="DECREASE" value="5" literal="Decrease"/>
+    <eLiterals name="NONE" value="6"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MidiDynaProperties">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="customMidiMsg" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lemurTrigger" eType="#//LemurTrigger"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="midiMsg" eType="ecore:EClass ezlemur.ecore#//LemurMidiCmd"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eStructuralFeature" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="target" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DMXDynaProperties">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dmxMsg" eType="ecore:EClass ezlemur.ecore#//LemurDmxCmd"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eStructuralFeature" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="customDmxMsg" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lemurTrigger" eType="#//LemurTrigger"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="target" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JZJazzInterface" eSuperTypes="#//JZContainer">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mode" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="orientation" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JZTarget">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="addr" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="incomingPorts" unique="false"
+        upperBound="-1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JzOscTarget" eSuperTypes="#//JZTarget"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JzMidiTarget" eSuperTypes="#//JZTarget"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JzKBTarget" eSuperTypes="#//JZTarget"/>
+  <eClassifiers xsi:type="ecore:EClass" name="KBDynaProperties">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lemurTrigger" eType="#//LemurTrigger"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="target" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JZConfigurationManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="kbTargets" upperBound="-1"
+        eType="#//JzKBTarget" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="oscTargets" upperBound="-1"
+        eType="#//JzOscTarget" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="midiTargets" upperBound="-1"
+        eType="#//JzMidiTarget" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="LemurPreferences">
+    <eLiterals name="LEMUR_OSC0_TARGET_PREF"/>
+    <eLiterals name="LEMUR_OSC1_TARGET_PREF" value="1"/>
+    <eLiterals name="LEMUR_OSC2_TARGET_PREF" value="2"/>
+    <eLiterals name="LEMUR_OSC3_TARGET_PREF" value="3"/>
+    <eLiterals name="LEMUR_OSC4_TARGET_PREF" value="4"/>
+    <eLiterals name="LEMUR_OSC5_TARGET_PREF" value="5"/>
+    <eLiterals name="LEMUR_OSC6_TARGET_PREF" value="6"/>
+    <eLiterals name="LEMUR_OSC7_TARGET_PREF" value="7"/>
+    <eLiterals name="LEMUR_OSC8_TARGET_PREF" value="8"/>
+    <eLiterals name="LEMUR_OSC9_TARGET_PREF" value="9"/>
+    <eLiterals name="NONE" value="10"/>
+    <eLiterals name="PARENT" value="11"/>
+    <eLiterals name="PROJECT" value="12"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="LemurIncomingPorts">
+    <eLiterals name="LEMUR_OSC0_PORT_IN_PREF"/>
+    <eLiterals name="LEMUR_OSC1_PORT_IN_PREF" value="1"/>
+    <eLiterals name="LEMUR_OSC2_PORT_IN_PREF" value="2"/>
+    <eLiterals name="LEMUR_OSC3_PORT_IN_PREF" value="3"/>
+    <eLiterals name="LEMUR_OSC4_PORT_IN_PREF" value="4"/>
+    <eLiterals name="LEMUR_OSC5_PORT_IN_PREF" value="5"/>
+    <eLiterals name="LEMUR_OSC6_PORT_IN_PREF" value="6"/>
+    <eLiterals name="LEMUR_OSC7_PORT_IN_PREF" value="7"/>
+    <eLiterals name="LEMUR_OSC8_PORT_IN_PREF" value="8"/>
+    <eLiterals name="LEMUR_OSC9_PORT_IN_PREF" value="9"/>
+    <eLiterals name="NONE" value="10"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Point" instanceClassName="org.eclipse.draw2d.geometry.Point"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="PathData" instanceClassName="org.eclipse.swt.graphics.PathData"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JzOscVar" eSuperTypes="#//JZVar">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="customAddress" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="customMsg" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="oscTarget" eType="#//LEMUR_OSC_TARGET"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JZVar">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attribute" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="trigger" eType="#//LemurTrigger"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JzMidiVar" eSuperTypes="#//JZVar">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="midiMessage" eType="#//MIDI_MESSAGES"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="midiTarget" eType="#//LEMUR_MIDI_TARGET"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="MIDI_MESSAGES">
+    <eLiterals name="_80_NOTE_OF" literal="80 - Note Off"/>
+    <eLiterals name="_90_NOTE_ON" value="1" literal="90 - Note On"/>
+    <eLiterals name="A0_KEY_PRESSURE" value="2" literal="A0 - Key Pressure"/>
+    <eLiterals name="B0_CONTROL_CHANGE" value="3" literal="B0 - Control Change"/>
+    <eLiterals name="C0_PROGRAM_CHANGE" value="4" literal="C0 - Program Change"/>
+    <eLiterals name="D0_CHANNEL_PRESSURE" value="5" literal="D0 - Channel Pressure"/>
+    <eLiterals name="E0_PITCH_BEND" value="6" literal="E0 - Pitch Bend"/>
+    <eLiterals name="F0_SYSTEM_EXCLUSIVE" value="7" literal="F0 - System Eclusive"/>
+    <eLiterals name="F2_SONG_POSITION" value="8" literal="F2 - Song Position"/>
+    <eLiterals name="F3_SONG_SELECT" value="9" literal="F3 - Song Select"/>
+    <eLiterals name="F5_BUS_SELECT" value="10" literal="F5 - Bus Select"/>
+    <eLiterals name="F6_TUNE_REQUEST" value="11" literal="F6 - Tune Request"/>
+    <eLiterals name="F8_TIMING_TICK" value="12" literal="F8 - Timing Tick"/>
+    <eLiterals name="FA_START_SONG" value="13" literal="FA - Start Song"/>
+    <eLiterals name="FB_CONTINUE_SONG" value="14" literal="FB - Continue Song"/>
+    <eLiterals name="FC_STOP_SONG" value="15" literal="FC - Stop Song"/>
+    <eLiterals name="FE_ACTIVE_SENSING" value="16" literal="FE - Active Sensing"/>
+    <eLiterals name="FF_SYSTEM_RESET" value="17" literal="FF - System Reset"/>
+    <eLiterals name="NONE" value="18"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="KNOB_STYLE">
+    <eLiterals name="STANDARD" literal="Standard"/>
+    <eLiterals name="BIPOLAR" value="1" literal="Bipolar"/>
+    <eLiterals name="ENDLESS" value="2" literal="Endless"/>
+    <eLiterals name="NONE" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="LEMUR_STYLE">
+    <eLiterals name="TEXT"/>
+    <eLiterals name="FILL_RECT" value="1"/>
+    <eLiterals name="CIRCLE" value="2"/>
+    <eLiterals name="CIRCLE_BOLD" value="3"/>
+    <eLiterals name="PREV_CURSOR" value="4"/>
+    <eLiterals name="NEXT_CURSOR" value="5"/>
+    <eLiterals name="UP_CURSOR" value="6"/>
+    <eLiterals name="DOWN_CURSOR" value="7"/>
+    <eLiterals name="RWD_CURSOR" value="8"/>
+    <eLiterals name="FWD_CURSOR" value="9"/>
+    <eLiterals name="END_CURSOR" value="10"/>
+    <eLiterals name="BEGINING_CURSOR" value="11"/>
+    <eLiterals name="QUIT" value="12"/>
+    <eLiterals name="DELETE" value="13"/>
+    <eLiterals name="NORTH_SOUTH" value="14"/>
+    <eLiterals name="EAST_WEST" value="15"/>
+    <eLiterals name="RAISE_UP" value="16"/>
+    <eLiterals name="RAISE_DOWN" value="17"/>
+    <eLiterals name="LEFT" value="18"/>
+    <eLiterals name="RIGHT" value="19"/>
+    <eLiterals name="UP" value="20"/>
+    <eLiterals name="DOWN" value="21"/>
+    <eLiterals name="DECREASE" value="22"/>
+    <eLiterals name="INCREASE" value="23"/>
+    <eLiterals name="BANG" value="24"/>
+    <eLiterals name="PLUS" value="25"/>
+    <eLiterals name="MINUS" value="26"/>
+    <eLiterals name="REFRESH" value="27"/>
+    <eLiterals name="SIN" value="28"/>
+    <eLiterals name="TRI" value="29"/>
+    <eLiterals name="SAW" value="30"/>
+    <eLiterals name="SQR" value="31"/>
+    <eLiterals name="SAW_INV" value="32"/>
+    <eLiterals name="PATH" value="33"/>
+    <eLiterals name="NONE" value="34"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="FONT_SIZE">
+    <eLiterals name="FONT_8_PT" value="8" literal="8 Pt"/>
+    <eLiterals name="FONT_9_PT" value="9" literal="9 Pt"/>
+    <eLiterals name="FONT_10_PT" value="10" literal="10 Pt"/>
+    <eLiterals name="FONT_11_PT" value="11" literal="11 Pt"/>
+    <eLiterals name="FONT_12_PT" value="12" literal="12 Pt"/>
+    <eLiterals name="FONT_13_PT" value="13" literal="13 Pt"/>
+    <eLiterals name="FONT_14_PT" value="14" literal="14 Pt"/>
+    <eLiterals name="FONT_15_PT" value="15" literal="15 Pt"/>
+    <eLiterals name="FONT_16_PT" value="16" literal="16 Pt"/>
+    <eLiterals name="FONT_17_PT" value="17" literal="17 Pt"/>
+    <eLiterals name="FONT_18_PT" value="18" literal="18 Pt"/>
+    <eLiterals name="FONT_19_PT" value="19" literal="19 Pt"/>
+    <eLiterals name="FONT_20_PT" value="20" literal="20 Pt"/>
+    <eLiterals name="FONT_21_PT" value="21" literal="21 Pt"/>
+    <eLiterals name="FONT_22_PT" value="22" literal="22 Pt"/>
+    <eLiterals name="FONT_23_PT" value="23" literal="23 Pt"/>
+    <eLiterals name="FONT_24_PT" value="24" literal="24 Pt"/>
+    <eLiterals name="NONE"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TEXT_ALIGN">
+    <eLiterals name="N" literal="North"/>
+    <eLiterals name="S" value="1" literal="South"/>
+    <eLiterals name="E" value="2" literal="East"/>
+    <eLiterals name="W" value="3" literal="West"/>
+    <eLiterals name="NE" value="4" literal="North East"/>
+    <eLiterals name="NW" value="5" literal="North West"/>
+    <eLiterals name="SE" value="6" literal="South East"/>
+    <eLiterals name="SW" value="7" literal="South West"/>
+    <eLiterals name="CENTER" value="8" literal="Center"/>
+    <eLiterals name="NONE" value="9" literal="None"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Script">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="expr" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="JZML_MODE">
+    <eLiterals name="IPHONE"/>
+    <eLiterals name="IPAD" value="1"/>
+    <eLiterals name="LEGACY" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="BREAK_POINT_PHYSICS">
+    <eLiterals name="INTERPOLATE" literal="Interpolate"/>
+    <eLiterals name="MASS_SPRING" value="1" literal="Mass-Spring"/>
+    <eLiterals name="SUPER_SPRING" value="2" literal="Super-Spring"/>
+    <eLiterals name="NONE" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="LEMUR_OSC_TARGET">
+    <eLiterals name="OSC_1" literal="OSC 1"/>
+    <eLiterals name="OSC_2" value="1" literal="OSC 2"/>
+    <eLiterals name="OSC_3" value="2" literal="OSC 3"/>
+    <eLiterals name="OSC_4" value="3" literal="OSC 4"/>
+    <eLiterals name="OSC_5" value="4" literal="OSC 5"/>
+    <eLiterals name="OSC_6" value="5" literal="OSC 6"/>
+    <eLiterals name="OSC_7" value="6" literal="OSC 7"/>
+    <eLiterals name="OSC_8" value="7" literal="OSC 8"/>
+    <eLiterals name="OSC_9" value="8" literal="OSC 9"/>
+    <eLiterals name="NONE" value="9"/>
+    <eLiterals name="PARENT" value="10"/>
+    <eLiterals name="PROJECT" value="11"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="LEMUR_MIDI_TARGET">
+    <eLiterals name="MIDI_1" literal="MIDI 1"/>
+    <eLiterals name="MIDI_2" value="1" literal="MIDI 2"/>
+    <eLiterals name="MIDI_3" value="2" literal="MIDI 3"/>
+    <eLiterals name="MIDI_4" value="3" literal="MIDI 4"/>
+    <eLiterals name="MIDI_5" value="4" literal="MIDI 5"/>
+    <eLiterals name="MIDI_6" value="5" literal="MIDI 6"/>
+    <eLiterals name="MIDI_8" value="7" literal="MIDI 8"/>
+    <eLiterals name="MIDI_7" value="6" literal="MIDI 7"/>
+    <eLiterals name="MIDI_9" value="8" literal="MIDI 9"/>
+    <eLiterals name="NONE" value="9"/>
+    <eLiterals name="PARENT" value="10"/>
+    <eLiterals name="PROJECT" value="11"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Color" instanceClassName="org.eclipse.swt.graphics.Color"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="CUSTOM_BUTTON_MODE">
+    <eLiterals name="SWITCH" literal="Switch"/>
+    <eLiterals name="PAD" value="1" literal="Pad"/>
+    <eLiterals name="NONE" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="KNOB_CURSOR_MODE">
+    <eLiterals name="NONE"/>
+    <eLiterals name="LIMITED" value="1" literal="Limited"/>
+    <eLiterals name="BARYCENTRIC" value="2" literal="Barycentric"/>
+    <eLiterals name="GET_NEWER" value="3" literal="Get Newer"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="KNOB_CONTROL">
+    <eLiterals name="LINEAR"/>
+    <eLiterals name="POLAR" value="1"/>
+    <eLiterals name="NONE" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="KNOB_PHYSICS">
+    <eLiterals name="INTERPOLATE"/>
+    <eLiterals name="MASS_SPRING" value="1"/>
+    <eLiterals name="NONE" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="FADER_CURSOR_MODE">
+    <eLiterals name="NONE"/>
+    <eLiterals name="LIMITED" value="1"/>
+    <eLiterals name="BARYCENTRIC" value="2"/>
+    <eLiterals name="GET_NEWER" value="3"/>
+    <eLiterals name="CAP_ONLY" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="FADER_PHYSICS">
+    <eLiterals name="NONE"/>
+    <eLiterals name="INTERPOLATE" value="1"/>
+    <eLiterals name="MASS_SPRING" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="MULTIBALLS_CURSOR_MODE">
+    <eLiterals name="NONE"/>
+    <eLiterals name="LIMITED" value="1" literal="Limited"/>
+    <eLiterals name="BARYCENTRIC" value="2" literal="Barycentric"/>
+    <eLiterals name="GET_OLDEST_BALL" value="3" literal="Get Oldest Ball"/>
+    <eLiterals name="GET_NEWEST_BALL" value="4" literal="Get Newest Ball"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="MULTIBALLS_PHYSICS">
+    <eLiterals name="NONE"/>
+    <eLiterals name="INTERPOLATE" value="1"/>
+    <eLiterals name="MASS_SPRING" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MidiVar80NoteOff" eSuperTypes="#//AbstractMidiVarNote"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MidiVar90NoteOn" eSuperTypes="#//AbstractMidiVarNote"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MidiVarA0KeyPressure"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MidiVarB0ControlChange"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MidiVarC0ProgramChange"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MidiVarD0ChannelPressure"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MidiVarE0PitchBend"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MidiVarF0SystemExclusive"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MidiVarF2SngPosition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MidiVarF3SongSelect"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MidiVarF5BusSelect"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MidiVarF6TuneRequest"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MidiVarF8TimingTick"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MidiVarFAStartSong"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MidiVarFBContinueSong"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MidiVarFCStopSong"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MidiVarFEActiveSensing"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MidiVarFFSystemReset"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractMidiVarNote" eSuperTypes="#//MidiVar">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pitchFrom" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pitchTo" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MidiVar">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="scaleFrom" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="scaleTo" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="channelFrom" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="channelTo" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
+  </eClassifiers>
+</ecore:EPackage>

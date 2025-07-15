@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="domainmodel" nsURI="http://www.example.org/domainmodel/Domainmodel"
+    nsPrefix="domainmodel">
+  <eClassifiers xsi:type="ecore:EClass" name="Domainmodel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//AbstractElement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Type"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Import" eSuperTypes="#//AbstractNamespaceElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="importedNamespace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataType" eSuperTypes="#//Type #//AbstractNamespaceElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mappedType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="initValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamespaceDeclaration" eSuperTypes="#//AbstractElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="namespaceElements" upperBound="-1"
+        eType="#//AbstractNamespaceElement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractNamespaceElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Feature">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mappingOption" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mapName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//Type"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DomainEntity" eSuperTypes="#//Type #//AbstractNamespaceElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="features" upperBound="-1"
+        eType="#//Feature" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MethodParameter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//Type"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MethodParameters">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//MethodParameter" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MethodCall">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" eType="#//MethodParameters"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterfaceOperation">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="restOperation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="methodCall" eType="#//MethodCall"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//Type"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterfaceDeclaration" eSuperTypes="#//AbstractNamespaceElement #//BusinessFeatureType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operations" upperBound="-1"
+        eType="#//InterfaceOperation" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterfaceOperationUsageRule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfaceName" eType="#//InterfaceDeclaration"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterfaceOperationsUsageRule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usageOperations" upperBound="-1"
+        eType="#//InterfaceOperationUsageRule" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StatelessComponent" eSuperTypes="#//AbstractNamespaceElement #//BusinessFeatureType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operations" eType="#//InterfaceOperationsUsageRule"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DomainRepository" eSuperTypes="#//AbstractNamespaceElement #//BusinessFeatureType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entityType" eType="#//DomainEntity"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operations" eType="#//InterfaceOperationsUsageRule"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EntryParametersModule" eSuperTypes="#//ScreenModule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entryFeatures" upperBound="-1"
+        eType="#//ModelFeature" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ModelFeature">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//Type"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ModelModule" eSuperTypes="#//ScreenModule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelFeatures" upperBound="-1"
+        eType="#//ModelFeature" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ContentElementLiteral">
+    <eLiterals name="TEXT" literal="text"/>
+    <eLiterals name="BUTTON" value="1" literal="button"/>
+    <eLiterals name="LABEL" value="2" literal="label"/>
+    <eLiterals name="LIST" value="3" literal="list"/>
+    <eLiterals name="IMAGE" value="4" literal="image"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PropertyNameLiteral">
+    <eLiterals name="LABEL_PROVIDER" literal="labelProvider"/>
+    <eLiterals name="CSS_ITEM" value="1" literal="cssItem"/>
+    <eLiterals name="TOOLTIP" value="2" literal="tooltip"/>
+    <eLiterals name="RESOURCE_KEY" value="3" literal="resourceKey"/>
+    <eLiterals name="STYLE" value="4" literal="style"/>
+    <eLiterals name="PATH" value="5" literal="path"/>
+    <eLiterals name="TYPE" value="6" literal="type"/>
+    <eLiterals name="COLUMNS" value="7" literal="columns"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ElementFeature">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="propertyName" eType="#//PropertyNameLiteral"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="propertyValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ContentElement" eSuperTypes="#//ViewElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="contentElement" eType="#//ContentElementLiteral"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ContainerElementLiteral">
+    <eLiterals name="LAYOUT" literal="layout"/>
+    <eLiterals name="SCREEN" value="1" literal="screen"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ContainerElement" eSuperTypes="#//ViewElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="container" eType="#//ContainerElementLiteral"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//ViewElement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ViewElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="features" upperBound="-1"
+        eType="#//ElementFeature" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ViewModule" eSuperTypes="#//ScreenModule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//ViewElement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ValidateAction" eSuperTypes="#//InitActionFeature">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="#//ValidatorFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uiReceiver" eType="#//SetUIElementReceiver"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttachAction" eSuperTypes="#//InitActionFeature">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uiAction" eType="#//UIActionModule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uiReceiver" eType="#//SetUIElementReceiver"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BindEnumSource" eSuperTypes="#//BindSource">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="enumType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BindSource">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelFeatureName" eType="#//ModelFeature"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BindAction" eSuperTypes="#//InitActionFeature">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bindSource" eType="#//BindSource"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="attribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uiReceiver" eType="#//SetUIElementReceiver"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InitActionFeature"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InitActionModule" eSuperTypes="#//ControllerElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initActionFeatures" upperBound="-1"
+        eType="#//InitActionFeature" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ValidatorRule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stringRule" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conditionName" eType="#//ValidatorFeature"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ValidatorRules">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="validatorRules" upperBound="-1"
+        eType="#//ValidatorRule" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ValidatorFeature">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="validatorRules" eType="#//ValidatorRules"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ValidatorModule" eSuperTypes="#//ControllerElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="validatorFeatures" upperBound="-1"
+        eType="#//ValidatorFeature" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScreenModelParameter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelFeatureName" eType="#//ModelFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelFeatureValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScreenModelParameters">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//ScreenModelParameter" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NavigateToAction" eSuperTypes="#//UIActionFeature">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="screenElementId" eType="#//ScreenFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelFeatures" eType="#//ScreenModelParameters"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExecuteAction" eSuperTypes="#//UIActionFeature">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uiActionName" eType="#//UIActionModule"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetRestCallReceiverURLParameter" eSuperTypes="#//SetRestCallReceiverParameter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="parameterType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetRestCallReceiverReturnTypeParameter"
+      eSuperTypes="#//SetRestCallReceiverParameter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameterType" eType="#//Type"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetRestCallReceiverIDParameter" eSuperTypes="#//SetRestCallReceiverParameter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="parameterType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetRestCallReceiverParameter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SetRestCallReceiverParameters">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//SetRestCallReceiverParameter" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetRestCallReceiver" eSuperTypes="#//SetActionReceiver">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//SetRestCallReceiverParameters" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="UIElementReceiverKey">
+    <eLiterals name="SELECTION" literal="selection"/>
+    <eLiterals name="VALUES_" value="1" literal="values"/>
+    <eLiterals name="ON_SELECTION" value="2" literal="onSelection"/>
+    <eLiterals name="TEXT" value="3" literal="text"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetUIElementReceiver" eSuperTypes="#//SetActionReceiver">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="widgetName" eType="#//ViewElement"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uiKey" eType="#//UIElementReceiverKey"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetActionReceiver"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SetAction" eSuperTypes="#//InitActionFeature #//UIActionFeature">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelFeatureName" eType="#//ModelFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="setActionReceiver" eType="#//SetActionReceiver"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterfaceMethodCallParameter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameterName" eType="#//MethodParameter"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="parameterType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterfaceMethodCallParameters">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//InterfaceMethodCallParameter" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterfaceMethodCall" eSuperTypes="#//UIActionFeature">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfaceInstanceName"
+        eType="#//BusinessFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="methodName" eType="#//MethodCall"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//InterfaceMethodCallParameters" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UIActionFeature"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UIActionModule" eSuperTypes="#//ControllerElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uiActionFeatures" upperBound="-1"
+        eType="#//UIActionFeature" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ControllerElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ControllerModule" eSuperTypes="#//ScreenModule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//ControllerElement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScreenModule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ScreenFeature" eSuperTypes="#//UIFeature">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="screenModules" upperBound="-1"
+        eType="#//ScreenModule" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MainFeatureOption">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MainFeature" eSuperTypes="#//UIFeature">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="features" upperBound="-1"
+        eType="#//MainFeatureOption" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UIFeature"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UIModule" eSuperTypes="#//SystemModule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uiFeatures" upperBound="-1"
+        eType="#//UIFeature" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessFeatureType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessFeature">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//BusinessFeatureType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="connectPoint1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectPoint2" eType="#//BusinessFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="connectEnd" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessFeatures" eSuperTypes="#//BusinessModule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="features" upperBound="-1"
+        eType="#//BusinessFeature" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessModule" eSuperTypes="#//SystemModule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemModule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemDefinition" eSuperTypes="#//AbstractElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modules" upperBound="-1"
+        eType="#//SystemModule" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

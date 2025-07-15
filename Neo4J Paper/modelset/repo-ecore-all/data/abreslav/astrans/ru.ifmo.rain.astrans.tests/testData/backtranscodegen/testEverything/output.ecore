@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="astransast"
+    nsURI="http://rain.ifmo.ru/~breslav/2007/astransast" nsPrefix="astransast">
+  <eClassifiers xsi:type="ecore:EClass" name="ActionAS" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EClassifierReferenceAS" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TranslateReferencesAS" eSuperTypes="#//ActionAS">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="includeDescendants" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelReferenceTypeProto"
+        lowerBound="1" eType="#//QualifiedName" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="textualReferenceType" lowerBound="1"
+        eType="#//EClassifierReferenceAS" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CreateClassAS" eSuperTypes="#//ActionAS">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="abstract" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="superclasses" upperBound="-1"
+        eType="#//EClassifierReferenceAS" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="structuralFeatures" upperBound="-1"
+        eType="#//StructuralFeatureAS" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StructuralFeatureAS" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="upperBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttributeAS" eSuperTypes="#//StructuralFeatureAS">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//QualifiedName"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReferenceAS" eSuperTypes="#//StructuralFeatureAS">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="containment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//EClassifierReferenceAS"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ChangeInheritanceAS" eSuperTypes="#//ActionAS">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetProto" lowerBound="1"
+        eType="#//QualifiedName" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="superclasses" upperBound="-1"
+        eType="#//EClassifierReferenceAS" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SkipClassAS" eSuperTypes="#//ActionAS">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="includeDescendants" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetProto" lowerBound="1"
+        eType="#//QualifiedName" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransformationAS">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="outputName" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="outputNsURI" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="createClassActions" upperBound="-1"
+        eType="#//CreateClassAS" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="translateReferencesActions"
+        upperBound="-1" eType="#//TranslateReferencesAS" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="changeInheritanceActions"
+        upperBound="-1" eType="#//ChangeInheritanceAS" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="skipClassActions" upperBound="-1"
+        eType="#//SkipClassAS" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="input" lowerBound="1" eType="#//EPackageReference"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputModelRoot" lowerBound="1"
+        eType="#//QualifiedName" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="astRoot" lowerBound="1"
+        eType="#//EClassifierReferenceAS" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MappedEClassAS" eSuperTypes="#//EClassifierReferenceAS">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="proto" lowerBound="1" eType="#//QualifiedName"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="QualifiedName" eSuperTypes="#//EClassifierReferenceAS">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subQN" eType="#//QualifiedName"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EPackageReference" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EPackageUri" eSuperTypes="#//EPackageReference">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EPackagePath" eSuperTypes="#//EPackageReference">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

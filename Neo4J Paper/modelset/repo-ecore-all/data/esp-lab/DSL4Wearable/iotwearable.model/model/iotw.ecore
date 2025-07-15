@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="iotw" nsURI="http://iotwearable/model" nsPrefix="iotw">
+  <eClassifiers xsi:type="ecore:EClass" name="Component" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="constraints" eType="#//Rectangle"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Connection">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bendpoints" upperBound="-1"
+        eType="#//Point"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="routerKind" eType="#//RouterKind"
+        defaultValueLiteral="Bendpoint"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//Component"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//Component"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//ConnectionKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stateSchema" eType="#//StateSchema"
+        eOpposite="#//StateSchema/connnections"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StateSchema">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
+        eType="#//StateComponent" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connnections" upperBound="-1"
+        eType="#//Connection" containment="true" eOpposite="#//Connection/stateSchema"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StateComponent" abstract="true" eSuperTypes="#//Component">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incomings" upperBound="-1"
+        eType="#//Connection"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoings" upperBound="-1"
+        eType="#//Connection"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Device" abstract="true" eSuperTypes="#//Component">
+    <eOperations name="getPins" upperBound="-1" eType="#//Pin"/>
+    <eOperations name="getPinConnecteds" upperBound="-1" eType="#//Pin"/>
+    <eOperations name="modifyPin">
+      <eParameters name="pin" eType="#//Pin"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mainboard" eType="#//Mainboard"
+        eOpposite="#//Mainboard/devices"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IODevice" abstract="true" eSuperTypes="#//Device"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InputDevice" abstract="true" eSuperTypes="#//IODevice"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OutputDevice" abstract="true" eSuperTypes="#//IODevice"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Connectivity" abstract="true" eSuperTypes="#//Device"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Mainboard" abstract="true">
+    <eOperations name="addDevice">
+      <eParameters name="device" eType="#//Device"/>
+    </eOperations>
+    <eOperations name="removeDevice">
+      <eParameters name="device" eType="#//Device"/>
+    </eOperations>
+    <eOperations name="getPins" upperBound="-1" eType="#//Pin"/>
+    <eOperations name="getPinConnecteds" upperBound="-1" eType="#//Pin"/>
+    <eOperations name="modifyPin">
+      <eParameters name="pin" eType="#//Pin"/>
+    </eOperations>
+    <eOperations name="findPin" eType="#//Pin">
+      <eParameters name="pin" eType="#//Pin"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="devices" upperBound="-1"
+        eType="#//Device" containment="true" eOpposite="#//Device/mainboard"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ArduinoUNOR3" eSuperTypes="#//Mainboard">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin0" eType="#//Pin" defaultValueLiteral="0,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin1" eType="#//Pin" defaultValueLiteral="1,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin2" eType="#//Pin" defaultValueLiteral="2,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin3" eType="#//Pin" defaultValueLiteral="3,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin4" eType="#//Pin" defaultValueLiteral="4,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin5" eType="#//Pin" defaultValueLiteral="5,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin6" eType="#//Pin" defaultValueLiteral="6,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin7" eType="#//Pin" defaultValueLiteral="7,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin8" eType="#//Pin" defaultValueLiteral="8,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin9" eType="#//Pin" defaultValueLiteral="9,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin10" eType="#//Pin" defaultValueLiteral="10,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin11" eType="#//Pin" defaultValueLiteral="11,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin12" eType="#//Pin" defaultValueLiteral="12,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin13" eType="#//Pin" defaultValueLiteral="13,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pinA0" eType="#//Pin" defaultValueLiteral="A0,Input"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pinA1" eType="#//Pin" defaultValueLiteral="A1,Input"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pinA2" eType="#//Pin" defaultValueLiteral="A2,Input"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pinA3" eType="#//Pin" defaultValueLiteral="A3,Input"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pinA4" eType="#//Pin" defaultValueLiteral="A4,Input"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pinA5" eType="#//Pin" defaultValueLiteral="A5,Input"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Keypad4x4" eSuperTypes="#//InputDevice">
+    <eOperations name="getButton" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="keys" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" defaultValueLiteral="{'1','2','3','A'},{'4','5','6','B'},{'7','8','9','C'},{'*','0','#','D'}"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rows" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        changeable="false" defaultValueLiteral="4"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cols" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        changeable="false" defaultValueLiteral="4"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin1" eType="#//Pin" defaultValueLiteral="R1,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin2" eType="#//Pin" defaultValueLiteral="R2,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin3" eType="#//Pin" defaultValueLiteral="R3,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin4" eType="#//Pin" defaultValueLiteral="R4,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin5" eType="#//Pin" defaultValueLiteral="C1,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin6" eType="#//Pin" defaultValueLiteral="C2,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin7" eType="#//Pin" defaultValueLiteral="C3,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin8" eType="#//Pin" defaultValueLiteral="C4,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nameButton1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nameButton2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nameButton3" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nameButton4" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nameButton5" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nameButton6" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nameButton7" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nameButton8" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nameButton9" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nameButton0" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nameButtonA" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nameButtonB" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nameButtonC" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nameButtonD" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nameButtonHash" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nameButtonAsterisk" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Button" eSuperTypes="#//InputDevice">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin1" eType="#//Pin" defaultValueLiteral="1,IO"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LED" eSuperTypes="#//OutputDevice">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin1" eType="#//Pin" defaultValueLiteral="1,Passive"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin2" eType="#//Pin" defaultValueLiteral="2,Passive"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="I2CLCD" eSuperTypes="#//OutputDevice">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pinGND" eType="#//Pin"
+        defaultValueLiteral="GND,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pinVcc" eType="#//Pin"
+        defaultValueLiteral="Vcc,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pinSDA" eType="#//Pin"
+        defaultValueLiteral="SDA,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pinSCL" eType="#//Pin"
+        defaultValueLiteral="SCL,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//I2CLCDType"
+        defaultValueLiteral="I2CLCD2004"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Buzzer" eSuperTypes="#//OutputDevice">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin1" eType="#//Pin" defaultValueLiteral="1,Passive"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin2" eType="#//Pin" defaultValueLiteral="2,Passive"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Tone" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Time" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BluetoothHC06" eSuperTypes="#//Connectivity">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pinTXD" eType="#//Pin"
+        defaultValueLiteral="TXD,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pinRXD" eType="#//Pin"
+        defaultValueLiteral="RXD,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pinGND" eType="#//Pin"
+        defaultValueLiteral="GND,Power"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pinVCC" eType="#//Pin"
+        defaultValueLiteral="VCC,Power"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WifiESP8266" eSuperTypes="#//Connectivity">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pinTX" eType="#//Pin" defaultValueLiteral="TX,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pinRX" eType="#//Pin" defaultValueLiteral="RX,IO"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pinVcc" eType="#//Pin"
+        defaultValueLiteral="Vcc,Power"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pinGND" eType="#//Pin"
+        defaultValueLiteral="GND,Power"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pinCHPD" eType="#//Pin"
+        defaultValueLiteral="CHPD,Power"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sSID_ST" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="IotWearable"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="password_ST" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="IotWearable"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mode" eType="#//WifiMode"
+        defaultValueLiteral="Both"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="idConnection" eType="#//WifiIDConnection"
+        defaultValueLiteral="id_0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="password_AccessPoint" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sSID_AccessPoint" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="port" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="80"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="iP" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="192.168.4.1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="baud" eType="#//ListBaud"
+        defaultValueLiteral="baud_9600"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="connectedChannel" eType="#//ListConnectionChannel"
+        defaultValueLiteral="Multiple"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="protocol" eType="#//ListProtocol"
+        defaultValueLiteral="UDP"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StateFrame" eSuperTypes="#//StateComponent">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Decision" eSuperTypes="#//StateComponent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StartPoint" eSuperTypes="#//StateComponent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EndPoint" eSuperTypes="#//StateComponent"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Rectangle" instanceClassName="org.eclipse.draw2d.geometry.Rectangle"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Point" instanceClassName="org.eclipse.draw2d.geometry.Point"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="ConnectionKind">
+    <eLiterals name="STATE_FLOW" literal="State_Flow"/>
+    <eLiterals name="OUTSIDE_FLOW" value="1" literal="Outside_Flow"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="RouterKind">
+    <eLiterals name="BENDPOINT" literal="Bendpoint"/>
+    <eLiterals name="MANHATTAN" value="1" literal="Manhattan"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Pin" instanceClassName="iotwearable.model.iotw.Pin"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="WifiMode">
+    <eLiterals name="Station" value="1"/>
+    <eLiterals name="Access_Point" value="2"/>
+    <eLiterals name="Both" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="WifiIDConnection">
+    <eLiterals name="id_0"/>
+    <eLiterals name="id_1" value="1"/>
+    <eLiterals name="id_2" value="2"/>
+    <eLiterals name="id_3" value="3"/>
+    <eLiterals name="id_4" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ListBaud">
+    <eLiterals name="baud_9600" value="9600" literal="baud_9600"/>
+    <eLiterals name="baud_19200" value="19200" literal="baud_19200"/>
+    <eLiterals name="baud_38400" value="38400" literal="baud_38400"/>
+    <eLiterals name="baud_57600" value="57600"/>
+    <eLiterals name="baud_74880" value="74880"/>
+    <eLiterals name="baud_115200" value="115200"/>
+    <eLiterals name="baud_230400" value="230400"/>
+    <eLiterals name="baud_250000" value="250000"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ListConnectionChannel">
+    <eLiterals name="Single"/>
+    <eLiterals name="Multiple" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ListProtocol">
+    <eLiterals name="TCP"/>
+    <eLiterals name="UDP" value="1" literal="UDP"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="I2CLCDType">
+    <eLiterals name="I2CLCD2004"/>
+    <eLiterals name="I2CLCD1602" value="1"/>
+  </eClassifiers>
+</ecore:EPackage>

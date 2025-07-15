@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="modelo" nsURI="http://www.example.org/modelo" nsPrefix="modelo">
+  <eClassifiers xsi:type="ecore:EClass" name="SLA">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="slaparameters" upperBound="-1"
+        eType="#//SLAParameters" containment="true" eOpposite="#//SLAParameters/sla"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="integrationsla" upperBound="-1"
+        eType="#//IntegrationSLA" containment="true" eOpposite="#//IntegrationSLA/sla"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="party" upperBound="-1"
+        eType="#//Party" containment="true" eOpposite="#//Party/sla"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="obligation" upperBound="-1"
+        eType="#//Obligation" containment="true" eOpposite="#//Obligation/sla"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="slaID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UserSLA" eSuperTypes="#//SLA">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="user" lowerBound="1" eType="#//User"
+        containment="true" eOpposite="#//User/usersla"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cloud" lowerBound="1" eType="#//Cloud"
+        containment="true" eOpposite="#//Cloud/usersla"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceSLA" eSuperTypes="#//SLA">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cloud" lowerBound="1" eType="#//Cloud"
+        containment="true" eOpposite="#//Cloud/servicesla"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="service" lowerBound="1"
+        eType="#//Service" containment="true" eOpposite="#//Service/servicesla"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="User" eSuperTypes="#//Party">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cloud" eType="#//Cloud"
+        eOpposite="#//Cloud/user"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usersla" eType="#//UserSLA"
+        eOpposite="#//UserSLA/user"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Cloud" eSuperTypes="#//Party">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="user" eType="#//User" eOpposite="#//User/cloud"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="service" eType="#//Service"
+        eOpposite="#//Service/cloud"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usersla" eType="#//UserSLA"
+        eOpposite="#//UserSLA/cloud"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="servicesla" eType="#//ServiceSLA"
+        eOpposite="#//ServiceSLA/cloud"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Service" eSuperTypes="#//Party">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="query" upperBound="-1"
+        eType="#//Query" containment="true" eOpposite="#//Query/service"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cloud" eType="#//Cloud"
+        eOpposite="#//Cloud/service"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="servicesla" eType="#//ServiceSLA"
+        eOpposite="#//ServiceSLA/service"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="servicecomposition" upperBound="-1"
+        eType="#//ServiceComposition" containment="true" eOpposite="#//ServiceComposition/service"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Party">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sla" eType="#//SLA" eOpposite="#//SLA/party"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Query">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="concepts" upperBound="-1"
+        eType="#//Concepts" containment="true" eOpposite="#//Concepts/query"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="query" upperBound="-1"
+        eType="#//Query" containment="true" eOpposite="#//Query/queryeOpposite"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="queryeOpposite" eType="#//Query"
+        eOpposite="#//Query/query"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="service" eType="#//Service"
+        eOpposite="#//Service/query"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="servicecomposition" upperBound="-1"
+        eType="#//ServiceComposition" containment="true" eOpposite="#//ServiceComposition/query"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceComposition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="query" eType="#//Query"
+        eOpposite="#//Query/servicecomposition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="service" eType="#//Service"
+        eOpposite="#//Service/servicecomposition"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Concepts">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="integrationsla" upperBound="-1"
+        eType="#//IntegrationSLA" containment="true" eOpposite="#//IntegrationSLA/concepts"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="query" eType="#//Query"
+        eOpposite="#//Query/concepts"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntegrationSLA">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sla" eType="#//SLA" eOpposite="#//SLA/integrationsla"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="concepts" eType="#//Concepts"
+        eOpposite="#//Concepts/integrationsla"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="negotiationrules" upperBound="-1"
+        eType="#//NegotiationRules" containment="true" eOpposite="#//NegotiationRules/integrationsla"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NegotiationRules">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="integrationsla" eType="#//IntegrationSLA"
+        eOpposite="#//IntegrationSLA/negotiationrules"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guaranty" eType="#//Guaranty"
+        containment="true" eOpposite="#//Guaranty/negotiationrules"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Guaranty">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="slaparameters" upperBound="-1"
+        eType="#//SLAParameters" containment="true" eOpposite="#//SLAParameters/guaranty"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guaranty" upperBound="-1"
+        eType="#//Guaranty" containment="true" eOpposite="#//Guaranty/guarantyeOpposite"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guarantyeOpposite" eType="#//Guaranty"
+        eOpposite="#//Guaranty/guaranty"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="negotiationrules" eType="#//NegotiationRules"
+        eOpposite="#//NegotiationRules/guaranty"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Obligation" eSuperTypes="#//Guaranty">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sla" eType="#//SLA" eOpposite="#//SLA/obligation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SLAParameters">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sla" eType="#//SLA" eOpposite="#//SLA/slaparameters"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guaranty" eType="#//Guaranty"
+        eOpposite="#//Guaranty/slaparameters"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="logic" nsURI="http://www.abchip.org/mimo/logic" nsPrefix="mimo-logic">
+  <eClassifiers xsi:type="ecore:EClass" name="Goal">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="terms" upperBound="-1"
+        eType="#//Term" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MindManager" abstract="true" interface="true">
+    <eOperations name="buildTheory" eType="#//Theory">
+      <eTypeParameters name="E">
+        <eBounds eClassifier="ecore:EClass ../../org.abchip.mimo.core/model/mimo.ecore#//entity/Entity"/>
+      </eTypeParameters>
+      <eParameters name="context" lowerBound="1" eType="ecore:EClass ../../org.abchip.mimo.core/model/mimo.ecore#//context/Context"/>
+      <eParameters name="frame" lowerBound="1">
+        <eGenericType eClassifier="ecore:EClass ../../org.abchip.mimo.core/model/mimo.ecore#//entity/Frame">
+          <eTypeArguments eTypeParameter="#//MindManager/buildTheory/E"/>
+        </eGenericType>
+      </eParameters>
+    </eOperations>
+    <eOperations name="createReasoner" eType="#//Reasoner">
+      <eParameters name="context" lowerBound="1" eType="ecore:EClass ../../org.abchip.mimo.core/model/mimo.ecore#//context/Context"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Question">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="object" eType="#//Term"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subject" eType="#//Term"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relation" eType="#//Term"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rule" eType="#//Term" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Term" eSuperTypes="../../org.abchip.mimo.core/model/mimo.ecore#//entity/EntityIdentifiable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Theory">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="facts" upperBound="-1"
+        eType="#//Term" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Reasoner" abstract="true" interface="true"
+      eSuperTypes="../../org.abchip.mimo.core/model/mimo.ecore#//java/JavaCloseable">
+    <eOperations name="buildQuestion" lowerBound="1" eType="#//Question">
+      <eParameters name="question" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="close"/>
+    <eOperations name="loadTheory" eExceptions="ecore:EDataType ../../org.abchip.mimo.core/model/mimo.ecore#//java/JavaIOException">
+      <eParameters name="theory" lowerBound="1" eType="#//Theory"/>
+    </eOperations>
+    <eOperations name="query" lowerBound="1" upperBound="-1" eType="#//Goal">
+      <eParameters name="question" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="query" lowerBound="1" upperBound="-1" eType="#//Goal">
+      <eParameters name="question" lowerBound="1" eType="#//Question"/>
+    </eOperations>
+    <eOperations name="reload" eExceptions="ecore:EDataType ../../org.abchip.mimo.core/model/mimo.ecore#//java/JavaIOException"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="feature" nsURI="http://www.zhoujg.person/Feature" nsPrefix="feature">
+  <eClassifiers xsi:type="ecore:EClass" name="Feature">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="inCard" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" eType="#//FeatureBody"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="outCard" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="#//Feature"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//AttributeType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FeatureBody">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attrs" eType="#//AttributePart"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="features" upperBound="-1"
+        eType="#//Feature" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ruleBody" eType="#//RuleBody"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttributePart">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attr" upperBound="-1" eType="#//Feature"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RuleBody">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"
+        eType="#//FeatureExpr" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="AttributeType">
+    <eLiterals name="int" literal="int"/>
+    <eLiterals name="string" value="1" literal="string"/>
+    <eLiterals name="bool" value="2" literal="bool"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FeatureExpr">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//LogicExpr"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="op" eType="#//FeatureOP"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//LogicExpr"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LogicExpr">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leftLogicExpr" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="logicOP" eType="#//LogicOP"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//BasicExpr"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BasicExpr">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lExpr" eType="#//Atom"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="compOp" eType="#//ComparationOP"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rExpr" eType="#//Atom"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ComparationOP">
+    <eLiterals name="GT" literal=">"/>
+    <eLiterals name="GE" value="1" literal=">="/>
+    <eLiterals name="EQ" value="2" literal="=="/>
+    <eLiterals name="LT" value="3" literal="&lt;"/>
+    <eLiterals name="LE" value="4" literal="&lt;="/>
+    <eLiterals name="NE" value="5" literal="&lt;>"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Atom">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="literal" eType="#//Literal"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sub" eType="#//LogicExpr"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Literal">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="str" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="int" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bool" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="name" eType="#//Feature"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="FeatureOP">
+    <eLiterals name="REC" literal="recommend"/>
+    <eLiterals name="REQ" value="1" literal="require"/>
+    <eLiterals name="EXC" value="2" literal="exclude"/>
+    <eLiterals name="HAR" value="3" literal="harm"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="LogicOP">
+    <eLiterals name="AND" literal="and"/>
+    <eLiterals name="OR" value="1" literal="or"/>
+  </eClassifiers>
+</ecore:EPackage>

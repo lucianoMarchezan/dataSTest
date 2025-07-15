@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="petriNet" nsURI="http://petrinet" nsPrefix="petrinet">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
+  </eAnnotations>
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="Place" eSuperTypes="#//Noeud">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="nombreJetonNonNul"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="nombreJetonNonNul" value="jeton >= 0"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="jeton" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Transition" eSuperTypes="#//Noeud"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Noeud" abstract="true" eSuperTypes="#//PetriNetElt">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="noEmptyName"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="noEmptyName" value="name.size() > 0"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="noeudsSuccesseurs" upperBound="-1"
+        eType="#//Arc" eOpposite="#//Arc/predecesseur"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="noeudsPredecesseurs" upperBound="-1"
+        eType="#//Arc" eOpposite="#//Arc/successeur"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Arc" eSuperTypes="#//PetriNetElt">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="poidsNonNul"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="poidsNonNul" value="poids > 0"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="predecesseur" eType="#//Noeud"
+        eOpposite="#//Noeud/noeudsSuccesseurs"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="successeur" eType="#//Noeud"
+        eOpposite="#//Noeud/noeudsPredecesseurs"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="poids" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="typeArc" eType="#//TypeArc"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PetriNetElt" abstract="true">
+    <eAnnotations source="http://www.obeo.fr/dsl/dnc/archetype">
+      <details key="archetype" value="Role"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="net" lowerBound="1" eType="#//PetriNet"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PetriNet">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="placeNoSameName transitionNoSameName notSameSuccessorPredecessor notPlaceToPlaceOrTransitionToTransition noEmptyName"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="placeNoSameName" value="&#xA;&#x9;&#x9;&#x9;&#x9;self.petrinetelt&#xA;&#x9;&#x9;&#x9;&#x9;->select(e: PetriNetElt | e.oclIsKindOf(Place))&#xA;&#x9;&#x9;&#x9;&#x9;->collect(e: PetriNetElt | e.oclAsType(Place))&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(w1, w2: Place | w1 = w2 or w1.name &lt;> w2.name)"/>
+      <details key="transitionNoSameName" value="&#xA;&#x9;&#x9;&#x9;&#x9;self.petrinetelt&#xA;&#x9;&#x9;&#x9;&#x9;->select(e: PetriNetElt | e.oclIsKindOf(Transition))&#xA;&#x9;&#x9;&#x9;&#x9;->collect(e: PetriNetElt | e.oclAsType(Transition))&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(w1, w2: Transition | w1 = w2 or w1.name &lt;> w2.name)"/>
+      <details key="notSameSuccessorPredecessor" value="&#xA;&#x9;&#x9;&#x9;&#x9;self.petrinetelt&#xA;&#x9;&#x9;&#x9;&#x9;->select(e: PetriNetElt | e.oclIsKindOf(Arc))&#xA;&#x9;&#x9;&#x9;&#x9;->collect(e: PetriNetElt | e.oclAsType(Arc))&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(a: Arc| a.successeur &lt;> a.predecesseur )"/>
+      <details key="notPlaceToPlaceOrTransitionToTransition" value="&#xA;&#x9;&#x9;&#x9;&#x9;self.petrinetelt&#xA;&#x9;&#x9;&#x9;&#x9;->select(e: PetriNetElt | e.oclIsKindOf(Arc))&#xA;&#x9;&#x9;&#x9;&#x9;->collect(e: PetriNetElt | e.oclAsType(Arc))&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(a: Arc| (a.successeur.oclIsTypeOf(Place) and a.predecesseur.oclIsTypeOf(Transition)) or (a.successeur.oclIsTypeOf(Transition) and a.predecesseur.oclIsTypeOf(Place) ) )"/>
+      <details key="noEmptyName" value="name.size() > 0"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="petrinetelt" upperBound="-1"
+        eType="#//PetriNetElt" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TypeArc">
+    <eLiterals name="ArcSimple"/>
+    <eLiterals name="ReadArc" value="1"/>
+  </eClassifiers>
+</ecore:EPackage>

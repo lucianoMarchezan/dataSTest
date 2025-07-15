@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="defaultname" nsURI="http://defaultname/1.0" nsPrefix="defaultname">
+  <eClassifiers xsi:type="ecore:EClass" name="SectionComponent" abstract="true">
+    <eOperations name="getText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations name="getTitle" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations name="getId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SectionComposite" eSuperTypes="#//SectionComponent">
+    <eOperations name="remove">
+      <eParameters name="sectionComponent" eType="#//SectionComponent"/>
+    </eOperations>
+    <eOperations name="add">
+      <eParameters name="sectionComponent" eType="#//SectionComponent"/>
+    </eOperations>
+    <eOperations name="getChild" eType="#//SectionComponent">
+      <eParameters name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sectionComponentList" upperBound="-1"
+        eType="#//SectionComponent"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="Section Register"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Section" eSuperTypes="#//SectionComponent">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="Sous-Section"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Document" eSuperTypes="#//DocumentBuilder #//DocumentStrategy #//RemoveSection">
+    <eOperations name="getSectionComponent" eType="#//SectionComponent"/>
+    <eOperations name="addSection" eType="#//SectionComposite">
+      <eParameters name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="addSubsection" eType="#//Section">
+      <eParameters name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="getContent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eParameters name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="saveText">
+      <eParameters name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="currentText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="deleteSection">
+      <eParameters name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="changeSectionTitle">
+      <eParameters name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="newTitle" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="setMomento">
+      <eParameters name="m" eType="#//Momento"/>
+    </eOperations>
+    <eOperations name="createMomento"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="document"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="racine" lowerBound="1"
+        eType="#//SectionComponent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pressePapier" lowerBound="1"
+        eType="#//PressePapier"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="state" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="EReference0" upperBound="-1"
+        eType="#//Momento"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="EReference1" eType="#//Document"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="EReference2" eType="#//Receiver"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="EReference3" eType="#//addSection"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="EReference4" eType="#//RemoveSection"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DocumentBuilder">
+    <eOperations name="load" eType="#//Document">
+      <eParameters name="filePath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="export">
+      <eParameters name="documentName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="save">
+      <eParameters name="document" eType="#//Document"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="document" lowerBound="1"
+        eType="#//Document"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="filePath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="DossierDefaut"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="documentStrategy" lowerBound="1"
+        eType="#//DocumentStrategy" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exportStrategy" lowerBound="1"
+        eType="#//ExportStrategy" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DocumentStrategy" abstract="true" interface="true">
+    <eOperations name="load" eType="#//Document">
+      <eParameters name="filePath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="save">
+      <eParameters name="document" eType="#//Document"/>
+      <eParameters name="filePath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XMIStrategy" eSuperTypes="#//DocumentStrategy"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PressePapier">
+    <eOperations name="copyText">
+      <eParameters name="textToCopy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="moveText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eOperations name="pasteText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="textSelected" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pressePaper" eType="#//Document"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="startPosition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExportStrategy" abstract="true" interface="true">
+    <eOperations name="export">
+      <eParameters name="document" eType="#//Document"/>
+      <eParameters name="filePath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HTMLStrategy" eSuperTypes="#//ExportStrategy"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Momento">
+    <eOperations name="getMomento" eType="#//Momento"/>
+    <eOperations name="setMomento">
+      <eParameters name="m" eType="#//Momento"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="state" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Caretaker">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="EReference0" eType="#//Momento"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Receiver"/>
+  <eClassifiers xsi:type="ecore:EClass" name="addSection" eSuperTypes="#//Receiver #//Command">
+    <eOperations name="execute"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="EReference0" eType="#//Document"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="EReference1" eType="#//Receiver"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="state" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RemoveSection" eSuperTypes="#//Receiver #//Command">
+    <eOperations name="execute"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="EReference0" eType="#//Receiver"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="state" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompositeCommand" eSuperTypes="#//Receiver #//Command"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Command">
+    <eOperations name="execute"/>
+  </eClassifiers>
+</ecore:EPackage>

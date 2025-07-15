@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="OracleForms" nsURI="http://uniandes.edu.co/metamodels/OracleForms"
+    nsPrefix="techOra">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="Application">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Elemento Raíz"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modules" lowerBound="1"
+        upperBound="-1" eType="#//Module" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modulerelations" upperBound="-1"
+        eType="#//ModuleRelationship" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Module">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Clusters"/>
+    </eAnnotations>
+    <eAnnotations source="Cluster"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="weigth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//Element" containment="true">
+      <eAnnotations source="ClusteredElements"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elementrelations" upperBound="-1"
+        eType="#//ElementRelationship" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Element" abstract="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Clustered Elements"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Table" eSuperTypes="#//Element">
+    <eAnnotations source="ClusteredElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Form" eSuperTypes="#//Element">
+    <eAnnotations source="ClusteredElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ModuleRelationship">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Relations"/>
+    </eAnnotations>
+    <eAnnotations source="Relationship"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceModule" lowerBound="1"
+        eType="#//Module">
+      <eAnnotations source="source"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetModule" lowerBound="1"
+        eType="#//Module">
+      <eAnnotations source="target"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ElementRelationship" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//Form">
+      <eAnnotations source="source"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FormCallRelationship" eSuperTypes="#//ElementRelationship">
+    <eAnnotations source="Relationship"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="formTarget" lowerBound="1"
+        eType="#//Form">
+      <eAnnotations source="target"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SingleTableRelationship" eSuperTypes="#//ElementRelationship">
+    <eAnnotations source="Relationship"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="singleTarget" lowerBound="1"
+        eType="#//Table">
+      <eAnnotations source="target"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PLSQLRelationship" eSuperTypes="#//ElementRelationship">
+    <eAnnotations source="Relationship"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="plsqlTarget" lowerBound="1"
+        eType="#//Table">
+      <eAnnotations source="target"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MasterDetailRelationship" eSuperTypes="#//ElementRelationship">
+    <eAnnotations source="Relationship"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="masterTarget" lowerBound="1"
+        eType="#//Table">
+      <eAnnotations source="target"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="detailTarget" lowerBound="1"
+        eType="#//Table"/>
+  </eClassifiers>
+</ecore:EPackage>

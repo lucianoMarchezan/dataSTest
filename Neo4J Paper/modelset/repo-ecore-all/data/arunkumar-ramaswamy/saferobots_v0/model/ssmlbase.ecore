@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ssmlbase" nsURI="http://ssmlbase/1.0" nsPrefix="ssmlbase">
+  <eClassifiers xsi:type="ecore:EClass" name="System">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has_gates" upperBound="-1"
+        eType="#//Dispatch_gate" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has_connectors" upperBound="-1"
+        eType="#//Connector" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Dispatch_gate">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has_policy" lowerBound="1"
+        eType="#//Dispatch_policy" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has_ports" upperBound="-1"
+        eType="#//Port" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//gate_type"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Dispatch_policy">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Port">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//port_type"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contain_ports" upperBound="-1"
+        eType="#//Port" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Connector">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has_QoS" eType="#//QoS"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="in_port" lowerBound="1"
+        eType="#//Port"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="out_port" lowerBound="1"
+        eType="#//Port"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has_NFP" eType="#//NFP"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NFP">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has_policy" eType="ecore:EClass nfp.ecore#//NFP_Policy"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="ecore:EClass nfp.ecore#//NFP_Attribute" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="QoS">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//NFP" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has_policy" eType="ecore:EClass nfp.ecore#//QoS_Policy"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="for_context" eType="ecore:EClass nfp.ecore#//Context"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="port_type">
+    <eLiterals name="in"/>
+    <eLiterals name="out" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="gate_type">
+    <eLiterals name="splitter"/>
+    <eLiterals name="synchronizer" value="1"/>
+    <eLiterals name="delay" value="2"/>
+    <eLiterals name="merger" value="3"/>
+    <eLiterals name="selector" value="4"/>
+    <eLiterals name="user_defined" value="5"/>
+    <eLiterals name="source" value="6"/>
+    <eLiterals name="sink" value="7"/>
+  </eClassifiers>
+</ecore:EPackage>

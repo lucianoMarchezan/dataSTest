@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="towerDefense" nsURI="http://www.TowerDefense.xtext" nsPrefix="towerDefense">
+  <eClassifiers xsi:type="ecore:EClass" name="Jeu">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parties" upperBound="-1"
+        eType="#//Partie" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Partie">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cases" upperBound="-1"
+        eType="#//Case" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cartes" upperBound="-1"
+        eType="#//Carte" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="partieElements" upperBound="-1"
+        eType="#//PartieElement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="niveaux" upperBound="-1"
+        eType="#//Niveau" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PartieElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Energie">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="infini" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="valeur" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Obstacle" eSuperTypes="#//PartieElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="campement" eType="#//Case"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="quantiteEnergieMax" eType="#//Energie"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tactique" eType="#//TactiqueType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TactiqueType">
+    <eLiterals name="proche" literal="procheFirst"/>
+    <eLiterals name="faible" value="1" literal="faibleFirst"/>
+    <eLiterals name="fort" value="2" literal="fortFirst"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Mobile" eSuperTypes="#//PartieElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="force" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="volume" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="numVague" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="caseEntree" eType="#//Case"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="caseSortie" eType="#//Case"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="quantiteEnergieMax" eType="#//Energie"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tactique" eType="#//TactiqueType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Projectile" eSuperTypes="#//PartieElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="portee" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="masse" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="vitesse" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="case" eType="#//Case"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cible" eType="#//Case"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="degat" eType="#//Energie"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NatureTerrain" eSuperTypes="#//PartieElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="volume" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//TYPE_TERRAIN"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fatigue" eType="#//Energie"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TYPE_TERRAIN">
+    <eLiterals name="entree" literal="entree"/>
+    <eLiterals name="sortie" value="1" literal="sortie"/>
+    <eLiterals name="chemin" value="2" literal="chemin"/>
+    <eLiterals name="campement" value="3" literal="camp"/>
+    <eLiterals name="decoration" value="4" literal="deco"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Niveau">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="difficulte" eType="#//Difficulte"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dureePause" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="argent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mobSortisLimite" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="carte" eType="#//Carte"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="vagues" upperBound="-1"
+        eType="#//Vague" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Difficulte">
+    <eLiterals name="facile" literal="facile"/>
+    <eLiterals name="moyen" value="1" literal="moyen"/>
+    <eLiterals name="difficile" value="2" literal="difficile"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Carte">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nbLignes" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nbColonnes" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cases" unique="false" upperBound="-1"
+        eType="#//Case"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Case">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="i" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="j" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="natureDuTerrain" eType="#//NatureTerrain"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Vague">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mobiles" unique="false"
+        upperBound="-1" eType="#//Mobile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="obstacles" unique="false"
+        upperBound="-1" eType="#//Obstacle"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gainVictoire" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+</ecore:EPackage>

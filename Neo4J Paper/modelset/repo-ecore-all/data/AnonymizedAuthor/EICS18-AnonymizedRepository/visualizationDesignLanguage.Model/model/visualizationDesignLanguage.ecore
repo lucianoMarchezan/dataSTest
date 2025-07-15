@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="visualizationDesignLanguage" nsURI="fr.uns.i3s.sparks.modalis.israfel.visualisationdesignlanguage"
+    nsPrefix="visualizationDesignLanguage">
+  <eClassifiers xsi:type="ecore:EClass" name="Dashboard">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="windows" lowerBound="1"
+        upperBound="-1" eType="#//Window" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="visualizations" lowerBound="1"
+        upperBound="-1" eType="#//Visualization" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Window">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="organizes" lowerBound="1"
+        upperBound="-1" eType="#//Container" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Container" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ponderation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" lowerBound="1"
+        upperBound="-1" eType="#//Cell" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Column" eSuperTypes="#//Container"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Line" eSuperTypes="#//Container"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Visualization">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="displays" upperBound="-1"
+        eType="#//Source" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="concerns" upperBound="-1"
+        eType="#//WhatQualifier" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Cell">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="wraps" lowerBound="1" eType="#//Visualization"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Source">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="concerns" upperBound="-1"
+        eType="#//HowQualifier" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Concern" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="HowQualifier" abstract="true" eSuperTypes="#//Concern"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WhatQualifier" eSuperTypes="#//Concern">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="concern" lowerBound="1"
+        eType="#//Taxonomy"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Taxonomy">
+    <eLiterals name="Proportion"/>
+    <eLiterals name="Location" value="1"/>
+    <eLiterals name="Comparison" value="2"/>
+    <eLiterals name="Part_to_a_whole" value="3"/>
+    <eLiterals name="Relationship" value="4"/>
+    <eLiterals name="Over_time" value="5"/>
+    <eLiterals name="Distribution" value="6"/>
+    <eLiterals name="Hierarchy" value="7"/>
+    <eLiterals name="Reference_tool" value="8"/>
+    <eLiterals name="Range" value="9"/>
+    <eLiterals name="Pattern" value="10"/>
+    <eLiterals name="Extremum" value="11"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DataProperty">
+    <eLiterals name="Continuous"/>
+    <eLiterals name="Discrete" value="1"/>
+    <eLiterals name="Scalar" value="2"/>
+    <eLiterals name="Structural" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Icon" eSuperTypes="#//HowQualifier"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Colorization" eSuperTypes="#//HowQualifier">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Property" eSuperTypes="#//HowQualifier">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="#//DataProperty"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Threshold" eSuperTypes="#//HowQualifier">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="min" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="max" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+</ecore:EPackage>

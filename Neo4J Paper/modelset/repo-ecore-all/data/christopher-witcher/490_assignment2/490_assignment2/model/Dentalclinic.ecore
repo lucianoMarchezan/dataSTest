@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="dentalclinic" nsURI="http://dentalclinic/1.0" nsPrefix="dentalclinic">
+  <eClassifiers xsi:type="ecore:EClass" name="Appointment">
+    <eOperations name="calcCost" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="treatments" lowerBound="1"
+        upperBound="-1" eType="#//Treatment" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dentist" lowerBound="1"
+        eType="#//Dentist" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="products" lowerBound="1"
+        upperBound="-1" eType="#//Product" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="client" lowerBound="1"
+        eType="#//Client" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cost" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="#//ApptStatus"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timeSlots" lowerBound="1"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Treatment" abstract="true">
+    <eOperations name="calcTotalPrice" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="price" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timeSlots" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="product" lowerBound="1"
+        upperBound="-1" eType="#//Product" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Dentist">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="schedule" lowerBound="1"
+        upperBound="-1" eType="#//schedule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="prefDentist" eType="#//Client"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Product" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="customerCost" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="treatmentCost" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Client">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="address" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="clientType" eType="#//ClientType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="deltaCareNum" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lastAppt" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ApptStatus">
+    <eLiterals name="active"/>
+    <eLiterals name="cancelled" value="1"/>
+    <eLiterals name="past" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ClientType">
+    <eLiterals name="deltaCare"/>
+    <eLiterals name="inactive" value="1"/>
+    <eLiterals name="private" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PolishingGel" eSuperTypes="#//Product">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bottleCost" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Amalgam" eSuperTypes="#//Product"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GoldCrown" eSuperTypes="#//Product"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Crown" eSuperTypes="#//Product"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Scaling" eSuperTypes="#//Treatment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Filling" eSuperTypes="#//Treatment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Checkup" eSuperTypes="#//Treatment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MinorSurgery" eSuperTypes="#//Treatment"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="schedule" instanceClassName="java.util.Map"/>
+</ecore:EPackage>

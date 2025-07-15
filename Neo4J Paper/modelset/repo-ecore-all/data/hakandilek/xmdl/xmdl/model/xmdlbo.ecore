@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="xmdlbo"
+    nsURI="http://www.xmdl.org/xmdlbo.ecore" nsPrefix="org.xmdl.bo">
+  <eClassifiers xsi:type="ecore:EClass" name="BModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xProject" eType="ecore:EClass xmdl.ecore#//XProject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="xModel" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bPackages" upperBound="-1"
+        eType="#//BPackage" containment="true" eOpposite="#//BPackage/model"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XMDLBOModel" eSuperTypes="xmdl.ecore#//XModel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BPackage">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="model" lowerBound="1" eType="#//BModel"
+        eOpposite="#//BModel/bPackages"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xPackage" lowerBound="1"
+        eType="ecore:EClass xmdl.ecore#//XPackage"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="services" upperBound="-1"
+        eType="#//BService" containment="true" eOpposite="#//BService/bPackage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BService">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bPackage" eType="#//BPackage"
+        eOpposite="#//BPackage/services"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="methods" upperBound="-1"
+        eType="#//BMethod" containment="true" eOpposite="#//BMethod/service"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xClass" lowerBound="1"
+        eType="ecore:EClass xmdl.ecore#//XClass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BParameter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass xmdl.ecore#//XType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nature" eType="#//BParameterNature"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="constant" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="method" lowerBound="1"
+        eType="#//BMethod" eOpposite="#//BMethod/parameters"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="BParameterNature">
+    <eLiterals name="IN" value="1"/>
+    <eLiterals name="OUT" value="2"/>
+    <eLiterals name="IN_OUT" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BMethod">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//BParameter" containment="true" eOpposite="#//BParameter/method"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="service" eType="#//BService"
+        eOpposite="#//BService/methods"/>
+  </eClassifiers>
+</ecore:EPackage>

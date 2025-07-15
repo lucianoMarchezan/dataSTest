@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="DSTM4Rail" nsURI="dstm4rail" nsPrefix="dstm4rail">
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DSTM" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="machines" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//Machine" containment="true" eOpposite="#//Machine/DSTM"
+        eKeys="#//NamedElement/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="main" ordered="false" lowerBound="1"
+        eType="#//Machine" eKeys="#//NamedElement/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="channels" ordered="false"
+        upperBound="-1" eType="#//Channel" containment="true" eOpposite="#//Channel/DSTM"
+        eKeys="#//NamedElement/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="types" ordered="false"
+        upperBound="-1" eType="#//Type" containment="true" eOpposite="#//Type/DSTM"
+        eKeys="#//NamedElement/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="global_variables" ordered="false"
+        upperBound="-1" eType="#//Variable" containment="true" eOpposite="#//Variable/DSTM"
+        eKeys="#//NamedElement/name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Machine" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DSTM" ordered="false" lowerBound="1"
+        eType="#//DSTM" eOpposite="#//DSTM/machines" eKeys="#//NamedElement/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="vertexes" ordered="false"
+        lowerBound="2" upperBound="-1" eType="#//Vertex" containment="true" eOpposite="#//Vertex/machine"
+        eKeys="#//NamedElement/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transitions" ordered="false"
+        upperBound="-1" eType="#//Transition" containment="true" eOpposite="#//Transition/machine"
+        eKeys="#//NamedElement/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//Parameter" containment="true" eOpposite="#//Parameter/machine" eKeys="#//NamedElement/name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Transition" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="trigger" ordered="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="condition" ordered="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="actions" unique="false"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="is_preemptive" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="par_instantiation" unique="false"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="requirements" ordered="false"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" ordered="false"
+        lowerBound="1" eType="#//Vertex" eKeys="#//NamedElement/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="destination" ordered="false"
+        lowerBound="1" eType="#//Vertex" eKeys="#//NamedElement/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exiting_node" ordered="false"
+        eType="#//ExitingNode" eKeys="#//NamedElement/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entering_node" ordered="false"
+        eType="#//EnteringNode" eKeys="#//NamedElement/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="machine" ordered="false"
+        lowerBound="1" eType="#//Machine" eOpposite="#//Machine/transitions" eKeys="#//NamedElement/name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Vertex" abstract="true" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="requirements" ordered="false"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="machine" ordered="false"
+        lowerBound="1" eType="#//Machine" eOpposite="#//Machine/vertexes" eKeys="#//NamedElement/name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="#//Vertex"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Box" eSuperTypes="#//Vertex">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="instantiation" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//Machine" eKeys="#//NamedElement/name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PseudoNode" abstract="true" eSuperTypes="#//Vertex"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EnteringNode" eSuperTypes="#//PseudoNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InitialNode" eSuperTypes="#//EnteringNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExitingNode" eSuperTypes="#//Node"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Fork" eSuperTypes="#//PseudoNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Join" eSuperTypes="#//PseudoNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Parameter" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" ordered="false" lowerBound="1"
+        eType="#//tBasic" eKeys="#//NamedElement/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="machine" ordered="false"
+        lowerBound="1" eType="#//Machine" eOpposite="#//Machine/parameters" eKeys="#//NamedElement/name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Type" abstract="true" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DSTM" ordered="false" eType="#//DSTM"
+        eOpposite="#//DSTM/types" eKeys="#//NamedElement/name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="tBasic" abstract="true" eSuperTypes="#//tSimpleType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tCompound" ordered="false"
+        eType="#//tCompound" eOpposite="#//tCompound/subtypes" eKeys="#//NamedElement/name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="tInteger" eSuperTypes="#//tBasic"/>
+  <eClassifiers xsi:type="ecore:EClass" name="tEnum" eSuperTypes="#//tBasic">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="literals" lowerBound="1"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="tChannel" eSuperTypes="#//tBasic">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="channel_names" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="tCompound" eSuperTypes="#//tSimpleType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subtypes" lowerBound="1"
+        upperBound="-1" eType="#//tBasic" containment="true" eOpposite="#//tBasic/tCompound"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="tSimpleType" abstract="true" eSuperTypes="#//Type">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tMultiType" ordered="false"
+        eType="#//tMultiType" eOpposite="#//tMultiType/composedBy" eKeys="#//NamedElement/name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="tMultiType" eSuperTypes="#//Type">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="composedBy" lowerBound="1"
+        upperBound="-1" eType="#//tSimpleType" containment="true" eOpposite="#//tSimpleType/tMultiType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Variable" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" ordered="false" lowerBound="1"
+        eType="#//tBasic" eKeys="#//NamedElement/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DSTM" ordered="false" lowerBound="1"
+        eType="#//DSTM" eOpposite="#//DSTM/global_variables" eKeys="#//NamedElement/name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Channel" abstract="true" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DSTM" ordered="false" lowerBound="1"
+        eType="#//DSTM" eOpposite="#//DSTM/channels" eKeys="#//NamedElement/name"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="channelType" ordered="false"
+        lowerBound="1" eType="#//Type" eKeys="#//NamedElement/name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="cExternal" eSuperTypes="#//Channel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="cInternal" eSuperTypes="#//Channel">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bound" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+</ecore:EPackage>

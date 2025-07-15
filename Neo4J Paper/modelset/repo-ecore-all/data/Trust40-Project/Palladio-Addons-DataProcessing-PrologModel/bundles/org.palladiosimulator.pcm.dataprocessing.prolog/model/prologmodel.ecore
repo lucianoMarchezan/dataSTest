@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="prologmodel" nsURI="http://www.palladiosimulator.org/pcm/dataprocessing/prolog/0.1/"
+    nsPrefix="prologmodel">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
+  </eAnnotations>
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="System">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="attributeNamesUnique datatypeNamesUnique propertyNamesUnique valueSetTypeNamesUnique operationAndSystemUsageNamesUnique"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="attributeNamesUnique" value="attributes->isUnique(name)"/>
+      <details key="datatypeNamesUnique" value="datatypes->isUnique(name)"/>
+      <details key="propertyNamesUnique" value="properties->isUnique(name)"/>
+      <details key="valueSetTypeNamesUnique" value="types->isUnique(name)"/>
+      <details key="operationAndSystemUsageNamesUnique" value="operations->selectByKind(Caller)->asBag()->union(systemusages->selectByKind(Caller)->asBag())->isUnique(name)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="#//Attribute" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="datatypes" upperBound="-1"
+        eType="#//DataType" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operations" upperBound="-1"
+        eType="#//Operation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
+        eType="#//Property" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="types" upperBound="-1"
+        eType="#//ValueSetType" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="systemusages" upperBound="-1"
+        eType="#//SystemUsage" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Attribute">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//ValueSetType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Value">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containingType" lowerBound="1"
+        eType="#//ValueSetType" eOpposite="#//ValueSetType/values"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Operation" eSuperTypes="#//Caller">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="parameterNamesUnique returnValueNamesUnique stateNamesUnique noDuplicatePropertyDefinitions noCyclesInCallGraph onlyConstantDefaultStateDefinitions"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="parameterNamesUnique" value="parameters->isUnique(name)"/>
+      <details key="returnValueNamesUnique" value="returnValues->isUnique(name)"/>
+      <details key="stateNamesUnique" value="stateVariables->isUnique(name)"/>
+      <details key="noDuplicatePropertyDefinitions" value="propertyDefinitions->isUnique(property)"/>
+      <details key="noCyclesInCallGraph" value=" self.calls->closure(call | call.callee.calls).callee->excludes(self)"/>
+      <details key="onlyConstantDefaultStateDefinitions" value="defaultStateDefinitions.term.oclAsType(ecore::EObject)->closure(t : ecore::EObject | t.oclAsType(ecore::EObject).eContents()->selectByKind(ecore::EObject))->forAll(&#xA;&#x9;oclIsKindOf(True) or&#xA;&#x9;oclIsKindOf(False) or&#xA;&#x9;oclIsKindOf(And) or&#xA;&#x9;oclIsKindOf(Or) or&#xA;&#x9;oclIsKindOf(Not) or&#xA;&#x9;oclIsKindOf(PropertyRef)&#xA;)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//Variable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="returnValues" upperBound="-1"
+        eType="#//Variable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="propertyDefinitions" upperBound="-1"
+        eType="#//PropertyDefinition" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="returnValueAssignments"
+        upperBound="-1" eType="#//VariableAssignment" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stateVariables" upperBound="-1"
+        eType="#//Variable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="defaultStateDefinitions"
+        upperBound="-1" eType="#//VariableAssignment" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="postExecutionStateDefinitions"
+        upperBound="-1" eType="#//VariableAssignment" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Variable">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="datatype" lowerBound="1"
+        eType="#//DataType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="#//Attribute"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Property">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//ValueSetType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PropertyDefinition">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="valuesPartOfPropertyType"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="valuesPartOfPropertyType" value="getPossibleValues()->includesAll(presentValues)"/>
+    </eAnnotations>
+    <eOperations name="getPossibleValues" ordered="false" upperBound="-1" eType="#//Value">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;if property.oclIsUndefined() then&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Property.allInstances().type.values->asSet()&#xA;&#x9;&#x9;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;property.type.values->asSet()&#xA;&#x9;&#x9;&#x9;&#x9;endif"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" lowerBound="1"
+        eType="#//Property"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="presentValues" upperBound="-1"
+        eType="#//Value"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OperationCall">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="callee" lowerBound="1"
+        eType="#//Operation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameterAssignments" upperBound="-1"
+        eType="#//VariableAssignment" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="caller" lowerBound="1"
+        eType="#//Caller" eOpposite="#//Caller/calls"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="preCallStateDefinitions"
+        upperBound="-1" eType="#//VariableAssignment" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VariableAssignment">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="isVariableValid isAttributeValid isValueValid"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="isVariableValid" value="getPossibleVariables()->includes(variable)"/>
+      <details key="isAttributeValid" value="getPossibleAttributes()->includes(attribute)"/>
+      <details key="isValueValid" value="getPossibleValues()->includes(value)"/>
+    </eAnnotations>
+    <eOperations name="getPossibleVariables" ordered="false" upperBound="-1" eType="#//Variable">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="if(self.oclAsType(ecore::EObject).eContainer().oclIsUndefined()) then&#xA;&#x9;Variable.allInstances()->asSet()&#xA;else &#xA;&#x9;if(self.oclAsType(ecore::EObject).eContainer().oclIsKindOf(OperationCall)) then&#xA;&#x9;&#x9;if self.oclAsType(ecore::EObject).eContainer().oclAsType(OperationCall).parameterAssignments->includes(self) then&#xA;&#x9;&#x9;&#x9;self.oclAsType(ecore::EObject).eContainer().oclAsType(OperationCall).callee.parameters->asSet()&#xA;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;Operation.allInstances().stateVariables->asSet()&#xA;&#x9;&#x9;endif&#xA;&#x9;else&#xA;&#x9;&#x9;if(self.oclAsType(ecore::EObject).eContainer().oclIsKindOf(Operation)) then&#xA;&#x9;&#x9;&#x9;if self.oclAsType(ecore::EObject).eContainer().oclAsType(Operation).returnValueAssignments->includes(self) then&#xA;&#x9;&#x9;&#x9;&#x9;self.oclAsType(ecore::EObject).eContainer().oclAsType(Operation).returnValues->asSet()&#xA;&#x9;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;&#x9;if self.oclAsType(ecore::EObject).eContainer().oclAsType(Operation).defaultStateDefinitions->includes(self) then&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;self.oclAsType(ecore::EObject).eContainer().oclAsType(Operation).stateVariables->asSet()&#xA;&#x9;&#x9;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Operation.allInstances().stateVariables->asSet()&#xA;&#x9;&#x9;&#x9;&#x9;endif&#xA;&#x9;&#x9;&#x9;endif&#xA;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;Variable.allInstances()->asSet()&#xA;&#x9;&#x9;endif&#xA;&#x9;endif&#xA;endif"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getPossibleAttributes" ordered="false" upperBound="-1" eType="#//Attribute">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;if variable.oclIsUndefined() then&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;getPossibleVariables().datatype.attributes->asSet()->union(Set{null})&#xA;&#x9;&#x9;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;variable.datatype.attributes->asSet()->union(Set{null})&#xA;&#x9;&#x9;&#x9;&#x9;endif"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getPossibleValues" ordered="false" upperBound="-1" eType="#//Value">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;if attribute.oclIsUndefined() then&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;getPossibleAttributes()->reject(oclIsUndefined()).type.values->asSet()->union(Set{null})&#xA;&#x9;&#x9;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;attribute.type.values->asSet()->union(Set{null})&#xA;&#x9;&#x9;&#x9;&#x9;endif"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="isAttributeWildcard" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;attribute.oclIsUndefined()"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="isValueWildcard" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;value.oclIsUndefined()"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
+        eType="#//Variable"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attribute" eType="#//Attribute"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//Value"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="term" lowerBound="1" eType="#//LogicTerm"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ValueSetType">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="valueNamesUnique"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="valueNamesUnique" value="values->isUnique(name)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="values" upperBound="-1"
+        eType="#//Value" containment="true" eOpposite="#//Value/containingType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LogicTerm" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containingAssignment" eType="#//VariableAssignment"
+        changeable="false" volatile="true" transient="true" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="derivation" value="let cont = self->selectByKind(ocl::OclElement)->closure(elem | elem.oclContainer())->any(e | e.oclIsKindOf(VariableAssignment)) in&#xA;&#x9;&#x9;&#x9;&#x9;if(cont.oclIsInvalid()) then &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;null&#xA;&#x9;&#x9;&#x9;&#x9;else &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;cont.oclAsType(VariableAssignment)&#xA;&#x9;&#x9;&#x9;&#x9;endif"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="True" eSuperTypes="#//LogicTerm"/>
+  <eClassifiers xsi:type="ecore:EClass" name="False" eSuperTypes="#//LogicTerm"/>
+  <eClassifiers xsi:type="ecore:EClass" name="And" eSuperTypes="#//LogicTerm">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operands" lowerBound="2"
+        upperBound="2" eType="#//LogicTerm" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Or" eSuperTypes="#//LogicTerm">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operands" lowerBound="2"
+        upperBound="2" eType="#//LogicTerm" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Not" eSuperTypes="#//LogicTerm">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operand" lowerBound="1"
+        eType="#//LogicTerm" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ParameterRef" eSuperTypes="#//LogicTerm">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="isParameterValid isAttributeValid isValueValid"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="isParameterValid" value="getPossibleParameters()->includes(parameter)"/>
+      <details key="isAttributeValid" value="getPossibleAttributes()->includes(attribute)"/>
+      <details key="isValueValid" value="getPossibleValues()->includes(value)"/>
+    </eAnnotations>
+    <eOperations name="getPossibleParameters" ordered="false" upperBound="-1" eType="#//Variable">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;let assi = containingAssignment in&#xA;&#x9;&#x9;&#x9;&#x9;if(assi.oclIsUndefined() or assi.oclContainer().oclIsUndefined()) then&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Operation.allInstances().parameters->asSet()&#xA;&#x9;&#x9;&#x9;&#x9;else &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;if(assi.oclContainer().oclIsKindOf(OperationCall)) then&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;let caller = assi.oclContainer().oclAsType(OperationCall).caller in&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;if (caller.oclIsKindOf(Operation)) then&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;caller.oclAsType(Operation).parameters->asSet()&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Set{}&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;endif&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;if(assi.oclContainer().oclIsKindOf(Operation)) then&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;assi.oclContainer().oclAsType(Operation).parameters->asSet()&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Operation.allInstances().parameters->asSet()&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;endif&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;endif&#xA;&#x9;&#x9;&#x9;&#x9;endif"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getPossibleAttributes" ordered="false" upperBound="-1" eType="#//Attribute">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;if parameter.oclIsUndefined() then&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;getPossibleParameters().datatype.attributes->asSet()->union(Set{null})&#xA;&#x9;&#x9;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;parameter.datatype.attributes->asSet()->union(Set{null})&#xA;&#x9;&#x9;&#x9;&#x9;endif"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getPossibleValues" ordered="false" upperBound="-1" eType="#//Value">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;if attribute.oclIsUndefined() then&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;getPossibleAttributes()->reject(oclIsUndefined()).type.values->asSet()->union(Set{null})&#xA;&#x9;&#x9;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;attribute.type.values->asSet()->union(Set{null})&#xA;&#x9;&#x9;&#x9;&#x9;endif"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="isAttributeWildcard" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;attribute.oclIsUndefined()"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="isValueWildcard" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;value.oclIsUndefined()"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameter" lowerBound="1"
+        eType="#//Variable"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attribute" eType="#//Attribute"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//Value"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PropertyRef" eSuperTypes="#//LogicTerm">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="isPropertyValid isValueValid"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="isPropertyValid" value="getPossibleProperties()->includes(property)"/>
+      <details key="isValueValid" value="getPossibleValues()->includes(value)"/>
+    </eAnnotations>
+    <eOperations name="getPossibleProperties" ordered="false" upperBound="-1" eType="#//Property">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;if operation.oclIsUndefined() then&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Operation.allInstances().propertyDefinitions.property->asSet()&#xA;&#x9;&#x9;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;operation.propertyDefinitions.property->asSet()&#xA;&#x9;&#x9;&#x9;&#x9;endif"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getPossibleValues" ordered="false" upperBound="-1" eType="#//Value">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;if property.oclIsUndefined() then&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;getPossibleProperties().type.values->asSet()->union(Set{null})&#xA;&#x9;&#x9;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;property.type.values->asSet()->union(Set{null})&#xA;&#x9;&#x9;&#x9;&#x9;endif"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="isValueWildcard" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;value.oclIsUndefined()"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operation" lowerBound="1"
+        eType="#//Operation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//Value"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" lowerBound="1"
+        eType="#//Property"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Caller" abstract="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="callNamesUnique"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="callNamesUnique" value="calls->isUnique(name)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="calls" upperBound="-1"
+        eType="#//OperationCall" containment="true" eOpposite="#//OperationCall/caller"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemUsage" eSuperTypes="#//Caller"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ReturnValueRef" eSuperTypes="#//LogicTerm">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="isCallValid isReturnValueValid isAttributeValid isValueValid"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="isCallValid" value="getPossibleCalls()->includes(call)"/>
+      <details key="isReturnValueValid" value="getPossibleReturnValues()->includes(returnValue)"/>
+      <details key="isAttributeValid" value="getPossibleAttributes()->includes(attribute)"/>
+      <details key="isValueValid" value="getPossibleValues()->includes(value)"/>
+    </eAnnotations>
+    <eOperations name="getPossibleCalls" ordered="false" upperBound="-1" eType="#//OperationCall">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="if(containingAssignment.oclIsUndefined() or containingAssignment.oclAsType(ecore::EObject).eContainer().oclIsUndefined()) then&#xA;&#x9;Caller.allInstances().calls->asSet()&#xA;else &#xA;&#x9;if(containingAssignment.oclAsType(ecore::EObject).eContainer().oclIsKindOf(OperationCall)) then&#xA;&#x9;&#x9;let call = containingAssignment.oclAsType(ecore::EObject).eContainer().oclAsType(OperationCall) in&#xA;&#x9;&#x9;let callIdx = call.caller.calls->indexOf(call) in&#xA;&#x9;&#x9;if(callIdx = 1) then&#xA;&#x9;&#x9;&#x9;Set{}&#xA;&#x9;&#x9;else &#xA;&#x9;&#x9;&#x9;call.caller.calls->subOrderedSet(1, callIdx-1)->asSet()&#xA;&#x9;&#x9;endif&#xA;&#x9;else&#xA;&#x9;&#x9;if(containingAssignment.oclAsType(ecore::EObject).eContainer().oclIsKindOf(Caller)) then&#xA;&#x9;&#x9;&#x9;containingAssignment.oclAsType(ecore::EObject).eContainer().oclAsType(Caller).calls->asSet()&#xA;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;Caller.allInstances().calls->asSet()&#xA;&#x9;&#x9;endif&#xA;&#x9;endif&#xA;endif"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getPossibleReturnValues" ordered="false" upperBound="-1" eType="#//Variable">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;if(call.oclIsUndefined()) then&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;getPossibleCalls().callee.returnValues->asSet()&#xA;&#x9;&#x9;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;call.callee.returnValues->asSet()&#xA;&#x9;&#x9;&#x9;&#x9;endif"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getPossibleAttributes" ordered="false" upperBound="-1" eType="#//Attribute">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;if returnValue.oclIsUndefined() then&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;getPossibleReturnValues().datatype.attributes->asSet()->union(Set{null})&#xA;&#x9;&#x9;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;returnValue.datatype.attributes->asSet()->union(Set{null})&#xA;&#x9;&#x9;&#x9;&#x9;endif"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getPossibleValues" ordered="false" upperBound="-1" eType="#//Value">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;if attribute.oclIsUndefined() then&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;getPossibleAttributes()->reject(oclIsUndefined()).type.values->asSet()->union(Set{null})&#xA;&#x9;&#x9;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;attribute.type.values->asSet()->union(Set{null})&#xA;&#x9;&#x9;&#x9;&#x9;endif"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="isAttributeWildcard" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;attribute.oclIsUndefined()"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="isValueWildcard" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;value.oclIsUndefined()"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="returnValue" lowerBound="1"
+        eType="#//Variable"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attribute" eType="#//Attribute"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//Value"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="call" lowerBound="1" eType="#//OperationCall"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StateRef" eSuperTypes="#//LogicTerm">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="isStateVariableValid isAttributeValid isValueValid"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="isStateVariableValid" value="getPossibleVariables()->includes(stateVariable)"/>
+      <details key="isAttributeValid" value="getPossibleAttributes()->includes(attribute)"/>
+      <details key="isValueValid" value="getPossibleValues()->includes(value)"/>
+    </eAnnotations>
+    <eOperations name="getPossibleVariables" ordered="false" upperBound="-1" eType="#//Variable">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;Operation.allInstances().stateVariables->asSet()"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getPossibleAttributes" ordered="false" upperBound="-1" eType="#//Attribute">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;if stateVariable.oclIsUndefined() then&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;getPossibleVariables().datatype.attributes->asSet()->union(Set{null})&#xA;&#x9;&#x9;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;stateVariable.datatype.attributes->asSet()->union(Set{null})&#xA;&#x9;&#x9;&#x9;&#x9;endif"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getPossibleValues" ordered="false" upperBound="-1" eType="#//Value">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;if attribute.oclIsUndefined() then&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;getPossibleAttributes()->reject(oclIsUndefined()).type.values->asSet()->union(Set{null})&#xA;&#x9;&#x9;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;attribute.type.values->asSet()->union(Set{null})&#xA;&#x9;&#x9;&#x9;&#x9;endif"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="isAttributeWildcard" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;attribute.oclIsUndefined()"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="isValueWildcard" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;value.oclIsUndefined()"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stateVariable" lowerBound="1"
+        eType="#//Variable"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attribute" eType="#//Attribute"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//Value"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DefaultStateRef" eSuperTypes="#//LogicTerm">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Main purpose is to allow the Translator to defined state assignments prior to performing the translation.&#xA;This class should usually not be used when defining models."/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="isStateVariableValid isAttributeValid isValueValid"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="isStateVariableValid" value="getPossibleVariables()->includes(stateVariable)"/>
+      <details key="isAttributeValid" value="getPossibleAttributes()->includes(attribute)"/>
+      <details key="isValueValid" value="getPossibleValues()->includes(value)"/>
+    </eAnnotations>
+    <eOperations name="getPossibleVariables" ordered="false" upperBound="-1" eType="#//Variable">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;Operation.allInstances().stateVariables->asSet()"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getPossibleAttributes" ordered="false" upperBound="-1" eType="#//Attribute">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;if stateVariable.oclIsUndefined() then&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;getPossibleVariables().datatype.attributes->asSet()->union(Set{null})&#xA;&#x9;&#x9;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;stateVariable.datatype.attributes->asSet()->union(Set{null})&#xA;&#x9;&#x9;&#x9;&#x9;endif"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getPossibleValues" ordered="false" upperBound="-1" eType="#//Value">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;if attribute.oclIsUndefined() then&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;getPossibleAttributes()->reject(oclIsUndefined()).type.values->asSet()->union(Set{null})&#xA;&#x9;&#x9;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;attribute.type.values->asSet()->union(Set{null})&#xA;&#x9;&#x9;&#x9;&#x9;endif"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="isAttributeWildcard" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;attribute.oclIsUndefined()"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="isValueWildcard" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="&#xA;&#x9;&#x9;&#x9;&#x9;value.oclIsUndefined()"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stateVariable" lowerBound="1"
+        eType="#//Variable"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attribute" eType="#//Attribute"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//Value"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MinStatic" eSuperTypes="#//LogicTerm">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="leftHandSideIsValueWildcard leftHandSideIsNoAttributeWildcard operandsAreAttributeWildcards valueMatchesAssignmentType"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="leftHandSideIsValueWildcard" value="self.containingAssignment.value.oclIsUndefined()"/>
+      <details key="leftHandSideIsNoAttributeWildcard" value="not self.containingAssignment.attribute.oclIsUndefined()"/>
+      <details key="operandsAreAttributeWildcards" value="self.operands->forAll(o |&#xA;&#x9;(o.oclIsTypeOf(ParameterRef) and let ref = o.oclAsType(ParameterRef) in&#xA;&#x9;&#x9;ref.isValueWildcard() and not ref.isAttributeWildcard() and ref.attribute = self.containingAssignment.attribute&#xA;&#x9;) or&#xA;&#x9;(o.oclIsTypeOf(ReturnValueRef) and let ref = o.oclAsType(ReturnValueRef) in&#xA;&#x9;&#x9;ref.isValueWildcard() and not ref.isAttributeWildcard() and ref.attribute = self.containingAssignment.attribute&#xA;&#x9;) or&#xA;&#x9;(o.oclIsTypeOf(StateRef) and let ref = o.oclAsType(StateRef) in&#xA;&#x9;&#x9;ref.isValueWildcard() and not ref.isAttributeWildcard() and ref.attribute = self.containingAssignment.attribute&#xA;&#x9;) or&#xA;&#x9;(o.oclIsTypeOf(DefaultStateRef) and let ref = o.oclAsType(DefaultStateRef) in&#xA;&#x9;&#x9;ref.isValueWildcard() and not ref.isAttributeWildcard() and ref.attribute = self.containingAssignment.attribute&#xA;&#x9;) or&#xA;&#x9;(o.oclIsTypeOf(PropertyRef) and let ref = o.oclAsType(PropertyRef) in&#xA;&#x9;&#x9;ref.isValueWildcard() and ref.property.type = self.containingAssignment.attribute.type&#xA;&#x9;)&#xA;)"/>
+      <details key="valueMatchesAssignmentType" value="self.containingAssignment.attribute.type = self.value.containingType"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operands" lowerBound="1"
+        upperBound="-1" eType="#//LogicTerm" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" eType="#//Value"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="behaviour" nsURI="http://www.mdsd.hu/behaviour" nsPrefix="behaviour">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="settingDelegates" value="org.eclipse.incquery.querybasedfeature"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="BehaviourContainer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dynamicRobots" upperBound="-1"
+        eType="#//DynamicRobot" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="taskExecutions" upperBound="-1"
+        eType="#//TaskExecution" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="taskRequirements" upperBound="-1"
+        eType="#//TaskRequirement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="behaviourKeysContainer"
+        eType="#//BehaviouralPropertyKeyContainer" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Message" eSuperTypes="drone.ecore#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="involvedTaskExecutions"
+        upperBound="-1" eType="#//TaskExecution"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timestamp" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
+        eType="ecore:EClass drone.ecore#//Property" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referredObjects" upperBound="-1"
+        eType="ecore:EClass drone.ecore#//AreaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="needResponse" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="TTL" eType="ecore:EClass drone.ecore#//MeasureValue"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="follows" eType="#//Message"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CommunicationAction" abstract="true"
+      eSuperTypes="#//Action">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="message" lowerBound="1"
+        eType="#//Message"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UnicastCommunication" eSuperTypes="#//CommunicationAction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//DynamicRobot"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MulticastCommunication" eSuperTypes="#//CommunicationAction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targets" lowerBound="1"
+        upperBound="-1" eType="#//DynamicRobot"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BroadcastCommunication" eSuperTypes="#//CommunicationAction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targets" lowerBound="1"
+        upperBound="-1" eType="#//DynamicRobot"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MessageRepository" eSuperTypes="drone.ecore#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="robot" lowerBound="1" eType="#//DynamicRobot"
+        eOpposite="#//DynamicRobot/messageRepository"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receivedMessages" upperBound="-1"
+        eType="#//Message" changeable="false" volatile="true" transient="true" unsettable="true"
+        derived="true">
+      <eAnnotations source="org.eclipse.incquery.querybasedfeature">
+        <details key="patternFQN" value="hu.bme.mdsd.ztz.model.derived.receivedMessages"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sendedMessages" upperBound="-1"
+        eType="#//Message" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="RobotStatus">
+    <eLiterals name="Ready" value="1"/>
+    <eLiterals name="TurnedOff" value="2"/>
+    <eLiterals name="Waiting" value="3"/>
+    <eLiterals name="Executing" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Action" eSuperTypes="drone.ecore#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
+        eType="ecore:EClass drone.ecore#//Property" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentTaskExecution" eType="#//TaskExecution"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentTask" eType="ecore:EClass drone.ecore#//Task"
+        changeable="false" volatile="true" transient="true" unsettable="true" derived="true">
+      <eAnnotations source="org.eclipse.incquery.querybasedfeature">
+        <details key="patternFQN" value="hu.bme.mdsd.ztz.model.derived.currentTask"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TaskExecution" eSuperTypes="drone.ecore#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executors" upperBound="-1"
+        eType="#//DynamicRobot"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executionTime" unique="false"
+        eType="ecore:EClass drone.ecore#//MeasureValue" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" unique="false"
+        lowerBound="1" eType="#//TaskExecutionStatus"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="task" lowerBound="1" eType="ecore:EClass drone.ecore#//Task"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requirement" eType="#//TaskRequirement"
+        eOpposite="#//TaskRequirement/taskExecution"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RobotCollaboration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="collaborator" lowerBound="1"
+        eType="#//DynamicRobot"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="availabilityRange" eType="ecore:EClass drone.ecore#//MeasureValue"
+        changeable="false" volatile="true" transient="true" derived="true">
+      <eAnnotations source="org.eclipse.incquery.querybasedfeature">
+        <details key="patternFQN" value="hu.bme.mdsd.ztz.model.derived.availabilityRange"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
+        eType="ecore:EClass drone.ecore#//Property" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TaskExecutionStatus">
+    <eLiterals name="Ready"/>
+    <eLiterals name="Finished" value="1"/>
+    <eLiterals name="Suspended" value="2"/>
+    <eLiterals name="InProgress" value="3"/>
+    <eLiterals name="Waiting" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DetectedObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="object" lowerBound="1"
+        eType="ecore:EClass drone.ecore#//AreaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="obstacle" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DynamicRobot" eSuperTypes="drone.ecore#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="robot" lowerBound="1" eType="ecore:EClass drone.ecore#//Robot"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="detectedObjects" upperBound="-1"
+        eType="#//DetectedObject" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="collaborations" upperBound="-1"
+        eType="#//RobotCollaboration" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="messageRepository" eType="#//MessageRepository"
+        containment="true" eOpposite="#//MessageRepository/robot"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" lowerBound="1"
+        eType="#//RobotStatus"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1"
+        eType="#//Action" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executedTasks" upperBound="-1"
+        eType="#//TaskExecution"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TaskRequirement" eSuperTypes="drone.ecore#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="taskExecution" unique="false"
+        lowerBound="1" eType="#//TaskExecution" eOpposite="#//TaskExecution/requirement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="prerequisite" unique="false"
+        eType="#//TaskExecution"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="participants" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
+        eType="ecore:EClass drone.ecore#//Property" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredCapabilities" upperBound="-1"
+        eType="ecore:EClass drone.ecore#//Capability"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="capabilityProperties" upperBound="-1"
+        eType="ecore:EClass drone.ecore#//CapabilityProperties" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="descriptor" eType="ecore:EClass drone.ecore#//TaskDescriptor"
+        changeable="false" volatile="true" transient="true" derived="true">
+      <eAnnotations source="org.eclipse.incquery.querybasedfeature">
+        <details key="patternFQN" value="hu.bme.mdsd.ztz.model.derived.descriptor"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="task" eType="ecore:EClass drone.ecore#//Task"
+        changeable="false" volatile="true" transient="true" unsettable="true" derived="true">
+      <eAnnotations source="org.eclipse.incquery.querybasedfeature">
+        <details key="patternFQN" value="hu.bme.mdsd.ztz.model.derived.task"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BehaviouralPropertyKeyContainer" eSuperTypes="drone.ecore#//PropertyKeyContainer"/>
+</ecore:EPackage>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="roscodegenerator" nsURI="http://jkk.sze.hu/roscodegenerator"
+    nsPrefix="roscodegenerator">
+  <eClassifiers xsi:type="ecore:EClass" name="ROSNode">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="topicupdate" upperBound="-1"
+        eType="#//TopicUpdate" containment="true" eOpposite="#//TopicUpdate/rosnode"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="threads" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receiveFrom" upperBound="-1"
+        eType="#//TopicReceive" containment="true" eOpposite="#//TopicReceive/rosnode"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="state" upperBound="-1"
+        eType="#//MIMOState" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rosparam" upperBound="-1"
+        eType="#//RosParam" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="instance_name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pkg" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ROSTopic">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="topic_name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rosmsg" lowerBound="1"
+        eType="#//ROSMsg"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//TopicUpdate" eOpposite="#//TopicUpdate/producesTo"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="product" upperBound="-1"
+        eType="#//TopicReceive" eOpposite="#//TopicReceive/rostopic"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ROSMsg">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="prefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ROSPackage">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rosnode" upperBound="-1"
+        eType="#//ROSNode" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rosmsg" upperBound="-1"
+        eType="#//ROSMsg" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rostopic" upperBound="-1"
+        eType="#//ROSTopic" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="globalparam" upperBound="-1"
+        eType="#//RosParam" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TopicUpdate" eSuperTypes="#//TopicWorker">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="producesTo" lowerBound="1"
+        eType="#//ROSTopic" eOpposite="#//ROSTopic/source"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rosnode" eType="#//ROSNode"
+        eOpposite="#//ROSNode/topicupdate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="frequency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sync" upperBound="-1" eType="#//ROSTopic"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="latch" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mimostate" upperBound="-1"
+        eType="#//MIMOState" eOpposite="#//MIMOState/output"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TopicReceive" eSuperTypes="#//TopicWorker">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rostopic" eType="#//ROSTopic"
+        eOpposite="#//ROSTopic/product"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rosnode" eType="#//ROSNode"
+        eOpposite="#//ROSNode/receiveFrom"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mimostate" upperBound="-1"
+        eType="#//MIMOState" eOpposite="#//MIMOState/input"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="triggerstates" upperBound="-1"
+        eType="#//MIMOState"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="triggertype" eType="#//TriggerType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MIMOState">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="output" lowerBound="1"
+        upperBound="-1" eType="#//TopicUpdate" eOpposite="#//TopicUpdate/mimostate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="input" lowerBound="1" upperBound="-1"
+        eType="#//TopicReceive" eOpposite="#//TopicReceive/mimostate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="order_past" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="order_future" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TopicWorker" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TriggerType">
+    <eLiterals name="TRANSFORM" value="1"/>
+    <eLiterals name="ERROR" value="2"/>
+    <eLiterals name="DANGER" value="2"/>
+    <eLiterals name="EVENT" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RosParam">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

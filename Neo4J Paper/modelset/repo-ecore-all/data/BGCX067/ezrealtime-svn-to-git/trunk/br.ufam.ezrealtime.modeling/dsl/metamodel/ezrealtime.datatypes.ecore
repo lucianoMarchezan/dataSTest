@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="datatype"
+    nsURI="http://ezrealtime.org/meta/1.0.0/datatype" nsPrefix="datatype">
+  <eClassifiers xsi:type="ecore:EClass" name="DataType" eSuperTypes="ezrealtime.core.ecore#//Classifier">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultValueLiteral" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PrimitiveDataType" eSuperTypes="#//DataType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StructuredDataType" abstract="true"
+      eSuperTypes="#//DataType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="member" upperBound="-1"
+        eType="#//Member" containment="true" eOpposite="#//Member/structure"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="instanceTypeName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntegralType" abstract="true" eSuperTypes="#//PrimitiveDataType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Structure" eSuperTypes="#//StructuredDataType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stereotype" eType="#//TypeDecorator"
+        changeable="false" defaultValueLiteral="&lt;&lt;struct>>"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Member">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="memory" eType="ecore:EEnum ezrealtime.classifiers.ecore#//MemorySpaceKind"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataType" eType="#//DataType"
+        eKeys="#//DataType/name"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="byte" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="structure" eType="#//StructuredDataType"
+        eOpposite="#//StructuredDataType/member"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultValueLiteral" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Union" eSuperTypes="#//StructuredDataType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stereotype" eType="#//TypeDecorator"
+        changeable="false" defaultValueLiteral="&lt;&lt;union>>"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Enumeration" eSuperTypes="#//PrimitiveDataType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="literal" upperBound="-1"
+        eType="#//EnumerationLiteral" containment="true" eOpposite="#//EnumerationLiteral/enumeration"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stereotype" eType="#//TypeDecorator"
+        changeable="false" defaultValueLiteral="&lt;&lt;enum>>"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EnumerationLiteral">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="enumeration" eType="#//Enumeration"
+        eOpposite="#//Enumeration/literal"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="literal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TypeDecorator">
+    <eLiterals name="default" literal=""/>
+    <eLiterals name="dataType" value="1" literal="&lt;&lt;dataType>>"/>
+    <eLiterals name="struct" value="2" literal="&lt;&lt;struct>>"/>
+    <eLiterals name="enum" value="3" literal="&lt;&lt;enum>>"/>
+    <eLiterals name="union" literal="&lt;&lt;union>>"/>
+  </eClassifiers>
+</ecore:EPackage>

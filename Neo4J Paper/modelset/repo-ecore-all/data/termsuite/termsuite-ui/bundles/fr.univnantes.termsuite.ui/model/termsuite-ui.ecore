@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="termsuiteui" nsURI="http://termsuite.univ-nantes.fr/ui/" nsPrefix="tsui">
+  <eClassifiers xsi:type="ecore:EClass" name="ECorporaList">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="corpora" upperBound="-1"
+        eType="#//ECorpus"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ECorpus">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="singleLanguageCorpora"
+        upperBound="-1" eType="#//ESingleLanguageCorpus" containment="true" eOpposite="#//ESingleLanguageCorpus/corpus"
+        eKeys="#//ESingleLanguageCorpus/language"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="encoding" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="UTF-8"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ESingleLanguageCorpus">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="language" lowerBound="1"
+        eType="#//ELang"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="corpus" lowerBound="1"
+        eType="#//ECorpus" eOpposite="#//ECorpus/singleLanguageCorpora"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="terminologies" upperBound="-1"
+        eType="#//ETerminology" containment="true" eOpposite="#//ETerminology/corpus"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EDocument" eSuperTypes="#//EResource">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="filename" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="singleLanguageCorpus" lowerBound="1"
+        eType="#//ESingleLanguageCorpus"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EPipeline" eSuperTypes="#//EResource">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="contextualizerEnabled"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="occurrenceMode" lowerBound="1"
+        eType="#//EOccurrenceMode" defaultValueLiteral="KEEP_IN_MEMORY"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="taggerConfigName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="filter" eType="#//ETerminoFilter"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxNumTermsMemory" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="500000"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="contextScope" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="3"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="contextAssocMeasure" lowerBound="1"
+        eType="#//EAssocMeasure" defaultValueLiteral="MUTUAL_INFORMATION"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="semEnabled" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="semMeasure" lowerBound="1"
+        eType="#//ESimilarityMeasure" defaultValueLiteral="COSINE"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="semDicoOnly" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="semNumCandidates" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="5"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EPipelineList">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pipelines" upperBound="-1"
+        eType="#//EPipeline"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ETerminology" eSuperTypes="#//EResource">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hasOccurrences" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hasContexts" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="corpus" lowerBound="1"
+        eType="#//ESingleLanguageCorpus" eOpposite="#//ESingleLanguageCorpus/terminologies"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ETerminoViewerConfig">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nbDisplayedTerms" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="100"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="searchString" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sortingPropertyName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sortingAsc" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="selectedPropertyNames"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EResource">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ETaggerConfig">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="taggerType" lowerBound="1"
+        eType="#//ETagger" defaultValueLiteral="TREE_TAGGER"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EBilingualDictionary">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sourceLang" eType="#//ELang"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="targetLang" eType="#//ELang"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ETerminoFilter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="propertyName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="topN" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="500"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="threshold" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="0.9"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="keepVariants" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mode" lowerBound="1" eType="#//EFilteringMode"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ELang">
+    <eLiterals name="FR" literal="fr"/>
+    <eLiterals name="EN" value="1" literal="en"/>
+    <eLiterals name="ES" value="2" literal="es"/>
+    <eLiterals name="DE" value="3" literal="de"/>
+    <eLiterals name="RU" value="4" literal="ru"/>
+    <eLiterals name="DA" value="5" literal="da"/>
+    <eLiterals name="ZH" value="6" literal="zh"/>
+    <eLiterals name="LV" value="7" literal="lv"/>
+    <eLiterals name="IT" value="8" literal="it"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ETagger">
+    <eLiterals name="TREE_TAGGER"/>
+    <eLiterals name="MATE" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="EFilteringMode">
+    <eLiterals name="TOP_N" literal="Top n"/>
+    <eLiterals name="Threshold" value="1" literal="Threshold"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="EOccurrenceMode">
+    <eLiterals name="KEEP_IN_MEMORY" literal="KEEP_IN_MEMORY"/>
+    <eLiterals name="KEEP_IN_FILESYSTEM" value="1" literal="KEEP_IN_FILESYSTEM"/>
+    <eLiterals name="DO_NOT_KEEP" value="2" literal="DO_NOT_KEEP"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="EAssocMeasure">
+    <eLiterals name="LOG_LIKELYHOOD"/>
+    <eLiterals name="MUTUAL_INFORMATION" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ESimilarityMeasure">
+    <eLiterals name="COSINE"/>
+    <eLiterals name="JACCARD" value="1"/>
+  </eClassifiers>
+</ecore:EPackage>

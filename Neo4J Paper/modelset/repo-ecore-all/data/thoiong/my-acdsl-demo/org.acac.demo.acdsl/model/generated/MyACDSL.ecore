@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="myACDSL" nsURI="http://www.acac.org/demo/acdsl/MyACDSL" nsPrefix="myACDSL">
+  <eClassifiers xsi:type="ecore:EClass" name="Model">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//AbstractElement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SupportedContainer">
+    <eLiterals name="WebSphere" literal="WebSphere"/>
+    <eLiterals name="Tomcat" value="1" literal="Tomcat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SupportedContainerOperations">
+    <eLiterals name="stop" literal="stop"/>
+    <eLiterals name="start" value="1" literal="start"/>
+    <eLiterals name="restart" value="2" literal="restart"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SupportedOs">
+    <eLiterals name="Linux" literal="Linux"/>
+    <eLiterals name="Win" value="1" literal="Win"/>
+    <eLiterals name="Aix" value="2" literal="Aix"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DeploymentOp">
+    <eLiterals name="uninstall" literal="uninstall"/>
+    <eLiterals name="install" value="1" literal="install"/>
+    <eLiterals name="update" value="2" literal="update"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Configuration" eSuperTypes="#//AbstractElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="appName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="os" eType="#//SupportedOs"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appServer" eType="#//AppServerInfo"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commonParams" upperBound="-1"
+        eType="#//CommonParam" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configurations" upperBound="-1"
+        eType="#//ConfigurationType" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Deployment" eSuperTypes="#//AbstractElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="appOp" unique="false" upperBound="-1"
+        eType="#//DeploymentOp"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Operation" eSuperTypes="#//AbstractElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="serverOp" unique="false"
+        upperBound="-1" eType="#//SupportedContainerOperations"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AppServerInfo">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="#//SupportedContainer"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CommonParam">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConfigurationType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DataSource" eSuperTypes="#//ConfigurationType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scope" eType="#//CommonParam"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dataSourceName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="jndiName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="jdbcProviderName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dataSourceUrl" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="componentManagedAuthenticationAlias"
+        eType="#//CommonParam"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mappingConfigurationAlias"
+        eType="#//CommonParam"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containerMmanagedAuthenticationAlias"
+        eType="#//CommonParam"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JdbcProvider" eSuperTypes="#//ConfigurationType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scope" eType="#//CommonParam"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="databaseType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="providerType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="implementationType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classpath" eType="#//CommonParam"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JAASAlias" eSuperTypes="#//ConfigurationType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="alias" eType="#//CommonParam"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="username" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="password" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServerJvmSetting" eSuperTypes="#//ConfigurationType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

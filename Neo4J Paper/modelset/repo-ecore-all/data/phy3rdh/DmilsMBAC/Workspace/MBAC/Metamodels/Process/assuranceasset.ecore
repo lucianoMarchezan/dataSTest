@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="assuranceasset" nsURI="http://assuranceasset/1.0" nsPrefix="assuranceasset">
+  <eClassifiers xsi:type="ecore:EClass" name="AssuranceAssetsModel" eSuperTypes="general.ecore#//DescribableElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="AssuranceAsset" upperBound="-1"
+        eType="#//AssuranceAsset" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AssuranceAsset" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ManageableAssuranceAsset" eSuperTypes="#//AssuranceAsset">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="evaluation" upperBound="-1"
+        eType="#//AssuranceAssetEvaluation" containment="true" eOpposite="#//AssuranceAssetEvaluation/assuranceAsset"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lifecycleEvent" upperBound="-1"
+        eType="#//AssuranceAssetEvent" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AssuranceAssetEvent" eSuperTypes="#//AssuranceAsset general.ecore#//DescribableElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resultingEvaluation" eType="#//AssuranceAssetEvaluation"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//EventKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="time" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AssuranceAssetEvaluation" eSuperTypes="general.ecore#//NamedElement #//ManageableAssuranceAsset">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="criterion" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="criterionDescription" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="evaluationResult" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rationale" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assuranceAsset" eType="#//ManageableAssuranceAsset"
+        eOpposite="#//ManageableAssuranceAsset/evaluation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="EventKind">
+    <eLiterals name="Creation"/>
+    <eLiterals name="Modification" value="1"/>
+    <eLiterals name="Evaluation" value="2"/>
+    <eLiterals name="Approval" value="3"/>
+    <eLiterals name="Revocation" value="4"/>
+  </eClassifiers>
+</ecore:EPackage>

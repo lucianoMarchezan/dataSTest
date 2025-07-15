@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="xmdl"
+    nsURI="http://www.xmdl.org/xmdl.ecore" nsPrefix="org.xmdl">
+  <eClassifiers xsi:type="ecore:EClass" name="XProject" eSuperTypes="#//XBase">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="packages" upperBound="-1"
+        eType="#//XPackage" containment="true" resolveProxies="false" eOpposite="#//XPackage/project"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XPackage" eSuperTypes="#//XBase">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="project" lowerBound="1"
+        eType="#//XProject" transient="true" eOpposite="#//XProject/packages"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classes" upperBound="-1"
+        eType="#//XClass" containment="true" resolveProxies="false" eOpposite="#//XClass/xPackage"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="enumerations" upperBound="-1"
+        eType="#//XEnumeration" containment="true" resolveProxies="false" eOpposite="#//XEnumeration/xPackage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XClass" eSuperTypes="#//XBase #//XType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xPackage" lowerBound="1"
+        eType="#//XPackage" changeable="false" transient="true" eOpposite="#//XPackage/classes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="superTypes" upperBound="-1"
+        eType="#//XClass" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="#//XAttribute" containment="true" resolveProxies="false" eOpposite="#//XAttribute/xClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="methods" upperBound="-1"
+        eType="#//XMethod" containment="true" resolveProxies="false" eOpposite="#//XMethod/xClass"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="comparable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="behavior" eType="#//XClassBehavior"
+        defaultValueLiteral="PERSISTED"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XEnumeration" eSuperTypes="#//XBase #//XType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xPackage" lowerBound="1"
+        eType="#//XPackage" changeable="false" transient="true" eOpposite="#//XPackage/enumerations"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="literals" upperBound="-1"
+        eType="#//XEnumerationLiteral" containment="true" eOpposite="#//XEnumerationLiteral/enumeration"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="defaultLiteral" lowerBound="1"
+        eType="#//XEnumerationLiteral"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XEnumerationLiteral" eSuperTypes="#//XBase">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="enumeration" lowerBound="1"
+        eType="#//XEnumeration" eOpposite="#//XEnumeration/literals"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XAttribute" eSuperTypes="#//XBase">
+    <eOperations name="isReference" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="length" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="15"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xClass" lowerBound="1"
+        eType="#//XClass" transient="true" eOpposite="#//XClass/attributes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//XType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="associationType" eType="#//XAssociationType"
+        defaultValueLiteral="OneToOne"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="associationBehaviour" eType="#//XAssociationBehaviour"
+        defaultValueLiteral="aggregation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="opposite" eType="#//XAttribute"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="navigable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XMethod" eSuperTypes="#//XBase">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xClass" lowerBound="1"
+        eType="#//XClass" transient="true" eOpposite="#//XClass/methods"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//XType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//XParameter" containment="true" resolveProxies="false" eOpposite="#//XParameter/method"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exceptions" upperBound="-1"
+        eType="#//XException" containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XParameter" eSuperTypes="#//XBase">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="method" lowerBound="1"
+        eType="#//XMethod" transient="true" eOpposite="#//XMethod/parameters"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//XType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XBase" abstract="true" interface="true">
+    <eOperations name="accept" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="visitor" eType="#//XVisitor"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XType" abstract="true" interface="true">
+    <eOperations name="isPrimitive" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="isBasic" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="compareTo" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eParameters name="o" lowerBound="1" eType="#//XType"/>
+    </eOperations>
+    <eOperations name="isComparable" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="className" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        volatile="true" unsettable="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XException" eSuperTypes="#//XBase">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="javaClass" lowerBound="1"
+        defaultValueLiteral="java.lang.Exception">
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
+        <eTypeArguments/>
+      </eGenericType>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XModel" abstract="true" interface="true">
+    <eOperations name="path" eType="#//URI">
+      <eParameters name="modelURI" eType="#//URI"/>
+    </eOperations>
+    <eOperations name="createRoot" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject">
+      <eParameters name="project" eType="#//XProject"/>
+      <eParameters name="uri" eType="#//URI"/>
+    </eOperations>
+    <eOperations name="loadRoot" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject">
+      <eParameters name="project" eType="#//XProject"/>
+      <eParameters name="resource" eType="#//Resource"/>
+    </eOperations>
+    <eOperations name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="XAssociationType">
+    <eLiterals name="OneToOne"/>
+    <eLiterals name="OneToMany" value="1"/>
+    <eLiterals name="ManyToOne" value="2"/>
+    <eLiterals name="ManyToMany" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="XAssociationBehaviour">
+    <eLiterals name="aggregation"/>
+    <eLiterals name="composition" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="IPath" instanceClassName="org.eclipse.core.runtime.IPath"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="URI" instanceClassName="org.eclipse.emf.common.util.URI"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Resource" instanceClassName="org.eclipse.emf.ecore.resource.Resource"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Comparable" instanceClassName="java.lang.Comparable"/>
+  <eClassifiers xsi:type="ecore:EClass" name="XVisitor" abstract="true" interface="true">
+    <eOperations name="visitEnter" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="x" eType="#//XProject"/>
+    </eOperations>
+    <eOperations name="visitLeave" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="x" eType="#//XProject"/>
+    </eOperations>
+    <eOperations name="visitEnter" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="x" eType="#//XPackage"/>
+    </eOperations>
+    <eOperations name="visitLeave" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="x" eType="#//XPackage"/>
+    </eOperations>
+    <eOperations name="visitEnter" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="x" eType="#//XClass"/>
+    </eOperations>
+    <eOperations name="visitLeave" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="x" eType="#//XClass"/>
+    </eOperations>
+    <eOperations name="visitEnter" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="x" eType="#//XEnumeration"/>
+    </eOperations>
+    <eOperations name="visitLeave" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="x" eType="#//XEnumeration"/>
+    </eOperations>
+    <eOperations name="visitEnter" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="x" eType="#//XMethod"/>
+    </eOperations>
+    <eOperations name="visitLeave" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="x" eType="#//XMethod"/>
+    </eOperations>
+    <eOperations name="visit" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="x" eType="#//XAttribute"/>
+    </eOperations>
+    <eOperations name="visit" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="x" eType="#//XParameter"/>
+    </eOperations>
+    <eOperations name="visit" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="x" eType="#//XException"/>
+    </eOperations>
+    <eOperations name="visit" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="x" eType="#//XEnumerationLiteral"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XVisitorBase" eSuperTypes="#//XVisitor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="XMDLModel" eSuperTypes="#//XModel"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="XClassBehavior">
+    <eLiterals name="PERSISTED" literal="PERSISTED"/>
+    <eLiterals name="VIRTUAL" value="1"/>
+    <eLiterals name="EMBEDDABLE" value="2"/>
+  </eClassifiers>
+</ecore:EPackage>

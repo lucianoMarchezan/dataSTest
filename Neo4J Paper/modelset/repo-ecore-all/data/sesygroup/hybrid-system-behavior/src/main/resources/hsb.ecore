@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2017 Software Engineering and Synthesis Group
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="hsb" nsURI="http://sesygroup.com/hsb" nsPrefix="hsb">
+  <eClassifiers xsi:type="ecore:EClass" name="HybridSystemBehavior">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
+        eType="#//State" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="messages" upperBound="-1"
+        eType="ecore:EClass ../../concrete-participant-behavior/model/cpb.ecore#//Message"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transitions" upperBound="-1"
+        eType="#//Transition" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initialState" lowerBound="1"
+        eType="#//State"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participants" upperBound="-1"
+        eType="#//Participant" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="State">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stateElements" upperBound="-1"
+        eType="#//StateElement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StateElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="concreteState" lowerBound="1"
+        eType="ecore:EClass ../../concrete-participant-behavior/model/cpb.ecore#//State"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participant" lowerBound="1"
+        eType="#//Participant"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="messageQueue" lowerBound="1"
+        eType="#//MessageQueue"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Transition" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceState" lowerBound="1"
+        eType="#//State"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetState" lowerBound="1"
+        eType="#//State"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AsynchReceiveActAndMsgConsumptionTransition"
+      eSuperTypes="#//Transition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputMessage" lowerBound="1"
+        eType="ecore:EClass ../../concrete-participant-behavior/model/cpb.ecore#//InputMessage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AsynchSendActTransition" eSuperTypes="#//Transition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceParticipant" lowerBound="1"
+        eType="#//Participant"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetParticipant" lowerBound="1"
+        eType="#//Participant"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputMessage" lowerBound="1"
+        eType="ecore:EClass ../../concrete-participant-behavior/model/cpb.ecore#//OutputMessage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InternalActionTransition" eSuperTypes="#//Transition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SynchSendReceiveActAndMsgConsumptionTransition"
+      eSuperTypes="#//Transition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="message" lowerBound="1"
+        eType="ecore:EClass ../../concrete-participant-behavior/model/cpb.ecore#//Message"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceParticipant" lowerBound="1"
+        eType="#//Participant"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetParticipant" lowerBound="1"
+        eType="#//Participant"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Participant">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="concreteParticipantBehavior"
+        lowerBound="1" eType="ecore:EClass ../../concrete-participant-behavior/model/cpb.ecore#//ConcreteParticipantBehavior"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MessageQueue">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="capacity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="queue" upperBound="-1"
+        eType="ecore:EClass ../../concrete-participant-behavior/model/cpb.ecore#//Message"/>
+  </eClassifiers>
+</ecore:EPackage>

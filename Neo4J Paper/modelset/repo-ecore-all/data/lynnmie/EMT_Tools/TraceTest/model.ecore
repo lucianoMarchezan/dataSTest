@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="req" nsURI="www.req.com" nsPrefix="Req">
+  <eClassifiers xsi:type="ecore:EEnum" name="ReqType" instanceClassName="java.lang.Object">
+    <eLiterals name="FUNCTIONAL" literal="FUNCTIONAL"/>
+    <eLiterals name="SAFETY" value="1" literal="SAFETY"/>
+    <eLiterals name="PERFORMANCE" value="2" literal="PERFORMANCE"/>
+    <eLiterals name="CONFIG" value="3" literal="CONFIG"/>
+    <eLiterals name="FUNCTION_TEST" value="4" literal="FUNCTION_TEST"/>
+    <eLiterals name="NONE" value="5" literal="NONE"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="VerifyType" instanceClassName="java.lang.Object">
+    <eLiterals name="TEST" literal="TEST"/>
+    <eLiterals name="ANALYZE" value="1" literal="ANALYZE"/>
+    <eLiterals name="VERIFY" value="2" literal="VERIFY"/>
+    <eLiterals name="TEST_ANALYZE" value="3" literal="TEST_ANALYZE"/>
+    <eLiterals name="TEST_VERIFY" value="4" literal="TEST_VERIFY"/>
+    <eLiterals name="VERIFY_ANALYZE" value="5" literal="VERIFY_ANALYZE"/>
+    <eLiterals name="ALL" value="6" literal="ALL"/>
+    <eLiterals name="NONE" value="7" literal="NONE"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SRequirement" instanceClassName="java.lang.Object">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hlrs" upperBound="-1" eType="#//HLRequirement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HLRequirement" instanceClassName="java.lang.Object">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="org" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="derived" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reqType" eType="#//ReqType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="verifyType" eType="#//VerifyType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//HLRequirement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//HLRequirement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="llrs" upperBound="-1" eType="#//LLRequirement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LLRequirement" instanceClassName="java.lang.Object">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="org" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="derived" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reqType" eType="#//ReqType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="verifyType" eType="#//VerifyType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//LLRequirement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//LLRequirement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="designs" upperBound="-1"
+        eType="#//Design"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Design" instanceClassName="java.lang.Object">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="org" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Design"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//Design"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="functions" upperBound="-1"
+        eType="#//Function"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="FileType" instanceClassName="java.lang.Object">
+    <eLiterals name="C" literal="C"/>
+    <eLiterals name="H" value="1" literal="H"/>
+    <eLiterals name="S" value="2" literal="S"/>
+    <eLiterals name="UNKNOWN" value="3" literal="UNKNOWN"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SourceCode" instanceClassName="java.lang.Object">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="files" upperBound="-1"
+        eType="#//File"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="File" instanceClassName="java.lang.Object">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileType" eType="#//FileType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="units" upperBound="-1"
+        eType="#//DeclareUnit"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeclareUnit" instanceClassName="java.lang.Object"
+      abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="line" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Function" instanceClassName="java.lang.Object"
+      eSuperTypes="#//DeclareUnit">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="impl" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Macro" instanceClassName="java.lang.Object"
+      eSuperTypes="#//DeclareUnit"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ConfigTestFile" instanceClassName="java.lang.Object">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="src" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="log" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ctime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="etime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="llr" eType="#//LLRequirement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="testcases" upperBound="-1"
+        eType="#//ConfigTestCase"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConfigTestCase" instanceClassName="java.lang.Object">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lines" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="points" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="normal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="normal_pass" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="normal_fail" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="robust" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="robust_pass" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="robust_fail" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pass" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fail" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TestResult" instanceClassName="java.lang.Object">
+    <eLiterals name="PASS" literal="PASS"/>
+    <eLiterals name="EXCEPT" value="1" literal="EXCEPT"/>
+    <eLiterals name="OTHERS" value="2" literal="OTHERS"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UnitTestReport" instanceClassName="java.lang.Object">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mht" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="time" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="file" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coverages" upperBound="-1"
+        eType="#//Coverage"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="testcases" upperBound="-1"
+        eType="#//UnitTestCase"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UnitTestCase" instanceClassName="java.lang.Object">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="result" eType="#//TestResult"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//Function"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Coverage" instanceClassName="java.lang.Object">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stmt" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tested_stmt" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="untested_stmt" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="brch" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tested_brch" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="untested_brch" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mcdc" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tested_mcdc" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="untested_mcdc" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//Function"/>
+  </eClassifiers>
+</ecore:EPackage>

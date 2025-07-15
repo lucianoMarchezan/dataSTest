@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="meeduse_tt2bdd" nsURI="http://www.example.org/meeduse_tt2bdd"
+    nsPrefix="meeduse_tt2bdd">
+  <eClassifiers xsi:type="ecore:EClass" name="InputPort" eSuperTypes="#//Port"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Cell" eSuperTypes="#//Element">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" ordered="false"
+        unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owner" ordered="false"
+        lowerBound="1" eType="#//Row" eOpposite="#//Row/cells"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="port" ordered="false" lowerBound="1"
+        eType="#//Port" eOpposite="#//Port/cells"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="done" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="selected" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Port" abstract="true" eSuperTypes="#//Element">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owner" ordered="false"
+        lowerBound="1" eType="#//TruthTable" eOpposite="#//TruthTable/ports"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cells" ordered="false"
+        upperBound="-1" eType="#//Cell" eOpposite="#//Cell/port"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Row" eSuperTypes="#//Element">
+    <eAnnotations source="http://www.obeo.fr/dsl/dnc/archetype">
+      <details key="archetype" value="MomentInterval"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owner" ordered="false"
+        lowerBound="1" eType="#//TruthTable" eOpposite="#//TruthTable/rows"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cells" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//Cell" containment="true" eOpposite="#//Cell/owner"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OutputPort" eSuperTypes="#//Port"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TruthTable" eSuperTypes="#//Element">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ports" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//Port" containment="true" eOpposite="#//Port/owner"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rows" ordered="false" lowerBound="2"
+        upperBound="-1" eType="#//Row" containment="true" eOpposite="#//Row/owner"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Subtree" eSuperTypes="#//Tree">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="port" ordered="false" lowerBound="1"
+        eType="#//BddInput" eOpposite="#//BddInput/subtrees"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="treeForZero" ordered="false"
+        lowerBound="1" eType="#//Tree" containment="true" eOpposite="#//Tree/ownerSubtreeForZero"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="treeForOne" ordered="false"
+        lowerBound="1" eType="#//Tree" containment="true" eOpposite="#//Tree/ownerSubtreeForOne"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Assignment" eSuperTypes="#//Element">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" ordered="false"
+        unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="port" ordered="false" lowerBound="1"
+        eType="#//BddOutput" eOpposite="#//BddOutput/assignments"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owner" ordered="false"
+        lowerBound="1" eType="#//Leaf" eOpposite="#//Leaf/assignments"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BddOutput" eSuperTypes="#//BdP">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignments" ordered="false"
+        upperBound="-1" eType="#//Assignment" eOpposite="#//Assignment/port"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Leaf" eSuperTypes="#//Tree">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignments" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//Assignment" containment="true" eOpposite="#//Assignment/owner"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Tree" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownerBDD" ordered="false"
+        eType="#//BDD" eOpposite="#//BDD/tree"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownerSubtreeForZero" ordered="false"
+        eType="#//Subtree" eOpposite="#//Subtree/treeForZero"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownerSubtreeForOne" ordered="false"
+        eType="#//Subtree" eOpposite="#//Subtree/treeForOne"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" unique="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BDD" eSuperTypes="#//Element">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ports" ordered="false"
+        upperBound="-1" eType="#//BdP" containment="true" eOpposite="#//BdP/owner"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tree" ordered="false" eType="#//Tree"
+        containment="true" eOpposite="#//Tree/ownerBDD"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BdP" abstract="true" eSuperTypes="#//Element">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owner" ordered="false"
+        eType="#//BDD" eOpposite="#//BDD/ports"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BddInput" eSuperTypes="#//BdP">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subtrees" ordered="false"
+        upperBound="-1" eType="#//Subtree" eOpposite="#//Subtree/port"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Element" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" unique="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

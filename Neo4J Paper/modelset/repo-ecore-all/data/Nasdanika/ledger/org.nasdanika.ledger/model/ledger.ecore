@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ledger" nsURI="urn:org.nasdanika.ledger" nsPrefix="org.nasdanika.ledger">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+    <details key="documentation" value="Пакет (package) Ledger содержит доменные модельные классы для учёта хозяйственных операций.&#xD;&#xA;&#xD;&#xA;[[classifier>УчётныйЦентр|Учётный Центр]] является корневым элементом модели и содержит [[classifier>ХранительЖурналовОпераций|хранителей журналов операций]] - &#xD;&#xA;[[classifier>Пользователь|пользователей]] и [[classifier>Организация|организации]].&#xD;&#xA;&#xD;&#xA;Хранитель журналов операций является абстрактным базовым классом для пользователей и организаций. Хранитель журналов операций содержит [[classifier>ЖурналОпераций|журналы операций]]. &#xD;&#xA;Пользователь это хранитель журналов операций с логином и паролем. Организации позволяют хранить журналы операций над которыми могут работать несколько пользователей. &#xD;&#xA;Пользователи могут давать доступ другим пользователям к своим журналам операций. Организации позволяют хранить журналы независимые от конкретного пользователя. Концепция пользователь-организация заимствована у GitHub и DockerHub.&#xD;&#xA;&#xD;&#xA;[[classifier>ЖурналОпераций|Журнал операций]] содержит [[classifier>Операция|операции]] с [[classifier>Проводка|проводками]] и ссылочные данные - [[classifier>Счёт|счета]], [[classifier>Актив|активы]] и [[classifier>Субъект|субъекты]].&#xD;&#xA;&#xD;&#xA;Каждая операция может содержать несколько проводок и ссылаться на нескольких субъектов. Проводка описывает движения актива по счёту как часть операции. &#xD;&#xA;Сумма движений активов по счетам в операции пересчитанная на базовый актив (например рубли) по курсу на дату совершения операции должна равнятся нулю (быть сбалансирована). &#xD;&#xA;Операция является расширением концепции двойной записи бухгалтерского учёта - в операций может принимать участие более чем два счёта и счета могут содержать разные активы (рубли, доллары, товар).&#xD;&#xA;&#xD;&#xA;Документация элементов модели содержит подробное описание элементов и их атрибутов, связей и операций. [[todo|Модель пользовательских историй]] описывает функционирование программы учёта в терминах элементов доменной модели.&#xD;&#xA;&#xD;&#xA;## Метафора&#xD;&#xA;&#xD;&#xA;Учётный центр это здание с квартирами (пользователи) и офисами (организации). И в квартирах и в офисах хранятся журналы операций. &#xD;&#xA;Журнал операций это тетрадь в которой записываются операции. &#xD;&#xA;Счёт это некий контейнер в котором можно держать определённые активы. Например в кошельке можно держать деньги, а в коробке товар. &#xD;&#xA;&#xD;&#xA;На заметку: Метафоры могут служить большим подспорьем в описании какой-либо концепции. Главное не забывать что метафоры не стоит принимать слишком буквально.&#xD;&#xA;&#xD;&#xA;## Пример&#xD;&#xA;&#xD;&#xA;Марья Ивановна торгует на рынке молоком, помидорами и огурцами. Овощи она выращивает сама, молоко покупает у соседки. &#xD;&#xA;У Марьи Ивановны есть постоянные покупатели - Клавдия Петровна и Фёдор Семёнович -  которым она порой продаёт в кредит и берёт деньги вперёд (предоплата). &#xD;&#xA;Марья Ивановна хранит деньги в Сбербанке в рублях и долларах.&#xD;&#xA;&#xD;&#xA;### Субъекты&#xD;&#xA;&#xD;&#xA;* Сбербанк&#xD;&#xA;* Клавдия Петровна&#xD;&#xA;* Фёдор Семёнович&#xD;&#xA;&#xD;&#xA;### Активы&#xD;&#xA;&#xD;&#xA;* Деньги - группа активов, точность 2 (знака после запятой) - копейки или центы. Активы в группе наследуют точность.&#xD;&#xA;    * Рубли &#xD;&#xA;    * Доллары&#xD;&#xA;* Товары&#xD;&#xA;    * Молоко - единица измерения литры, точность 3 (миллилитры)&#xD;&#xA;    * Овощи - группа активов, единица измерения килограммы, точность 3 (грамы). Активы в группе наследуют единицу измерения равно как и точность.&#xD;&#xA;        * Помидоры &#xD;&#xA;        * Огурцы&#xD;&#xA;&#xD;&#xA;### Счета&#xD;&#xA;&#xD;&#xA;* Денежные &#xD;&#xA;    * Кошелёк - в кошельке можно хранить деньги (рубли и доллары), но нельзя хранить молко, помидоры и огурцы.&#xD;&#xA;    * Банковские&#xD;&#xA;        * Рублёвый счёт&#xD;&#xA;        * Долларовый счёт&#xD;&#xA;* Товарные&#xD;&#xA;    * Бидон - в бидоне можно держать молоко. Если там уже есть молко то лучше туда не класть помидоры или огурцы.&#xD;&#xA;    * Корзинка - в корзинке можно хранить и помидоры и огурцы одновременно. В принципе в корзинке можно держать и деньги - спрятать под овощи от хулиганов.&#xD;&#xA;* Клиентские - на клиентских счетах могут &quot;храниться&quot; деньги в случае продажи в кредит или товар - деньги взяты вперёд под определённый товар.&#xD;&#xA;    * Клавдия Петровна&#xD;&#xA;    * Фёдор Семёнович&#xD;&#xA;* Прибыли и убытки в пересчёте на рубли.&#xD;&#xA;&#xD;&#xA;### Операции&#xD;&#xA;&#xD;&#xA;#### Покупка молока у соседки&#xD;&#xA;&#xD;&#xA;* Деньги из кошелька.&#xD;&#xA;* Молоко в бидон.&#xD;&#xA;* &quot;Курс&quot; молока устанавливается по себестоимости.&#xD;&#xA;&#xD;&#xA;#### Овощи с огорода&#xD;&#xA;&#xD;&#xA;* &quot;Курс&quot; овощей устанавливается по магически рассчитанной &quot;себестоимости&quot;. &#xD;&#xA;* Овощи в корзинку.&#xD;&#xA;* Тут нужен счёт чтобы учитывать труд, удобрения и т.д. Для простоты пусть это будет счёт &quot;Прибыли и убытки&quot;. Себестоимость овощей списывается с прибылей и убытков.&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;#### Поездка в город на рынок&#xD;&#xA;&#xD;&#xA;* Деньги из кошелька на билет на электричку, трамвай, и на оплату места на рынке.&#xD;&#xA;* Стоимость вышеперечисленных затрат в прибыли и убытки.&#xD;&#xA;&#xD;&#xA;#### Продажа случайному покупателю&#xD;&#xA;&#xD;&#xA;Продажа килограмма огурцов и литра молока (хе-хе) со скидкой за &quot;опт&quot;:&#xD;&#xA;&#xD;&#xA;* Деньги в кошелёк&#xD;&#xA;* Молоко из бидона&#xD;&#xA;* Огурцы из корзинки&#xD;&#xA;* Огурцы и молоко пересчитываются в рубли по &quot;курсу&quot;. В случае товара это себестоимость. Разница между себестоимостью и выручкой записывается в прибыли/убытки чтобы операция была сбалансирована.&#xD;&#xA;&#xD;&#xA;#### Продажа Клавдии Петровне&#xD;&#xA;&#xD;&#xA;То-же самое как и случайному покупателю, но Клавдия Петровна указана как субъект операции.&#xD;&#xA;&#xD;&#xA;#### Продажа овощей в кредит Фёдору Семёновичу&#xD;&#xA;&#xD;&#xA;У Фёдора Семёновича не хватило наличных в кошельке чтобы расплатиться за все овощи.&#xD;&#xA;&#xD;&#xA;* Деньги в кошелёк&#xD;&#xA;* Деньги на счёт Фёдора Петровича (должен)&#xD;&#xA;* Овощи из корзинки&#xD;&#xA;* Разница между себестоимостью и выручкой в прибыли/убытки.&#xD;&#xA;&#xD;&#xA;#### Фёдору Семёнович расплатился&#xD;&#xA;&#xD;&#xA;* Деньги в кошелёк&#xD;&#xA;* Деньги со счёта Фёдора Петровича (больше не должен)&#xD;&#xA;&#xD;&#xA;#### Предоплата&#xD;&#xA;&#xD;&#xA;Клавдия Петровна отдала деньги вперёд за кило помидоров.&#xD;&#xA;&#xD;&#xA;* Деньги в кошелёк&#xD;&#xA;* Овощи со счёта Клавдии Петровны (Марья Ивановна должна Клавдии Петровне кило помидор)&#xD;&#xA;* Разница между себестоимостью и выручкой в прибыли/убытки.&#xD;&#xA;&#xD;&#xA;#### Овощи Клавдии Петровне&#xD;&#xA;&#xD;&#xA;* Овощи на счёт Клавдии Петровны (больше не должна)&#xD;&#xA;* Овощи из корзинки&#xD;&#xA;&#xD;&#xA;#### Покупка валюты&#xD;&#xA;&#xD;&#xA;* Текущий курс в таблицу курсов&#xD;&#xA;* Рубли из кошелька&#xD;&#xA;* Доллары в кошелёк&#xD;&#xA;&#xD;&#xA;#### Деньги в банк&#xD;&#xA;&#xD;&#xA;* Деньги из кошелька&#xD;&#xA;* Деньги на счёт&#xD;&#xA;* Субъект операции - Сбербанк&#xD;&#xA;&#xD;&#xA;### Сверка проводок&#xD;&#xA;&#xD;&#xA;Получив выписки и банка Клавдия Петровна сверяет проводки и остатки и отмечает проводки как &quot;Сверено&quot;.&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="ЭлементМодели" abstract="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Абстрактный базовый класс для ряда элементов модели содержащий общие атрибуты и ссылки. &#xD;&#xA;Подклассы могут использовать только некоторые ссылки и аттрибуты определённые в суперклассе."/>
+    </eAnnotations>
+    <eAnnotations source="org.nasdanika.cdo.web.render">
+      <details key="label" value="{{наименование}}"/>
+    </eAnnotations>
+    <eOperations name="validate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Validates element."/>
+      </eAnnotations>
+      <eParameters name="diagnostics" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="Diagnostics to add validation messages to."/>
+        </eAnnotations>
+      </eParameters>
+      <eParameters name="context">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="Validation context."/>
+        </eAnnotations>
+        <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+          <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+          <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        </eGenericType>
+      </eParameters>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="наименование" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Наименование элемента."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="описание" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Описание элемента в формате HTML."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="комментарии" upperBound="-1"
+        eType="#//Комментарий" containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Комментарии к элементу. "/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="изображение" eType="#//Изображение"
+        containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Изображение элемента. Например, фотография пользователя или товара, или иконка для счёта - кошелёк для наличных, здание для банка, корабль или машина для товаров в пути."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="идентификатор" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Идентификатор элемента, например номер банковского счёта"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Комментарий">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Комментарий к элементу модели, например к операции."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="автор" lowerBound="1" eType="#//Пользователь">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Автор комментария"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="содержание" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Текст комментария в формате HTML"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="дата" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Дата создания комментария."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Изображение" abstract="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Базовый абстрактный класс изображения."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="СсылкаНаИзображение" eSuperTypes="#//Изображение">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Ссылка на изображение, например http://www.myserver.com/myimage.png. Приложение должно распозновать следующие специальные протоколы:&#xD;&#xA;&#xD;&#xA;* ``bundle`` - изображение находится в OSGi bundle. Например: ``bundle://org.nasdanika.icons/fatcow-hosting-icons/FatCow_Icons16x16/3d_glasses.png``&#xD;&#xA;* ``font-awesome`` - [FontAwesome](http://fontawesome.io/icons/) иконка. Например: ``font-awesome://address-book``&#xD;&#xA;* ``bootstrap-glyphicon`` - [Bootstrap](http://getbootstrap.com/components/) глиф. Например: ``bootstrap-glyphicon://search``"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ссылка" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Значение ссылки."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ВстроенноеИзображение" eSuperTypes="#//Изображение">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Изображение хранящееся в модели. Например фотография товара загруженная пользователем."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="содержание" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByteArray">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Байты изображения."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="формат" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="формат изображения - jpg, png, bmp, ..."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="УчётныйЦентр" eSuperTypes="../../org.nasdanika.cdo.security/model/security.ecore#//LoginPasswordRealm #//ЭлементМодели">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Корневой элемент модели."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="хранителиЖурналовОпераций"
+        upperBound="-1" eType="#//ХранительЖурналовОпераций" containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Учётный центр содержит хранителей журналов операций - пользователей и организации."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ХранительЖурналовОпераций" abstract="true"
+      eSuperTypes="#//ЭлементМодели">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Абстактный базовый класс для элементов модели содержащих журналы операций - пользователей и организаций."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="журналыОпераций" upperBound="-1"
+        eType="#//ЖурналОпераций" containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Журналы операций принадлежащие хранителю."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Пользователь" eSuperTypes="../../org.nasdanika.cdo.security/model/security.ecore#//LoginPasswordHashUser #//ХранительЖурналовОпераций">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Хранитель журнала имеющий учётную запись и пароль для входа в систему."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="theme" eType="#//Theme"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Theme" instanceClassName="org.nasdanika.html.Theme"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Организация" eSuperTypes="#//ХранительЖурналовОпераций">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Хранитель журналов операций над которыми работают несколько пользователей. Пользователи могут иметь разные права. &#xD;&#xA;Например кто-то может только осуществлять первичный ввод операций, кто-то не может вводить операции, но может создавать проводки в операциях, &#xD;&#xA;а кто-то ещё может только просматривать отчёты."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ЖурналОпераций" eSuperTypes="#//ЭлементМодели">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Журнал операций содержит список хозяйственных операций и справочные данные - счета, активы и субъекты."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="активы" upperBound="-1"
+        eType="#//Актив" containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Корневые активы."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="счета" upperBound="-1"
+        eType="#//Счёт" containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Корневые счета."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="операции" upperBound="-1"
+        eType="#//Операция" containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Хозяйственные операции."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="субъекты" upperBound="-1"
+        eType="#//Субъект" containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Субъекты принимающие участие в хозяйственной деятельности."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="отчётныеАктивы" upperBound="-1"
+        eType="#//Актив">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Активы в терминах которых должны генерироваться отчёты. &#xD;&#xA;Например, рубли и доллары."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="счётПоУмолчаниюДляБалансировкиОпераций"
+        eType="#//Счёт">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Счёт который по умолчанию используется для балансирования операций.&#xD;&#xA;Например, &quot;Прибыли и убытки&quot;. Если счёт поддерживает один из отчётных активов, &#xD;&#xA;то балансирование проводится в терминах этого актива. Иначе балансирование проводится в терминах первого актива&#xD;&#xA;поддерживаемого счётом.&#xD;&#xA;&#xD;&#xA;Примеры:&#xD;&#xA;&#xD;&#xA;* Счёт поддерживает рубли и первый отчётный актив это рубли. Значит балансирование проводится в рублях.&#xD;&#xA;* Счёт не поддерживает рубли, но поддерживает доллары. Доллары это второй отчётный актив. Балансирование в долларах.&#xD;&#xA;* Счёт не поддерживает ни рубли ни доллары, но поддерживает евро. Балансирование в евро.&#xD;&#xA;&#xD;&#xA;"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="отчётныеПериоды" upperBound="-1"
+        eType="#//ОтчётныйПериод" containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Журнал операций может иметь несколько отчётных периодов."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Счёт" eSuperTypes="#//ЭлементМодели">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Счёт это источник и/или приёмник активов. Например в счёт &quot;кошелёк&quot; можно положить деньги, а со счёта &quot;склад&quot; взять товар."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="группа" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Индикатор того что счёт используется для группировки других счетов. &#xD;&#xA;Групповые счета могут содержать суб-счета, но не могут иметь проводок."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="субСчета" upperBound="-1"
+        eType="#//Счёт" containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Счета могут быть организованы в иерархию, например:&#xD;&#xA;&#xD;&#xA;* Деньги&#xD;&#xA;    * Банковские вклады&#xD;&#xA;        * Сбербанк&#xD;&#xA;            * Рублёвый счёт 1234&#xD;&#xA;            * Валютный счёт 5678&#xD;&#xA;    * Наличные"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="активы" lowerBound="1"
+        upperBound="-1" eType="#//Актив" eOpposite="#//Актив/счета">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Активы поддерживаемые счётом. Проводки по счёту могут осуществляться с активами поддерживаемыми счётом. &#xD;&#xA;Если актив является группой, то это означает что счёт поддерживает, рекурсивно, любой под-актив группового актива&#xD;&#xA;если этот актив не является группой.&#xD;&#xA;&#xD;&#xA;Примеры:&#xD;&#xA;&#xD;&#xA;* Активы - рубли и доллары. Проводки по счёту могут производиться в рублях и долларах.&#xD;&#xA;* Актив - деньги. Деньги это группа активов содержащая рубли, доллары и евро. Проводки по счёту могут поизводиться в рублях, долларах и евро.&#xD;&#xA;"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="проводки" upperBound="-1"
+        eType="#//Проводка" changeable="false" eOpposite="#//Проводка/счёт">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Проводки по счёту. Эта ссылка является обратной к ссылке &quot;Счёт&quot; в проводке и заполняется системой автоматически."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Актив" eSuperTypes="#//ЭлементМодели">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Актив это нечто имеющее ценность - деньги, товар, услуги (труд).&#xD;&#xA;&#xD;&#xA;Хозяйственная деятельность заключается в движении активов между счетами и преобразовании активов. &#xD;&#xA;Учёт хозяйственной деятельности заключается в аккуратном фиксировании хозяйственных операций с целью составления отчётности которая может&#xD;&#xA;быть использована для анализа и корректирования деятельности.&#xD;&#xA;&#xD;&#xA;Примеры:&#xD;&#xA;&#xD;&#xA;* Прочитана лекция за наличные: Оказанные услуги -> Кошелёк.&#xD;&#xA;* Продан товар: Склад -товар-> Покупатель -деньги-> Кошелёк.&#xD;&#xA;* Деньги положены в банк: Кошелёк -> Банковский счёт."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="источникиКурсов" upperBound="-1"
+        eType="#//ИсточникКурсаАктива" containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Источники курса данного актива используются чтобы получить текущий или наиболее аккуратный курс актива при балансировании операций&#xD;&#xA;и составлении отчётности."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="группа" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Если этот атрибут установлен в true, значит актив является группой.&#xD;&#xA;Группа активов может содержать суб-активы, но не может использоваться&#xD;&#xA;в проводках. "/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="субАктивы" upperBound="-1"
+        eType="#//Актив" containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Активы могут быть организованы в иерархию. Например:&#xD;&#xA;&#xD;&#xA;* Деньги&#xD;&#xA;    * Рубли&#xD;&#xA;    * Доллары&#xD;&#xA;    * Евро&#xD;&#xA;* Товары&#xD;&#xA;    * Овощи&#xD;&#xA;        * Помидоры&#xD;&#xA;        * Огурцы&#xD;&#xA;&#xD;&#xA;"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="единицаИзмерения" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Единица измерения актива. &#xD;&#xA;Например литры, штуки, килограммы."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="точность" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Количество десятичных знаков после запятой используемых при&#xD;&#xA;учёте количества актива. Например:&#xD;&#xA;&#xD;&#xA;* 2 для долларов и рублей - копейки и центы.&#xD;&#xA;* 3 для килограммов если измерятся с точность до граммов.&#xD;&#xA;* 0 для неделимых штучных товаров, например лампочек."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="свойства" upperBound="-1"
+        eType="#//СвойствоАктива" containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Определения свойств актива.&#xD;&#xA;Значения свойств вводятся в проводке."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="счета" upperBound="-1"
+        eType="#//Счёт" changeable="false" eOpposite="#//Счёт/активы">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Счета поддерживающие данный актив."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="проводки" upperBound="-1"
+        eType="#//Проводка" changeable="false" eOpposite="#//Проводка/актив">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Проводки описывающие движение данного актива между счетами."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="СвойствоАктива">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Разные активы могут обладать разными свойствами. Например:&#xD;&#xA;&#xD;&#xA;* Дата истечения срока годности для пищевых товаров.&#xD;&#xA;* Категория для яиц.&#xD;&#xA;* Размер для раков. "/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="наименование" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Наименование свойства. Например, &quot;Дата истечения срока годности&quot;."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="описание" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Описание свойства, например указание длины короче которой рак считается&#xD;&#xA;маленьким, а длиннее большим, а также объяснение как мерить - с усами или без."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="тип" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Тип данных свойства - число, дата, выбор(Маленький, Большой), ... &#xD;&#xA;Формат определения типа будет уточнён позже."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="нижняяГраница" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Свойство может иметь мощность - требуемое количество значений. &#xD;&#xA;Диапазон количества значений определяется нижней и верхней границей.&#xD;&#xA;&#xD;&#xA;Примеры:&#xD;&#xA;&#xD;&#xA;* 0..1 - Необязательное свойство с максимум одним значением.&#xD;&#xA;* 1..1 - Обязательное свойство (минимум одно значение) с максимум одним значением.&#xD;&#xA;* 0..-1 - Необязательное свойство с неограниченным количеством значений.&#xD;&#xA;* 1..-1 - Обязательное свойство с неограниченным количеством значений. "/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="верхняяГраница" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="1">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Верхняя граница количества значений свойства."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ЗначениеСвойстваАктива">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Значения (величины) свойства. Например для актива ``Рак`` и свойства ``Размер`` значение свойства может быть ``Большой``."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="свойство" lowerBound="1"
+        eType="#//СвойствоАктива">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Ссылка на свойство."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="значения" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Значение в текстовом представлении."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ИсточникКурсаАктива" abstract="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Абстрактный базовый класс. "/>
+    </eAnnotations>
+    <eOperations name="получитьКурс" eType="#//КурсАктива">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Эта операция вызывается при балансировании операции и составлении отчётности&#xD;&#xA;с целью получения текущего или наиболее аккуратного курса актива по отношению к другому активу.&#xD;&#xA;&#xD;&#xA;Дата возвращаемого курса не обязательно должна совпадать с запрашиваемой датой. Например курс доллара по Центробанку выставляется в даты когда были торги. &#xD;&#xA;Соответственно если запрашиваемая дата соответствует выходным или праздникам, то возвращённый курс будет иметь дату последних торгов.&#xD;&#xA;&#xD;&#xA;Если источник не имеет данных о курсе, возвращается ``null``."/>
+      </eAnnotations>
+      <eParameters name="дата" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="Дата запрашиваемого курса."/>
+        </eAnnotations>
+      </eParameters>
+      <eParameters name="количество" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="Количество актива может использоваться вычислителями курса&#xD;&#xA; для калькуляции оптовых скидок."/>
+        </eAnnotations>
+      </eParameters>
+      <eParameters name="значенияСвойств" upperBound="-1" eType="#//ЗначениеСвойстваАктива">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="Значения свойств могут использоваться вычислителями курса. &#xD;&#xA;Примеры:&#xD;&#xA;&#xD;&#xA;* Если близка дата истечения срока годности вычислитель может уменьшить курс актива по отношению к базовой.&#xD;&#xA;* Вычислитель стоимости раков может использовать значение свойство размер (Большие) и базовый курс (3) и вычислить что большие раки по 5 т.к. маленькие по 3 (базовый курс предполагается для маленьких раков).&#xD;&#xA;&#xD;&#xA;"/>
+        </eAnnotations>
+      </eParameters>
+      <eParameters name="базовыйКурс" eType="#//КурсАктива">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="Базовый курс может использоваться вычислителями курсов."/>
+        </eAnnotations>
+      </eParameters>
+      <eParameters name="субъект" upperBound="-1" eType="#//Субъект">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="Субъекты операции могут использоваться вычислителями курсов.&#xD;&#xA;Например, вычислитель может подсчитать обороты с данным субъектом&#xD;&#xA;и уменьшить стоимость актива &quot;за лояльность&quot;."/>
+        </eAnnotations>
+      </eParameters>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="началоПериодаДействия"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Начало периода действия источника."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="конецПериодаДействия" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Конец периода действия источника. Если не указан, значит источник&#xD;&#xA;действителен до начала действия следующего источника при условии&#xD;&#xA;что источники упорядочены по датам начала действия."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="базовыйАктив" lowerBound="1"
+        eType="#//Актив">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Базовый актив для курса. Например рубли для долларов или доллары для&#xD;&#xA;товаров купленных за доллары."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="комментарий" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Комментарий к источнику."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ФиксированныйКурс" eSuperTypes="#//ИсточникКурсаАктива">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Фиксированный курс вводится вручную или импортируется из внешнего&#xD;&#xA;источника."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="курс" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Величина курса. Например ``60.66`` для доллара к рублю."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ВычислительКурса" eSuperTypes="#//ИсточникКурсаАктива">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Вычислитель курса исполняет Ява код чтобы вычислить значение курса.&#xD;&#xA;&#xD;&#xA;Примеры:&#xD;&#xA;&#xD;&#xA;* Курс может запрашиваться через интернет с http://www.cbr-xml-daily.ru/&#xD;&#xA;* Курс может вычисляться из базового курса (например фиксированного курса/цены товара) и свойств товара (например даты истечения срока годности)."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="код" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Ява код вычисляющий значение курса."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Операция" eSuperTypes="#//ЭлементМодели">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Запись хозяйственной операции."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="датаОперации" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Дата совершения или записи операции."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="первичныйВвод" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Первичный ввод означает что описание операции введено, но проводки&#xD;&#xA;по счетам либо не сделаны, либо сделаны не полностью."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="проводки" upperBound="-1"
+        eType="#//Проводка" containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Проводки по счетам. Активы проводок могут быть разными, но сумма проводок в пересчёте на актив балансирования должна быть&#xD;&#xA;равна нулю. Соответственно, операция должна содержать более одной проводки.&#xD;&#xA;&#xD;&#xA;Пример - продажа компьютера за рубли:&#xD;&#xA;&#xD;&#xA;* Компьютер списан со склада.&#xD;&#xA;* Рубли зачислены в кассу.&#xD;&#xA;&#xD;&#xA;Компьютер был приобретён за доллары и фиксированный курс компьютера установлен в стоимость компьютера на дату покупки по отношению к долларам.&#xD;&#xA;Система определяет &quot;путь пересчёта курса&quot; компьютер -> доллары -> рубли и вычисляет стоимость компьютера в рублях на дату совершения операции. &#xD;&#xA;Разница между покупной и продажной стоимостью записывается в прибыли и убытки."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="создатель" lowerBound="1"
+        eType="#//Пользователь">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Пользователь создавший операцию."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="субъекты" upperBound="-1"
+        eType="#//Субъект" eOpposite="#//Субъект/операции">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Субъекты принимающие участие в операции. Например покупатель."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Проводка" eSuperTypes="#//ЭлементМодели">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Проводка это часть операции описывающая движение актива по счёту."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="датаПроводки" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Дата проводки, может отличаться от даты операции."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="счёт" lowerBound="1" eType="#//Счёт"
+        eOpposite="#//Счёт/проводки">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Счёт проводки."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="актив" lowerBound="1" eType="#//Актив"
+        eOpposite="#//Актив/проводки">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Актив проводки. Должен поддерживаться счётом."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="количество" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Количество актива."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="сверено" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Индикатор указывающий на то что проводка сверена с выписками корреспондента,например банка."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="балансирующаяПроводка"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Индикатор балансирующей проводки. Балансирующая проводка приводит&#xD;&#xA;баланс операции в ноль по курсу на момент совершения операции.&#xD;&#xA;&#xD;&#xA;При изменении курсов, например при коррекции ошибочного ввода, &#xD;&#xA;система автоматически пересчитывает атрибут &quot;количество&quot; балансирующих проводок."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="значенияСвойствАктива"
+        upperBound="-1" eType="#//ЗначениеСвойстваАктива">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Значения свойств актива. Например дата истечения срока годности товара."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Субъект" eSuperTypes="#//ЭлементМодели">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Физическое или юридическое лицо принимающее участие в хозяйственных операциях. &#xD;&#xA;Например банк или постоянный покупатель."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="операции" upperBound="-1"
+        eType="#//Операция" eOpposite="#//Операция/субъекты">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Операции в которых субъект принимал участие. &#xD;&#xA;Например, покупки произведённые постоянным покупателем."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="КурсАктива" instanceClassName="org.nasdanika.ledger.КурсАктива">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="С целью балансирования операций и составления отчётности должно быть возможно преобразовывать величину одного актива в величину другого.&#xD;&#xA;Коэффициент преобразования называется курсом по аналогии с курсом валют. Для товаров стоимость тавара является его &quot;курсом&quot;."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ОтчётныйПериод" abstract="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Период за который генерируется отчёт."/>
+    </eAnnotations>
+    <eOperations name="getНачалоПериода" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eOperations name="getКонецПериода" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ПредыдущийМесяц" eSuperTypes="#//ОтчётныйПериод"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ПредыдущийГод" eSuperTypes="#//ОтчётныйПериод"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ТекущийМесяц" eSuperTypes="#//ОтчётныйПериод"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ТекущийГод" eSuperTypes="#//ОтчётныйПериод"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ФиксированныйОтчётныйПериод" eSuperTypes="#//ОтчётныйПериод">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="началоПериода" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="конецПериода" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+  </eClassifiers>
+</ecore:EPackage>

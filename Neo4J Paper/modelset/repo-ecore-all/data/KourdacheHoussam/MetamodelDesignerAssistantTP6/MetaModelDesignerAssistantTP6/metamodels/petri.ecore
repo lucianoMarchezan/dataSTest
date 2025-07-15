@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="BoitePetri" nsURI="http://fr/houssam/tp6/petri" nsPrefix="fr.houssam.tp6.petri">
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nom" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReseauPetri">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="noeuds" upperBound="-1"
+        eType="#//Noeud" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="arcs" upperBound="-1" eType="#//Arc"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rpetri" eType="#//Domaine"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="autonome" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" upperBound="2" eType="#//Catégorie"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Transition" abstract="true" eSuperTypes="#//Noeud">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executiontime" upperBound="-1"
+        eType="#//TimeStamp"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Noeud" eSuperTypes="#//NamedElement #//ElementNoeud">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputLinks" upperBound="-1"
+        eType="#//Arc" eOpposite="#//Arc/source"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputlinks" upperBound="-1"
+        eType="#//Arc" eOpposite="#//Arc/target"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Place" eSuperTypes="#//Noeud">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nbJetons" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="jetons" upperBound="-1"
+        eType="#//Jeton" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Compo">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="petris" upperBound="-1"
+        eType="#//ReseauPetri" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Arc" eSuperTypes="#//ElementLiaison">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//Noeud" eOpposite="#//Noeud/outputlinks"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//Noeud"
+        eOpposite="#//Noeud/inputLinks"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="poids" upperBound="-1"
+        eType="#//Resource"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Jeton" eSuperTypes="#//Resource">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="consumationtime" upperBound="-1"
+        eType="#//TimeStamp"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransitionPuit" eSuperTypes="#//Transition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TransitionSource" eSuperTypes="#//Transition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Domaine">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nom" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Resource">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="borne" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AInhibiteur" eSuperTypes="#//Arc"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ANormal" eSuperTypes="#//Arc"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ElementNoeud"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ElementLiaison"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Catégorie">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nom" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Temporisation">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="heure" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TimeStamp" eSuperTypes="#//Temporisation"/>
+</ecore:EPackage>

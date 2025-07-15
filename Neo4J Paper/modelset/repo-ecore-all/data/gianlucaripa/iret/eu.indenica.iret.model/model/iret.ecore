@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="iret"
+    nsURI="http://indenica.dei.polimi.it/iret#" nsPrefix="iret">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL"/>
+    <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL"/>
+    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="IreneElement" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="derivedFrom" upperBound="-1"
+        eType="#//IreneElement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Parameter" abstract="true" interface="true"
+      eSuperTypes="#//IreneElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variability" eType="#//Variability"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Agent" eSuperTypes="#//Object">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="InglobeAllOut InglobeAllIn"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+      <details key="InglobeAllOut" value="write->includesAll(operat.out)"/>
+      <details key="InglobeAllIn" value="read->includesAll(operat._'in')"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operat" upperBound="-1"
+        eType="#//Operation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitors" upperBound="-1"
+        eType="#//Object" eOpposite="#//Object/isMonitoredBy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controls" upperBound="-1"
+        eType="#//Object" eOpposite="#//Object/isControlledBy"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Object" abstract="true" eSuperTypes="#//Parameter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="isMonitoredBy" upperBound="-1"
+        eType="#//Agent" eOpposite="#//Agent/monitors"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="isControlledBy" upperBound="-1"
+        eType="#//Agent" eOpposite="#//Agent/controls"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HumanAgent" eSuperTypes="#//Agent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AutomatedAgent" eSuperTypes="#//Agent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Entity" eSuperTypes="#//Object">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="#//Attribute" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="references" upperBound="-1"
+        eType="#//Reference" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="admittedStates" lowerBound="1"
+        upperBound="-1" eType="#//State" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isInState" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="isInputOf" upperBound="-1"
+        eType="#//Operation" eOpposite="#//Operation/in"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="isOutputOf" upperBound="-1"
+        eType="#//Operation" eOpposite="#//Operation/out"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Event" eSuperTypes="#//Object">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="#//Attribute" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//Reference" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="addArguments" upperBound="-1"
+        eType="#//Parameter"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Goal" abstract="true" interface="true"
+      eSuperTypes="#//Parameter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="priority" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BehaviouralGoal" eSuperTypes="#//Goal #//TreeElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="IsLeafe SatisfactionRange"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+      <details key="IsLeafe" value="if(leafe = true) then (ref = null) else (ref &lt;> null) endif"/>
+      <details key="SatisfactionRange" value="satisfactionLevel&lt;=1 and satisfactionLevel>=0"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="leaf" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contributesOn" upperBound="-1"
+        eType="#//ContributionLink" eOpposite="#//ContributionLink/contributor"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operationalizedBy" upperBound="-1"
+        eType="#//Operation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="formalDefinition" lowerBound="1"
+        eType="#//FormalDefinition" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="soft" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="satisfaction" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rollback" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contributedBy" upperBound="-1"
+        eType="#//ContributionLink" eOpposite="#//ContributionLink/destinationGoal"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refinedBy" eType="#//RefinementLink"
+        eOpposite="#//RefinementLink/refinedGoal"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AdaptationGoal" eSuperTypes="#//Goal">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxActivations" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trigger" eType="#//FormalDefinition"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" upperBound="-1"
+        eType="#//FormalDefinition" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="help" lowerBound="1" upperBound="-1"
+        eType="#//BehaviouralGoal"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" lowerBound="1"
+        upperBound="-1" eType="#//Action"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Action" eSuperTypes="#//Parameter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="actionType" lowerBound="1"
+        eType="#//ActionType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actionParameter" upperBound="-1"
+        eType="#//Parameter"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Operation" eSuperTypes="#//IreneElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="domPre" eType="#//FormalDefinition"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="domPost" eType="#//FormalDefinition"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reqPre" eType="#//FormalDefinition"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reqPost" eType="#//FormalDefinition"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trigPre" eType="#//FormalDefinition"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="in" upperBound="-1" eType="#//Entity"
+        eOpposite="#//Entity/isInputOf"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="out" upperBound="-1" eType="#//Entity"
+        eOpposite="#//Entity/isOutputOf"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasEvent" upperBound="-1"
+        eType="#//Event"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="minExecTImes" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxExecTimes" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LinkNode" abstract="true" interface="true"
+      eSuperTypes="#//IreneElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RefinementLink" eSuperTypes="#//LinkNode #//TreeElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="RefinementLoop"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+      <details key="RefinementLoop" value="not target->includes(myFather)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refiningGoals" lowerBound="1"
+        upperBound="-1" eType="#//TreeElement" eOpposite="#//TreeElement/refines"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refinedGoal" eType="#//BehaviouralGoal"
+        containment="true" eOpposite="#//BehaviouralGoal/refinedBy"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ANDRefinementLink" eSuperTypes="#//RefinementLink"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ORRefinementLink" eSuperTypes="#//RefinementLink"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ContributionLink" eSuperTypes="#//LinkNode">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="weight" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contributor" lowerBound="1"
+        eType="#//BehaviouralGoal" eOpposite="#//BehaviouralGoal/contributesOn"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="destinationGoal" lowerBound="1"
+        eType="#//BehaviouralGoal" eOpposite="#//BehaviouralGoal/contributedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="RefType">
+    <eLiterals name="AND"/>
+    <eLiterals name="OR" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ActionType">
+    <eLiterals name="addGoal" value="1"/>
+    <eLiterals name="removeGoal" value="2"/>
+    <eLiterals name="addOper" value="3"/>
+    <eLiterals name="removeOper" value="4"/>
+    <eLiterals name="substituteGoal" value="5"/>
+    <eLiterals name="substituteAgent" value="6"/>
+    <eLiterals name="substituteOper" value="7"/>
+    <eLiterals name="relaxGoal" value="8"/>
+    <eLiterals name="performGoal" value="9" literal="performGoal"/>
+    <eLiterals name="performOper" value="10"/>
+    <eLiterals name="removeEntity" value="11"/>
+    <eLiterals name="addEntity" value="12"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Multiplicity">
+    <eLiterals name="One" literal="One"/>
+    <eLiterals name="AtMostOne" value="1" literal="AtMostOne"/>
+    <eLiterals name="Some" value="2" literal="Some"/>
+    <eLiterals name="Any" value="3" literal="Any"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="AttributeType">
+    <eLiterals name="Int" literal="Int"/>
+    <eLiterals name="Boolean" value="1" literal="Boolean"/>
+    <eLiterals name="String" value="2" literal="String"/>
+    <eLiterals name="Float" value="3" literal="Float"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Reference">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="multiplicity" lowerBound="1"
+        eType="#//Multiplicity"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//Entity"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FormalDefinition">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="definition" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Attribute">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PrimitiveAttribute" eSuperTypes="#//Attribute">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//AttributeType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EntityAttribute" eSuperTypes="#//Attribute">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//Entity"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Variability">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="State">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isInt" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="domInv" eType="#//FormalDefinition"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GoalDiagram">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasRLink" upperBound="-1"
+        eType="#//RefinementLink" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasBehaviouralGoal" upperBound="-1"
+        eType="#//BehaviouralGoal" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasAdaptationGoal" upperBound="-1"
+        eType="#//AdaptationGoal" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasEvent" upperBound="-1"
+        eType="#//Event" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasOper" upperBound="-1"
+        eType="#//Operation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasEntity" upperBound="-1"
+        eType="#//Entity" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasAgent" upperBound="-1"
+        eType="#//Agent" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasAction" upperBound="-1"
+        eType="#//Action" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasCLink" upperBound="-1"
+        eType="#//ContributionLink" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="readonly" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="isViewOf" eType="#//IreneModel"
+        eOpposite="#//IreneModel/hasView"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IreneModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" upperBound="-1"
+        eType="#//IreneElement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasView" upperBound="-1"
+        eType="#//GoalDiagram" containment="true" eOpposite="#//GoalDiagram/isViewOf"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="easyVariability" eType="#//integration/easy/Variability"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TreeElement" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refines" upperBound="-1"
+        eType="#//RefinementLink" eOpposite="#//RefinementLink/refiningGoals"/>
+  </eClassifiers>
+  <eSubpackages name="integration" nsURI="http://indenica.dei.polimi.it/iret/integration#"
+      nsPrefix="integration">
+    <eSubpackages name="easy" nsURI="http://indenica.dei.polimi.it/iret/integration/easy#"
+        nsPrefix="easy">
+      <eClassifiers xsi:type="ecore:EClass" name="Variability">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="variables" upperBound="-1"
+            eType="#//integration/easy/Variable" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="constraints" upperBound="-1"
+            eType="#//integration/easy/Constraint" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Variable">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1"
+            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="bindingTime" lowerBound="1"
+            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Constraint">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="expression" lowerBound="1"
+            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eClassifiers>
+    </eSubpackages>
+  </eSubpackages>
+</ecore:EPackage>

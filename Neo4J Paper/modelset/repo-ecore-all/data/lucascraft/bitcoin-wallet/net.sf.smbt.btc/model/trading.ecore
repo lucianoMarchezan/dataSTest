@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="trading" nsURI="http://trading/1.0" nsPrefix="trading">
+  <eClassifiers xsi:type="ecore:EClass" name="Robot">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uuid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="triggers" upperBound="-1"
+        eType="#//Trigger" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Order">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="price_int" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="currency" eType="ecore:EEnum btc.ecore#//BtcCurrency"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="volume" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="ecore:EEnum btc.ecore#//OrderKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TradingRule">
+    <eOperations name="compute" upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject">
+      <eParameters name="ctx" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    </eOperations>
+    <eOperations name="accept">
+      <eParameters name="visitor" eType="#//RuleVisitor"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="trigger" eType="#//TriggerKind"
+        defaultValueLiteral="SATISFIES"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ratio" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="compliance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="evalDelegate" eType="#//IRuleEvalDelegate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ctx" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TriggerKind">
+    <eLiterals name="CROSS_OVER"/>
+    <eLiterals name="CROSS_UNDER" value="1"/>
+    <eLiterals name="SATISFIES" value="3"/>
+    <eLiterals name="APPROXIMATES" value="2"/>
+    <eLiterals name="EXCLUDES" value="4"/>
+    <eLiterals name="WAS" value="5"/>
+    <eLiterals name="WILL_BE" value="6"/>
+    <eLiterals name="AS_USUAL" value="7"/>
+    <eLiterals name="EXCEPTIONAL" value="8"/>
+    <eLiterals name="WTF" value="9"/>
+    <eLiterals name="FIRST_TIME" value="10"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PriceRule" eSuperTypes="#//TradingRule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="price" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="percentTolerance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="currency" eType="ecore:EEnum btc.ecore#//BtcCurrency"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VolumeRule" eSuperTypes="#//TradingRule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="volume" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tolerance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TimeRule" eSuperTypes="#//TradingRule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tolerance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompositeRule" eSuperTypes="#//TradingRule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//TradingRule" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CustomRule" eSuperTypes="#//TradingRule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ruleProcessor" eType="#//ICustomRuleProcessor"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RuleVisitor">
+    <eOperations name="eval" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="rule" eType="#//TradingRule"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="delegate" eType="#//ITradeRuleVisitorDelegate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="ITradeRuleVisitorDelegate" instanceClassName="net.sf.smbt.btc.notifications.ITradeRuleVisitorDelegate"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="IRuleEvalDelegate" instanceClassName="net.sf.smbt.btc.notifications.IRuleEvalDelegate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Trigger">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orders" upperBound="-1"
+        eType="#//Order" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"
+        eType="#//TradingRule" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uuid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="activated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="processed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="jsonNotifications" upperBound="-1"
+        eType="#//JsonNotification" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mailNotifications" upperBound="-1"
+        eType="#//MailNotification" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="smsNotification" upperBound="-1"
+        eType="#//SMSNotifcation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OrderKindRule" eSuperTypes="#//TradingRule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="ecore:EEnum btc.ecore#//OrderKind"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TradeBotsConfig">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bots" upperBound="-1" eType="#//Robot"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Notification">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="target" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MailNotification" eSuperTypes="#//Notification"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SMSNotifcation" eSuperTypes="#//Notification"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JsonNotification" eSuperTypes="#//Notification"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="ICustomRuleProcessor" instanceClassName="net.sf.smbt.btc.notifications.ICustomRuleProcessor"/>
+</ecore:EPackage>

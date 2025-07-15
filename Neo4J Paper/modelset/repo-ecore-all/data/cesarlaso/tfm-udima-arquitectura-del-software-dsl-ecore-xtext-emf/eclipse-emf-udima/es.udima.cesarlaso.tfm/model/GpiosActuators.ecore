@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="gpiosactuators" nsURI="http://tfm.cesarlaso.udima.es/gpios/actuators"
+    nsPrefix="es.udima.cesarlaso.tfm.gpios.actuators">
+  <eClassifiers xsi:type="ecore:EClass" name="GpioActuator" abstract="true" eSuperTypes="Events.ecore#//Actuator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GpioTimerActuator" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="duration" lowerBound="1"
+        eType="ecore:EClass Timers.ecore#//TimeUnitValue" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DigitalActuator" abstract="true" eSuperTypes="#//GpioActuator">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pin" lowerBound="1" eType="ecore:EClass Gpios.ecore#//DigitalOutputPin"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AnalogActuator" abstract="true" eSuperTypes="#//GpioActuator">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pin" lowerBound="1" eType="ecore:EClass Gpios.ecore#//AnalogOutputPin"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ChangeOutput" eSuperTypes="#//DigitalActuator">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" lowerBound="1"
+        eType="#//DigitalPinStatus"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ButtonOutput" eSuperTypes="#//ChangeOutput #//GpioTimerActuator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PulseOutput" eSuperTypes="#//DigitalActuator">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="count" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="spaceWidth" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BlinkOutput" eSuperTypes="#//DigitalActuator">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interval" lowerBound="1"
+        eType="ecore:EClass Timers.ecore#//TimeUnitValue" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BlinkTimerOutput" eSuperTypes="#//BlinkOutput #//GpioTimerActuator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Pwm" eSuperTypes="#//AnalogActuator">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="PWM - Modulación por anchura de pulso. Dependiendo de la placa, la funcionalidad sera vía hardware o software.&#xA;En el caso de muchas placas arduino, la frecuencia esta definicia a 490hz y solo es posible variar el ancho de pulso.&#xA;&#xA;Frecuencia = 1/periodo&#xA;&#xA;Por ejemplo, si una señal tiene un periodo de 10 ms y sus pulsos son de ancho (PW) 2ms, dicha señal tiene un ciclo de trabajo (duty cycle) de 20% (20% on y 80% off). El siguiente gráfico muestra tres señales PWM con diferentes &quot;duty cycles&quot;. &#xA;&#xA;https://playground.arduino.cc/ArduinoNotebookTraduccion/Appendix3&#xA;&#xA;En los casos anteriores, la placa Arduino basica, implementará dicha funcion meidnate una llamada a analogWrite&#xA;&#xA;&#xA;"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransformTo" eSuperTypes="#//AnalogActuator #//GpioTimerActuator">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DigitalPinStatus">
+    <eLiterals name="Low"/>
+    <eLiterals name="High" value="1"/>
+  </eClassifiers>
+</ecore:EPackage>

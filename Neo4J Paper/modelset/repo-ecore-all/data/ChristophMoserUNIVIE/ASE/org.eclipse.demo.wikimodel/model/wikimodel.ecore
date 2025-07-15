@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="wikimodel" nsURI="http://org/demo/wikimodel" nsPrefix="org.demo.wikimodel">
+  <eClassifiers xsi:type="ecore:EClass" name="Content" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="publicContent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="historypage" lowerBound="1"
+        eType="#//HistoryPage" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="discussionpage" lowerBound="1"
+        eType="#//DiscussionPage" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="belongsto" upperBound="-1"
+        eType="#//ProjectOrInterestGroup" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HistoryPage"/>
+  <eClassifiers xsi:type="ecore:EClass" name="User" abstract="true">
+    <eOperations name="readPage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EncyclopediaEntry" eSuperTypes="#//Content"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Media" eSuperTypes="#//Content"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ProjectPage" eSuperTypes="#//Content"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SimpleRegisteredUser" eSuperTypes="#//Privilege"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UnregisteredUser" eSuperTypes="#//User">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ipAddress" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EChar"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="simpleregistereduser" eType="#//SimpleRegisteredUser"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DiscussionPage"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AutoConfirmedUser" eSuperTypes="#//SimpleRegisteredUser #//Privilege">
+    <eOperations name="movePage"/>
+    <eOperations name="createPage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AdminUser" eSuperTypes="#//AutoConfirmedUser #//Privilege"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SysOpUser" eSuperTypes="#//AdminUser #//Privilege">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registereduser" eType="#//RegisteredUser"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UserPageProfile" eSuperTypes="#//Content"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UserTalkPage" eSuperTypes="#//Content"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RegisteredUser" eSuperTypes="#//User">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uniqueUserName" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//ID"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="privilege" lowerBound="1"
+        eType="#//Privilege"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="blocked" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="userpageprofile" lowerBound="1"
+        eType="#//UserPageProfile" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usertalkpage" lowerBound="1"
+        eType="#//UserTalkPage" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="memberof" upperBound="-1"
+        eType="#//ProjectOrInterestGroup"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Privilege" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ProjectGroup" eSuperTypes="#//ProjectOrInterestGroup"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InterestGroup" eSuperTypes="#//ProjectOrInterestGroup"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ProjectOrInterestGroup" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Wikipedia"/>
+</ecore:EPackage>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="asm" nsURI="http://www.modaptix.org/mumads/dsl/asm/Asm" nsPrefix="asm">
+  <eClassifiers xsi:type="ecore:EClass" name="Asm" eSuperTypes="#//CodeContainer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PseudoInstructionImport" eSuperTypes="../../../org.modaptix.mumads.dsl.mpadl/model/declared/Mpadl.ecore#//PseudoInstruction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="importURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MacroDefinition" eSuperTypes="../../../org.modaptix.mumads.dsl.mpadl/model/declared/Mpadl.ecore#//ConcreteInstruction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="code" upperBound="-1" eType="ecore:EClass ../../../org.modaptix.mumads.dsl.mpadl/model/declared/Mpadl.ecore#//Instruction"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PseudoInstructionEqu" eSuperTypes="../../../org.modaptix.mumads.dsl.mpadl/model/declared/Mpadl.ecore#//PseudoInstruction ../../../org.modaptix.xtext.expressions/model/declared/ArithmeticExpression.ecore#//IntegerExpression">
+    <eOperations name="getValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return integerExpression.getValue();"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="integerExpression" eType="ecore:EClass ../../../org.modaptix.xtext.expressions/model/declared/ArithmeticExpression.ecore#//IntegerExpression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PseudoInstructionOrg" eSuperTypes="../../../org.modaptix.mumads.dsl.mpadl/model/declared/Mpadl.ecore#//PseudoInstruction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="address" eType="ecore:EClass ../../../org.modaptix.xtext.expressions/model/declared/ArithmeticExpression.ecore#//IntegerExpression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PseudoInstructionDs" eSuperTypes="../../../org.modaptix.mumads.dsl.mpadl/model/declared/Mpadl.ecore#//PseudoInstruction ../../../org.modaptix.mumads.dsl.mpadl/model/declared/Mpadl.ecore#//AddressableEntity">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="variant" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sizeIntExpr" eType="ecore:EClass ../../../org.modaptix.xtext.expressions/model/declared/ArithmeticExpression.ecore#//IntegerExpression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ArchInstructionOrMacro" eSuperTypes="../../../org.modaptix.mumads.dsl.mpadl/model/declared/Mpadl.ecore#//Instruction ../../../org.modaptix.mumads.dsl.mpadl/model/declared/Mpadl.ecore#//AddressableEntity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mnemonic" eType="ecore:EClass ../../../org.modaptix.mumads.dsl.mpadl/model/declared/Mpadl.ecore#//ConcreteInstruction"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operands" upperBound="-1"
+        eType="#//Operand" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Operand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="immediate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="ecore:EClass ../../../org.modaptix.xtext.expressions/model/declared/ArithmeticExpression.ecore#//IntegerExpression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedReference" eSuperTypes="../../../org.modaptix.xtext.expressions/model/declared/ArithmeticExpression.ecore#//IntegerExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="ecore:EClass ../../../org.modaptix.mumads.dsl.mpadl/model/declared/Mpadl.ecore#//NamedEntity"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PseudoInstructionDef" eSuperTypes="../../../org.modaptix.mumads.dsl.mpadl/model/declared/Mpadl.ecore#//PseudoInstruction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="#//NamedReference"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PseudoInstructionList" eSuperTypes="../../../org.modaptix.mumads.dsl.mpadl/model/declared/Mpadl.ecore#//PseudoInstruction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PseudoInstructionListOn" eSuperTypes="#//PseudoInstructionList"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PseudoInstructionListOff" eSuperTypes="#//PseudoInstructionList"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CodeContainer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="code" upperBound="-1" eType="ecore:EClass ../../../org.modaptix.mumads.dsl.mpadl/model/declared/Mpadl.ecore#//Instruction"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PseudoInstructionIf" eSuperTypes="../../../org.modaptix.mumads.dsl.mpadl/model/declared/Mpadl.ecore#//PseudoInstruction #//CodeContainer">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="condId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PseudoInstructionIfdef" eSuperTypes="#//PseudoInstructionIf"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PseudoInstructionIfndef" eSuperTypes="#//PseudoInstructionIf"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PseudoInstructionDefine" eSuperTypes="../../../org.modaptix.mumads.dsl.mpadl/model/declared/Mpadl.ecore#//PseudoInstruction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PseudoInstructionPragma" eSuperTypes="../../../org.modaptix.mumads.dsl.mpadl/model/declared/Mpadl.ecore#//PseudoInstruction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ids" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="vals" upperBound="-1" eType="ecore:EClass ../../../org.modaptix.xtext.expressions/model/declared/ArithmeticExpression.ecore#//IntegerExpression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PseudoInstructionDevice" eSuperTypes="../../../org.modaptix.mumads.dsl.mpadl/model/declared/Mpadl.ecore#//PseudoInstruction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="device" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Label" eSuperTypes="../../../org.modaptix.mumads.dsl.mpadl/model/declared/Mpadl.ecore#//Instruction ../../../org.modaptix.mumads.dsl.mpadl/model/declared/Mpadl.ecore#//AddressableEntity"/>
+</ecore:EPackage>

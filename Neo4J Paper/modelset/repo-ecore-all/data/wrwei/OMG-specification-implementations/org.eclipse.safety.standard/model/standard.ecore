@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="standard" nsURI="http://org.eclipse.safety.standard/1.0" nsPrefix="standard">
+  <eClassifiers xsi:type="ecore:EEnum" name="RequirementRelationshipKind">
+    <eLiterals name="AND"/>
+    <eLiterals name="OR" value="1"/>
+    <eLiterals name="XOR" value="2"/>
+    <eLiterals name="REQUIRES" value="3"/>
+    <eLiterals name="CONTRIBUTESTO" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ApplicabilityKind">
+    <eLiterals name="AND"/>
+    <eLiterals name="OR" value="1"/>
+    <eLiterals name="XOR" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DescribableElement" abstract="true"
+      eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StandardElement" abstract="true" eSuperTypes="#//DescribableElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RelationshipElement" abstract="true"
+      eSuperTypes="#//StandardElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//StandardElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//StandardElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ContentElement" eSuperTypes="#//DescribableElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="query" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StandardPackage" eSuperTypes="#//StandardElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="scope" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="revision" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="purpose" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="publisher" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="issued" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="standardElement" upperBound="-1"
+        eType="#//StandardElement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StandardPackageInterface" eSuperTypes="#//StandardPackage">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="implements" eType="#//StandardPackage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StandardPackageBinding" eSuperTypes="#//StandardPackage">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participantPackage" upperBound="-1"
+        eType="#//StandardPackage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Requirement" eSuperTypes="#//StandardElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reference" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="assumptions" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rationale" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="image" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="annotations" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subRequirement" upperBound="-1"
+        eType="#//Requirement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RequirementRel" eSuperTypes="#//RelationshipElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//RequirementRelationshipKind"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CriticalityLevel" eSuperTypes="#//StandardElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IndependencyLevel" eSuperTypes="#//CriticalityLevel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ApplicabilityLevel" eSuperTypes="#//StandardElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RecommendationLevel" eSuperTypes="#//ApplicabilityLevel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ControlCategory" eSuperTypes="#//ApplicabilityLevel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CriticalityApplicability" eSuperTypes="#//StandardElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="comment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="applicabilityLevel" lowerBound="1"
+        eType="#//ApplicabilityLevel"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="criticalityLevel" lowerBound="1"
+        eType="#//CriticalityLevel"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Applicability" eSuperTypes="#//StandardElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="comment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//ContentElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="criticalityApplicability"
+        upperBound="-1" eType="#//CriticalityApplicability"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ApplicabilityTable" eSuperTypes="#//StandardElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedApplicability" upperBound="-1"
+        eType="#//Applicability"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tableContext" upperBound="-1"
+        eType="#//ContentElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ApplicabilityRel" eSuperTypes="#//RelationshipElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//ApplicabilityKind"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="cityenergyinfrastructure" nsURI="http://cityenergyinfrastructure/1.0"
+    nsPrefix="cityenergyinfrastructure">
+  <eClassifiers xsi:type="ecore:EClass" name="EnergyInfrastructure" abstract="true"
+      interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Resource" abstract="true" interface="true">
+    <eOperations name="isInUse" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="isInUseForCityWaterSupply" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="isUsedForIrrigation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WaterBodies" abstract="true" eSuperTypes="#//Resource">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="totalCapacity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="presentStatus" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="inUse" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="inUseForWaterSupply" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Lake" abstract="true" eSuperTypes="#//WaterBodies">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="EReference0" eType="#//WaterBodies"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="River" abstract="true" eSuperTypes="#//WaterBodies">
+    <eOperations name="getCoordinates" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Artificial" eSuperTypes="#//Lake"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Natural" eSuperTypes="#//Lake"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EnergyProduction" abstract="true" eSuperTypes="#//EnergyInfrastructure">
+    <eOperations name="isPresentlyInProduction" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="capacity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EnergyDistribution" abstract="true"
+      eSuperTypes="#//EnergyInfrastructure">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="capacity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="presentLoad" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HydroElectricProduction" eSuperTypes="#//EnergyProduction #//Renewable">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="storage" eType="#//EnergyStorage"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SolarElectricProduction" eSuperTypes="#//EnergyProduction #//Renewable #//NonRenewable"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WindElectricProduction" eSuperTypes="#//EnergyProduction #//Renewable">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="storage" eType="#//EnergyStorage"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UsageMeasure">
+    <eOperations name="getUsedUnits" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eOperations name="calculateBill" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ThermalElectricProduction" eSuperTypes="#//EnergyProduction #//Renewable">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="storage" eType="#//EnergyStorage"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NuclearElectricProduction" eSuperTypes="#//EnergyProduction #//NonRenewable">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="storage" eType="#//EnergyStorage"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Renewable" abstract="true" interface="true">
+    <eOperations name="getEnvironenmentImpactStatistics" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NonRenewable" abstract="true" interface="true">
+    <eOperations name="getEfficiencyStatistics" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EnergyStorage">
+    <eOperations name="getPresentStoredEnergy"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="capacity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="storageType" eType="#//StorageType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="storage" eType="#//SolarElectricProduction"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UltraHighVoltageSubstationStatus" eSuperTypes="#//EnergyDistribution"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PrimarySubstation" eSuperTypes="#//EnergyDistribution"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DistributionSystem" eSuperTypes="#//EnergyDistribution"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Delivery" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//DeliveryType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Trasmission" abstract="true" eSuperTypes="#//Delivery"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Supply" abstract="true" eSuperTypes="#//Delivery"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="StorageType">
+    <eLiterals name="POTENTIAL"/>
+    <eLiterals name="KINETIC" value="1"/>
+    <eLiterals name="CHEMICAL" value="2"/>
+    <eLiterals name="THERMAL" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DeliveryType">
+    <eLiterals name="RESOURCE"/>
+    <eLiterals name="ENERGY" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Commercial" eSuperTypes="#//Delivery"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Private" eSuperTypes="#//Delivery"/>
+</ecore:EPackage>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="WNLML" nsURI="WNL" nsPrefix="WNL">
+  <eClassifiers xsi:type="ecore:EClass" name="WaterNetwork">
+    <eAnnotations source="gmf.diagram"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containsNode" upperBound="-1"
+        eType="#//WNNode" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containsLink" upperBound="-1"
+        eType="#//Pipe" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containsAttack" upperBound="-1"
+        eType="#//Contaminant" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WNNode">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="monitoringService" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dependReq" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Pipe">
+    <eAnnotations source="gmf.link">
+      <details key="label" value="id"/>
+      <details key="source" value="source"/>
+      <details key="target" value="destination"/>
+      <details key="target.decoration" value="arrow"/>
+      <details key="color" value="128,128,128"/>
+      <details key="width" value="2"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="#//PipeStatus"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="flowrate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//WNNode"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="destination" lowerBound="1"
+        eType="#//WNNode"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Contaminant">
+    <eAnnotations source="gmf.node">
+      <details key="label" value="name"/>
+      <details key="label.icon" value="false"/>
+      <details key="label.placement" value="external"/>
+      <details key="figure" value="figures.HazardFigure"/>
+      <details key="border.color" value="0,0,0"/>
+      <details key="size" value="80,80"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="concentration" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attacks" lowerBound="1"
+        upperBound="-1" eType="#//WNNode">
+      <eAnnotations source="gmf.link">
+        <details key="label" value="ID"/>
+        <details key="target" value="destination"/>
+        <details key="target.decoration" value="arrow"/>
+        <details key="style" value="dot"/>
+        <details key="color" value="255,0,0"/>
+        <details key="width" value="2"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="successProb" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ContaminantType">
+    <eLiterals name="DisinfectionByProduct"/>
+    <eLiterals name="Microorganism"/>
+    <eLiterals name="OrganicChemical"/>
+    <eLiterals name="InorganicChemical"/>
+    <eLiterals name="RadioNuclides"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PipeStatus">
+    <eLiterals name="Open"/>
+    <eLiterals name="Close"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WaterPump" eSuperTypes="#//WNNode">
+    <eAnnotations source="gmf.node">
+      <details key="label" value="name"/>
+      <details key="label.icon" value="false"/>
+      <details key="label.placement" value="external"/>
+      <details key="figure" value="figures.WaterPumpFigure"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Valve" eSuperTypes="#//WNNode">
+    <eAnnotations source="gmf.node">
+      <details key="label" value="name"/>
+      <details key="label.icon" value="false"/>
+      <details key="label.placement" value="external"/>
+      <details key="figure" value="figures.ValveFigure"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Reservoir" eSuperTypes="#//WNNode">
+    <eAnnotations source="gmf.node">
+      <details key="label" value="name"/>
+      <details key="label.icon" value="false"/>
+      <details key="label.placement" value="external"/>
+      <details key="figure" value="figures.ReservoirFigure"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Tank" eSuperTypes="#//WNNode">
+    <eAnnotations source="gmf.node">
+      <details key="label" value="name"/>
+      <details key="label.icon" value="false"/>
+      <details key="label.placement" value="external"/>
+      <details key="figure" value="figures.TankFigure"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Conjuction" eSuperTypes="#//WNNode">
+    <eAnnotations source="gmf.node">
+      <details key="label" value="name"/>
+      <details key="label.icon" value="false"/>
+      <details key="label.placement" value="external"/>
+      <details key="figure" value="ellipse"/>
+      <details key="color" value="0,0,0"/>
+      <details key="border.color" value="0,0,0"/>
+      <details key="size" value="30,30"/>
+    </eAnnotations>
+  </eClassifiers>
+</ecore:EPackage>

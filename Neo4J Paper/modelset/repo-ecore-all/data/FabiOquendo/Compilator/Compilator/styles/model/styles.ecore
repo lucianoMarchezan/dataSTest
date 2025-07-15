@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="styles" nsURI="http:///styles.ecore" nsPrefix="styles">
+  <eClassifiers xsi:type="ecore:EClass" name="ModelFactoryStyles">
+    <eOperations name="load" eType="#//ModelFactoryStyles">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="ModelFactoryStyles modelFactory = null;&#xD;&#xA;&#xD;&#xA;org.eclipse.emf.common.util.URI uri = org.eclipse.emf.common.util.URI.createURI(&quot;platform:/resource/test/model/styles.styles&quot;);&#xD;&#xA;org.eclipse.emf.ecore.resource.ResourceSet resourceSet= new org.eclipse.emf.ecore.resource.impl.ResourceSetImpl();&#xD;&#xA;org.eclipse.emf.ecore.resource.Resource resource = resourceSet.createResource(uri);&#xD;&#xA;try {&#xD;&#xA;&#x9;resource.load(java.util.Collections.EMPTY_MAP);&#xD;&#xA;&#x9;modelFactory = (ModelFactoryStyles) resource.getContents().get(0);&#xD;&#xA;} catch (java.io.IOException e) {&#xD;&#xA;&#x9;// TO-DO Auto-generated catch block&#xD;&#xA;&#x9;e.printStackTrace();&#xD;&#xA;}&#xD;&#xA;return modelFactory;"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="save">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="ModelFactoryStyles modelFactory = this;&#xD;&#xA;&#xD;&#xA;org.eclipse.emf.common.util.URI uri = org.eclipse.emf.common.util.URI.createURI(&quot;platform:/resource/test/model/styles.styles&quot;);&#xD;&#xA;org.eclipse.emf.ecore.resource.ResourceSet resourceSet= new org.eclipse.emf.ecore.resource.impl.ResourceSetImpl();&#xD;&#xA;org.eclipse.emf.ecore.resource.Resource resource = resourceSet.createResource(uri);&#xD;&#xA;resource.getContents().add(modelFactory);&#xD;&#xA;try {&#xD;&#xA;&#x9;resource.save(java.util.Collections.EMPTY_MAP);&#xD;&#xA;} catch (java.io.IOException e) {&#xD;&#xA;&#x9;// TO-DO Auto-generated catch block&#xD;&#xA;&#x9;e.printStackTrace();&#xD;&#xA;}"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="theDomainStyles" lowerBound="1"
+        eType="#//domain/Domain" containment="true" eOpposite="#//domain/Domain/ModelFactoryStyles"/>
+  </eClassifiers>
+  <eSubpackages name="domain" nsURI="http:///styles/domain.ecore" nsPrefix="styles.domain">
+    <eClassifiers xsi:type="ecore:EClass" name="Domain">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ModelFactoryStyles" eType="#//ModelFactoryStyles"
+          transient="true" eOpposite="#//ModelFactoryStyles/theDomainStyles"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="theStyleFactory" lowerBound="1"
+          eType="#//domain/StyleFactory" containment="true" eOpposite="#//domain/StyleFactory/Domain"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="theCharacteristicFactory"
+          lowerBound="1" eType="#//domain/CharacteristicFactory" containment="true"
+          eOpposite="#//domain/CharacteristicFactory/Domain"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Style">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="theCharacteristic" lowerBound="1"
+          eType="#//domain/Characteristic" eOpposite="#//domain/Characteristic/theSytle"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="StyleFactory" eType="#//domain/StyleFactory"
+          transient="true" eOpposite="#//domain/StyleFactory/listStyle"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Characteristic">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="listProperties" upperBound="-1"
+          eType="#//domain/Propertie" containment="true" eOpposite="#//domain/Propertie/Characteristic"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="theSytle" upperBound="-1"
+          eType="#//domain/Style" eOpposite="#//domain/Style/theCharacteristic"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="CharacteristicFactory"
+          eType="#//domain/CharacteristicFactory" transient="true" eOpposite="#//domain/CharacteristicFactory/listCharacteristic"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Propertie">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Characteristic" eType="#//domain/Characteristic"
+          transient="true" eOpposite="#//domain/Characteristic/listProperties"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="StyleFactory">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Domain" eType="#//domain/Domain"
+          transient="true" eOpposite="#//domain/Domain/theStyleFactory"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="listStyle" upperBound="-1"
+          eType="#//domain/Style" containment="true" eOpposite="#//domain/Style/StyleFactory"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CharacteristicFactory">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Domain" eType="#//domain/Domain"
+          transient="true" eOpposite="#//domain/Domain/theCharacteristicFactory"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="listCharacteristic" upperBound="-1"
+          eType="#//domain/Characteristic" containment="true" eOpposite="#//domain/Characteristic/CharacteristicFactory"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

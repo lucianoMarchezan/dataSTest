@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="negocioemf"
+    nsURI="http://negocioemf/1.0" nsPrefix="negocioemf">
+  <eClassifiers xsi:type="ecore:EClass" name="Documento" eSuperTypes="#//Elemento">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entidad" eType="#//Entidad"
+        eOpposite="#//Entidad/documento"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TipoTransaccion">
+    <eLiterals name="cheque"/>
+    <eLiterals name="metalico" value="1"/>
+    <eLiterals name="transbancaria" value="2"/>
+    <eLiterals name="transelectronica" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Negocio">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recibos" upperBound="-1"
+        eType="#//Recibo" containment="true" eOpposite="#//Recibo/recibonegocio"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mercaderias" upperBound="-1"
+        eType="#//Mercaderia" containment="true" eOpposite="#//Mercaderia/mercaderianegocio"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entidades" upperBound="-1"
+        eType="#//Entidad" containment="true" eOpposite="#//Entidad/entidadnegocio"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="listados" upperBound="-1"
+        eType="#//Listado" containment="true" eOpposite="#//Listado/listadonegocio"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Entidad" eSuperTypes="#//Localizable #//Elemento">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="documento" upperBound="-1"
+        eType="#//Documento" eOpposite="#//Documento/entidad"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tipo" lowerBound="1" upperBound="2"
+        eType="#//TipoEntidad" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entidadnegocio" eType="#//Negocio"
+        eOpposite="#//Negocio/entidades"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Mercaderia" eSuperTypes="#//Elemento">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mercaderianegocio" eType="#//Negocio"
+        eOpposite="#//Negocio/mercaderias"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Recibo" eSuperTypes="#//Documento">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="asociado" lowerBound="1"
+        upperBound="2" eType="#//Listado"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transaccion" lowerBound="1"
+        upperBound="4" eType="#//Transaccion" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recibonegocio" eType="#//Negocio"
+        eOpposite="#//Negocio/recibos"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Localizable" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tiene" upperBound="2" eType="#//Contacto"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Elemento" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nombre" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="descripcion" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Listado" eSuperTypes="#//Documento #//Localizable">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mercaderias" upperBound="-1"
+        eType="#//Mercaderia"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="listadonegocio" lowerBound="1"
+        eType="#//Negocio" eOpposite="#//Negocio/listados"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Contacto">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tipoContacto" eType="#//TipoContacto"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TipoContacto">
+    <eLiterals name="telefono"/>
+    <eLiterals name="direccion" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TipoEnt">
+    <eLiterals name="fisica"/>
+    <eLiterals name="juridica" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TipoEntidad">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tipo" eType="#//TipoEnt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Transaccion">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tipo" eType="#//TipoTransaccion"/>
+  </eClassifiers>
+</ecore:EPackage>

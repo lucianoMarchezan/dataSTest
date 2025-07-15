@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="TP2" nsURI="TP2" nsPrefix="TP2">
+  <eClassifiers xsi:type="ecore:EClass" name="Dossier" eSuperTypes="#//RessourcesLocale">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Ressource qui représente un dossier. Un dossier peut contenir d'autres ressources."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nombreEnfant" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ListEnfants" upperBound="-1"
+        eType="#//RessourcesLocale">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="name" value="ListEnfants"/>
+        <details key="kind" value="attribute"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Contient la liste de tous les enfants du dossier."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Fichier" eSuperTypes="#//RessourcesLocale">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Ressource représentant un fichier."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RessourcesDistante" abstract="true"
+      interface="true" eSuperTypes="#//Ressource">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Classe abstraite représentant une ressource externe. Cette ressource ne se trouve pas localement."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Page" eSuperTypes="#//RessourcesDistante">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Ressource de type page web."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="titrePage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="taillePage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="URL" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RessourcesLocale" abstract="true" interface="true"
+      eSuperTypes="#//Ressource">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Classe abstraite représentant une ressource locale."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="permission" eType="#//PermissionType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cheminAbsolu" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PermissionType">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Types de permission possible pour une ressource."/>
+    </eAnnotations>
+    <eLiterals name="Read"/>
+    <eLiterals name="Write" value="1"/>
+    <eLiterals name="ReadAndWrite" value="2"/>
+    <eLiterals name="None" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Ressource" abstract="true" interface="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Classe abstraite représentant une ressource."/>
+    </eAnnotations>
+    <eOperations name="accept">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="commandVisitor.visit(this);"/>
+        <details key="documentation" value="Accepte une commande visiteur.&#xD;&#xA;@param commandVisitor Commande sur laquelle on veut executer la fonction."/>
+      </eAnnotations>
+      <eParameters name="commandVisitor" eType="#//AbstractCommand"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nom" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tailleOctet" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractCommand" abstract="true" interface="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Classe abstraite représentant une commande."/>
+    </eAnnotations>
+    <eOperations name="clear">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="setResult(&quot;&quot;);"/>
+        <details key="documentation" value="Efface le contenu du résultat et notifie tous les observers."/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="canExecute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Vérifie si la commande actuelle peut effectuer son exécution selon la ressource choisie."/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="visit">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Visite la ressource de type Fichier."/>
+      </eAnnotations>
+      <eParameters name="fichier" eType="#//Fichier"/>
+    </eOperations>
+    <eOperations name="visit">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Visite la ressource de type Dossier."/>
+      </eAnnotations>
+      <eParameters name="dossier" eType="#//Dossier"/>
+    </eOperations>
+    <eOperations name="visit">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Visite la ressource de type Page."/>
+      </eAnnotations>
+      <eParameters name="page" eType="#//Page"/>
+    </eOperations>
+    <eOperations name="execute">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="if(ressource != null)&#xD;&#xA;&#x9;ressource.accept(this);"/>
+        <details key="documentation" value="Exécute la commande selon le path actuel, met à jour le résultat et notifie les observers que ce dernier a été changé."/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="commandName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="result" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ressource" eType="#//Ressource"
+        transient="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Master">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Classe contrôleur qui s'occupe de mettre à jour les ressources des commandes, d'effacer leur résultat ou de tous les exécuter."/>
+    </eAnnotations>
+    <eOperations name="clear">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="for(AbstractCommand c: commands){&#xD;&#xA;&#x9;c.clear();&#xD;&#xA;}"/>
+        <details key="documentation" value="Efface le contenu de tous les resultats et notifie tous les observers."/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="executeAll">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="for(AbstractCommand c: commands){&#xD;&#xA;&#x9;if(c.canExecute()){&#xD;&#xA;&#x9;&#x9;c.execute();&#xD;&#xA;&#x9;}&#x9;&#x9;&#xD;&#xA;}"/>
+        <details key="documentation" value="Exécute toutes les commandes, met à jour les résultats et notifie les observers que ce dernier a été changé."/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="executeCommand" ordered="false">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="command.execute();"/>
+        <details key="documentation" value="Exécute la commande passée en paramètre, met à jour le résultat et notifie les observers que ce dernier a été changé.&#xD;&#xA;@param command Commande a executer."/>
+      </eAnnotations>
+      <eParameters name="command" eType="#//AbstractCommand"/>
+    </eOperations>
+    <eOperations name="updateRessource">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="for(AbstractCommand c: commands){&#xD;&#xA;&#x9;c.setRessource(ressource);&#xD;&#xA;}&#xD;&#xA;if(isAutoRun()){&#xD;&#xA;&#x9;executeAll();&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;setRessource(ressource);"/>
+        <details key="documentation" value="Met à jour toutes les commandes avec la ressource passée en paramètre.&#xD;&#xA;@param ressource Resource a assigner aux commandes."/>
+      </eAnnotations>
+      <eParameters name="ressource" eType="#//Ressource"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commands" upperBound="-1"
+        eType="#//AbstractCommand" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="AutoRun" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ressource" eType="#//Ressource"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FileNameCommand" eSuperTypes="#//AbstractCommand">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Implémentation concrète de la classe Command. Cette commande donne le nom d'un fichier. S'il s'agit d'une autre ressource une exception est lancée."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FolderNameCommand" eSuperTypes="#//AbstractCommand">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Implémentation concrète de la classe Command. Cette commande donne le nom d'un dossier. S'il s'agit d'une autre ressource une exception est lancée."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbsolutePathCommand" eSuperTypes="#//AbstractCommand">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Implémentation concrète de la classe Command. Cette commande donne le chemin absolue d'un fichier/dossier."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TailleURLCommand" eSuperTypes="#//AbstractCommand">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Implémentation concrète de la classe Command. Cette commande donne la taille de l'url de la page sélectionnée."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PermissionCommand" eSuperTypes="#//AbstractCommand">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Implémentation concrète de la classe Command. Cette commande donne la permission requise pour utiliser la resource."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NbEnfantCommand" eSuperTypes="#//AbstractCommand">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Implémentation concrète de la classe Command. Cette commande donne le nombre d'enfant de la ressource de type dossier."/>
+    </eAnnotations>
+  </eClassifiers>
+</ecore:EPackage>

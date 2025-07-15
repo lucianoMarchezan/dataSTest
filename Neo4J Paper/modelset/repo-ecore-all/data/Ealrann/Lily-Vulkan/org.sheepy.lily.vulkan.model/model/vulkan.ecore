@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model" nsURI="org.sheepy.lily.vulkan.model" nsPrefix="model">
+  <eClassifiers xsi:type="ecore:EClass" name="VulkanEngine" eSuperTypes="../../org.sheepy.lily.core.model/model/application.ecore#//IEngine #//IExecutionManager">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="enabled" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processes" upperBound="-1"
+        eType="#//IProcess" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="features" upperBound="-1"
+        eType="ecore:EEnum ../../org.sheepy.vulkan.model/model/enumeration.ecore#//EPhysicalDeviceFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="descriptorPkg" eType="#//DescriptorPkg"
+        containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IResourceContainer" abstract="true"
+      interface="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resourcePkg" eType="ecore:EClass ../../org.sheepy.lily.core.model/model/resource.ecore#//ResourcePkg"
+        containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="descriptorPkg" eType="#//DescriptorPkg"
+        containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IProcess" abstract="true" interface="true"
+      eSuperTypes="#//IResourceContainer ../../org.sheepy.lily.core.model/model/types.ecore#//LNamedElement #//IExecutionManager">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="enabled" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="queuePriority" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat" defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cadence" eType="ecore:EClass ../../org.sheepy.lily.core.model/model/application.ecore#//ICadence"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IExecutionManager" abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RunProcess" eSuperTypes="../../org.sheepy.lily.core.model/model/cadence.ecore#//ICadenceTask">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="process" lowerBound="1"
+        eType="#//IProcess"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WaitProcessIdle" eSuperTypes="../../org.sheepy.lily.core.model/model/cadence.ecore#//ICadenceTask">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="process" lowerBound="1"
+        eType="#//IProcess"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DescriptorPkg">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="descriptors" upperBound="-1"
+        eType="#//IDescriptor" containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IDescriptor" abstract="true" interface="true"
+      eSuperTypes="../../org.sheepy.lily.core.model/model/types.ecore#//LNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="ecore:EEnum ../../org.sheepy.vulkan.model/model/enumeration.ecore#//EDescriptorType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="shaderStages" lowerBound="1"
+        upperBound="-1" eType="ecore:EEnum ../../org.sheepy.vulkan.model/model/enumeration.ecore#//EShaderStage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MouseLocation" eSuperTypes="../../org.sheepy.lily.core.model/model/variable.ecore#//IModelVariable">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="vulkanEngine" lowerBound="1"
+        eType="#//VulkanEngine"/>
+  </eClassifiers>
+</ecore:EPackage>

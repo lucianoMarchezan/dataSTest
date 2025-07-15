@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="devtool"
+    nsURI="http://sec.hundsun.com/devtool" nsPrefix="devtool">
+  <eClassifiers xsi:type="ecore:EClass" name="IComponent" abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Control" eSuperTypes="#//IComponent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ifFlow" eType="#//IComponent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elseFlow" eType="#//IComponent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="#//Condition"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Function">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="componets" upperBound="-1"
+        eType="#//IComponent" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="start" eType="#//Start"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GeneralComponet" eSuperTypes="#//IComponent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="next" eType="#//IComponent"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionCall" eSuperTypes="#//GeneralComponet">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+        defaultValueLiteral=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Start" eSuperTypes="#//GeneralComponet"/>
+  <eClassifiers xsi:type="ecore:EClass" name="End" eSuperTypes="#//GeneralComponet"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Condition" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompositeCondition" eSuperTypes="#//Condition">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//CConditionType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//Condition" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimpleCondition" eSuperTypes="#//Condition">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bool" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CConditionType">
+    <eLiterals name="TOP" literal="顶层元素"/>
+    <eLiterals name="AND" value="1" literal="与"/>
+    <eLiterals name="OR" value="2" literal="或"/>
+    <eLiterals name="NOT" value="3" literal="非"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="ConditionType" instanceClassName="org.eclipse.emf.common.util.Enumerator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CompareCondition" eSuperTypes="#//Condition">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//CompareType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="firstValue" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="secondValue" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CompareType">
+    <eLiterals name="EQUAL" literal="等于"/>
+    <eLiterals name="NOTEQUAL" value="1" literal="不等于"/>
+    <eLiterals name="LARGER" value="2" literal="大于"/>
+    <eLiterals name="LARGEREQUAL" value="3" literal="大于等于"/>
+    <eLiterals name="SMALLER" value="4" literal="小于"/>
+    <eLiterals name="SMALLEREQUAL" value="5" literal="小于等于"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="CompareTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator"/>
+</ecore:EPackage>

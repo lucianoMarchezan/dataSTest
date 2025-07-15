@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore">
+  <ecore:EPackage name="CFG" nsURI="www.cs.tu.ac.th" nsPrefix="">
+    <eClassifiers xsi:type="ecore:EClass" name="MControlFlowGraph">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
+          eType="#/0/AbstractNode" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
+          unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="localVar" upperBound="-1"
+          eType="#/0/Var" containment="true" eOpposite="#/0/Var/method"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AbstractNode" abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="fromNode" ordered="false"
+          upperBound="-1" eType="#/0/AbstractNode" eOpposite="#/0/AbstractNode/toNode"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="toNode" ordered="false"
+          eType="#/0/AbstractNode" eOpposite="#/0/AbstractNode/fromNode"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
+          unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="var" upperBound="-1"
+          eType="#/0/Var" containment="true" eOpposite="#/0/Var/nodes"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="dataFlow" upperBound="-1"
+          eType="#/0/AbstractNode"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="dUse" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="params" upperBound="-1"
+          eType="#/0/Node" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="#/0/AbstractNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ConditionalNode" eSuperTypes="#/0/AbstractNode">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="trueConditionNode" ordered="false"
+          lowerBound="1" eType="#/0/Node" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="falseConditionNode" ordered="false"
+          lowerBound="1" eType="#/0/Node" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IterativeNode" eSuperTypes="#/0/AbstractNode">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="trueConditionNode" ordered="false"
+          lowerBound="1" eType="#/0/Node"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="falseConditionNode" ordered="false"
+          lowerBound="1" eType="#/0/Node"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
+          eType="#/0/AbstractNode" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Var">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="method" eType="#/0/MControlFlowGraph"
+          eOpposite="#/0/MControlFlowGraph/localVar"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
+          eType="#/0/AbstractNode" eOpposite="#/0/AbstractNode/var"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Param" eSuperTypes="#/0/Var"/>
+  </ecore:EPackage>
+  <ecore:EPackage name="PrimitiveTypes"/>
+</xmi:XMI>

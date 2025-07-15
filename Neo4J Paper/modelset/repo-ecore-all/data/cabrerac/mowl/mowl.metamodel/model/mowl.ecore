@@ -1,0 +1,925 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="mowl" nsURI="http:///mowl.ecore" nsPrefix="mowl">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  </eAnnotations>
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="Multiontology" eSuperTypes="#//Entity">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="diffOntologiesId multiontologyPrefixIRIEmpty multiontologyVersionEmpty multiontologyIdEmpty"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="diffOntologiesId" value="self.ontologies->forAll(o1 : Ontology, o2 : Ontology | o1 &lt;> o2 implies o1.id &lt;> o2.id)"/>
+      <details key="multiontologyPrefixIRIEmpty" value="self.prefixIRI.trim().size()>0"/>
+      <details key="multiontologyVersionEmpty" value="self.version.trim().size()>0"/>
+      <details key="multiontologyIdEmpty" value="self.id.trim().size()>0"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="prefixIRI" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ontologies" lowerBound="1"
+        upperBound="-1" eType="#//Ontology" containment="true" eOpposite="#//Ontology/multiontology"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ontologyConnectors" upperBound="-1"
+        eType="#//OntologyConnector" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="multiontologyAxioms" upperBound="-1"
+        eType="#//MultiontologyAxiom" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="multiontologyAnnotations"
+        ordered="false" upperBound="-1" eType="#//Annotation" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OntologyConnector" abstract="true" eSuperTypes="#//Entity">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="ontologyConeectorIdEmpty"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="ontologyConeectorIdEmpty" value="self.id.trim().size()>0"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EConnector" abstract="true" eSuperTypes="#//OntologyConnector"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LinkProperty" eSuperTypes="#//EConnector">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="differentOntologiesLinkProperty"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="differentOntologiesLinkProperty" value="self.sourceOntology &lt;> self.targetOntology"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="functionalLinkProperty"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="inverseFunctionalLinkProperty"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceOntology" lowerBound="1"
+        eType="#//Ontology"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetOntology" lowerBound="1"
+        eType="#//Ontology"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkPropertyAxioms" upperBound="-1"
+        eType="#//LinkPropertyAxiom" eOpposite="#//LinkPropertyAxiom/linkProperty"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Axiom" abstract="true" eSuperTypes="#//Entity"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MultiontologyAxiom" abstract="true"
+      eSuperTypes="#//Axiom"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LinkPropertyAxiom" abstract="true" eSuperTypes="#//MultiontologyAxiom">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkProperty" lowerBound="1"
+        eType="#//LinkProperty" changeable="false" eOpposite="#//LinkProperty/linkPropertyAxioms"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EquivalentLinkProperty" eSuperTypes="#//LinkPropertyAxiom">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="equivalentLinkPropertyList equivalentLinkPropertyInverseOf"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="equivalentLinkPropertyList" value="&#xA;&#x9;&#x9;&#x9;self.linkPropertyExpressions->forAll(le:LinkPropertyExpression | le.oclIsKindOf(LinkPropertyList) implies le.oclAsType(LinkPropertyList).linksProperty->forAll(lp:LinkProperty | lp.sourceOntology = self.linkProperty.sourceOntology and lp.targetOntology = self.linkProperty.targetOntology))"/>
+      <details key="equivalentLinkPropertyInverseOf" value="&#xA;&#x9;&#x9;&#x9;self.linkPropertyExpressions->forAll(le:LinkPropertyExpression | le.oclIsKindOf(LinkPropertyInverseOf) implies (le.oclAsType(LinkPropertyInverseOf).inverseLinkPropertyOf.sourceOntology = self.linkProperty.sourceOntology and le.oclAsType(LinkPropertyInverseOf).inverseLinkPropertyOf.targetOntology = self.linkProperty.targetOntology))"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkPropertyExpressions"
+        ordered="false" lowerBound="1" upperBound="-1" eType="#//LinkPropertyExpression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SubLinkPropertyOf" eSuperTypes="#//LinkPropertyAxiom">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="subLinkPropertyOfLinkPropertyList subLinkPropertyOfLinkPropertyInverseOf"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="subLinkPropertyOfLinkPropertyList" value="&#xA;&#x9;&#x9;&#x9;self.linkPropertyExpressions->forAll(le:LinkPropertyExpression | le.oclIsKindOf(LinkPropertyList) implies le.oclAsType(LinkPropertyList).linksProperty->forAll(lp:LinkProperty | lp.sourceOntology = self.linkProperty.sourceOntology and lp.targetOntology = self.linkProperty.targetOntology))"/>
+      <details key="subLinkPropertyOfLinkPropertyInverseOf" value="&#xA;&#x9;&#x9;&#x9;self.linkPropertyExpressions->forAll(le:LinkPropertyExpression | le.oclIsKindOf(LinkPropertyInverseOf) implies (le.oclAsType(LinkPropertyInverseOf).inverseLinkPropertyOf.sourceOntology = self.linkProperty.sourceOntology and le.oclAsType(LinkPropertyInverseOf).inverseLinkPropertyOf.targetOntology = self.linkProperty.targetOntology))"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkPropertyExpressions"
+        ordered="false" lowerBound="1" upperBound="-1" eType="#//LinkPropertyExpression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DisjointLinkProperty" eSuperTypes="#//LinkPropertyAxiom">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="subLinkPropertyOfLinkPropertyList subLinkPropertyOfLinkPropertyInverseOf"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="subLinkPropertyOfLinkPropertyList" value="&#xA;&#x9;&#x9;&#x9;self.linkPropertyExpressions->forAll(le:LinkPropertyExpression | le.oclIsKindOf(LinkPropertyList) implies le.oclAsType(LinkPropertyList).linksProperty->forAll(lp:LinkProperty | lp.sourceOntology = self.linkProperty.sourceOntology and lp.targetOntology = self.linkProperty.targetOntology))"/>
+      <details key="subLinkPropertyOfLinkPropertyInverseOf" value="&#xA;&#x9;&#x9;&#x9;self.linkPropertyExpressions->forAll(le:LinkPropertyExpression | le.oclIsKindOf(LinkPropertyInverseOf) implies (le.oclAsType(LinkPropertyInverseOf).inverseLinkPropertyOf.sourceOntology = self.linkProperty.sourceOntology and le.oclAsType(LinkPropertyInverseOf).inverseLinkPropertyOf.targetOntology = self.linkProperty.targetOntology))"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkPropertyExpressions"
+        ordered="false" lowerBound="1" upperBound="-1" eType="#//LinkPropertyExpression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DomainLinkProperty" eSuperTypes="#//LinkPropertyAxiom">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="expressionsClassList expressionsObjectIntersectionOf expressionsObjectUnionOf expressionsObjectSomeValuesFrom expressionsObjectAllValuesFrom expressionsObjectHasValue expressionsObjectComplementOf expressionsObjectOneOf expressionsObjectMinCardinality expressionsObjectMaxCardinality expressionsObjectExactCardinality expressionsDataSomeValuesFrom expressionsDataAllValuesFrom expressionsDataHasValue expressionsDataMinCardinality expressionsDataMaxCardinality expressionsDataExactCardinality"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="expressionsClassList" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ClassList) implies sc.oclAsType(ClassList).classes->forAll(c:Class | c.ontology = self.linkProperty.sourceOntology))"/>
+      <details key="expressionsObjectIntersectionOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectIntersectionOf) implies sc.oclAsType(ObjectIntersectionOf).classes->forAll(c:Class| c.ontology = self.linkProperty.sourceOntology))"/>
+      <details key="expressionsObjectUnionOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectUnionOf) implies sc.oclAsType(ObjectUnionOf).classes->forAll(c:Class| c.ontology = self.linkProperty.sourceOntology))"/>
+      <details key="expressionsObjectSomeValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectSomeValuesFrom) implies sc.oclAsType(ObjectSomeValuesFrom).classes.ontology = self.linkProperty.sourceOntology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectSomeValuesFrom) implies sc.oclAsType(ObjectSomeValuesFrom).objectProperties.ontology = self.linkProperty.sourceOntology)"/>
+      <details key="expressionsObjectAllValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectAllValuesFrom) implies sc.oclAsType(ObjectAllValuesFrom).classes.ontology = self.linkProperty.sourceOntology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectAllValuesFrom) implies sc.oclAsType(ObjectAllValuesFrom).objectProperties.ontology = self.linkProperty.sourceOntology)"/>
+      <details key="expressionsObjectHasValue" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectHasValue) implies sc.oclAsType(ObjectHasValue).objectProperties.ontology = self.linkProperty.sourceOntology)"/>
+      <details key="expressionsObjectComplementOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectComplementOf) implies sc.oclAsType(ObjectComplementOf).classes.ontology = self.linkProperty.sourceOntology)"/>
+      <details key="expressionsObjectOneOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectOneOf) implies sc.oclAsType(ObjectOneOf).individual.ontology = self.linkProperty.sourceOntology)"/>
+      <details key="expressionsObjectMinCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectMinCardinality) implies sc.oclAsType(ObjectMinCardinality).classes.ontology = self.linkProperty.sourceOntology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectMinCardinality) implies sc.oclAsType(ObjectMinCardinality).objectProperties.ontology = self.linkProperty.sourceOntology)"/>
+      <details key="expressionsObjectMaxCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectMaxCardinality) implies sc.oclAsType(ObjectMaxCardinality).classes.ontology = self.linkProperty.sourceOntology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectMaxCardinality) implies sc.oclAsType(ObjectMaxCardinality).objectProperties.ontology = self.linkProperty.sourceOntology)"/>
+      <details key="expressionsObjectExactCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectExactCardinality) implies sc.oclAsType(ObjectExactCardinality).classes.ontology = self.linkProperty.sourceOntology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectExactCardinality) implies sc.oclAsType(ObjectExactCardinality).objectProperties.ontology = self.linkProperty.sourceOntology)"/>
+      <details key="expressionsDataSomeValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataSomeValuesFrom) implies sc.oclAsType(DataSomeValuesFrom).dataProperties.ontology = self.linkProperty.sourceOntology)"/>
+      <details key="expressionsDataAllValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataAllValuesFrom) implies sc.oclAsType(DataAllValuesFrom).dataProperties.ontology = self.linkProperty.sourceOntology)"/>
+      <details key="expressionsDataHasValue" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataHasValue) implies sc.oclAsType(DataHasValue).dataProperties.ontology = self.linkProperty.sourceOntology)"/>
+      <details key="expressionsDataMinCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataMinCardinality) implies sc.oclAsType(DataMinCardinality).dataProperties.ontology = self.linkProperty.sourceOntology)"/>
+      <details key="expressionsDataMaxCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataMaxCardinality) implies sc.oclAsType(DataMaxCardinality).dataProperties.ontology = self.linkProperty.sourceOntology)"/>
+      <details key="expressionsDataExactCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataExactCardinality) implies sc.oclAsType(DataExactCardinality).dataProperties.ontology = self.linkProperty.sourceOntology)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expressions" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//ClassExpression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RangeLinkPropertyOf" eSuperTypes="#//LinkPropertyAxiom">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="expressionsClassList expressionsObjectIntersectionOf expressionsObjectUnionOf expressionsObjectSomeValuesFrom expressionsObjectAllValuesFrom expressionsObjectHasValue expressionsObjectComplementOf expressionsObjectOneOf expressionsObjectMinCardinality expressionsObjectMaxCardinality expressionsObjectExactCardinality expressionsDataSomeValuesFrom expressionsDataAllValuesFrom expressionsDataHasValue expressionsDataMinCardinality expressionsDataMaxCardinality expressionsDataExactCardinality"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="expressionsClassList" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ClassList) implies sc.oclAsType(ClassList).classes->forAll(c:Class | c.ontology = self.linkProperty.targetOntology))"/>
+      <details key="expressionsObjectIntersectionOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectIntersectionOf) implies sc.oclAsType(ObjectIntersectionOf).classes->forAll(c:Class| c.ontology = self.linkProperty.targetOntology))"/>
+      <details key="expressionsObjectUnionOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectUnionOf) implies sc.oclAsType(ObjectUnionOf).classes->forAll(c:Class| c.ontology = self.linkProperty.targetOntology))"/>
+      <details key="expressionsObjectSomeValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectSomeValuesFrom) implies sc.oclAsType(ObjectSomeValuesFrom).classes.ontology = self.linkProperty.targetOntology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectSomeValuesFrom) implies sc.oclAsType(ObjectSomeValuesFrom).objectProperties.ontology = self.linkProperty.targetOntology)"/>
+      <details key="expressionsObjectAllValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectAllValuesFrom) implies sc.oclAsType(ObjectAllValuesFrom).classes.ontology = self.linkProperty.targetOntology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectAllValuesFrom) implies sc.oclAsType(ObjectAllValuesFrom).objectProperties.ontology = self.linkProperty.targetOntology)"/>
+      <details key="expressionsObjectHasValue" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectHasValue) implies sc.oclAsType(ObjectHasValue).objectProperties.ontology = self.linkProperty.targetOntology)"/>
+      <details key="expressionsObjectComplementOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectComplementOf) implies sc.oclAsType(ObjectComplementOf).classes.ontology = self.linkProperty.targetOntology)"/>
+      <details key="expressionsObjectOneOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectOneOf) implies sc.oclAsType(ObjectOneOf).individual.ontology = self.linkProperty.targetOntology)"/>
+      <details key="expressionsObjectMinCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectMinCardinality) implies sc.oclAsType(ObjectMinCardinality).classes.ontology = self.linkProperty.targetOntology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectMinCardinality) implies sc.oclAsType(ObjectMinCardinality).objectProperties.ontology = self.linkProperty.targetOntology)"/>
+      <details key="expressionsObjectMaxCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectMaxCardinality) implies sc.oclAsType(ObjectMaxCardinality).classes.ontology = self.linkProperty.targetOntology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectMaxCardinality) implies sc.oclAsType(ObjectMaxCardinality).objectProperties.ontology = self.linkProperty.targetOntology)"/>
+      <details key="expressionsObjectExactCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectExactCardinality) implies sc.oclAsType(ObjectExactCardinality).classes.ontology = self.linkProperty.sourceOntology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectExactCardinality) implies sc.oclAsType(ObjectExactCardinality).objectProperties.ontology = self.linkProperty.targetOntology)"/>
+      <details key="expressionsDataSomeValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataSomeValuesFrom) implies sc.oclAsType(DataSomeValuesFrom).dataProperties.ontology = self.linkProperty.targetOntology)"/>
+      <details key="expressionsDataAllValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataAllValuesFrom) implies sc.oclAsType(DataAllValuesFrom).dataProperties.ontology = self.linkProperty.targetOntology)"/>
+      <details key="expressionsDataHasValue" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataHasValue) implies sc.oclAsType(DataHasValue).dataProperties.ontology = self.linkProperty.targetOntology)"/>
+      <details key="expressionsDataMinCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataMinCardinality) implies sc.oclAsType(DataMinCardinality).dataProperties.ontology = self.linkProperty.targetOntology)"/>
+      <details key="expressionsDataMaxCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataMaxCardinality) implies sc.oclAsType(DataMaxCardinality).dataProperties.ontology = self.linkProperty.targetOntology)"/>
+      <details key="expressionsDataExactCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataExactCardinality) implies sc.oclAsType(DataExactCardinality).dataProperties.ontology = self.linkProperty.targetOntology)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expressions" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//ClassExpression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LinkPropertyExpression" abstract="true"
+      eSuperTypes="#//Expression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LinkPropertyList" eSuperTypes="#//LinkPropertyExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linksProperty" lowerBound="1"
+        upperBound="-1" eType="#//LinkProperty"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LinkPropertyInverseOf" eSuperTypes="#//LinkPropertyExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inverseLinkPropertyOf"
+        lowerBound="1" eType="#//LinkProperty"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Ontology" eSuperTypes="#//Entity">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="ontologyIdEmpty ontologyVersionEmpty diffClassesId diffObjectPropertiesId diffDataPropertiesId diffIndividuals"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="ontologyIdEmpty" value="self.id.trim().size()>0"/>
+      <details key="ontologyVersionEmpty" value="self.version.trim().size()>0"/>
+      <details key="diffClassesId" value="self.classes->forAll(c1 : Class, c2 : Class | c1 &lt;> c2 implies c1.id &lt;> c2.id)"/>
+      <details key="diffObjectPropertiesId" value="self.objectsProperty->forAll(op1 : ObjectProperty, op2 : ObjectProperty | op1 &lt;> op2 implies op1.id &lt;> op2.id)"/>
+      <details key="diffDataPropertiesId" value="self.dataProperty->forAll(dp1 : DataProperty, dp2 : DataProperty | dp1 &lt;> dp2 implies dp1.id &lt;> dp2.id)"/>
+      <details key="diffIndividuals" value="self.individuals->forAll(i1 : NamedIndividual, i2 : NamedIndividual | i1 &lt;> i2 implies i1.id &lt;> i2.id)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classes" upperBound="-1"
+        eType="#//Class" containment="true" eOpposite="#//Class/ontology"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectsProperty" upperBound="-1"
+        eType="#//ObjectProperty" containment="true" eOpposite="#//ObjectProperty/ontology"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataProperty" upperBound="-1"
+        eType="#//DataProperty" containment="true" eOpposite="#//DataProperty/ontology"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="individuals" upperBound="-1"
+        eType="#//Individual" containment="true" eOpposite="#//Individual/ontology"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="literals" upperBound="-1"
+        eType="#//Constant" containment="true" eOpposite="#//Constant/ontology"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ontologyAxioms" upperBound="-1"
+        eType="#//OntologyAxiom" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ontologyAnnotations" ordered="false"
+        upperBound="-1" eType="#//Annotation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="multiontology" lowerBound="1"
+        eType="#//Multiontology" changeable="false" eOpposite="#//Multiontology/ontologies"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Entity" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" ordered="false"
+        upperBound="-1" eType="#//Annotation" eOpposite="#//Annotation/annotationTarget"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Class" eSuperTypes="#//Entity">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="classIdEmpty"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="classIdEmpty" value="self.id.trim().size()>0"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classAxioms" upperBound="-1"
+        eType="#//ClassAxiom" eOpposite="#//ClassAxiom/classAxiom"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ontology" lowerBound="1"
+        eType="#//Ontology" changeable="false" eOpposite="#//Ontology/classes"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectProperty" eSuperTypes="#//Entity">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="objectPropertyIdEmpty"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="objectPropertyIdEmpty" value="self.id.trim().size()>0"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectPropertyAxioms" upperBound="-1"
+        eType="#//ObjectPropertyAxiom" eOpposite="#//ObjectPropertyAxiom/objectPropertyAxiom"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="functionalObjectProperty"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="inverseFunctionalObjectProperty"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="transitiveObjectProperty"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="symmetricObjectProperty"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="asymmetricObjectProperty"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reflexiveObjectProperty"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="irreflexiveObjectProperty"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ontology" lowerBound="1"
+        eType="#//Ontology" changeable="false" eOpposite="#//Ontology/objectsProperty"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataProperty" eSuperTypes="#//Entity">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="dataPropertyIdEmpty"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="dataPropertyIdEmpty" value="self.id.trim().size()>0"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataPropertyAxioms" upperBound="-1"
+        eType="#//DataPropertyAxiom" eOpposite="#//DataPropertyAxiom/dataPropertyAxiom"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="functionalDataProperty"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ontology" lowerBound="1"
+        eType="#//Ontology" changeable="false" eOpposite="#//Ontology/dataProperty"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Individual" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="individualAssertions" upperBound="-1"
+        eType="#//Assertion" eOpposite="#//Assertion/individualAssertion"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ontology" lowerBound="1"
+        eType="#//Ontology" changeable="false" eOpposite="#//Ontology/individuals"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedIndividual" eSuperTypes="#//Entity #//Individual">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="namedIndividualIdEmpty"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="namedIndividualIdEmpty" value="self.id.trim().size()>0"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AnonymousIndividual" eSuperTypes="#//Individual">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="anonymousIndividualIdEmpty"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="anonymousIndividualIdEmpty" value="self.nodeID.trim().size()>0"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nodeID" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OntologyAxiom" abstract="true" eSuperTypes="#//Axiom"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassAxiom" abstract="true" eSuperTypes="#//OntologyAxiom">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classAxiom" lowerBound="1"
+        eType="#//Class" changeable="false" eOpposite="#//Class/classAxioms"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DisjointClass" eSuperTypes="#//ClassAxiom">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="localDisjointClassesClassList localDisjointClassesObjectIntersectionOf localDisjointClassesObjectUnionOf localDisjointClassesObjectSomeValuesFrom localDisjointClassesObjectAllValuesFrom localDisjointClassesObjectHasValue localDisjointClassesObjectComplementOf localDisjointClassesObjectOneOf localDisjointClassesObjectMinCardinality localDisjointClassesObjectMaxCardinality localDisjointClassesObjectExactCardinality localDisjointClassesDataSomeValuesFrom localDisjointClassesDataAllValuesFrom localDisjointClassesDataHasValue localDisjointClassesDataMinCardinality localDisjointClassesDataMaxCardinality localDisjointClassesDataExactCardinality externalDisjointClassesLinkPropertySomeValuesFrom externalDisjointClassesLinkPropertyAllValuesFrom externalDisjointClassesLinkPropertyHasValue externalDisjointClassesLinkPropertyMinCardinality externalDisjointClassesLinkPropertyMaxCardinality externalDisjointClassesLinkPropertyExactCardinality"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="localDisjointClassesClassList" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ClassList)) implies sc.oclAsType(ClassList).classes->forAll(c:Class | c.ontology = self.classAxiom.ontology))"/>
+      <details key="localDisjointClassesObjectIntersectionOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectIntersectionOf)) implies sc.oclAsType(ObjectIntersectionOf).classes->forAll(c:Class| c.ontology = self.classAxiom.ontology))"/>
+      <details key="localDisjointClassesObjectUnionOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectUnionOf)) implies sc.oclAsType(ObjectUnionOf).classes->forAll(c:Class| c.ontology = self.classAxiom.ontology))"/>
+      <details key="localDisjointClassesObjectSomeValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectSomeValuesFrom)) implies sc.oclAsType(ObjectSomeValuesFrom).classes.ontology = self.classAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectSomeValuesFrom)) implies sc.oclAsType(ObjectSomeValuesFrom).objectProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDisjointClassesObjectAllValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectAllValuesFrom)) implies sc.oclAsType(ObjectAllValuesFrom).classes.ontology = self.classAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectAllValuesFrom)) implies sc.oclAsType(ObjectAllValuesFrom).objectProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDisjointClassesObjectHasValue" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectHasValue)) implies sc.oclAsType(ObjectHasValue).objectProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDisjointClassesObjectComplementOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectComplementOf)) implies sc.oclAsType(ObjectComplementOf).classes.ontology = self.classAxiom.ontology)"/>
+      <details key="localDisjointClassesObjectOneOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectOneOf)) implies sc.oclAsType(ObjectOneOf).individual.ontology = self.classAxiom.ontology)"/>
+      <details key="localDisjointClassesObjectMinCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectMinCardinality)) implies sc.oclAsType(ObjectMinCardinality).classes.ontology = self.classAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectMinCardinality)) implies sc.oclAsType(ObjectMinCardinality).objectProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDisjointClassesObjectMaxCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectMaxCardinality)) implies sc.oclAsType(ObjectMaxCardinality).classes.ontology = self.classAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectMaxCardinality)) implies sc.oclAsType(ObjectMaxCardinality).objectProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDisjointClassesObjectExactCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectExactCardinality)) implies sc.oclAsType(ObjectExactCardinality).classes.ontology = self.classAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectExactCardinality)) implies sc.oclAsType(ObjectExactCardinality).objectProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDisjointClassesDataSomeValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(DataSomeValuesFrom)) implies sc.oclAsType(DataSomeValuesFrom).dataProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDisjointClassesDataAllValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(DataAllValuesFrom)) implies sc.oclAsType(DataAllValuesFrom).dataProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDisjointClassesDataHasValue" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(DataHasValue)) implies sc.oclAsType(DataHasValue).dataProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDisjointClassesDataMinCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(DataMinCardinality)) implies sc.oclAsType(DataMinCardinality).dataProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDisjointClassesDataMaxCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(DataMaxCardinality)) implies sc.oclAsType(DataMaxCardinality).dataProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDisjointClassesDataExactCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(DataExactCardinality)) implies sc.oclAsType(DataExactCardinality).dataProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="externalDisjointClassesLinkPropertySomeValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(EConnectionExpression) and sc.oclIsKindOf(LinkSomeValuesFrom)) implies (sc.oclAsType(LinkSomeValuesFrom).linkProperties.sourceOntology = self.classAxiom.ontology and sc.oclAsType(LinkSomeValuesFrom).classes.ontology = sc.oclAsType(LinkSomeValuesFrom).linkProperties.targetOntology))"/>
+      <details key="externalDisjointClassesLinkPropertyAllValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(EConnectionExpression) and sc.oclIsKindOf(LinkAllValuesFrom)) implies (sc.oclAsType(LinkAllValuesFrom).linkProperties.sourceOntology = self.classAxiom.ontology and sc.oclAsType(LinkAllValuesFrom).classes.ontology = sc.oclAsType(LinkAllValuesFrom).linkProperties.targetOntology))"/>
+      <details key="externalDisjointClassesLinkPropertyHasValue" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(EConnectionExpression) and sc.oclIsKindOf(LinkHasValue)) implies (sc.oclAsType(LinkHasValue).linkProperties.sourceOntology = self.classAxiom.ontology and sc.oclAsType(LinkHasValue).individual.ontology = sc.oclAsType(LinkHasValue).linkProperties.targetOntology))"/>
+      <details key="externalDisjointClassesLinkPropertyMinCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(EConnectionExpression) and sc.oclIsKindOf(LinkMinCardinality)) implies (sc.oclAsType(LinkMinCardinality).linkProperties.sourceOntology = self.classAxiom.ontology and sc.oclAsType(LinkMinCardinality).classes.ontology = sc.oclAsType(LinkMinCardinality).linkProperties.targetOntology))"/>
+      <details key="externalDisjointClassesLinkPropertyMaxCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(EConnectionExpression) and sc.oclIsKindOf(LinkMaxCardinality)) implies (sc.oclAsType(LinkMaxCardinality).linkProperties.sourceOntology = self.classAxiom.ontology and sc.oclAsType(LinkMaxCardinality).classes.ontology = sc.oclAsType(LinkMaxCardinality).linkProperties.targetOntology))"/>
+      <details key="externalDisjointClassesLinkPropertyExactCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(EConnectionExpression) and sc.oclIsKindOf(LinkExactCardinality)) implies (sc.oclAsType(LinkExactCardinality).linkProperties.sourceOntology = self.classAxiom.ontology and sc.oclAsType(LinkExactCardinality).classes.ontology = sc.oclAsType(LinkExactCardinality).linkProperties.targetOntology))"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expressions" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DisjointUnion" eSuperTypes="#//ClassAxiom">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="localDisjointUnionClassesClassList localDisjointUnionClassesObjectIntersectionOf localDisjointUnionClassesObjectUnionOf localDisjointUnionClassesObjectSomeValuesFrom localDisjointUnionClassesObjectAllValuesFrom localDisjointUnionClassesObjectHasValue localDisjointUnionClassesObjectComplementOf localDisjointUnionClassesObjectOneOf localDisjointUnionClassesObjectMinCardinality localDisjointUnionClassesObjectMaxCardinality localDisjointUnionClassesObjectExactCardinality localDisjointUnionClassesDataSomeValuesFrom localDisjointUnionClassesDataAllValuesFrom localDisjointUnionClassesDataHasValue localDisjointUnionClassesDataMinCardinality localDisjointUnionClassesDataMaxCardinality localDisjointUnionClassesDataExactCardinality externalDisjointUnionClassesLinkPropertySomeValuesFrom externalDisjointUnionClassesLinkPropertyAllValuesFrom externalDisjointUnionClassesLinkPropertyHasValue externalDisjointUnionClassesLinkPropertyMinCardinality externalDisjointUnionClassesLinkPropertyMaxCardinality externalDisjointUnionClassesLinkPropertyExactCardinality"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="localDisjointUnionClassesClassList" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ClassList)) implies sc.oclAsType(ClassList).classes->forAll(c:Class | c.ontology = self.classAxiom.ontology))"/>
+      <details key="localDisjointUnionClassesObjectIntersectionOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectIntersectionOf)) implies sc.oclAsType(ObjectIntersectionOf).classes->forAll(c:Class| c.ontology = self.classAxiom.ontology))"/>
+      <details key="localDisjointUnionClassesObjectUnionOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectUnionOf)) implies sc.oclAsType(ObjectUnionOf).classes->forAll(c:Class| c.ontology = self.classAxiom.ontology))"/>
+      <details key="localDisjointUnionClassesObjectSomeValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectSomeValuesFrom)) implies sc.oclAsType(ObjectSomeValuesFrom).classes.ontology = self.classAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectSomeValuesFrom)) implies sc.oclAsType(ObjectSomeValuesFrom).objectProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDisjointUnionClassesObjectAllValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectAllValuesFrom)) implies sc.oclAsType(ObjectAllValuesFrom).classes.ontology = self.classAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectAllValuesFrom)) implies sc.oclAsType(ObjectAllValuesFrom).objectProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDisjointUnionClassesObjectHasValue" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectHasValue)) implies sc.oclAsType(ObjectHasValue).objectProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDisjointUnionClassesObjectComplementOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectComplementOf)) implies sc.oclAsType(ObjectComplementOf).classes.ontology = self.classAxiom.ontology)"/>
+      <details key="localDisjointUnionClassesObjectOneOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectOneOf)) implies sc.oclAsType(ObjectOneOf).individual.ontology = self.classAxiom.ontology)"/>
+      <details key="localDisjointUnionClassesObjectMinCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectMinCardinality)) implies sc.oclAsType(ObjectMinCardinality).classes.ontology = self.classAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectMinCardinality)) implies sc.oclAsType(ObjectMinCardinality).objectProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDisjointUnionClassesObjectMaxCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectMaxCardinality)) implies sc.oclAsType(ObjectMaxCardinality).classes.ontology = self.classAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectMaxCardinality)) implies sc.oclAsType(ObjectMaxCardinality).objectProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDisjointUnionClassesObjectExactCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectExactCardinality)) implies sc.oclAsType(ObjectExactCardinality).classes.ontology = self.classAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectExactCardinality)) implies sc.oclAsType(ObjectExactCardinality).objectProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDisjointUnionClassesDataSomeValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(DataSomeValuesFrom)) implies sc.oclAsType(DataSomeValuesFrom).dataProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDisjointUnionClassesDataAllValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(DataAllValuesFrom)) implies sc.oclAsType(DataAllValuesFrom).dataProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDisjointUnionClassesDataHasValue" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(DataHasValue)) implies sc.oclAsType(DataHasValue).dataProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDisjointUnionClassesDataMinCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(DataMinCardinality)) implies sc.oclAsType(DataMinCardinality).dataProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDisjointUnionClassesDataMaxCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(DataMaxCardinality)) implies sc.oclAsType(DataMaxCardinality).dataProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDisjointUnionClassesDataExactCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(DataExactCardinality)) implies sc.oclAsType(DataExactCardinality).dataProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="externalDisjointUnionClassesLinkPropertySomeValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(EConnectionExpression) and sc.oclIsKindOf(LinkSomeValuesFrom)) implies (sc.oclAsType(LinkSomeValuesFrom).linkProperties.sourceOntology = self.classAxiom.ontology and sc.oclAsType(LinkSomeValuesFrom).classes.ontology = sc.oclAsType(LinkSomeValuesFrom).linkProperties.targetOntology))"/>
+      <details key="externalDisjointUnionClassesLinkPropertyAllValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(EConnectionExpression) and sc.oclIsKindOf(LinkAllValuesFrom)) implies (sc.oclAsType(LinkAllValuesFrom).linkProperties.sourceOntology = self.classAxiom.ontology and sc.oclAsType(LinkAllValuesFrom).classes.ontology = sc.oclAsType(LinkAllValuesFrom).linkProperties.targetOntology))"/>
+      <details key="externalDisjointUnionClassesLinkPropertyHasValue" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(EConnectionExpression) and sc.oclIsKindOf(LinkHasValue)) implies (sc.oclAsType(LinkHasValue).linkProperties.sourceOntology = self.classAxiom.ontology and sc.oclAsType(LinkHasValue).individual.ontology = sc.oclAsType(LinkHasValue).linkProperties.targetOntology))"/>
+      <details key="externalDisjointUnionClassesLinkPropertyMinCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(EConnectionExpression) and sc.oclIsKindOf(LinkMinCardinality)) implies (sc.oclAsType(LinkMinCardinality).linkProperties.sourceOntology = self.classAxiom.ontology and sc.oclAsType(LinkMinCardinality).classes.ontology = sc.oclAsType(LinkMinCardinality).linkProperties.targetOntology))"/>
+      <details key="externalDisjointUnionClassesLinkPropertyMaxCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(EConnectionExpression) and sc.oclIsKindOf(LinkMaxCardinality)) implies (sc.oclAsType(LinkMaxCardinality).linkProperties.sourceOntology = self.classAxiom.ontology and sc.oclAsType(LinkMaxCardinality).classes.ontology = sc.oclAsType(LinkMaxCardinality).linkProperties.targetOntology))"/>
+      <details key="externalDisjointUnionClassesLinkPropertyExactCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(EConnectionExpression) and sc.oclIsKindOf(LinkExactCardinality)) implies (sc.oclAsType(LinkExactCardinality).linkProperties.sourceOntology = self.classAxiom.ontology and sc.oclAsType(LinkExactCardinality).classes.ontology = sc.oclAsType(LinkExactCardinality).linkProperties.targetOntology))"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expressions" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EquivalentClass" eSuperTypes="#//ClassAxiom">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="localEquivalentClassesClassList localEquivalentClassesObjectIntersectionOf localEquivalentClassesObjectUnionOf localEquivalentClassesObjectSomeValuesFrom localEquivalentClassesObjectAllValuesFrom localEquivalentClassesObjectHasValue localEquivalentClassesObjectComplementOf localEquivalentClassesObjectOneOf localEquivalentClassesObjectMinCardinality localEquivalentClassesObjectMaxCardinality localEquivalentClassesObjectExactCardinality localEquivalentClassesDataSomeValuesFrom localEquivalentClassesDataAllValuesFrom localEquivalentClassesDataHasValue localEquivalentClassesDataMinCardinality localEquivalentClassesDataMaxCardinality localEquivalentClassesDataExactCardinality externalEquivalentClassesLinkPropertySomeValuesFrom externalEquivalentClassesLinkPropertyAllValuesFrom externalEquivalentClassesLinkPropertyHasValue externalEquivalentClassesLinkPropertyMinCardinality externalEquivalentClassesLinkPropertyMaxCardinality externalEquivalentClassesLinkPropertyExactCardinality"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="localEquivalentClassesClassList" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ClassList)) implies sc.oclAsType(ClassList).classes->forAll(c:Class | c.ontology = self.classAxiom.ontology))"/>
+      <details key="localEquivalentClassesObjectIntersectionOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectIntersectionOf)) implies sc.oclAsType(ObjectIntersectionOf).classes->forAll(c:Class| c.ontology = self.classAxiom.ontology))"/>
+      <details key="localEquivalentClassesObjectUnionOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectUnionOf)) implies sc.oclAsType(ObjectUnionOf).classes->forAll(c:Class| c.ontology = self.classAxiom.ontology))"/>
+      <details key="localEquivalentClassesObjectSomeValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectSomeValuesFrom)) implies sc.oclAsType(ObjectSomeValuesFrom).classes.ontology = self.classAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectSomeValuesFrom)) implies sc.oclAsType(ObjectSomeValuesFrom).objectProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localEquivalentClassesObjectAllValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectAllValuesFrom)) implies sc.oclAsType(ObjectAllValuesFrom).classes.ontology = self.classAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectAllValuesFrom)) implies sc.oclAsType(ObjectAllValuesFrom).objectProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localEquivalentClassesObjectHasValue" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectHasValue)) implies sc.oclAsType(ObjectHasValue).objectProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localEquivalentClassesObjectComplementOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectComplementOf)) implies sc.oclAsType(ObjectComplementOf).classes.ontology = self.classAxiom.ontology)"/>
+      <details key="localEquivalentClassesObjectOneOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectOneOf)) implies sc.oclAsType(ObjectOneOf).individual.ontology = self.classAxiom.ontology)"/>
+      <details key="localEquivalentClassesObjectMinCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectMinCardinality)) implies sc.oclAsType(ObjectMinCardinality).classes.ontology = self.classAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectMinCardinality)) implies sc.oclAsType(ObjectMinCardinality).objectProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localEquivalentClassesObjectMaxCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectMaxCardinality)) implies sc.oclAsType(ObjectMaxCardinality).classes.ontology = self.classAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectMaxCardinality)) implies sc.oclAsType(ObjectMaxCardinality).objectProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localEquivalentClassesObjectExactCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectExactCardinality)) implies sc.oclAsType(ObjectExactCardinality).classes.ontology = self.classAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectExactCardinality)) implies sc.oclAsType(ObjectExactCardinality).objectProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localEquivalentClassesDataSomeValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(DataSomeValuesFrom)) implies sc.oclAsType(DataSomeValuesFrom).dataProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localEquivalentClassesDataAllValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(DataAllValuesFrom)) implies sc.oclAsType(DataAllValuesFrom).dataProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localEquivalentClassesDataHasValue" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(DataHasValue)) implies sc.oclAsType(DataHasValue).dataProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localEquivalentClassesDataMinCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(DataMinCardinality)) implies sc.oclAsType(DataMinCardinality).dataProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localEquivalentClassesDataMaxCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(DataMaxCardinality)) implies sc.oclAsType(DataMaxCardinality).dataProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localEquivalentClassesDataExactCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(DataExactCardinality)) implies sc.oclAsType(DataExactCardinality).dataProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="externalEquivalentClassesLinkPropertySomeValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(EConnectionExpression) and sc.oclIsKindOf(LinkSomeValuesFrom)) implies (sc.oclAsType(LinkSomeValuesFrom).linkProperties.sourceOntology = self.classAxiom.ontology and sc.oclAsType(LinkSomeValuesFrom).classes.ontology = sc.oclAsType(LinkSomeValuesFrom).linkProperties.targetOntology))"/>
+      <details key="externalEquivalentClassesLinkPropertyAllValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(EConnectionExpression) and sc.oclIsKindOf(LinkAllValuesFrom)) implies (sc.oclAsType(LinkAllValuesFrom).linkProperties.sourceOntology = self.classAxiom.ontology and sc.oclAsType(LinkAllValuesFrom).classes.ontology = sc.oclAsType(LinkAllValuesFrom).linkProperties.targetOntology))"/>
+      <details key="externalEquivalentClassesLinkPropertyHasValue" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(EConnectionExpression) and sc.oclIsKindOf(LinkHasValue)) implies (sc.oclAsType(LinkHasValue).linkProperties.sourceOntology = self.classAxiom.ontology and sc.oclAsType(LinkHasValue).individual.ontology = sc.oclAsType(LinkHasValue).linkProperties.targetOntology))"/>
+      <details key="externalEquivalentClassesLinkPropertyMinCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(EConnectionExpression) and sc.oclIsKindOf(LinkMinCardinality)) implies (sc.oclAsType(LinkMinCardinality).linkProperties.sourceOntology = self.classAxiom.ontology and sc.oclAsType(LinkMinCardinality).classes.ontology = sc.oclAsType(LinkMinCardinality).linkProperties.targetOntology))"/>
+      <details key="externalEquivalentClassesLinkPropertyMaxCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(EConnectionExpression) and sc.oclIsKindOf(LinkMaxCardinality)) implies (sc.oclAsType(LinkMaxCardinality).linkProperties.sourceOntology = self.classAxiom.ontology and sc.oclAsType(LinkMaxCardinality).classes.ontology = sc.oclAsType(LinkMaxCardinality).linkProperties.targetOntology))"/>
+      <details key="externalEquivalentClassesLinkPropertyExactCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(EConnectionExpression) and sc.oclIsKindOf(LinkExactCardinality)) implies (sc.oclAsType(LinkExactCardinality).linkProperties.sourceOntology = self.classAxiom.ontology and sc.oclAsType(LinkExactCardinality).classes.ontology = sc.oclAsType(LinkExactCardinality).linkProperties.targetOntology))"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expressions" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SubClassOf" eSuperTypes="#//ClassAxiom">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="localDomainClassesClassList localDomainClassesObjectIntersectionOf localDomainClassesObjectUnionOf localDomainClassesObjectSomeValuesFrom localDomainClassesObjectAllValuesFrom localDomainClassesObjectHasValue localDomainClassesObjectComplementOf localDomainClassesObjectOneOf localDomainClassesObjectMinCardinality localDomainClassesObjectMaxCardinality localDomainClassesObjectExactCardinality localDomainClassesDataSomeValuesFrom localDomainClassesDataAllValuesFrom localDomainClassesDataHasValue localDomainClassesDataMinCardinality localDomainClassesDataMaxCardinality localDomainClassesDataExactCardinality externalDomainClassesLinkPropertySomeValuesFrom externalDomainClassesLinkPropertyAllValuesFrom externalDomainClassesLinkPropertyHasValue externalDomainClassesLinkPropertyMinCardinality externalDomainClassesLinkPropertyMaxCardinality externalDomainClassesLinkPropertyExactCardinality"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="localDomainClassesClassList" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ClassList)) implies sc.oclAsType(ClassList).classes->forAll(c:Class | c.ontology = self.classAxiom.ontology))"/>
+      <details key="localDomainClassesObjectIntersectionOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectIntersectionOf)) implies sc.oclAsType(ObjectIntersectionOf).classes->forAll(c:Class| c.ontology = self.classAxiom.ontology))"/>
+      <details key="localDomainClassesObjectUnionOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectUnionOf)) implies sc.oclAsType(ObjectUnionOf).classes->forAll(c:Class| c.ontology = self.classAxiom.ontology))"/>
+      <details key="localDomainClassesObjectSomeValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectSomeValuesFrom)) implies sc.oclAsType(ObjectSomeValuesFrom).classes.ontology = self.classAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectSomeValuesFrom)) implies sc.oclAsType(ObjectSomeValuesFrom).objectProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDomainClassesObjectAllValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectAllValuesFrom)) implies sc.oclAsType(ObjectAllValuesFrom).classes.ontology = self.classAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectAllValuesFrom)) implies sc.oclAsType(ObjectAllValuesFrom).objectProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDomainClassesObjectHasValue" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectHasValue)) implies sc.oclAsType(ObjectHasValue).objectProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDomainClassesObjectComplementOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectComplementOf)) implies sc.oclAsType(ObjectComplementOf).classes.ontology = self.classAxiom.ontology)"/>
+      <details key="localDomainClassesObjectOneOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectOneOf)) implies sc.oclAsType(ObjectOneOf).individual.ontology = self.classAxiom.ontology)"/>
+      <details key="localDomainClassesObjectMinCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectMinCardinality)) implies sc.oclAsType(ObjectMinCardinality).classes.ontology = self.classAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectMinCardinality)) implies sc.oclAsType(ObjectMinCardinality).objectProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDomainClassesObjectMaxCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectMaxCardinality)) implies sc.oclAsType(ObjectMaxCardinality).classes.ontology = self.classAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectMaxCardinality)) implies sc.oclAsType(ObjectMaxCardinality).objectProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDomainClassesObjectExactCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectExactCardinality)) implies sc.oclAsType(ObjectExactCardinality).classes.ontology = self.classAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(ObjectExactCardinality)) implies sc.oclAsType(ObjectExactCardinality).objectProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDomainClassesDataSomeValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(DataSomeValuesFrom)) implies sc.oclAsType(DataSomeValuesFrom).dataProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDomainClassesDataAllValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(DataAllValuesFrom)) implies sc.oclAsType(DataAllValuesFrom).dataProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDomainClassesDataHasValue" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(DataHasValue)) implies sc.oclAsType(DataHasValue).dataProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDomainClassesDataMinCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(DataMinCardinality)) implies sc.oclAsType(DataMinCardinality).dataProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDomainClassesDataMaxCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(DataMaxCardinality)) implies sc.oclAsType(DataMaxCardinality).dataProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="localDomainClassesDataExactCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(ClassExpression) and sc.oclIsKindOf(DataExactCardinality)) implies sc.oclAsType(DataExactCardinality).dataProperties.ontology = self.classAxiom.ontology)"/>
+      <details key="externalDomainClassesLinkPropertySomeValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(EConnectionExpression) and sc.oclIsKindOf(LinkSomeValuesFrom)) implies (sc.oclAsType(LinkSomeValuesFrom).linkProperties.sourceOntology = self.classAxiom.ontology and sc.oclAsType(LinkSomeValuesFrom).classes.ontology = sc.oclAsType(LinkSomeValuesFrom).linkProperties.targetOntology))"/>
+      <details key="externalDomainClassesLinkPropertyAllValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(EConnectionExpression) and sc.oclIsKindOf(LinkAllValuesFrom)) implies (sc.oclAsType(LinkAllValuesFrom).linkProperties.sourceOntology = self.classAxiom.ontology and sc.oclAsType(LinkAllValuesFrom).classes.ontology = sc.oclAsType(LinkAllValuesFrom).linkProperties.targetOntology))"/>
+      <details key="externalDomainClassesLinkPropertyHasValue" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(EConnectionExpression) and sc.oclIsKindOf(LinkHasValue)) implies (sc.oclAsType(LinkHasValue).linkProperties.sourceOntology = self.classAxiom.ontology and sc.oclAsType(LinkHasValue).individual.ontology = sc.oclAsType(LinkHasValue).linkProperties.targetOntology))"/>
+      <details key="externalDomainClassesLinkPropertyMinCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(EConnectionExpression) and sc.oclIsKindOf(LinkMinCardinality)) implies (sc.oclAsType(LinkMinCardinality).linkProperties.sourceOntology = self.classAxiom.ontology and sc.oclAsType(LinkMinCardinality).classes.ontology = sc.oclAsType(LinkMinCardinality).linkProperties.targetOntology))"/>
+      <details key="externalDomainClassesLinkPropertyMaxCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(EConnectionExpression) and sc.oclIsKindOf(LinkMaxCardinality)) implies (sc.oclAsType(LinkMaxCardinality).linkProperties.sourceOntology = self.classAxiom.ontology and sc.oclAsType(LinkMaxCardinality).classes.ontology = sc.oclAsType(LinkMaxCardinality).linkProperties.targetOntology))"/>
+      <details key="externalDomainClassesLinkPropertyExactCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: Expression | (sc.oclIsKindOf(EConnectionExpression) and sc.oclIsKindOf(LinkExactCardinality)) implies (sc.oclAsType(LinkExactCardinality).linkProperties.sourceOntology = self.classAxiom.ontology and sc.oclAsType(LinkExactCardinality).classes.ontology = sc.oclAsType(LinkExactCardinality).linkProperties.targetOntology))"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expressions" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectPropertyAxiom" abstract="true"
+      eSuperTypes="#//OntologyAxiom">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectPropertyAxiom" lowerBound="1"
+        eType="#//ObjectProperty" changeable="false" eOpposite="#//ObjectProperty/objectPropertyAxioms"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DisjointObjectProperty" eSuperTypes="#//ObjectPropertyAxiom">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="localDisjointObjectPropertyObjectPropertyList localDisjointObjectPropertyInverseObjectProperty"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="localDisjointObjectPropertyObjectPropertyList" value="&#xA;&#x9;&#x9;&#x9;self.objectPropertyExpressions->forAll(so: ObjectPropertyExpression | so.oclIsKindOf(ObjectPropertyList) implies so.oclAsType(ObjectPropertyList).objectProperties->forAll(o:ObjectProperty | o.ontology = self.objectPropertyAxiom.ontology))"/>
+      <details key="localDisjointObjectPropertyInverseObjectProperty" value="&#xA;&#x9;&#x9;&#x9;self.objectPropertyExpressions->forAll(so: ObjectPropertyExpression | so.oclIsKindOf(InverseObjectProperty) implies so.oclAsType(InverseObjectProperty).objectProperties->forAll(o:ObjectProperty | o.ontology = self.objectPropertyAxiom.ontology))"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectPropertyExpressions"
+        ordered="false" lowerBound="1" upperBound="-1" eType="#//ObjectPropertyExpression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EquivalentObjectProperty" eSuperTypes="#//ObjectPropertyAxiom">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="localEquivalentObjectPropertyObjectPropertyList localEquivalentObjectPropertyInverseObjectProperty"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="localEquivalentObjectPropertyObjectPropertyList" value="&#xA;&#x9;&#x9;&#x9;self.objectPropertyExpressions->forAll(so: ObjectPropertyExpression | so.oclIsKindOf(ObjectPropertyList) implies so.oclAsType(ObjectPropertyList).objectProperties->forAll(o:ObjectProperty | o.ontology = self.objectPropertyAxiom.ontology))"/>
+      <details key="localEquivalentObjectPropertyInverseObjectProperty" value="&#xA;&#x9;&#x9;&#x9;self.objectPropertyExpressions->forAll(so: ObjectPropertyExpression | so.oclIsKindOf(InverseObjectProperty) implies so.oclAsType(InverseObjectProperty).objectProperties->forAll(o:ObjectProperty | o.ontology = self.objectPropertyAxiom.ontology))"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectPropertyExpressions"
+        ordered="false" lowerBound="1" upperBound="-1" eType="#//ObjectPropertyExpression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SubObjectPropertyOf" eSuperTypes="#//ObjectPropertyAxiom">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="localDomainObjectPropertyObjectPropertyList localDomainObjectPropertyInverseObjectProperty"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="localDomainObjectPropertyObjectPropertyList" value="&#xA;&#x9;&#x9;&#x9;self.objectPropertyExpressions->forAll(so: ObjectPropertyExpression | so.oclIsKindOf(ObjectPropertyList) implies so.oclAsType(ObjectPropertyList).objectProperties->forAll(o:ObjectProperty | o.ontology = self.objectPropertyAxiom.ontology))"/>
+      <details key="localDomainObjectPropertyInverseObjectProperty" value="&#xA;&#x9;&#x9;&#x9;self.objectPropertyExpressions->forAll(so: ObjectPropertyExpression | so.oclIsKindOf(InverseObjectProperty) implies so.oclAsType(InverseObjectProperty).objectProperties->forAll(o:ObjectProperty | o.ontology = self.objectPropertyAxiom.ontology))"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectPropertyExpressions"
+        ordered="false" lowerBound="1" upperBound="-1" eType="#//ObjectPropertyExpression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InverseObjectPropertyAxiom" eSuperTypes="#//ObjectPropertyAxiom">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectProperty" lowerBound="1"
+        eType="#//ObjectProperty"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectPropertyDomain" eSuperTypes="#//ObjectPropertyAxiom">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="localObjectPropertyDomainClassList localObjectPropertyDomainObjectIntersectionOf localObjectPropertyDomainObjectUnionOf localObjectPropertyDomainObjectSomeValuesFrom localObjectPropertyDomainObjectAllValuesFrom localObjectPropertyDomainObjectHasValue localObjectPropertyDomainObjectComplementOf localObjectPropertyDomainObjectOneOf localObjectPropertyDomainObjectMinCardinality localObjectPropertyDomainObjectMaxCardinality localObjectPropertyDomainObjectExactCardinality localObjectPropertyDomainDataSomeValuesFrom localObjectPropertyDomainDataAllValuesFrom localObjectPropertyDomainDataHasValue localObjectPropertyDomainDataMinCardinality localObjectPropertyDomainDataMaxCardinality localObjectPropertyDomainDataExactCardinality"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="localObjectPropertyDomainClassList" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ClassList) implies sc.oclAsType(ClassList).classes->forAll(c:Class | c.ontology = self.objectPropertyAxiom.ontology))"/>
+      <details key="localObjectPropertyDomainObjectIntersectionOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectIntersectionOf) implies sc.oclAsType(ObjectIntersectionOf).classes->forAll(c:Class| c.ontology = self.objectPropertyAxiom.ontology))"/>
+      <details key="localObjectPropertyDomainObjectUnionOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectUnionOf) implies sc.oclAsType(ObjectUnionOf).classes->forAll(c:Class| c.ontology = self.objectPropertyAxiom.ontology))"/>
+      <details key="localObjectPropertyDomainObjectSomeValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectSomeValuesFrom) implies sc.oclAsType(ObjectSomeValuesFrom).classes.ontology = self.objectPropertyAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectSomeValuesFrom) implies sc.oclAsType(ObjectSomeValuesFrom).objectProperties.ontology = self.objectPropertyAxiom.ontology)"/>
+      <details key="localObjectPropertyDomainObjectAllValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectAllValuesFrom) implies sc.oclAsType(ObjectAllValuesFrom).classes.ontology = self.objectPropertyAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectAllValuesFrom) implies sc.oclAsType(ObjectAllValuesFrom).objectProperties.ontology = self.objectPropertyAxiom.ontology)"/>
+      <details key="localObjectPropertyDomainObjectHasValue" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectHasValue) implies sc.oclAsType(ObjectHasValue).objectProperties.ontology = self.objectPropertyAxiom.ontology)"/>
+      <details key="localObjectPropertyDomainObjectComplementOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectComplementOf) implies sc.oclAsType(ObjectComplementOf).classes.ontology = self.objectPropertyAxiom.ontology)"/>
+      <details key="localObjectPropertyDomainObjectOneOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectOneOf) implies sc.oclAsType(ObjectOneOf).individual.ontology = self.objectPropertyAxiom.ontology)"/>
+      <details key="localObjectPropertyDomainObjectMinCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectMinCardinality) implies sc.oclAsType(ObjectMinCardinality).classes.ontology = self.objectPropertyAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectMinCardinality) implies sc.oclAsType(ObjectMinCardinality).objectProperties.ontology = self.objectPropertyAxiom.ontology)"/>
+      <details key="localObjectPropertyDomainObjectMaxCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectMaxCardinality) implies sc.oclAsType(ObjectMaxCardinality).classes.ontology = self.objectPropertyAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectMaxCardinality) implies sc.oclAsType(ObjectMaxCardinality).objectProperties.ontology = self.objectPropertyAxiom.ontology)"/>
+      <details key="localObjectPropertyDomainObjectExactCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectExactCardinality) implies sc.oclAsType(ObjectExactCardinality).classes.ontology = self.objectPropertyAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectExactCardinality) implies sc.oclAsType(ObjectExactCardinality).objectProperties.ontology = self.objectPropertyAxiom.ontology)"/>
+      <details key="localObjectPropertyDomainDataSomeValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataSomeValuesFrom) implies sc.oclAsType(DataSomeValuesFrom).dataProperties.ontology = self.objectPropertyAxiom.ontology)"/>
+      <details key="localObjectPropertyDomainDataAllValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataAllValuesFrom) implies sc.oclAsType(DataAllValuesFrom).dataProperties.ontology = self.objectPropertyAxiom.ontology)"/>
+      <details key="localObjectPropertyDomainDataHasValue" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataHasValue) implies sc.oclAsType(DataHasValue).dataProperties.ontology = self.objectPropertyAxiom.ontology)"/>
+      <details key="localObjectPropertyDomainDataMinCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataMinCardinality) implies sc.oclAsType(DataMinCardinality).dataProperties.ontology = self.objectPropertyAxiom.ontology)"/>
+      <details key="localObjectPropertyDomainDataMaxCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataMaxCardinality) implies sc.oclAsType(DataMaxCardinality).dataProperties.ontology = self.objectPropertyAxiom.ontology)"/>
+      <details key="localObjectPropertyDomainDataExactCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataExactCardinality) implies sc.oclAsType(DataExactCardinality).dataProperties.ontology = self.objectPropertyAxiom.ontology)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expressions" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//ClassExpression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectPropertyRange" eSuperTypes="#//ObjectPropertyAxiom">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="localObjectPropertyRangeClassList localObjectPropertyRangeObjectIntersectionOf localObjectPropertyRangeObjectUnionOf localObjectPropertyRangeObjectSomeValuesFrom localObjectPropertyRangeObjectAllValuesFrom localObjectPropertyRangeObjectHasValue localObjectPropertyRangeObjectComplementOf localObjectPropertyRangeObjectOneOf localObjectPropertyRangeObjectMinCardinality localObjectPropertyRangeObjectMaxCardinality localObjectPropertyRangeObjectExactCardinality localObjectPropertyRangeDataSomeValuesFrom localObjectPropertyRangeDataAllValuesFrom localObjectPropertyRangeDataHasValue localObjectPropertyRangeDataMinCardinality localObjectPropertyRangeDataMaxCardinality localObjectPropertyRangeDataExactCardinality"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="localObjectPropertyRangeClassList" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ClassList) implies sc.oclAsType(ClassList).classes->forAll(c:Class | c.ontology = self.objectPropertyAxiom.ontology))"/>
+      <details key="localObjectPropertyRangeObjectIntersectionOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectIntersectionOf) implies sc.oclAsType(ObjectIntersectionOf).classes->forAll(c:Class| c.ontology = self.objectPropertyAxiom.ontology))"/>
+      <details key="localObjectPropertyRangeObjectUnionOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectUnionOf) implies sc.oclAsType(ObjectUnionOf).classes->forAll(c:Class| c.ontology = self.objectPropertyAxiom.ontology))"/>
+      <details key="localObjectPropertyRangeObjectSomeValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectSomeValuesFrom) implies sc.oclAsType(ObjectSomeValuesFrom).classes.ontology = self.objectPropertyAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectSomeValuesFrom) implies sc.oclAsType(ObjectSomeValuesFrom).objectProperties.ontology = self.objectPropertyAxiom.ontology)"/>
+      <details key="localObjectPropertyRangeObjectAllValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectAllValuesFrom) implies sc.oclAsType(ObjectAllValuesFrom).classes.ontology = self.objectPropertyAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectAllValuesFrom) implies sc.oclAsType(ObjectAllValuesFrom).objectProperties.ontology = self.objectPropertyAxiom.ontology)"/>
+      <details key="localObjectPropertyRangeObjectHasValue" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectHasValue) implies sc.oclAsType(ObjectHasValue).objectProperties.ontology = self.objectPropertyAxiom.ontology)"/>
+      <details key="localObjectPropertyRangeObjectComplementOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectComplementOf) implies sc.oclAsType(ObjectComplementOf).classes.ontology = self.objectPropertyAxiom.ontology)"/>
+      <details key="localObjectPropertyRangeObjectOneOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectOneOf) implies sc.oclAsType(ObjectOneOf).individual.ontology = self.objectPropertyAxiom.ontology)"/>
+      <details key="localObjectPropertyRangeObjectMinCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectMinCardinality) implies sc.oclAsType(ObjectMinCardinality).classes.ontology = self.objectPropertyAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectMinCardinality) implies sc.oclAsType(ObjectMinCardinality).objectProperties.ontology = self.objectPropertyAxiom.ontology)"/>
+      <details key="localObjectPropertyRangeObjectMaxCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectMaxCardinality) implies sc.oclAsType(ObjectMaxCardinality).classes.ontology = self.objectPropertyAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectMaxCardinality) implies sc.oclAsType(ObjectMaxCardinality).objectProperties.ontology = self.objectPropertyAxiom.ontology)"/>
+      <details key="localObjectPropertyRangeObjectExactCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectExactCardinality) implies sc.oclAsType(ObjectExactCardinality).classes.ontology = self.objectPropertyAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectExactCardinality) implies sc.oclAsType(ObjectExactCardinality).objectProperties.ontology = self.objectPropertyAxiom.ontology)"/>
+      <details key="localObjectPropertyRangeDataSomeValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataSomeValuesFrom) implies sc.oclAsType(DataSomeValuesFrom).dataProperties.ontology = self.objectPropertyAxiom.ontology)"/>
+      <details key="localObjectPropertyRangeDataAllValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataAllValuesFrom) implies sc.oclAsType(DataAllValuesFrom).dataProperties.ontology = self.objectPropertyAxiom.ontology)"/>
+      <details key="localObjectPropertyRangeDataHasValue" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataHasValue) implies sc.oclAsType(DataHasValue).dataProperties.ontology = self.objectPropertyAxiom.ontology)"/>
+      <details key="localObjectPropertyRangeDataMinCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataMinCardinality) implies sc.oclAsType(DataMinCardinality).dataProperties.ontology = self.objectPropertyAxiom.ontology)"/>
+      <details key="localObjectPropertyRangeDataMaxCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataMaxCardinality) implies sc.oclAsType(DataMaxCardinality).dataProperties.ontology = self.objectPropertyAxiom.ontology)"/>
+      <details key="localObjectPropertyRangeDataExactCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataExactCardinality) implies sc.oclAsType(DataExactCardinality).dataProperties.ontology = self.objectPropertyAxiom.ontology)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expressions" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//ClassExpression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataPropertyAxiom" abstract="true" eSuperTypes="#//OntologyAxiom">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataPropertyAxiom" lowerBound="1"
+        eType="#//DataProperty" changeable="false" eOpposite="#//DataProperty/dataPropertyAxioms"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataPropertyDomain" eSuperTypes="#//DataPropertyAxiom">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="localDataPropertyDomainClassList localDataPropertyDomainObjectIntersectionOf localDataPropertyDomainObjectUnionOf localDataPropertyDomainObjectSomeValuesFrom localDataPropertyDomainObjectAllValuesFrom localDataPropertyDomainObjectHasValue localDataPropertyDomainObjectComplementOf localDataPropertyDomainObjectOneOf localDataPropertyDomainObjectMinCardinality localDataPropertyDomainObjectMaxCardinality localDataPropertyDomainObjectExactCardinality localDataPropertyDomainDataSomeValuesFrom localDataPropertyDomainDataAllValuesFrom localDataPropertyDomainDataHasValue localDataPropertyDomainDataMinCardinality localDataPropertyDomainDataMaxCardinality localDataPropertyDomainDataExactCardinality"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="localDataPropertyDomainClassList" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ClassList) implies sc.oclAsType(ClassList).classes->forAll(c:Class | c.ontology = self.dataPropertyAxiom.ontology))"/>
+      <details key="localDataPropertyDomainObjectIntersectionOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectIntersectionOf) implies sc.oclAsType(ObjectIntersectionOf).classes->forAll(c:Class| c.ontology = self.dataPropertyAxiom.ontology))"/>
+      <details key="localDataPropertyDomainObjectUnionOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectUnionOf) implies sc.oclAsType(ObjectUnionOf).classes->forAll(c:Class| c.ontology = self.dataPropertyAxiom.ontology))"/>
+      <details key="localDataPropertyDomainObjectSomeValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectSomeValuesFrom) implies sc.oclAsType(ObjectSomeValuesFrom).classes.ontology = self.dataPropertyAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectSomeValuesFrom) implies sc.oclAsType(ObjectSomeValuesFrom).objectProperties.ontology = self.dataPropertyAxiom.ontology)"/>
+      <details key="localDataPropertyDomainObjectAllValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectAllValuesFrom) implies sc.oclAsType(ObjectAllValuesFrom).classes.ontology = self.dataPropertyAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectAllValuesFrom) implies sc.oclAsType(ObjectAllValuesFrom).objectProperties.ontology = self.dataPropertyAxiom.ontology)"/>
+      <details key="localDataPropertyDomainObjectHasValue" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectHasValue) implies sc.oclAsType(ObjectHasValue).objectProperties.ontology = self.dataPropertyAxiom.ontology)"/>
+      <details key="localDataPropertyDomainObjectComplementOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectComplementOf) implies sc.oclAsType(ObjectComplementOf).classes.ontology = self.dataPropertyAxiom.ontology)"/>
+      <details key="localDataPropertyDomainObjectOneOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectOneOf) implies sc.oclAsType(ObjectOneOf).individual.ontology = self.dataPropertyAxiom.ontology)"/>
+      <details key="localDataPropertyDomainObjectMinCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectMinCardinality) implies sc.oclAsType(ObjectMinCardinality).classes.ontology = self.dataPropertyAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectMinCardinality) implies sc.oclAsType(ObjectMinCardinality).objectProperties.ontology = self.dataPropertyAxiom.ontology)"/>
+      <details key="localDataPropertyDomainObjectMaxCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectMaxCardinality) implies sc.oclAsType(ObjectMaxCardinality).classes.ontology = self.dataPropertyAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectMaxCardinality) implies sc.oclAsType(ObjectMaxCardinality).objectProperties.ontology = self.dataPropertyAxiom.ontology)"/>
+      <details key="localDataPropertyDomainObjectExactCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectExactCardinality) implies sc.oclAsType(ObjectExactCardinality).classes.ontology = self.dataPropertyAxiom.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectExactCardinality) implies sc.oclAsType(ObjectExactCardinality).objectProperties.ontology = self.dataPropertyAxiom.ontology)"/>
+      <details key="localDataPropertyDomainDataSomeValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataSomeValuesFrom) implies sc.oclAsType(DataSomeValuesFrom).dataProperties.ontology = self.dataPropertyAxiom.ontology)"/>
+      <details key="localDataPropertyDomainDataAllValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataAllValuesFrom) implies sc.oclAsType(DataAllValuesFrom).dataProperties.ontology = self.dataPropertyAxiom.ontology)"/>
+      <details key="localDataPropertyDomainDataHasValue" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataHasValue) implies sc.oclAsType(DataHasValue).dataProperties.ontology = self.dataPropertyAxiom.ontology)"/>
+      <details key="localDataPropertyDomainDataMinCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataMinCardinality) implies sc.oclAsType(DataMinCardinality).dataProperties.ontology = self.dataPropertyAxiom.ontology)"/>
+      <details key="localDataPropertyDomainDataMaxCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataMaxCardinality) implies sc.oclAsType(DataMaxCardinality).dataProperties.ontology = self.dataPropertyAxiom.ontology)"/>
+      <details key="localDataPropertyDomainDataExactCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataExactCardinality) implies sc.oclAsType(DataExactCardinality).dataProperties.ontology = self.dataPropertyAxiom.ontology)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expressions" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//ClassExpression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataPropertyRange" eSuperTypes="#//DataPropertyAxiom">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="literal" lowerBound="1"
+        eType="#//Constant"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DisjointDataProperty" eSuperTypes="#//DataPropertyAxiom">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="localDisjointDataPropertyClassList"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="localDisjointDataPropertyClassList" value="&#xA;&#x9;&#x9;&#x9;self.dataPropertyExpressions->forAll(sd: DataPropertyExpression | sd.oclIsKindOf(DataPropertyList) implies sd.oclAsType(DataPropertyList).dataProperties->forAll(d:DataProperty | d.ontology = self.dataPropertyAxiom.ontology))"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataPropertyExpressions"
+        ordered="false" lowerBound="1" upperBound="-1" eType="#//DataPropertyExpression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EquivalentDataProperty" eSuperTypes="#//DataPropertyAxiom">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="localEquivalentDataPropertyClassList"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="localEquivalentDataPropertyClassList" value="&#xA;&#x9;&#x9;&#x9;self.dataPropertyExpressions->forAll(sd: DataPropertyExpression | sd.oclIsKindOf(DataPropertyList) implies sd.oclAsType(DataPropertyList).dataProperties->forAll(d:DataProperty | d.ontology = self.dataPropertyAxiom.ontology))"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataPropertyExpressions"
+        ordered="false" lowerBound="1" upperBound="-1" eType="#//DataPropertyExpression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SubDataPropertyOf" eSuperTypes="#//DataPropertyAxiom">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="localDomainDataPropertyClassList"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="localDomainDataPropertyClassList" value="&#xA;&#x9;&#x9;&#x9;self.dataPropertyExpressions->forAll(sd: DataPropertyExpression | sd.oclIsKindOf(DataPropertyList) implies sd.oclAsType(DataPropertyList).dataProperties->forAll(d:DataProperty | d.ontology = self.dataPropertyAxiom.ontology))"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataPropertyExpressions"
+        ordered="false" lowerBound="1" upperBound="-1" eType="#//DataPropertyExpression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Assertion" abstract="true" eSuperTypes="#//OntologyAxiom">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="individualAssertion" lowerBound="1"
+        eType="#//Individual" changeable="false" eOpposite="#//Individual/individualAssertions"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassAssertion" eSuperTypes="#//Assertion">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="localClassesClassList localClassesObjectIntersectionOf localClassesObjectUnionOf localClassesObjectSomeValuesFrom localClassesObjectAllValuesFrom localClassesObjectHasValue localClassesObjectComplementOf localClassesObjectOneOf localClassesObjectMinCardinality localClassesObjectMaxCardinality localClassesObjectExactCardinality localClassesDataSomeValuesFrom localClassesDataAllValuesFrom localClassesDataHasValue localClassesDataMinCardinality localClassesDataMaxCardinality localClassesDataExactCardinality"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="localClassesClassList" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ClassList) implies sc.oclAsType(ClassList).classes->forAll(c:Class | c.ontology = self.individualAssertion.ontology))"/>
+      <details key="localClassesObjectIntersectionOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectIntersectionOf) implies sc.oclAsType(ObjectIntersectionOf).classes->forAll(c:Class| c.ontology = self.individualAssertion.ontology))"/>
+      <details key="localClassesObjectUnionOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectUnionOf) implies sc.oclAsType(ObjectUnionOf).classes->forAll(c:Class| c.ontology = self.individualAssertion.ontology))"/>
+      <details key="localClassesObjectSomeValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectSomeValuesFrom) implies sc.oclAsType(ObjectSomeValuesFrom).classes.ontology = self.individualAssertion.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectSomeValuesFrom) implies sc.oclAsType(ObjectSomeValuesFrom).objectProperties.ontology = self.individualAssertion.ontology)"/>
+      <details key="localClassesObjectAllValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectAllValuesFrom) implies sc.oclAsType(ObjectAllValuesFrom).classes.ontology = self.individualAssertion.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectAllValuesFrom) implies sc.oclAsType(ObjectAllValuesFrom).objectProperties.ontology = self.individualAssertion.ontology)"/>
+      <details key="localClassesObjectHasValue" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectHasValue) implies sc.oclAsType(ObjectHasValue).objectProperties.ontology = self.individualAssertion.ontology)"/>
+      <details key="localClassesObjectComplementOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectComplementOf) implies sc.oclAsType(ObjectComplementOf).classes.ontology = self.individualAssertion.ontology)"/>
+      <details key="localClassesObjectOneOf" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectOneOf) implies sc.oclAsType(ObjectOneOf).individual.ontology = self.individualAssertion.ontology)"/>
+      <details key="localClassesObjectMinCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectMinCardinality) implies sc.oclAsType(ObjectMinCardinality).classes.ontology = self.individualAssertion.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectMinCardinality) implies sc.oclAsType(ObjectMinCardinality).objectProperties.ontology = self.individualAssertion.ontology)"/>
+      <details key="localClassesObjectMaxCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectMaxCardinality) implies sc.oclAsType(ObjectMaxCardinality).classes.ontology = self.individualAssertion.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectMaxCardinality) implies sc.oclAsType(ObjectMaxCardinality).objectProperties.ontology = self.individualAssertion.ontology)"/>
+      <details key="localClassesObjectExactCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectExactCardinality) implies sc.oclAsType(ObjectExactCardinality).classes.ontology = self.individualAssertion.ontology) and&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(ObjectExactCardinality) implies sc.oclAsType(ObjectExactCardinality).objectProperties.ontology = self.individualAssertion.ontology)"/>
+      <details key="localClassesDataSomeValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataSomeValuesFrom) implies sc.oclAsType(DataSomeValuesFrom).dataProperties.ontology = self.individualAssertion.ontology)"/>
+      <details key="localClassesDataAllValuesFrom" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataAllValuesFrom) implies sc.oclAsType(DataAllValuesFrom).dataProperties.ontology = self.individualAssertion.ontology)"/>
+      <details key="localClassesDataHasValue" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataHasValue) implies sc.oclAsType(DataHasValue).dataProperties.ontology = self.individualAssertion.ontology)"/>
+      <details key="localClassesDataMinCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataMinCardinality) implies sc.oclAsType(DataMinCardinality).dataProperties.ontology = self.individualAssertion.ontology)"/>
+      <details key="localClassesDataMaxCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataMaxCardinality) implies sc.oclAsType(DataMaxCardinality).dataProperties.ontology = self.individualAssertion.ontology)"/>
+      <details key="localClassesDataExactCardinality" value="&#xA;&#x9;&#x9;&#x9;self.expressions->forAll(sc: ClassExpression | sc.oclIsKindOf(DataExactCardinality) implies sc.oclAsType(DataExactCardinality).dataProperties.ontology = self.individualAssertion.ontology)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expressions" lowerBound="1"
+        upperBound="-1" eType="#//ClassExpression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SameIndividual" eSuperTypes="#//Assertion">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="localSameIndividuals"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="localSameIndividuals" value="&#xA;&#x9;&#x9;&#x9;self.targetIndividual->forAll(ni : NamedIndividual | ni.ontology = self.individualAssertion.ontology)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetIndividual" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//Individual"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DifferentIndividual" eSuperTypes="#//Assertion">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="localDifferentIndividuals"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="localDifferentIndividuals" value="&#xA;&#x9;&#x9;&#x9;self.targetIndividual->forAll(ni : NamedIndividual | ni.ontology = self.individualAssertion.ontology)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetIndividual" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//Individual"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectPropertyAssertion" eSuperTypes="#//Assertion">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="localObjectPropertyAssertionObjectPropertyList localObjectPropertyAssertionInverseObjectProperty"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="localObjectPropertyAssertionObjectPropertyList" value="&#xA;&#x9;&#x9;&#x9;self.objectPropertyExpressions->forAll(so: ObjectPropertyExpression | so.oclIsKindOf(ObjectPropertyList) implies so.oclAsType(ObjectPropertyList).objectProperties->forAll(o:ObjectProperty | o.ontology = self.individualAssertion.ontology))"/>
+      <details key="localObjectPropertyAssertionInverseObjectProperty" value="&#xA;&#x9;&#x9;&#x9;self.objectPropertyExpressions->forAll(so: ObjectPropertyExpression | so.oclIsKindOf(InverseObjectProperty) implies so.oclAsType(InverseObjectProperty).objectProperties->forAll(o:ObjectProperty | o.ontology = self.individualAssertion.ontology))"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectPropertyExpressions"
+        lowerBound="1" eType="#//ObjectPropertyExpression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetIndividual" lowerBound="1"
+        eType="#//Individual"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NegativeObjectPropertyAssertion" eSuperTypes="#//Assertion">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="localNegativeObjectPropertyAssertionObjectPropertyList localNegativeObjectPropertyAssertionInverseObjectProperty"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="localNegativeObjectPropertyAssertionObjectPropertyList" value="&#xA;&#x9;&#x9;&#x9;self.objectPropertyExpressions->forAll(so: ObjectPropertyExpression | so.oclIsKindOf(ObjectPropertyList) implies so.oclAsType(ObjectPropertyList).objectProperties->forAll(o:ObjectProperty | o.ontology = self.individualAssertion.ontology))"/>
+      <details key="localNegativeObjectPropertyAssertionInverseObjectProperty" value="&#xA;&#x9;&#x9;&#x9;self.objectPropertyExpressions->forAll(so: ObjectPropertyExpression | so.oclIsKindOf(InverseObjectProperty) implies so.oclAsType(InverseObjectProperty).objectProperties->forAll(o:ObjectProperty | o.ontology = self.individualAssertion.ontology))"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectPropertyExpressions"
+        lowerBound="1" eType="#//ObjectPropertyExpression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetIndividual" lowerBound="1"
+        eType="#//Individual"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataPropertyAssertion" eSuperTypes="#//Assertion">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="localDataPropertyAssertionObjectPropertyList"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="localDataPropertyAssertionObjectPropertyList" value="&#xA;&#x9;&#x9;&#x9;self.dataPropertyExpressions->forAll(so: DataPropertyExpression | so.oclIsKindOf(DataPropertyList) implies so.oclAsType(DataPropertyList).dataProperties->forAll(d:DataProperty | d.ontology = self.individualAssertion.ontology))"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataPropertyExpressions"
+        lowerBound="1" eType="#//DataPropertyExpression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetValue" lowerBound="1"
+        eType="#//Constant"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NegativeDataPropertyAssertion" eSuperTypes="#//Assertion">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="localNegativeDataPropertyAssertionObjectPropertyList"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="localNegativeDataPropertyAssertionObjectPropertyList" value="&#xA;&#x9;&#x9;&#x9;self.dataPropertyExpressions->forAll(so: DataPropertyExpression | so.oclIsKindOf(DataPropertyList) implies so.oclAsType(DataPropertyList).dataProperties->forAll(d:DataProperty | d.ontology = self.individualAssertion.ontology))"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataPropertyExpressions"
+        lowerBound="1" eType="#//DataPropertyExpression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetValue" lowerBound="1"
+        eType="#//Constant"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Expression" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassExpression" abstract="true" eSuperTypes="#//Expression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassList" eSuperTypes="#//ClassExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classes" lowerBound="1"
+        upperBound="-1" eType="#//Class"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectIntersectionOf" eSuperTypes="#//ClassExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classes" lowerBound="1"
+        upperBound="-1" eType="#//Class"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectUnionOf" eSuperTypes="#//ClassExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classes" lowerBound="1"
+        upperBound="-1" eType="#//Class"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectComplementOf" eSuperTypes="#//ClassExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classes" lowerBound="1"
+        eType="#//Class"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectOneOf" eSuperTypes="#//ClassExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="individual" lowerBound="1"
+        upperBound="-1" eType="#//Individual"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectSomeValuesFrom" eSuperTypes="#//ClassExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classes" lowerBound="1"
+        eType="#//Class"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectProperties" lowerBound="1"
+        eType="#//ObjectProperty"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectAllValuesFrom" eSuperTypes="#//ClassExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classes" lowerBound="1"
+        eType="#//Class"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectProperties" lowerBound="1"
+        eType="#//ObjectProperty"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectHasValue" eSuperTypes="#//ClassExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectProperties" lowerBound="1"
+        eType="#//ObjectProperty"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="individual" lowerBound="1"
+        eType="#//Individual"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectMinCardinality" eSuperTypes="#//ClassExpression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cardinality" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classes" lowerBound="1"
+        eType="#//Class"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectProperties" lowerBound="1"
+        eType="#//ObjectProperty"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectMaxCardinality" eSuperTypes="#//ClassExpression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cardinality" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classes" lowerBound="1"
+        eType="#//Class"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectProperties" lowerBound="1"
+        eType="#//ObjectProperty"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectExactCardinality" eSuperTypes="#//ClassExpression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cardinality" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classes" lowerBound="1"
+        eType="#//Class"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectProperties" lowerBound="1"
+        eType="#//ObjectProperty"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataSomeValuesFrom" eSuperTypes="#//ClassExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataProperties" lowerBound="1"
+        eType="#//DataProperty"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="literals" lowerBound="1"
+        upperBound="-1" eType="#//Constant"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataAllValuesFrom" eSuperTypes="#//ClassExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataProperties" lowerBound="1"
+        eType="#//DataProperty"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="literals" lowerBound="1"
+        upperBound="-1" eType="#//Constant"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataHasValue" eSuperTypes="#//ClassExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataProperties" lowerBound="1"
+        eType="#//DataProperty"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="literals" lowerBound="1"
+        eType="#//Constant"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataMinCardinality" eSuperTypes="#//ClassExpression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cardinality" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataProperties" lowerBound="1"
+        eType="#//DataProperty"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="literals" lowerBound="1"
+        upperBound="-1" eType="#//Constant"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataMaxCardinality" eSuperTypes="#//ClassExpression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cardinality" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataProperties" lowerBound="1"
+        eType="#//DataProperty"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="literals" lowerBound="1"
+        upperBound="-1" eType="#//Constant"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataExactCardinality" eSuperTypes="#//ClassExpression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cardinality" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataProperties" lowerBound="1"
+        eType="#//DataProperty"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="literals" lowerBound="1"
+        upperBound="-1" eType="#//Constant"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EConnectionExpression" abstract="true"
+      eSuperTypes="#//Expression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LinkSomeValuesFrom" eSuperTypes="#//EConnectionExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classes" lowerBound="1"
+        eType="#//Class"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkProperties" lowerBound="1"
+        eType="#//LinkProperty"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LinkAllValuesFrom" eSuperTypes="#//EConnectionExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classes" lowerBound="1"
+        eType="#//Class"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkProperties" lowerBound="1"
+        eType="#//LinkProperty"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LinkHasValue" eSuperTypes="#//EConnectionExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkProperties" lowerBound="1"
+        eType="#//LinkProperty"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="individual" lowerBound="1"
+        eType="#//NamedIndividual"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LinkMinCardinality" eSuperTypes="#//EConnectionExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classes" lowerBound="1"
+        eType="#//Class"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkProperties" lowerBound="1"
+        eType="#//LinkProperty"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cardinality" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LinkMaxCardinality" eSuperTypes="#//EConnectionExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classes" lowerBound="1"
+        eType="#//Class"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkProperties" lowerBound="1"
+        eType="#//LinkProperty"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cardinality" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LinkExactCardinality" eSuperTypes="#//EConnectionExpression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cardinality" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classes" lowerBound="1"
+        eType="#//Class"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkProperties" lowerBound="1"
+        eType="#//LinkProperty"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectPropertyExpression" abstract="true"
+      eSuperTypes="#//Expression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectPropertyList" eSuperTypes="#//ObjectPropertyExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectProperties" lowerBound="1"
+        upperBound="-1" eType="#//ObjectProperty"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InverseObjectProperty" eSuperTypes="#//ObjectPropertyExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectProperties" lowerBound="1"
+        eType="#//ObjectProperty"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataPropertyExpression" abstract="true"
+      eSuperTypes="#//Expression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DataPropertyList" eSuperTypes="#//DataPropertyExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataProperties" lowerBound="1"
+        upperBound="-1" eType="#//DataProperty"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Annotation" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="annotationProperty" eType="#//AnnotationProperty"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="annotationTarget" lowerBound="1"
+        upperBound="-1" eType="#//Entity" eOpposite="#//Entity/annotations"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConstantAnnotation" eSuperTypes="#//Annotation">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="datatype" eType="#//DataType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AnnotationByEntity" eSuperTypes="#//Annotation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="annotationValue" lowerBound="1"
+        eType="#//Entity"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Constant">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="constantLexicalValueEmpty"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="constantLexicalValueEmpty" value="self.lexicalValue.trim().size()>0"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lexicalValue" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="datatype" eType="#//DataType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ontology" lowerBound="1"
+        eType="#//Ontology" changeable="false" eOpposite="#//Ontology/literals"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="AnnotationProperty">
+    <eLiterals name="backwardCompatibleWith" value="1"/>
+    <eLiterals name="comment" value="2"/>
+    <eLiterals name="deprecated" value="3"/>
+    <eLiterals name="isCompatibleWith" value="4"/>
+    <eLiterals name="isDefined" value="5"/>
+    <eLiterals name="label" value="6"/>
+    <eLiterals name="priorVersion" value="7"/>
+    <eLiterals name="seeAlso" value="8"/>
+    <eLiterals name="versionInfo" value="9"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DataType">
+    <eLiterals name="anyUri" value="1"/>
+    <eLiterals name="based64Binary" value="2"/>
+    <eLiterals name="boolean" value="3"/>
+    <eLiterals name="byte" value="4"/>
+    <eLiterals name="dateTime" value="5"/>
+    <eLiterals name="dateTimeStamp" value="6"/>
+    <eLiterals name="decimal" value="7"/>
+    <eLiterals name="double" value="8"/>
+    <eLiterals name="float" value="9"/>
+    <eLiterals name="hexBinary" value="10"/>
+    <eLiterals name="int" value="11"/>
+    <eLiterals name="integer" value="12"/>
+    <eLiterals name="language" value="13"/>
+    <eLiterals name="literal" value="14"/>
+    <eLiterals name="long" value="15"/>
+    <eLiterals name="name" value="16"/>
+    <eLiterals name="nCName" value="17"/>
+    <eLiterals name="negativeInteger" value="18"/>
+    <eLiterals name="nMTOKEN" value="19"/>
+    <eLiterals name="nonNegativeInteger" value="20"/>
+    <eLiterals name="nonPositiveInteger" value="21"/>
+    <eLiterals name="normalizedString" value="22"/>
+    <eLiterals name="plainLiteral" value="23"/>
+    <eLiterals name="positiveInteger" value="24"/>
+    <eLiterals name="rational" value="25"/>
+    <eLiterals name="real" value="26"/>
+    <eLiterals name="short" value="27"/>
+    <eLiterals name="string" value="28"/>
+    <eLiterals name="token" value="29"/>
+    <eLiterals name="unsignedByte" value="30"/>
+    <eLiterals name="unsignedInt" value="31"/>
+    <eLiterals name="unsignedLong" value="32"/>
+    <eLiterals name="unsignedShort" value="33"/>
+    <eLiterals name="xmlLiteral" value="34"/>
+  </eClassifiers>
+</ecore:EPackage>

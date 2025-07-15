@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ezxtopology" nsURI="http://ezxtopology/1.0" nsPrefix="ezxtopology">
+  <eClassifiers xsi:type="ecore:EClass" name="TopologyCache">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
+        eType="#//AbstractTopologyItem" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="session" eType="#//SessionManager"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TopologyNode" eSuperTypes="#//AbstractTopologyItem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="device" eType="ecore:EClass ../../net.sf.smbt.xcp/model/xcp.ecore#//XCPDevice"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mime" eType="#//Mime"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="heartBeat" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TopologyGroup" eSuperTypes="#//AbstractTopologyItem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//AbstractTopologyItem" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractTopologyItem" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="Mime">
+    <eLiterals name="BLUETOOTH_MIME" literal="btserial://"/>
+    <eLiterals name="UDP_MIME" value="1" literal="udpsocket://"/>
+    <eLiterals name="TCP_MIME" value="2" literal="tcpsocket://"/>
+    <eLiterals name="USB_MIME" value="3" literal="usbsp://"/>
+    <eLiterals name="XBEE_MIME" value="4" literal="xbsp://"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SessionManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usbConnections" upperBound="-1"
+        eType="#//UsbConnection" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bluetoothConnections" upperBound="-1"
+        eType="#//BluetoothConnection" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="udpConnections" upperBound="-1"
+        eType="#//UDPConnection" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tcpConnections" upperBound="-1"
+        eType="#//TcpConnection" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xbeeConnections" upperBound="-1"
+        eType="#//XBeeConnection" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="httpConnections" upperBound="-1"
+        eType="#//HTTPConnection" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Serial" instanceClassName="net.sf.smbt.comm.utils.rxtx.Serial"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="BluetoothL2CAPConnection" instanceClassName="javax.bluetooth.L2CAPConnection"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UsbConnection">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="serial" eType="#//Serial"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BluetoothConnection">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="l2cap" eType="#//BluetoothL2CAPConnection"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="DatagramSocket" instanceClassName="java.net.DatagramSocket"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UDPConnection">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="datagramSocket" eType="#//DatagramSocket"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TcpConnection">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="socket" eType="#//Socket"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Socket" instanceClassName="java.net.Socket"/>
+  <eClassifiers xsi:type="ecore:EClass" name="XBeeConnection">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="xbee" eType="#//XBee"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="XBee" instanceClassName="com.rapplogic.xbee.api.XBee"/>
+  <eClassifiers xsi:type="ecore:EClass" name="HTTPConnection"/>
+</ecore:EPackage>

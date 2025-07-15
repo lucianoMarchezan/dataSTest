@@ -1,0 +1,719 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="generator" nsURI="http:///generator.ecore" nsPrefix="generator">
+  <eClassifiers xsi:type="ecore:EClass" name="Generator">
+    <eOperations name="createGenModel">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="generator.genmodel.GenModel genModel= generator.genmodel.GenmodelFactory.eINSTANCE.createGenModel();&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;for(int i =0 ;i&lt; expressionModel.getListElements().size();i++){&#xD;&#xA;      compilator.domain.expression.expressionmodel.Element element = expressionModel.getListElements().get(i);&#xD;&#xA;      if(element instanceof compilator.domain.expression.expressionmodel.containercomponent.Container){&#xD;&#xA;&#x9;genModel.getListGenElements().add(createGenContainer((compilator.domain.expression.expressionmodel.containercomponent.Container) element));&#xD;&#xA;       }else{&#xD;&#xA;&#x9;genModel.getListGenElements().add(createGenIndividualElement(element));&#xD;&#xA;        }&#xD;&#xA;}&#xD;&#xA;this.setTheGenModel(genModel);"/>
+      </eAnnotations>
+      <eParameters name="expressionModel" eType="ecore:EClass ../../compilator/model/compilator.ecore#//domain/expression/expressionmodel/ExpressionModel"/>
+    </eOperations>
+    <eOperations name="createGenContainer" eType="#//genmodel/gencontainercomponent/gencontainer/GenContainer">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="GenContainer genContainer = generator.genmodel.gencontainercomponent.gencontainer.&#xD;&#xA;&#x9;&#x9;GencontainerFactory.eINSTANCE.createGenContainer();&#xD;&#xA;genContainer.setTheContainer(container);&#xD;&#xA;styles.domain.Propertie fontSize = null;&#xD;&#xA;EList&lt;styles.domain.Propertie> listProperties = container.getTheStyle().&#xD;&#xA;&#x9;&#x9;getTheCharacteristic().getListProperties();&#xD;&#xA;for (int i = 0; i &lt; listProperties.size(); i++) {&#xD;&#xA;&#x9;if(listProperties.get(i).getName().equals(&quot;Font Size&quot;)) {&#xD;&#xA;&#x9;&#x9;fontSize = listProperties.get(i);&#xD;&#xA;&#x9;&#x9;break;&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;String orientation = container.getOrientation();&#xD;&#xA;genContainer.createPropertiesContainer(orientation, fontSize);&#xD;&#xA;if(container.getTheStyle() != null) {&#xD;&#xA;&#x9;genContainer = (GenContainer) setApperances(container, genContainer);&#xD;&#xA;&#x9;for (int i = 0; i &lt; listProperties.size(); i++) {&#xD;&#xA;&#x9;&#x9;styles.domain.Propertie propertie = listProperties.get(i);&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;if(propertie.getName().equals(&quot;Background&quot;)) {&#xD;&#xA;&#x9;&#x9;&#x9;generator.apperance.background.Background b = generator.apperance.background.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;BackgroundFactory.eINSTANCE.createBackground();&#xD;&#xA;&#x9;&#x9;&#x9;b.setValue(propertie.getValue());&#xD;&#xA;&#x9;&#x9;&#x9;genContainer.setTheBackground(b);&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;int x, y;&#xD;&#xA;if(container.getIsVisible()){&#xD;&#xA;&#x9;x = 10; y = 10;&#xD;&#xA;} else {&#xD;&#xA;&#x9;x = 0; y = 0;&#xD;&#xA;}&#xD;&#xA;int xa=0,ya=0;&#xD;&#xA;int maxix=10,maxiy=10;&#xD;&#xA;&#xD;&#xA;for(int i =0 ;i&lt; container.getListElements().size();i++){&#xD;&#xA;&#x9;compilator.domain.expression.expressionmodel.Element element = container.getListElements().get(i);&#xD;&#xA;&#x9;if(element instanceof compilator.domain.expression.expressionmodel.containercomponent.Container){&#xD;&#xA;&#x9;&#x9;GenContainer c = createGenContainer((compilator.domain.expression.expressionmodel.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;containercomponent.Container) element);&#xD;&#xA;&#x9;&#x9;c.getTheX().setValue(new Integer(x)); c.getTheY().setValue(new Integer(y));&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;genContainer.getListGenElements().add(c);&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;xa = c.getTheWidth().getValue().intValue(); ya = c.getTheHeight().getValue().intValue(); &#xD;&#xA;&#x9;}else{&#xD;&#xA;&#x9;&#x9;GenIndividualElement ind = createGenIndividualElement(element);&#xD;&#xA;&#x9;&#x9;ind.getTheX().setValue(new Integer(x)); ind.getTheY().setValue(new Integer(y));&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;genContainer.getListGenElements().add(ind);&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;xa = ind.getTheWidth().getValue().intValue(); ya = ind.getTheHeight().getValue().intValue();&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;&#xD;&#xA;&#x9;if(container.getOrientation().equals(&quot;|&quot;)){ &#xD;&#xA;&#x9;&#x9;x = x + xa + 10;&#xD;&#xA;&#x9;&#x9;maxix = x;&#xD;&#xA;&#x9;&#x9;maxiy = java.lang.Math.max(maxiy, ya+20) ;&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;else {&#xD;&#xA;&#x9;&#x9;y = y + ya +10;&#xD;&#xA;&#x9;&#x9;maxiy=y;&#xD;&#xA;&#x9;&#x9;maxix = java.lang.Math.max(maxix,xa+20);&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;if(!container.getIsVisible()){&#xD;&#xA;&#x9;if(container.getOrientation().equals(&quot;|&quot;)) {&#xD;&#xA;&#x9;&#x9;maxix -= 10; maxiy -= 20;&#xD;&#xA;&#x9;} else {&#xD;&#xA;&#x9;&#x9;maxix -= 20; maxiy -= 10;&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;generator.apperance.size.Height h = generator.apperance.size.SizeFactory.eINSTANCE.createHeight();&#xD;&#xA;h.setValue(new Integer(maxiy));&#xD;&#xA;generator.apperance.size.Width w = generator.apperance.size.SizeFactory.eINSTANCE.createWidth();&#xD;&#xA;w.setValue(new Integer(maxix));&#xD;&#xA;generator.apperance.position.X xx = generator.apperance.position.PositionFactory.eINSTANCE.createX();&#xD;&#xA;xx.setValue(0);&#xD;&#xA;generator.apperance.position.Y yy = generator.apperance.position.PositionFactory.eINSTANCE.createY();&#xD;&#xA;yy.setValue(0);&#xD;&#xA;genContainer.setTheHeight(h); genContainer.setTheWidth(w);&#xD;&#xA;genContainer.setTheX(xx); genContainer.setTheY(yy); &#xD;&#xA;return genContainer;"/>
+      </eAnnotations>
+      <eParameters name="container" eType="ecore:EClass ../../compilator/model/compilator.ecore#//domain/expression/expressionmodel/containercomponent/Container"/>
+    </eOperations>
+    <eOperations name="createGenIndividualElement" eType="#//genmodel/genindividualcomponent/GenIndividualElement">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="if(element instanceof compilator.domain.expression.expressionmodel.individualcomponent.Button){&#xD;&#xA;&#x9;GenButton genButton = createGenButton((Button) element);&#xD;&#xA;&#x9;return genButton;&#xD;&#xA;}&#xD;&#xA;else if(element instanceof compilator.domain.expression.expressionmodel.individualcomponent.ComboBox){&#xD;&#xA;&#x9;GenComboBox genComboBox = createGenComboBox((ComboBox) element);&#xD;&#xA;&#x9;return genComboBox;&#xD;&#xA;}&#xD;&#xA;else if(element instanceof compilator.domain.expression.expressionmodel.individualcomponent.Label){&#xD;&#xA;&#x9;GenLabel genLabel = createGenLabel((Label) element);&#xD;&#xA;&#x9;return genLabel;&#xD;&#xA;}&#xD;&#xA;else  if(element instanceof compilator.domain.expression.expressionmodel.individualcomponent.Table){&#xD;&#xA;&#x9;GenTable genTable = createGenTable((Table) element);&#xD;&#xA;&#x9;return genTable;&#xD;&#xA;}&#xD;&#xA;else if(element instanceof compilator.domain.expression.expressionmodel.individualcomponent.TextField){&#xD;&#xA;&#x9;GenTextField genTextField = createGenTextField((TextField) element);&#xD;&#xA;&#x9;return genTextField;&#xD;&#xA;}&#xD;&#xA;return null;"/>
+      </eAnnotations>
+      <eParameters name="element" eType="ecore:EClass ../../compilator/model/compilator.ecore#//domain/expression/expressionmodel/Element"/>
+    </eOperations>
+    <eOperations name="createGenButton" eType="#//genmodel/genindividualcomponent/genbutton/GenButton">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="GenButton genButton = generator.genmodel.genindividualcomponent.genbutton.&#xD;&#xA;&#x9;&#x9;GenbuttonFactory.eINSTANCE.createGenButton();&#xD;&#xA;genButton.setTheButton(button);&#xD;&#xA;String text = button.getName();&#xD;&#xA;styles.domain.Propertie fontSize = null;&#xD;&#xA;EList&lt;styles.domain.Propertie> listProperties = button.getTheStyle().&#xD;&#xA;&#x9;&#x9;getTheCharacteristic().getListProperties();&#xD;&#xA;for (int i = 0; i &lt; listProperties.size(); i++) {&#xD;&#xA;&#x9;if(listProperties.get(i).getName().equals(&quot;Font Size&quot;)) {&#xD;&#xA;&#x9;&#x9;fontSize = listProperties.get(i);&#xD;&#xA;&#x9;&#x9;break;&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;genButton.createPropertiesButton(text, fontSize);&#xD;&#xA;&#xD;&#xA;if(button.getTheStyle() != null) {&#xD;&#xA;&#x9;genButton = (GenButton) setApperances(button, genButton);&#xD;&#xA;&#x9;for (int i = 0; i &lt; listProperties.size(); i++) {&#xD;&#xA;&#x9;&#x9;styles.domain.Propertie propertie = listProperties.get(i);&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;if(propertie.getName().equals(&quot;Alignment&quot;)) {&#xD;&#xA;&#x9;&#x9;&#x9;generator.apperance.alignment.Alignment a = generator.apperance.alignment.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;AlignmentFactory.eINSTANCE.createAlignment();&#xD;&#xA;&#x9;&#x9;&#x9;a.setValue(propertie.getValue());&#xD;&#xA;&#x9;&#x9;&#x9;genButton.setTheAlignment(a);&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;return genButton;"/>
+      </eAnnotations>
+      <eParameters name="button" eType="ecore:EClass ../../compilator/model/compilator.ecore#//domain/expression/expressionmodel/individualcomponent/Button"/>
+    </eOperations>
+    <eOperations name="createGenColumn" eType="#//genmodel/genindividualcomponent/gencolunm/GenColumn">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="GenColumn genColumn = generator.genmodel.genindividualcomponent.gencolunm.&#xD;&#xA;&#x9;&#x9;GencolunmFactory.eINSTANCE.createGenColumn();&#xD;&#xA;genColumn.setTheColumn(column);&#xD;&#xA;String text = column.getName();&#xD;&#xA;styles.domain.Propertie fontSize = null;&#xD;&#xA;EList&lt;styles.domain.Propertie> listProperties = column.getTheStyle().&#xD;&#xA;&#x9;&#x9;getTheCharacteristic().getListProperties();&#xD;&#xA;for (int i = 0; i &lt; listProperties.size(); i++) {&#xD;&#xA;&#x9;if(listProperties.get(i).getName().equals(&quot;Font Size&quot;)) {&#xD;&#xA;&#x9;&#x9;fontSize = listProperties.get(i);&#xD;&#xA;&#x9;&#x9;break;&#xD;&#xA;&#x9;}&#xD;&#xA;}&#x9;&#x9;&#x9;&#xD;&#xA;genColumn.createPropertiesColumn(text, fontSize);&#xD;&#xA;&#xD;&#xA;if(column.getTheStyle() != null) {&#xD;&#xA;&#x9;genColumn = (GenColumn) setApperances(column, genColumn);&#xD;&#xA;&#x9;for (int i = 0; i &lt; listProperties.size(); i++) {&#xD;&#xA;&#x9;&#x9;styles.domain.Propertie propertie = listProperties.get(i);&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;if(propertie.getName().equals(&quot;Alignment&quot;)) {&#xD;&#xA;&#x9;&#x9;&#x9;generator.apperance.alignment.Alignment a = generator.apperance.alignment.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;AlignmentFactory.eINSTANCE.createAlignment();&#xD;&#xA;&#x9;&#x9;&#x9;a.setValue(propertie.getValue());&#xD;&#xA;&#x9;&#x9;&#x9;genColumn.setTheAlignment(a);&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;return genColumn;"/>
+      </eAnnotations>
+      <eParameters name="column" eType="ecore:EClass ../../compilator/model/compilator.ecore#//domain/expression/expressionmodel/individualcomponent/Column"/>
+    </eOperations>
+    <eOperations name="createGenComboBox" eType="#//genmodel/genindividualcomponent/gencombobox/GenComboBox">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="GenComboBox genCombo = generator.genmodel.genindividualcomponent.gencombobox.&#xD;&#xA;&#x9;&#x9;GencomboboxFactory.eINSTANCE.createGenComboBox();&#xD;&#xA;genCombo.setTheComboBox(combo);&#xD;&#xA;styles.domain.Propertie fontSize = null;&#xD;&#xA;EList&lt;styles.domain.Propertie> listProperties = combo.getTheStyle().&#xD;&#xA;&#x9;&#x9;getTheCharacteristic().getListProperties();&#xD;&#xA;for (int i = 0; i &lt; listProperties.size(); i++) {&#xD;&#xA;&#x9;if(listProperties.get(i).getName().equals(&quot;Font Size&quot;)) {&#xD;&#xA;&#x9;&#x9;fontSize = listProperties.get(i);&#xD;&#xA;&#x9;&#x9;break;&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;genCombo.createPropertiesComboBox(fontSize);&#xD;&#xA;&#xD;&#xA;if(combo.getTheStyle() != null) {&#xD;&#xA;&#x9;genCombo = (GenComboBox) setApperances(combo, genCombo);&#xD;&#xA;&#x9;for (int i = 0; i &lt; listProperties.size(); i++) {&#xD;&#xA;&#x9;&#x9;styles.domain.Propertie propertie = listProperties.get(i);&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;if(propertie.getName().equals(&quot;Background&quot;)) {&#xD;&#xA;&#x9;&#x9;&#x9;generator.apperance.background.Background b = generator.apperance.background.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;BackgroundFactory.eINSTANCE.createBackground();&#xD;&#xA;&#x9;&#x9;&#x9;b.setValue(propertie.getValue());&#xD;&#xA;&#x9;&#x9;&#x9;genCombo.setTheBackground(b);&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;return genCombo;"/>
+      </eAnnotations>
+      <eParameters name="combo" eType="ecore:EClass ../../compilator/model/compilator.ecore#//domain/expression/expressionmodel/individualcomponent/ComboBox"/>
+    </eOperations>
+    <eOperations name="createGenLabel" eType="#//genmodel/genindividualcomponent/genlabel/GenLabel">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="GenLabel genLabel = generator.genmodel.genindividualcomponent.genlabel.&#xD;&#xA;&#x9;&#x9;GenlabelFactory.eINSTANCE.createGenLabel();&#xD;&#xA;genLabel.setTheLabel(label);&#xD;&#xA;String text = label.getName();&#xD;&#xA;styles.domain.Propertie fontSize = null;&#xD;&#xA;EList&lt;styles.domain.Propertie> listProperties = label.getTheStyle().&#xD;&#xA;&#x9;&#x9;getTheCharacteristic().getListProperties();&#xD;&#xA;for (int i = 0; i &lt; listProperties.size(); i++) {&#xD;&#xA;&#x9;if(listProperties.get(i).getName().equals(&quot;Font Size&quot;)) {&#xD;&#xA;&#x9;&#x9;fontSize = listProperties.get(i);&#xD;&#xA;&#x9;&#x9;break;&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;genLabel.createPropertiesLabel(text, fontSize);&#xD;&#xA;&#xD;&#xA;if(label.getTheStyle() != null) {&#xD;&#xA;&#x9;genLabel = (GenLabel) setApperances(label, genLabel);&#xD;&#xA;&#x9;for (int i = 0; i &lt; listProperties.size(); i++) {&#xD;&#xA;&#x9;&#x9;styles.domain.Propertie propertie = listProperties.get(i);&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;if(propertie.getName().equals(&quot;Alignment&quot;)) {&#xD;&#xA;&#x9;&#x9;&#x9;generator.apperance.alignment.Alignment a = generator.apperance.alignment.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;AlignmentFactory.eINSTANCE.createAlignment();&#xD;&#xA;&#x9;&#x9;&#x9;a.setValue(propertie.getValue());&#xD;&#xA;&#x9;&#x9;&#x9;genLabel.setTheAlignment(a);&#xD;&#xA;&#x9;&#x9;} else if(propertie.getName().equals(&quot;Background&quot;)) {&#xD;&#xA;&#x9;&#x9;&#x9;generator.apperance.background.Background b = generator.apperance.background.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;BackgroundFactory.eINSTANCE.createBackground();&#xD;&#xA;&#x9;&#x9;&#x9;b.setValue(propertie.getValue());&#xD;&#xA;&#x9;&#x9;&#x9;genLabel.setTheBackground(b);&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;return genLabel;"/>
+      </eAnnotations>
+      <eParameters name="label" eType="ecore:EClass ../../compilator/model/compilator.ecore#//domain/expression/expressionmodel/individualcomponent/Label"/>
+    </eOperations>
+    <eOperations name="createGenTable" eType="#//genmodel/genindividualcomponent/gentable/GenTable">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="GenTable genTable = generator.genmodel.genindividualcomponent.gentable.&#xD;&#xA;&#x9;&#x9;GentableFactory.eINSTANCE.createGenTable();&#xD;&#xA;genTable.setTheTable(table);&#xD;&#xA;int columnsWidth = 0;&#xD;&#xA;int columnHeight = 0;&#xD;&#xA;for(int i=0;i&lt;table.getListColumn().size();i++){&#xD;&#xA;&#x9;GenColumn genColumn = createGenColumn(table.getListColumn().get(i));&#xD;&#xA;&#x9;columnsWidth += genColumn.getTheWidth().getValue();&#xD;&#xA;&#x9;columnHeight = genColumn.getTheHeight().getValue();&#xD;&#xA;&#x9;genTable.getListGenColumns().add(genColumn);&#xD;&#xA;}&#xD;&#xA;styles.domain.Propertie fontSize = null;&#xD;&#xA;EList&lt;styles.domain.Propertie> listProperties = table.getTheStyle().&#xD;&#xA;&#x9;&#x9;getTheCharacteristic().getListProperties();&#xD;&#xA;for (int i = 0; i &lt; listProperties.size(); i++) {&#xD;&#xA;&#x9;if(listProperties.get(i).getName().equals(&quot;Font Size&quot;)) {&#xD;&#xA;&#x9;&#x9;fontSize = listProperties.get(i);&#xD;&#xA;&#x9;&#x9;break;&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;genTable.createPropertiesTable(columnHeight, columnsWidth, fontSize);&#xD;&#xA;if(table.getTheStyle() != null) {&#xD;&#xA;&#x9;genTable = (GenTable) setApperances(table, genTable);&#xD;&#xA;&#x9;for (int i = 0; i &lt; listProperties.size(); i++) {&#xD;&#xA;&#x9;&#x9;styles.domain.Propertie propertie = listProperties.get(i);&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;if(propertie.getName().equals(&quot;Background&quot;)) {&#xD;&#xA;&#x9;&#x9;&#x9;generator.apperance.background.Background b = generator.apperance.background.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;BackgroundFactory.eINSTANCE.createBackground();&#xD;&#xA;&#x9;&#x9;&#x9;b.setValue(propertie.getValue());&#xD;&#xA;&#x9;&#x9;&#x9;genTable.setTheBackground(b);&#xD;&#xA;&#x9;&#x9;} else if(propertie.getName().equals(&quot;Lines Visible&quot;)) {&#xD;&#xA;&#x9;&#x9;&#x9;generator.apperance.linesvisible.LinesVisible l = generator.apperance.linesvisible.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;LinesvisibleFactory.eINSTANCE.createLinesVisible();&#xD;&#xA;&#x9;&#x9;&#x9;l.setValue(propertie.getValue().equals(&quot;True&quot;));&#xD;&#xA;&#x9;&#x9;&#x9;genTable.setTheLinesVisible(l);&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;return genTable;"/>
+      </eAnnotations>
+      <eParameters name="table" eType="ecore:EClass ../../compilator/model/compilator.ecore#//domain/expression/expressionmodel/individualcomponent/Table"/>
+    </eOperations>
+    <eOperations name="createGenTextField" eType="#//genmodel/genindividualcomponent/gentextfield/GenTextField">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="GenTextField genText = generator.genmodel.genindividualcomponent.gentextfield.&#xD;&#xA;&#x9;&#x9;GentextfieldFactory.eINSTANCE.createGenTextField();&#x9;&#x9;&#xD;&#xA;genText.setTheTextField(text);&#xD;&#xA;styles.domain.Propertie fontSize = null;&#xD;&#xA;EList&lt;styles.domain.Propertie> listProperties = text.getTheStyle().&#xD;&#xA;&#x9;&#x9;getTheCharacteristic().getListProperties();&#xD;&#xA;for (int i = 0; i &lt; listProperties.size(); i++) {&#xD;&#xA;&#x9;if(listProperties.get(i).getName().equals(&quot;Font Size&quot;)) {&#xD;&#xA;&#x9;&#x9;fontSize = listProperties.get(i);&#xD;&#xA;&#x9;&#x9;break;&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;genText.createPropertiesTextField(fontSize);&#xD;&#xA;&#xD;&#xA;if(text.getTheStyle() != null) {&#xD;&#xA;&#x9;genText = (GenTextField) setApperances(text, genText);&#xD;&#xA;&#x9;for (int i = 0; i &lt; listProperties.size(); i++) {&#xD;&#xA;&#x9;&#x9;styles.domain.Propertie propertie = listProperties.get(i);&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;if(propertie.getName().equals(&quot;Background&quot;)) {&#xD;&#xA;&#x9;&#x9;&#x9;generator.apperance.background.Background b = generator.apperance.background.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;BackgroundFactory.eINSTANCE.createBackground();&#xD;&#xA;&#x9;&#x9;&#x9;b.setValue(propertie.getValue());&#xD;&#xA;&#x9;&#x9;&#x9;genText.setTheBackground(b);&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;return genText;"/>
+      </eAnnotations>
+      <eParameters name="text" eType="ecore:EClass ../../compilator/model/compilator.ecore#//domain/expression/expressionmodel/individualcomponent/TextField"/>
+    </eOperations>
+    <eOperations name="setApperances" eType="#//genmodel/GenElement">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="EList&lt;styles.domain.Propertie> listProperties = element.getTheStyle().getTheCharacteristic().getListProperties();&#xD;&#xA;for (int i = 0; i &lt; listProperties.size(); i++) {&#xD;&#xA;&#x9;styles.domain.Propertie propertie = listProperties.get(i);&#xD;&#xA;&#x9;&#xD;&#xA;&#x9;if(propertie.getName().equals(&quot;X&quot;)) {&#xD;&#xA;&#x9;&#x9;generator.apperance.position.X x = generator.apperance.position.PositionFactory.eINSTANCE.createX();&#xD;&#xA;&#x9;&#x9;x.setValue(Integer.parseInt(propertie.getValue()));&#xD;&#xA;&#x9;&#x9;genElement.setTheX(x);&#xD;&#xA;&#x9;} else if(propertie.getName().equals(&quot;Y&quot;)) {&#xD;&#xA;&#x9;&#x9;generator.apperance.position.Y y = generator.apperance.position.PositionFactory.eINSTANCE.createY();&#xD;&#xA;&#x9;&#x9;y.setValue(Integer.parseInt(propertie.getValue()));&#xD;&#xA;&#x9;&#x9;genElement.setTheY(y);&#xD;&#xA;&#x9;} else if(propertie.getName().equals(&quot;Width&quot;)) {&#xD;&#xA;&#x9;&#x9;generator.apperance.size.Width w = generator.apperance.size.SizeFactory.eINSTANCE.createWidth();&#xD;&#xA;&#x9;&#x9;w.setValue(Integer.parseInt(propertie.getValue()));&#xD;&#xA;&#x9;&#x9;genElement.setTheWidth(w);&#xD;&#xA;&#x9;} else if(propertie.getName().equals(&quot;Height&quot;)) {&#xD;&#xA;&#x9;&#x9;generator.apperance.size.Height h = generator.apperance.size.SizeFactory.eINSTANCE.createHeight();&#xD;&#xA;&#x9;&#x9;h.setValue(Integer.parseInt(propertie.getValue()));&#xD;&#xA;&#x9;&#x9;genElement.setTheHeight(h);&#xD;&#xA;&#x9;} else if(propertie.getName().equals(&quot;Font Color&quot;)) {&#xD;&#xA;&#x9;&#x9;generator.apperance.font.Color c = generator.apperance.font.FontFactory.eINSTANCE.createColor();&#xD;&#xA;&#x9;&#x9;c.setValue(propertie.getValue());&#xD;&#xA;&#x9;&#x9;genElement.setTheColor(c);&#xD;&#xA;&#x9;} else if(propertie.getName().equals(&quot;Font Type&quot;)) {&#xD;&#xA;&#x9;&#x9;generator.apperance.font.Type t = generator.apperance.font.FontFactory.eINSTANCE.createType();&#xD;&#xA;&#x9;&#x9;t.setValue(propertie.getValue());&#xD;&#xA;&#x9;&#x9;genElement.setTheType(t);&#xD;&#xA;&#x9;} else if(propertie.getName().equals(&quot;Font Size&quot;)) {&#xD;&#xA;&#x9;&#x9;generator.apperance.font.Size s = generator.apperance.font.FontFactory.eINSTANCE.createSize();&#xD;&#xA;&#x9;&#x9;s.setValue(Integer.parseInt(propertie.getValue()));&#xD;&#xA;&#x9;&#x9;genElement.setTheSize(s);&#xD;&#xA;&#x9;} &#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;return genElement;"/>
+      </eAnnotations>
+      <eParameters name="element" eType="ecore:EClass ../../compilator/model/compilator.ecore#//domain/expression/expressionmodel/Element"/>
+      <eParameters name="genElement" eType="#//genmodel/GenElement"/>
+    </eOperations>
+    <eOperations name="saveGenModel">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="&#x9;&#x9;Generator gen = this;&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;org.eclipse.emf.common.util.URI uri = org.eclipse.emf.common.util.URI.createURI(&quot;platform:/resource/test/model/generator.generator&quot;);&#xD;&#xA;&#x9;&#x9;org.eclipse.emf.ecore.resource.ResourceSet resourceSet= new org.eclipse.emf.ecore.resource.impl.ResourceSetImpl();&#xD;&#xA;&#x9;&#x9;org.eclipse.emf.ecore.resource.Resource resource = resourceSet.createResource(uri);&#xD;&#xA;&#x9;&#x9;resource.getContents().add(gen);&#xD;&#xA;&#x9;&#x9;try {&#xD;&#xA;&#x9;&#x9;&#x9;resource.save(java.util.Collections.EMPTY_MAP);&#xD;&#xA;&#x9;&#x9;} catch (java.io.IOException e) {&#xD;&#xA;&#x9;&#x9;&#x9;// TO-DO Auto-generated catch block&#xD;&#xA;&#x9;&#x9;&#x9;e.printStackTrace();&#xD;&#xA;&#x9;&#x9;}"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="loadGenModel" eType="#//Generator">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="&#x9;&#x9;Generator gen = null;&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;org.eclipse.emf.common.util.URI uri = org.eclipse.emf.common.util.URI.createURI(&quot;platform:/resource/test/model/generator.generator&quot;);&#xD;&#xA;&#x9;&#x9;org.eclipse.emf.ecore.resource.ResourceSet resourceSet= new org.eclipse.emf.ecore.resource.impl.ResourceSetImpl();&#xD;&#xA;&#x9;&#x9;org.eclipse.emf.ecore.resource.Resource resource = resourceSet.createResource(uri);&#xD;&#xA;&#x9;&#x9;try {&#xD;&#xA;&#x9;&#x9;&#x9;resource.load(java.util.Collections.EMPTY_MAP);&#xD;&#xA;&#x9;&#x9;&#x9;gen = (Generator) resource.getContents().get(0);&#xD;&#xA;&#x9;&#x9;} catch (java.io.IOException e) {&#xD;&#xA;&#x9;&#x9;&#x9;// TO-DO Auto-generated catch block&#xD;&#xA;&#x9;&#x9;&#x9;e.printStackTrace();&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#xD;&#xA;&#x9;&#x9;return gen;"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="theExpression" lowerBound="1"
+        eType="ecore:EClass ../../compilator/model/compilator.ecore#//domain/expression/Expression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="theGenModel" lowerBound="1"
+        eType="#//genmodel/GenModel" containment="true" eOpposite="#//genmodel/GenModel/Generator"/>
+  </eClassifiers>
+  <eSubpackages name="apperance" nsURI="http:///generator/apperance.ecore" nsPrefix="generator.apperance">
+    <eSubpackages name="alignment" nsURI="http:///generator/apperance/alignment.ecore"
+        nsPrefix="generator.apperance.alignment">
+      <eClassifiers xsi:type="ecore:EClass" name="Alignment">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="GenButton" eType="#//genmodel/genindividualcomponent/genbutton/GenButton"
+            transient="true" eOpposite="#//genmodel/genindividualcomponent/genbutton/GenButton/theAlignment"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="GenColumn" eType="#//genmodel/genindividualcomponent/gencolunm/GenColumn"
+            transient="true" eOpposite="#//genmodel/genindividualcomponent/gencolunm/GenColumn/theAlignment"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="GenLabel" eType="#//genmodel/genindividualcomponent/genlabel/GenLabel"
+            transient="true" eOpposite="#//genmodel/genindividualcomponent/genlabel/GenLabel/theAlignment"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="background" nsURI="http:///generator/apperance/background.ecore"
+        nsPrefix="generator.apperance.background">
+      <eClassifiers xsi:type="ecore:EClass" name="Background">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="GenComboBox" eType="#//genmodel/genindividualcomponent/gencombobox/GenComboBox"
+            transient="true" eOpposite="#//genmodel/genindividualcomponent/gencombobox/GenComboBox/theBackground"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="GenTextField" eType="#//genmodel/genindividualcomponent/gentextfield/GenTextField"
+            transient="true" eOpposite="#//genmodel/genindividualcomponent/gentextfield/GenTextField/theBackground"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="GenLabel" eType="#//genmodel/genindividualcomponent/genlabel/GenLabel"
+            transient="true" eOpposite="#//genmodel/genindividualcomponent/genlabel/GenLabel/theBackground"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="GenTable" eType="#//genmodel/genindividualcomponent/gentable/GenTable"
+            transient="true" eOpposite="#//genmodel/genindividualcomponent/gentable/GenTable/theBackground"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="GenContainer" eType="#//genmodel/gencontainercomponent/gencontainer/GenContainer"
+            transient="true" eOpposite="#//genmodel/gencontainercomponent/gencontainer/GenContainer/theBackground"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="linesvisible" nsURI="http:///generator/apperance/linesvisible.ecore"
+        nsPrefix="generator.apperance.linesvisible">
+      <eClassifiers xsi:type="ecore:EClass" name="LinesVisible">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="GenTable" eType="#//genmodel/genindividualcomponent/gentable/GenTable"
+            transient="true" eOpposite="#//genmodel/genindividualcomponent/gentable/GenTable/theLinesVisible"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="position" nsURI="http:///generator/apperance/position.ecore"
+        nsPrefix="generator.apperance.position">
+      <eClassifiers xsi:type="ecore:EClass" name="X">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="GenElement" eType="#//genmodel/GenElement"
+            transient="true" eOpposite="#//genmodel/GenElement/theX"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Y">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="GenElement" eType="#//genmodel/GenElement"
+            transient="true" eOpposite="#//genmodel/GenElement/theY"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="size" nsURI="http:///generator/apperance/size.ecore" nsPrefix="generator.apperance.size">
+      <eClassifiers xsi:type="ecore:EClass" name="Width">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="Value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="GenElement" eType="#//genmodel/GenElement"
+            transient="true" eOpposite="#//genmodel/GenElement/theWidth"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Height">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="Value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="GenElement" eType="#//genmodel/GenElement"
+            transient="true" eOpposite="#//genmodel/GenElement/theHeight"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="font" nsURI="http:///generator/apperance/font.ecore" nsPrefix="generator.apperance.font">
+      <eClassifiers xsi:type="ecore:EClass" name="Color">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="GenElement" eType="#//genmodel/GenElement"
+            transient="true" eOpposite="#//genmodel/GenElement/theColor"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Type">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="GenElement" eType="#//genmodel/GenElement"
+            transient="true" eOpposite="#//genmodel/GenElement/theType"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Size">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="GenElement" eType="#//genmodel/GenElement"
+            transient="true" eOpposite="#//genmodel/GenElement/theSize"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="titlesize" nsURI="http:///generator/apperance/titlesize.ecore"
+        nsPrefix="generator.apperance.titlesize">
+      <eClassifiers xsi:type="ecore:EClass" name="TitleHeight">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="GenTable" eType="#//genmodel/genindividualcomponent/gentable/GenTable"
+            transient="true" eOpposite="#//genmodel/genindividualcomponent/gentable/GenTable/theTitleHeight"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="GenContainer" eType="#//genmodel/gencontainercomponent/gencontainer/GenContainer"
+            transient="true" eOpposite="#//genmodel/gencontainercomponent/gencontainer/GenContainer/theTitleHeight"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="orientation" nsURI="http:///generator/apperance/orientation.ecore"
+        nsPrefix="generator.apperance.orientation">
+      <eClassifiers xsi:type="ecore:EClass" name="Orientation">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="GenContainer" eType="#//genmodel/gencontainercomponent/gencontainer/GenContainer"
+            transient="true" eOpposite="#//genmodel/gencontainercomponent/gencontainer/GenContainer/theOrientation"/>
+      </eClassifiers>
+    </eSubpackages>
+  </eSubpackages>
+  <eSubpackages name="genmodel" nsURI="http:///generator/genmodel.ecore" nsPrefix="generator.genmodel">
+    <eClassifiers xsi:type="ecore:EClass" name="GenElement" abstract="true">
+      <eOperations name="createX">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="&#x9;X x = generator.apperance.position.PositionFactory.eINSTANCE.createX();&#xD;&#xA;&#x9;this.setTheX(x);"/>
+        </eAnnotations>
+      </eOperations>
+      <eOperations name="createY">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="&#x9;Y y = generator.apperance.position.PositionFactory.eINSTANCE.createY();&#xD;&#xA;&#x9;this.setTheY(y);"/>
+        </eAnnotations>
+      </eOperations>
+      <eOperations name="createWidth">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="&#x9;Width w = generator.apperance.size.SizeFactory.eINSTANCE.createWidth();&#xD;&#xA;&#x9;this.setTheWidth(w);"/>
+        </eAnnotations>
+      </eOperations>
+      <eOperations name="createHeight">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="&#x9;Height h = generator.apperance.size.SizeFactory.eINSTANCE.createHeight();&#xD;&#xA;&#x9;this.setTheHeight(h);"/>
+        </eAnnotations>
+      </eOperations>
+      <eOperations name="createFontColor">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="&#x9;Color c = generator.apperance.font.FontFactory.eINSTANCE.createColor();&#xD;&#xA;&#x9;this.setTheColor(c);"/>
+        </eAnnotations>
+      </eOperations>
+      <eOperations name="createFontType">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="&#x9;Type t = generator.apperance.font.FontFactory.eINSTANCE.createType();&#xD;&#xA;&#x9;this.setTheType(t);"/>
+        </eAnnotations>
+      </eOperations>
+      <eOperations name="createFontSize">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="&#x9;Size s = generator.apperance.font.FontFactory.eINSTANCE.createSize();&#xD;&#xA;&#x9;this.setTheSize(s);"/>
+        </eAnnotations>
+      </eOperations>
+      <eOperations name="createProperties">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="createX();&#xD;&#xA;createY();&#xD;&#xA;createWidth();&#xD;&#xA;createHeight();&#xD;&#xA;createFontColor();&#xD;&#xA;createFontType();&#xD;&#xA;createFontSize();&#xD;&#xA;setDefaultFont();"/>
+        </eAnnotations>
+      </eOperations>
+      <eOperations name="setDefaultFont">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="if(this.getTheColor() == null || this.getTheColor().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.font.Color c = generator.apperance.font.FontFactory.eINSTANCE.createColor();&#xD;&#xA;&#x9;c.setValue(&quot;#000000&quot;);&#xD;&#xA;&#x9;this.setTheColor(c);&#xD;&#xA;}&#xD;&#xA;if(this.getTheType() == null || this.getTheType().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.font.Type t = generator.apperance.font.FontFactory.eINSTANCE.createType();&#xD;&#xA;&#x9;t.setValue(&quot;Calibri&quot;);&#xD;&#xA;&#x9;this.setTheType(t);&#xD;&#xA;} &#xD;&#xA;if(this.getTheSize() == null || this.getTheSize().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.font.Size s = generator.apperance.font.FontFactory.eINSTANCE.createSize();&#xD;&#xA;&#x9;s.setValue(11);&#xD;&#xA;&#x9;this.setTheSize(s);&#xD;&#xA;}"/>
+        </eAnnotations>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="GenModel" eType="#//genmodel/GenModel"
+          transient="true" eOpposite="#//genmodel/GenModel/listGenElements"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="GenContainerElement"
+          eType="#//genmodel/gencontainercomponent/GenContainerElement" transient="true"
+          eOpposite="#//genmodel/gencontainercomponent/GenContainerElement/listGenElements"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="theX" lowerBound="1"
+          eType="#//apperance/position/X" containment="true" eOpposite="#//apperance/position/X/GenElement"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="theY" lowerBound="1"
+          eType="#//apperance/position/Y" containment="true" eOpposite="#//apperance/position/Y/GenElement"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="theWidth" lowerBound="1"
+          eType="#//apperance/size/Width" containment="true" eOpposite="#//apperance/size/Width/GenElement"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="theHeight" lowerBound="1"
+          eType="#//apperance/size/Height" containment="true" eOpposite="#//apperance/size/Height/GenElement"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="theColor" lowerBound="1"
+          eType="#//apperance/font/Color" containment="true" eOpposite="#//apperance/font/Color/GenElement"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="theType" lowerBound="1"
+          eType="#//apperance/font/Type" containment="true" eOpposite="#//apperance/font/Type/GenElement"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="theSize" lowerBound="1"
+          eType="#//apperance/font/Size" containment="true" eOpposite="#//apperance/font/Size/GenElement"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="GenModel">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Generator" eType="#//Generator"
+          transient="true" eOpposite="#//Generator/theGenModel"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="listGenElements" upperBound="-1"
+          eType="#//genmodel/GenElement" containment="true" eOpposite="#//genmodel/GenElement/GenModel"/>
+    </eClassifiers>
+    <eSubpackages name="genindividualcomponent" nsURI="http:///generator/genmodel/genindividualcomponent.ecore"
+        nsPrefix="generator.genmodel.genindividualcomponent">
+      <eClassifiers xsi:type="ecore:EClass" name="GenIndividualElement" abstract="true"
+          eSuperTypes="#//genmodel/GenElement"/>
+      <eSubpackages name="genbutton" nsURI="http:///generator/genmodel/genindividualcomponent/genbutton.ecore"
+          nsPrefix="generator.genmodel.genindividualcomponent.genbutton">
+        <eClassifiers xsi:type="ecore:EClass" name="GenButton" eSuperTypes="#//genmodel/genindividualcomponent/GenIndividualElement">
+          <eOperations name="createPropertiesButton">
+            <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+              <details key="body" value="super.createProperties();&#xD;&#xA;createAlignment();&#xD;&#xA;setDefaultButton(text, fontSize);"/>
+            </eAnnotations>
+            <eParameters name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+            <eParameters name="fontSize" eType="#//datatypes/Propertie"/>
+          </eOperations>
+          <eOperations name="createAlignment">
+            <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+              <details key="body" value="Alignment a = generator.apperance.alignment.AlignmentFactory.eINSTANCE.createAlignment();&#xD;&#xA;this.setTheAlignment(a);"/>
+            </eAnnotations>
+          </eOperations>
+          <eOperations name="setDefaultButton">
+            <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+              <details key="body" value="if(this.getTheWidth() == null || this.getTheWidth().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.size.Width width = generator.apperance.size.SizeFactory.eINSTANCE.createWidth();&#xD;&#xA;&#x9;int w = 80;&#xD;&#xA;&#x9;int aux = 14 - (Integer.parseInt(fontSize.getValue())/2);&#xD;&#xA;&#x9;if(text.length() >  aux) {&#xD;&#xA;&#x9;&#x9;int d = text.length() - aux;&#xD;&#xA;&#x9;&#x9;w += d*10;&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;width.setValue(w);&#xD;&#xA;&#x9;this.setTheWidth(width);&#xD;&#xA;}&#xD;&#xA;if(this.getTheHeight() == null || this.getTheHeight().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.size.Height height = generator.apperance.size.SizeFactory.eINSTANCE.createHeight();&#xD;&#xA;&#x9;int h = 20;&#xD;&#xA;&#x9;int value = Integer.parseInt(fontSize.getValue());&#xD;&#xA;&#x9;if(value > 12) {&#xD;&#xA;&#x9;&#x9;h += (value-12)*2;&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;height.setValue(h);&#xD;&#xA;&#x9;this.setTheHeight(height);&#xD;&#xA;}&#xD;&#xA;if(this.getTheAlignment() == null || this.getTheAlignment().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.alignment.Alignment a = generator.apperance.alignment.AlignmentFactory.eINSTANCE.createAlignment();&#xD;&#xA;&#x9;a.setValue(&quot;CENTER&quot;);&#xD;&#xA;&#x9;this.setTheAlignment(a);&#xD;&#xA;}"/>
+            </eAnnotations>
+            <eParameters name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+            <eParameters name="fontSize" eType="#//datatypes/Propertie"/>
+          </eOperations>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="theButton" lowerBound="1"
+              eType="ecore:EClass ../../compilator/model/compilator.ecore#//domain/expression/expressionmodel/individualcomponent/Button"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="theAlignment" lowerBound="1"
+              eType="#//apperance/alignment/Alignment" containment="true" eOpposite="#//apperance/alignment/Alignment/GenButton"/>
+        </eClassifiers>
+      </eSubpackages>
+      <eSubpackages name="gencolunm" nsURI="http:///generator/genmodel/genindividualcomponent/gencolunm.ecore"
+          nsPrefix="generator.genmodel.genindividualcomponent.gencolunm">
+        <eClassifiers xsi:type="ecore:EClass" name="GenColumn" eSuperTypes="#//genmodel/genindividualcomponent/GenIndividualElement">
+          <eOperations name="createPropertiesColumn">
+            <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+              <details key="body" value="super.createProperties();&#xD;&#xA;createAlignment();&#xD;&#xA;setDefaultColumn(text, fontSize);"/>
+            </eAnnotations>
+            <eParameters name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+            <eParameters name="fontSize" eType="#//datatypes/Propertie"/>
+          </eOperations>
+          <eOperations name="createAlignment">
+            <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+              <details key="body" value="Alignment a = generator.apperance.alignment.AlignmentFactory.eINSTANCE.createAlignment();&#xD;&#xA;this.setTheAlignment(a);"/>
+            </eAnnotations>
+          </eOperations>
+          <eOperations name="setDefaultColumn">
+            <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+              <details key="body" value="if(this.getTheWidth() == null || this.getTheWidth().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.size.Width width = generator.apperance.size.SizeFactory.eINSTANCE.createWidth();&#xD;&#xA;&#x9;int w = 80;&#xD;&#xA;&#x9;int aux = 14 - (Integer.parseInt(fontSize.getValue())/2);&#xD;&#xA;&#x9;if(text.length() >  aux) {&#xD;&#xA;&#x9;&#x9;int d = text.length() - aux;&#xD;&#xA;&#x9;&#x9;w += d*10;&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;width.setValue(w);&#xD;&#xA;&#x9;this.setTheWidth(width);&#xD;&#xA;}&#xD;&#xA;if(this.getTheHeight() == null || this.getTheHeight().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.size.Height height = generator.apperance.size.SizeFactory.eINSTANCE.createHeight();&#xD;&#xA;&#x9;int h = 20;&#xD;&#xA;&#x9;int value = Integer.parseInt(fontSize.getValue());&#xD;&#xA;&#x9;if(value > 12) {&#xD;&#xA;&#x9;&#x9;h += (value-12)*2;&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;height.setValue(h);&#xD;&#xA;&#x9;this.setTheHeight(height);&#xD;&#xA;}&#xD;&#xA;if(this.getTheAlignment() == null || this.getTheAlignment().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.alignment.Alignment a = generator.apperance.alignment.AlignmentFactory.eINSTANCE.createAlignment();&#xD;&#xA;&#x9;a.setValue(&quot;CENTER&quot;);&#xD;&#xA;&#x9;this.setTheAlignment(a);&#xD;&#xA;} "/>
+            </eAnnotations>
+            <eParameters name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+            <eParameters name="fontSize" eType="#//datatypes/Propertie"/>
+          </eOperations>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="GenTable" eType="#//genmodel/genindividualcomponent/gentable/GenTable"
+              transient="true" eOpposite="#//genmodel/genindividualcomponent/gentable/GenTable/listGenColumns"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="theColumn" lowerBound="1"
+              eType="ecore:EClass ../../compilator/model/compilator.ecore#//domain/expression/expressionmodel/individualcomponent/Column"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="theAlignment" lowerBound="1"
+              eType="#//apperance/alignment/Alignment" containment="true" eOpposite="#//apperance/alignment/Alignment/GenColumn"/>
+        </eClassifiers>
+      </eSubpackages>
+      <eSubpackages name="gencombobox" nsURI="http:///generator/genmodel/genindividualcomponent/gencombobox.ecore"
+          nsPrefix="generator.genmodel.genindividualcomponent.gencombobox">
+        <eClassifiers xsi:type="ecore:EClass" name="GenComboBox" eSuperTypes="#//genmodel/genindividualcomponent/GenIndividualElement">
+          <eOperations name="createPropertiesComboBox">
+            <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+              <details key="body" value="super.createProperties();&#xD;&#xA;createBackground();&#xD;&#xA;setDefaultCombo(fontSize);"/>
+            </eAnnotations>
+            <eParameters name="fontSize" eType="#//datatypes/Propertie"/>
+          </eOperations>
+          <eOperations name="createBackground">
+            <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+              <details key="body" value="Background b = generator.apperance.background.BackgroundFactory.eINSTANCE.createBackground();&#xD;&#xA;this.setTheBackground(b);"/>
+            </eAnnotations>
+          </eOperations>
+          <eOperations name="setDefaultCombo">
+            <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+              <details key="body" value="if(this.getTheWidth() == null || this.getTheWidth().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.size.Width width = generator.apperance.size.SizeFactory.eINSTANCE.createWidth();&#xD;&#xA;&#x9;int w = 80;&#xD;&#xA;&#x9;int aux = 14 - (Integer.parseInt(fontSize.getValue())/2);&#xD;&#xA;&#x9;if(12 >  aux) {&#xD;&#xA;&#x9;&#x9;int d = 12 - aux;&#xD;&#xA;&#x9;&#x9;w += d*10;&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;width.setValue(w);&#xD;&#xA;&#x9;this.setTheWidth(width);&#xD;&#xA;}&#xD;&#xA;if(this.getTheHeight() == null || this.getTheHeight().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.size.Height height = generator.apperance.size.SizeFactory.eINSTANCE.createHeight();&#xD;&#xA;&#x9;int h = 20;&#xD;&#xA;&#x9;int value = Integer.parseInt(fontSize.getValue());&#xD;&#xA;&#x9;if(value > 12) {&#xD;&#xA;&#x9;&#x9;h += (value-12)*2;&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;height.setValue(h);&#xD;&#xA;&#x9;this.setTheHeight(height);&#xD;&#xA;}&#xD;&#xA;if(this.getTheBackground() == null || this.getTheBackground().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.background.Background b = generator.apperance.background.BackgroundFactory.eINSTANCE.createBackground();&#xD;&#xA;&#x9;b.setValue(&quot;#FFFFFF&quot;);&#xD;&#xA;&#x9;this.setTheBackground(b);&#xD;&#xA;}"/>
+            </eAnnotations>
+            <eParameters name="fontSize" eType="#//datatypes/Propertie"/>
+          </eOperations>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="theBackground" lowerBound="1"
+              eType="#//apperance/background/Background" containment="true" eOpposite="#//apperance/background/Background/GenComboBox"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="theComboBox" lowerBound="1"
+              eType="ecore:EClass ../../compilator/model/compilator.ecore#//domain/expression/expressionmodel/individualcomponent/ComboBox"/>
+        </eClassifiers>
+      </eSubpackages>
+      <eSubpackages name="genlabel" nsURI="http:///generator/genmodel/genindividualcomponent/genlabel.ecore"
+          nsPrefix="generator.genmodel.genindividualcomponent.genlabel">
+        <eClassifiers xsi:type="ecore:EClass" name="GenLabel" eSuperTypes="#//genmodel/genindividualcomponent/GenIndividualElement">
+          <eOperations name="createPropertiesLabel">
+            <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+              <details key="body" value="super.createProperties();&#xD;&#xA;createAlignment();&#xD;&#xA;createBackground();&#xD;&#xA;setDefaultLabel(text, fontSize);"/>
+            </eAnnotations>
+            <eParameters name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+            <eParameters name="fontSize" eType="#//datatypes/Propertie"/>
+          </eOperations>
+          <eOperations name="createAlignment">
+            <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+              <details key="body" value="Alignment a = generator.apperance.alignment.AlignmentFactory.eINSTANCE.createAlignment();&#xD;&#xA;this.setTheAlignment(a);"/>
+            </eAnnotations>
+          </eOperations>
+          <eOperations name="createBackground">
+            <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+              <details key="body" value="Background b = generator.apperance.background.BackgroundFactory.eINSTANCE.createBackground();&#xD;&#xA;this.setTheBackground(b);"/>
+            </eAnnotations>
+          </eOperations>
+          <eOperations name="setDefaultLabel">
+            <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+              <details key="body" value="if(this.getTheWidth() == null || this.getTheWidth().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.size.Width width = generator.apperance.size.SizeFactory.eINSTANCE.createWidth();&#xD;&#xA;&#x9;int w = 80;&#xD;&#xA;&#x9;int aux = 14 - (Integer.parseInt(fontSize.getValue())/2);&#xD;&#xA;&#x9;if(text.length() >  aux) {&#xD;&#xA;&#x9;&#x9;int d = text.length() - aux;&#xD;&#xA;&#x9;&#x9;w += d*10;&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;width.setValue(w);&#xD;&#xA;&#x9;this.setTheWidth(width);&#xD;&#xA;}&#xD;&#xA;if(this.getTheHeight() == null || this.getTheHeight().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.size.Height height = generator.apperance.size.SizeFactory.eINSTANCE.createHeight();&#xD;&#xA;&#x9;int h = 20;&#xD;&#xA;&#x9;int value = Integer.parseInt(fontSize.getValue());&#xD;&#xA;&#x9;if(value > 12) {&#xD;&#xA;&#x9;&#x9;h += (value-12)*2;&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;height.setValue(h);&#xD;&#xA;&#x9;this.setTheHeight(height);&#xD;&#xA;}&#xD;&#xA;if(this.getTheAlignment() == null || this.getTheAlignment().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.alignment.Alignment a = generator.apperance.alignment.AlignmentFactory.eINSTANCE.createAlignment();&#xD;&#xA;&#x9;a.setValue(&quot;RIGHT&quot;);&#xD;&#xA;&#x9;this.setTheAlignment(a);&#xD;&#xA;} &#xD;&#xA;if(this.getTheBackground() == null || this.getTheBackground().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.background.Background b = generator.apperance.background.BackgroundFactory.eINSTANCE.createBackground();&#xD;&#xA;&#x9;b.setValue(&quot;#FFFFFF&quot;);&#xD;&#xA;&#x9;this.setTheBackground(b);&#xD;&#xA;} "/>
+            </eAnnotations>
+            <eParameters name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+            <eParameters name="fontSize" eType="#//datatypes/Propertie"/>
+          </eOperations>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="theBackground" lowerBound="1"
+              eType="#//apperance/background/Background" containment="true" eOpposite="#//apperance/background/Background/GenLabel"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="theLabel" lowerBound="1"
+              eType="ecore:EClass ../../compilator/model/compilator.ecore#//domain/expression/expressionmodel/individualcomponent/Label"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="theAlignment" lowerBound="1"
+              eType="#//apperance/alignment/Alignment" containment="true" eOpposite="#//apperance/alignment/Alignment/GenLabel"/>
+        </eClassifiers>
+      </eSubpackages>
+      <eSubpackages name="gentable" nsURI="http:///generator/genmodel/genindividualcomponent/gentable.ecore"
+          nsPrefix="generator.genmodel.genindividualcomponent.gentable">
+        <eClassifiers xsi:type="ecore:EClass" name="GenTable" eSuperTypes="#//genmodel/genindividualcomponent/GenIndividualElement">
+          <eOperations name="createPropertiesTable">
+            <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+              <details key="body" value="super.createProperties();&#xD;&#xA;createBackground();&#xD;&#xA;createLinesVisible();&#xD;&#xA;createTitleHeight();&#xD;&#xA;setDefaultTable(columnHeight, columnsWidth, fontSize);"/>
+            </eAnnotations>
+            <eParameters name="columnHeight" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+            <eParameters name="columnsWidth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+            <eParameters name="fontSize" eType="#//datatypes/Propertie"/>
+          </eOperations>
+          <eOperations name="createBackground">
+            <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+              <details key="body" value="Background b = generator.apperance.background.BackgroundFactory.eINSTANCE.createBackground();&#xD;&#xA;this.setTheBackground(b);"/>
+            </eAnnotations>
+          </eOperations>
+          <eOperations name="createLinesVisible">
+            <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+              <details key="body" value="LinesVisible l = generator.apperance.linesvisible.LinesvisibleFactory.eINSTANCE.createLinesVisible();&#xD;&#xA;this.setTheLinesVisible(l);"/>
+            </eAnnotations>
+          </eOperations>
+          <eOperations name="createTitleHeight">
+            <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+              <details key="body" value="TitleHeight th = generator.apperance.titlesize.TitlesizeFactory.eINSTANCE.createTitleHeight();&#xD;&#xA;this.setTheTitleHeight(th);"/>
+            </eAnnotations>
+          </eOperations>
+          <eOperations name="setDefaultTable">
+            <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+              <details key="body" value="int titleH = 20;&#xD;&#xA;int value = Integer.parseInt(fontSize.getValue());&#xD;&#xA;if(value > 12) {&#xD;&#xA;&#x9;titleH += (value-12)*2;&#xD;&#xA;}&#xD;&#xA;if(this.getTheWidth() == null || this.getTheWidth().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.size.Width w = generator.apperance.size.SizeFactory.eINSTANCE.createWidth();&#xD;&#xA;&#x9;w.setValue(columnsWidth);&#xD;&#xA;&#x9;this.setTheWidth(w);&#xD;&#xA;}&#xD;&#xA;if(this.getTheHeight() == null || this.getTheHeight().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.size.Height h = generator.apperance.size.SizeFactory.eINSTANCE.createHeight();&#xD;&#xA;&#x9;h.setValue(titleH+ (columnHeight*6));&#xD;&#xA;&#x9;this.setTheHeight(h);;&#xD;&#xA;}&#xD;&#xA;if(this.getTheBackground() == null || this.getTheBackground().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.background.Background b = generator.apperance.background.BackgroundFactory.eINSTANCE.createBackground();&#xD;&#xA;&#x9;b.setValue(&quot;#FFFFFF&quot;);&#xD;&#xA;&#x9;this.setTheBackground(b);&#xD;&#xA;} &#xD;&#xA;if(this.getTheLinesVisible() == null || this.getTheLinesVisible().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.linesvisible.LinesVisible l = generator.apperance.linesvisible.LinesvisibleFactory.eINSTANCE.createLinesVisible();&#xD;&#xA;&#x9;l.setValue(false);&#xD;&#xA;&#x9;this.setTheLinesVisible(l);&#xD;&#xA;}&#xD;&#xA;if(this.getTheTitleHeight() == null || this.getTheTitleHeight().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.titlesize.TitleHeight th = generator.apperance.titlesize.TitlesizeFactory.eINSTANCE.createTitleHeight();&#xD;&#xA;&#x9;th.setValue(titleH);&#xD;&#xA;&#x9;this.setTheTitleHeight(th);&#xD;&#xA;}"/>
+            </eAnnotations>
+            <eParameters name="columnHeight" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+            <eParameters name="columnsWidth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+            <eParameters name="fontSize" eType="#//datatypes/Propertie"/>
+          </eOperations>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="theBackground" lowerBound="1"
+              eType="#//apperance/background/Background" containment="true" eOpposite="#//apperance/background/Background/GenTable"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="theLinesVisible"
+              lowerBound="1" eType="#//apperance/linesvisible/LinesVisible" containment="true"
+              eOpposite="#//apperance/linesvisible/LinesVisible/GenTable"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="theTitleHeight" lowerBound="1"
+              eType="#//apperance/titlesize/TitleHeight" containment="true" eOpposite="#//apperance/titlesize/TitleHeight/GenTable"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="listGenColumns" upperBound="-1"
+              eType="#//genmodel/genindividualcomponent/gencolunm/GenColumn" containment="true"
+              eOpposite="#//genmodel/genindividualcomponent/gencolunm/GenColumn/GenTable"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="theTable" lowerBound="1"
+              eType="ecore:EClass ../../compilator/model/compilator.ecore#//domain/expression/expressionmodel/individualcomponent/Table"/>
+        </eClassifiers>
+      </eSubpackages>
+      <eSubpackages name="gentextfield" nsURI="http:///generator/genmodel/genindividualcomponent/gentextfield.ecore"
+          nsPrefix="generator.genmodel.genindividualcomponent.gentextfield">
+        <eClassifiers xsi:type="ecore:EClass" name="GenTextField" eSuperTypes="#//genmodel/genindividualcomponent/GenIndividualElement">
+          <eOperations name="createPropertiesTextField">
+            <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+              <details key="body" value="super.createProperties();&#xD;&#xA;createBackground();&#xD;&#xA;setDefaultText(fontSize);"/>
+            </eAnnotations>
+            <eParameters name="fontSize" eType="#//datatypes/Propertie"/>
+          </eOperations>
+          <eOperations name="createBackground">
+            <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+              <details key="body" value="Background b = generator.apperance.background.BackgroundFactory.eINSTANCE.createBackground();&#xD;&#xA;this.setTheBackground(b);"/>
+            </eAnnotations>
+          </eOperations>
+          <eOperations name="setDefaultText">
+            <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+              <details key="body" value="if(this.getTheWidth() == null || this.getTheWidth().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.size.Width width = generator.apperance.size.SizeFactory.eINSTANCE.createWidth();&#xD;&#xA;&#x9;int w = 80;&#xD;&#xA;&#x9;int aux = 14 - (Integer.parseInt(fontSize.getValue())/2);&#xD;&#xA;&#x9;if(12 >  aux) {&#xD;&#xA;&#x9;&#x9;int d = 12 - aux;&#xD;&#xA;&#x9;&#x9;w += d*10;&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;width.setValue(w);&#xD;&#xA;&#x9;this.setTheWidth(width);&#xD;&#xA;}&#xD;&#xA;if(this.getTheHeight() == null || this.getTheHeight().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.size.Height height = generator.apperance.size.SizeFactory.eINSTANCE.createHeight();&#xD;&#xA;&#x9;int h = 20;&#xD;&#xA;&#x9;int value = Integer.parseInt(fontSize.getValue());&#xD;&#xA;&#x9;if(value > 12) {&#xD;&#xA;&#x9;&#x9;h += (value-12)*2;&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;height.setValue(h);&#xD;&#xA;&#x9;this.setTheHeight(height);&#xD;&#xA;}&#xD;&#xA;if(this.getTheBackground() == null || this.getTheBackground().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.background.Background b = generator.apperance.background.BackgroundFactory.eINSTANCE.createBackground();&#xD;&#xA;&#x9;b.setValue(&quot;#FFFFFF&quot;);&#xD;&#xA;&#x9;this.setTheBackground(b);&#xD;&#xA;} "/>
+            </eAnnotations>
+            <eParameters name="fontSize" eType="#//datatypes/Propertie"/>
+          </eOperations>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="theBackground" lowerBound="1"
+              eType="#//apperance/background/Background" containment="true" eOpposite="#//apperance/background/Background/GenTextField"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="theTextField" lowerBound="1"
+              eType="ecore:EClass ../../compilator/model/compilator.ecore#//domain/expression/expressionmodel/individualcomponent/TextField"/>
+        </eClassifiers>
+      </eSubpackages>
+    </eSubpackages>
+    <eSubpackages name="gencontainercomponent" nsURI="http:///generator/genmodel/gencontainercomponent.ecore"
+        nsPrefix="generator.genmodel.gencontainercomponent">
+      <eClassifiers xsi:type="ecore:EClass" name="GenContainerElement" abstract="true"
+          eSuperTypes="#//genmodel/GenElement">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="listGenElements" upperBound="-1"
+            eType="#//genmodel/GenElement" containment="true" eOpposite="#//genmodel/GenElement/GenContainerElement"/>
+      </eClassifiers>
+      <eSubpackages name="gencontainer" nsURI="http:///generator/genmodel/gencontainercomponent/gencontainer.ecore"
+          nsPrefix="generator.genmodel.gencontainercomponent.gencontainer">
+        <eClassifiers xsi:type="ecore:EClass" name="GenContainer" eSuperTypes="#//genmodel/gencontainercomponent/GenContainerElement">
+          <eOperations name="createPropertiesContainer">
+            <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+              <details key="body" value="super.createProperties();&#xD;&#xA;createBackground();&#xD;&#xA;createOrientation();&#xD;&#xA;createTitleHeight();&#xD;&#xA;setDefaultContainer(orientation, fontSize);"/>
+            </eAnnotations>
+            <eParameters name="orientation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+            <eParameters name="fontSize" eType="#//datatypes/Propertie"/>
+          </eOperations>
+          <eOperations name="createBackground">
+            <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+              <details key="body" value="Background b = generator.apperance.background.BackgroundFactory.eINSTANCE.createBackground();&#xD;&#xA;this.setTheBackground(b);"/>
+            </eAnnotations>
+          </eOperations>
+          <eOperations name="createOrientation">
+            <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+              <details key="body" value="Orientation o = generator.apperance.orientation.OrientationFactory.eINSTANCE.createOrientation();&#xD;&#xA;this.setTheOrientation(o);"/>
+            </eAnnotations>
+          </eOperations>
+          <eOperations name="createTitleHeight">
+            <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+              <details key="body" value="TitleHeight th = generator.apperance.titlesize.TitlesizeFactory.eINSTANCE.createTitleHeight();&#xD;&#xA;this.setTheTitleHeight(th);"/>
+            </eAnnotations>
+          </eOperations>
+          <eOperations name="setDefaultContainer">
+            <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+              <details key="body" value="if(this.getTheWidth() == null || this.getTheWidth().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.size.Width w = generator.apperance.size.SizeFactory.eINSTANCE.createWidth();&#xD;&#xA;&#x9;w.setValue(100);&#xD;&#xA;&#x9;this.setTheWidth(w);&#xD;&#xA;}&#xD;&#xA;if(this.getTheHeight() == null || this.getTheHeight().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.size.Height h = generator.apperance.size.SizeFactory.eINSTANCE.createHeight();&#xD;&#xA;&#x9;h.setValue(25);&#xD;&#xA;&#x9;this.setTheHeight(h);;&#xD;&#xA;}&#xD;&#xA;if(this.getTheBackground() == null || this.getTheBackground().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.background.Background b = generator.apperance.background.BackgroundFactory.eINSTANCE.createBackground();&#xD;&#xA;&#x9;b.setValue(&quot;#FFFFFF&quot;);&#xD;&#xA;&#x9;this.setTheBackground(b);&#xD;&#xA;} &#xD;&#xA;if(this.getTheOrientation() == null || this.getTheOrientation().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.orientation.Orientation o = generator.apperance.orientation.OrientationFactory.eINSTANCE.createOrientation();&#xD;&#xA;&#x9;o.setValue(orientation);&#xD;&#xA;&#x9;this.setTheOrientation(o);&#xD;&#xA;} &#xD;&#xA;if(this.getTheTitleHeight() == null || this.getTheTitleHeight().getValue() == null) {&#xD;&#xA;&#x9;generator.apperance.titlesize.TitleHeight th = generator.apperance.titlesize.TitlesizeFactory.eINSTANCE.createTitleHeight();&#xD;&#xA;&#x9;int h = 20;&#xD;&#xA;&#x9;int value = Integer.parseInt(fontSize.getValue());&#xD;&#xA;&#x9;if(value > 12) {&#xD;&#xA;&#x9;&#x9;h += (value-12)*2;&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;th.setValue(h);&#xD;&#xA;&#x9;this.setTheTitleHeight(th);&#xD;&#xA;}"/>
+            </eAnnotations>
+            <eParameters name="orientation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+            <eParameters name="fontSize" eType="#//datatypes/Propertie"/>
+          </eOperations>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="theTitleHeight" lowerBound="1"
+              eType="#//apperance/titlesize/TitleHeight" containment="true" eOpposite="#//apperance/titlesize/TitleHeight/GenContainer"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="theOrientation" lowerBound="1"
+              eType="#//apperance/orientation/Orientation" containment="true" eOpposite="#//apperance/orientation/Orientation/GenContainer"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="theContainer" lowerBound="1"
+              eType="ecore:EClass ../../compilator/model/compilator.ecore#//domain/expression/expressionmodel/containercomponent/Container"/>
+          <eStructuralFeatures xsi:type="ecore:EReference" name="theBackground" lowerBound="1"
+              eType="#//apperance/background/Background" containment="true" eOpposite="#//apperance/background/Background/GenContainer"/>
+        </eClassifiers>
+      </eSubpackages>
+    </eSubpackages>
+  </eSubpackages>
+  <eSubpackages name="enumeration" nsURI="http:///generator/enumeration.ecore" nsPrefix="generator.enumeration">
+    <eClassifiers xsi:type="ecore:EEnum" name="Weight">
+      <eLiterals name="WEIGHT_BUTTON" value="125"/>
+      <eLiterals name="WEIGHT_COLUMN" value="100"/>
+      <eLiterals name="WEIGHT_COMBO" value="125"/>
+      <eLiterals name="WEIGHT_LABEL" value="125"/>
+      <eLiterals name="WEIGHT_TEXTFIELD" value="125"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="Height">
+      <eLiterals name="HEIGHT_BUTTON" value="25"/>
+      <eLiterals name="HEIGHT_COMBO" value="25"/>
+      <eLiterals name="HEIGHT_LABEL" value="25"/>
+      <eLiterals name="HEIGHT_TABLE" value="150"/>
+      <eLiterals name="HEIGHT_TEXTFIELD" value="25"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="datatypes" nsURI="http:///generator/datatypes.ecore" nsPrefix="generator.datatypes">
+    <eClassifiers xsi:type="ecore:EDataType" name="Propertie" instanceClassName="styles.domain.Propertie"/>
+    <eSubpackages name="datatypesdataform" nsURI="http:///generator/datatypes/datatypesdataform.ecore"
+        nsPrefix="generator.datatypes.datatypesdataform">
+      <eClassifiers xsi:type="ecore:EDataType" name="GraphicalContainer" instanceClassName="tooldataform.formmodel.containers.GraphicalContainer"/>
+      <eClassifiers xsi:type="ecore:EDataType" name="Container" instanceClassName="tooldataform.formmodel.concreta.Container"/>
+      <eClassifiers xsi:type="ecore:EDataType" name="DataForm_Diagram" instanceClassName="tooldataform.formmodel.concreta.DataForm_Diagram"/>
+      <eClassifiers xsi:type="ecore:EDataType" name="GraphicalIndividualEement" instanceClassName="tooldataform.formmodel.concreta.GraphicalIndividualEement"/>
+      <eClassifiers xsi:type="ecore:EDataType" name="Button" instanceClassName="tooldataform.formmodel.concreta.Button"/>
+      <eClassifiers xsi:type="ecore:EDataType" name="ComboView" instanceClassName="tooldataform.formmodel.concreta.ComboView"/>
+      <eClassifiers xsi:type="ecore:EDataType" name="LabelView" instanceClassName="tooldataform.formmodel.concreta.LabelView"/>
+      <eClassifiers xsi:type="ecore:EDataType" name="TextView" instanceClassName="tooldataform.formmodel.concreta.TextView"/>
+      <eClassifiers xsi:type="ecore:EDataType" name="TableView" instanceClassName="tooldataform.formmodel.concreta.TableView"/>
+      <eClassifiers xsi:type="ecore:EDataType" name="ColumView" instanceClassName="tooldataform.formmodel.concreta.ColumView"/>
+      <eClassifiers xsi:type="ecore:EDataType" name="ModelFactory" instanceClassName="tooldataform.ModelFactory"/>
+      <eClassifiers xsi:type="ecore:EDataType" name="Interface" instanceClassName="tooldataform.formmodel.concreta.Interface"/>
+      <eClassifiers xsi:type="ecore:EDataType" name="DomanStyle" instanceClassName="tooldataform.styles.domain.Domain"/>
+      <eClassifiers xsi:type="ecore:EDataType" name="Style" instanceClassName="tooldataform.styles.domain.Style"/>
+      <eClassifiers xsi:type="ecore:EDataType" name="ModelElementDataForm" instanceClassName="tooldataform.formmodel.concreta.ModelElementDataForm"/>
+    </eSubpackages>
+    <eSubpackages name="datatypesgmf" nsURI="http:///generator/datatypes/datatypesgmf.ecore"
+        nsPrefix="generator.datatypes.datatypesgmf">
+      <eClassifiers xsi:type="ecore:EDataType" name="Bounds" instanceClassName="org.eclipse.gmf.runtime.notation.Bounds"/>
+      <eClassifiers xsi:type="ecore:EDataType" name="Diagram" instanceClassName="org.eclipse.gmf.runtime.notation.Diagram"/>
+      <eClassifiers xsi:type="ecore:EDataType" name="Node" instanceClassName="org.eclipse.gmf.runtime.notation.Node"/>
+    </eSubpackages>
+  </eSubpackages>
+  <eSubpackages name="gendataform" nsURI="http:///generator/gendataform.ecore" nsPrefix="generator.gendataform">
+    <eClassifiers xsi:type="ecore:EClass" name="DataFormDiagramGenerator">
+      <eOperations name="DataformDiagramGenerator">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="this.modelFactory = modelFactory;&#xD;&#xA;this.dataformDiagram = (DataForm_Diagram) this.modelFactory.getListProyecto().get(0).getListDiagram().get(0);&#xD;&#xA;this.interface1 = dataformDiagram.getTheInterface();"/>
+        </eAnnotations>
+        <eParameters name="modelFactory" eType="#//datatypes/datatypesdataform/ModelFactory"/>
+      </eOperations>
+      <eOperations name="salvarDiagram">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="&#xD;&#xA;&#xD;&#xA;        org.eclipse.emf.common.util.URI uri = org.eclipse.emf.common.util.URI.createURI(&quot;platform:/resource/test/domain/model.tooldataform_diagram&quot;);&#xD;&#xA;        org.eclipse.emf.ecore.resource.ResourceSet resourceSet = new org.eclipse.emf.ecore.resource.impl.ResourceSetImpl();&#xD;&#xA;        org.eclipse.emf.ecore.resource.Resource resource = resourceSet.createResource(uri);&#xD;&#xA;        resource.getContents().add(diagram);&#xD;&#xA;        try {&#xD;&#xA;            resource.save(java.util.Collections.EMPTY_MAP);&#xD;&#xA;        } catch (java.io.IOException e) {&#xD;&#xA;            e.printStackTrace();&#xD;&#xA;        }&#xD;&#xA;    "/>
+        </eAnnotations>
+        <eParameters name="diagram" eType="#//datatypes/datatypesgmf/Diagram"/>
+      </eOperations>
+      <eOperations name="cargarDiagram">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="&#xD;&#xA;&#xD;&#xA;        &#xD;&#xA;        org.eclipse.emf.common.util.URI uri = org.eclipse.emf.common.util.URI.createURI(&quot;platform:/resource/test/domain/model.tooldataform&quot;);&#xD;&#xA;        org.eclipse.emf.ecore.resource.ResourceSet resourceSet= new org.eclipse.emf.ecore.resource.impl.ResourceSetImpl();&#xD;&#xA;        org.eclipse.emf.ecore.resource.Resource resource = resourceSet.createResource(uri);&#xD;&#xA;        try {&#xD;&#xA;            resource.load(java.util.Collections.EMPTY_MAP);&#xD;&#xA;            modelFactory =  (ModelFactory) resource.getContents().get(0);&#xD;&#xA;        } catch (java.io.IOException e) {&#xD;&#xA;            // TO-DO Auto-generated catch block&#xD;&#xA;            e.printStackTrace();&#xD;&#xA;        }&#xD;&#xA;    "/>
+        </eAnnotations>
+      </eOperations>
+      <eOperations name="resetDiagram">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="&#xD;&#xA;&#xD;&#xA;    &#x9;&#xD;&#xA;    &#x9;try{&#xD;&#xA;&#x9;    &#x9;org.eclipse.ui.IWorkbench workbench = org.eclipse.ui.PlatformUI.getWorkbench();&#xD;&#xA;&#x9;    &#x9;org.eclipse.ui.IWorkbenchPage activePage = workbench.getActiveWorkbenchWindow().getActivePage();&#xD;&#xA;&#x9;        activePage.closeEditors(activePage.getEditorReferences(), true);&#xD;&#xA;&#x9;        org.apache.commons.io.FileUtils.touch(new java.io.File(path));&#xD;&#xA;&#x9;        java.io.File fileToDelete = org.apache.commons.io.FileUtils.getFile(path);&#xD;&#xA;&#x9;        org.apache.commons.io.FileUtils.deleteQuietly(fileToDelete);&#xD;&#xA;    &#x9;} &#xD;&#xA;    &#x9;catch(java.io.IOException e){&#xD;&#xA;    &#x9;&#x9; e.printStackTrace();&#xD;&#xA;    &#x9;}&#xD;&#xA;    "/>
+        </eAnnotations>
+        <eParameters name="path" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eOperations>
+      <eOperations name="generateDiagram">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="&#xD;&#xA;&#xD;&#xA;        &#xD;&#xA;        Diagram diag = createDiagram();&#xD;&#xA;        salvarDiagram(diag);&#xD;&#xA;        openDiagram(diag);&#xD;&#xA;    "/>
+        </eAnnotations>
+      </eOperations>
+      <eOperations name="createDiagram" eType="#//datatypes/datatypesgmf/Diagram">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="//create the diagram&#xD;&#xA;int diagramVID = tooldataform.diagram.part.MetamodelodataformVisualIDRegistry.&#xD;&#xA;&#x9;&#x9;getDiagramVisualID(dataformDiagram);&#xD;&#xA;if (diagramVID != tooldataform.diagram.edit.parts.DataForm_DiagramEditPart.VISUAL_ID) {&#xD;&#xA;    // error&#xD;&#xA;}&#xD;&#xA;Diagram diagram = org.eclipse.gmf.runtime.diagram.core.services.ViewService.&#xD;&#xA;&#x9;&#x9;createDiagram(dataformDiagram,tooldataform.diagram.edit.parts.DataForm_DiagramEditPart.MODEL_ID,&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;tooldataform.diagram.part.MetamodelodataformDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT);&#xD;&#xA;// save the ressource&#xD;&#xA;try {&#xD;&#xA;    dataformDiagram.eResource().save(tooldataform.diagram.part.MetamodelodataformDiagramEditorUtil.&#xD;&#xA;    &#x9;&#x9;getSaveOptions());&#xD;&#xA;} catch (java.io.IOException e) {&#xD;&#xA;&#x9;tooldataform.diagram.part.MetamodelodataformDiagramEditorPlugin.getInstance().logError(&#xD;&#xA;            &quot;Save operation failed for: &quot; + dataformDiagram.eResource(), e); //$NON-NLS-1$&#xD;&#xA;}&#xD;&#xA;&#x9;&#xD;&#xA;Node node = org.eclipse.gmf.runtime.diagram.core.services.ViewService.getInstance().createNode( &#xD;&#xA;&#x9;&#x9;new org.eclipse.gmf.runtime.emf.core.util.EObjectAdapter(interface1), diagram, null, 0, &#xD;&#xA;&#x9;&#x9;true,tooldataform.diagram.part.MetamodelodataformDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT);&#xD;&#xA;Bounds bounds = createBounds(interface1.getPositionX(),interface1.getPositionY(),&#xD;&#xA;        interface1.getWidth(),interface1.getHeight());&#xD;&#xA;node.setLayoutConstraint(bounds);&#xD;&#xA;&#xD;&#xA;boolean flag = false;&#xD;&#xA;for(int k = 1; k &lt; node.getPersistedChildren().size(); k++) {&#xD;&#xA;&#x9;if(node.getPersistedChildren().get(k) instanceof org.eclipse.gmf.runtime.notation.impl.&#xD;&#xA;&#x9;&#x9;&#x9;BasicCompartmentImpl) {&#xD;&#xA;&#x9;&#x9;if(!flag) {&#xD;&#xA;&#x9;&#x9;&#x9;flag = true;&#xD;&#xA;&#x9;&#x9;&#x9;continue;&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;org.eclipse.gmf.runtime.notation.impl.BasicCompartmentImpl bC = (org.eclipse.gmf.runtime.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;notation.impl.BasicCompartmentImpl) node.getPersistedChildren().get(k);&#xD;&#xA;&#x9;&#x9;bC.setCollapsed(true);&#xD;&#xA;&#x9;} &#xD;&#xA;}&#xD;&#xA;initComponents(interface1, node);&#xD;&#xA;diagram.setName(&quot;model.tooldataform_diagram&quot;);&#xD;&#xA;return diagram;"/>
+        </eAnnotations>
+      </eOperations>
+      <eOperations name="initComponents">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="for (int i = 0; i &lt; graphicalContainer.getListGraphicalContainer().size(); i++) {&#xD;&#xA;&#x9;GraphicalContainer gc = graphicalContainer.getListGraphicalContainer().get(i);&#xD;&#xA;&#x9;Node node = org.eclipse.gmf.runtime.diagram.core.services.ViewService.getInstance().createNode(&#xD;&#xA;&#x9;&#x9;&#x9;new org.eclipse.gmf.runtime.emf.core.util.EObjectAdapter(gc),&#xD;&#xA;&#x9;&#x9;&#x9;(Node) parent.getPersistedChildren().get(1), null, i, true,&#xD;&#xA;&#x9;&#x9;&#x9;tooldataform.diagram.part.MetamodelodataformDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT);&#xD;&#xA;&#x9;Bounds bounds = createBounds(gc.getPositionX(), gc.getPositionY(), gc.getWidth(), gc.getHeight());&#xD;&#xA;&#x9;node.setLayoutConstraint(bounds);&#xD;&#xA;&#x9;org.eclipse.gmf.runtime.notation.FontStyle nodeFontStyle = (org.eclipse.gmf.runtime.notation.FontStyle) node&#xD;&#xA;&#x9;&#x9;&#x9;.getStyle(org.eclipse.gmf.runtime.notation.NotationPackage.Literals.FONT_STYLE);&#xD;&#xA;&#x9;if (nodeFontStyle != null) {&#xD;&#xA;&#x9;&#x9;nodeFontStyle.setFontName(getFontDataformElement(gc));&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;node.getStyles().add(nodeFontStyle);&#xD;&#xA;&#x9;for (int k = 0; k &lt; node.getPersistedChildren().size(); k++) {&#xD;&#xA;&#x9;&#x9;if (node.getPersistedChildren()&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;.get(k) instanceof org.eclipse.gmf.runtime.notation.impl.BasicCompartmentImpl) {&#xD;&#xA;&#x9;&#x9;&#x9;org.eclipse.gmf.runtime.notation.impl.BasicCompartmentImpl bC = (org.eclipse.gmf.runtime.notation.impl.BasicCompartmentImpl) node&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;.getPersistedChildren().get(k);&#xD;&#xA;&#x9;&#x9;&#x9;bC.setCollapsed(true);&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;initComponents(graphicalContainer.getListGraphicalContainer().get(i), node);&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;int size = graphicalContainer.getListGraphicalContainer().size();&#xD;&#xA;for (int j = 0; j &lt; graphicalContainer.getListIndividualElementDataForm().size(); j++) {&#xD;&#xA;&#x9;tooldataform.formmodel.concreta.GraphicalIndividualEement ie = graphicalContainer&#xD;&#xA;&#x9;&#x9;&#x9;.getListIndividualElementDataForm().get(j);&#xD;&#xA;&#x9;Node node = org.eclipse.gmf.runtime.diagram.core.services.ViewService.getInstance().createNode(&#xD;&#xA;&#x9;&#x9;&#x9;new org.eclipse.gmf.runtime.emf.core.util.EObjectAdapter(ie),&#xD;&#xA;&#x9;&#x9;&#x9;(Node) parent.getPersistedChildren().get(1), null, size + j, true,&#xD;&#xA;&#x9;&#x9;&#x9;tooldataform.diagram.part.MetamodelodataformDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT);&#xD;&#xA;&#x9;if (ie instanceof tooldataform.formmodel.concreta.TextView) {&#xD;&#xA;&#xD;&#xA;&#x9;&#x9;org.eclipse.gmf.runtime.notation.FontStyle nodeFontStyle = (org.eclipse.gmf.runtime.notation.FontStyle) node&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;.getStyle(org.eclipse.gmf.runtime.notation.NotationPackage.Literals.FONT_STYLE);&#xD;&#xA;&#x9;&#x9;if (nodeFontStyle != null) {&#xD;&#xA;&#x9;&#x9;&#x9;nodeFontStyle.setFontName(getFontDataformElement(ie));&#xD;&#xA;&#x9;&#x9;&#x9;nodeFontStyle.setFontHeight(getFontSizeDataformElement(ie) - 4);&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;node.getStyles().add(nodeFontStyle);&#xD;&#xA;&#x9;&#x9;Bounds bounds = createBounds(ie.getPositionX(), ie.getPositionY(), ie.getWidth() - 10, ie.getHeight());&#xD;&#xA;&#x9;&#x9;node.setLayoutConstraint(bounds);&#xD;&#xA;&#x9;} else {&#xD;&#xA;&#x9;&#x9;org.eclipse.gmf.runtime.notation.FontStyle nodeFontStyle = (org.eclipse.gmf.runtime.notation.FontStyle) node&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;.getStyle(org.eclipse.gmf.runtime.notation.NotationPackage.Literals.FONT_STYLE);&#xD;&#xA;&#x9;&#x9;if (nodeFontStyle != null) {&#xD;&#xA;&#x9;&#x9;&#x9;nodeFontStyle.setFontName(getFontDataformElement(ie));&#xD;&#xA;&#x9;&#x9;&#x9;nodeFontStyle.setFontHeight(getFontSizeDataformElement(ie));&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;node.getStyles().add(nodeFontStyle);&#xD;&#xA;&#x9;&#x9;Bounds bounds = createBounds(ie.getPositionX(), ie.getPositionY(), ie.getWidth(), ie.getHeight());&#xD;&#xA;&#x9;&#x9;node.setLayoutConstraint(bounds);&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;if (graphicalContainer instanceof tooldataform.formmodel.concreta.TableView) {&#xD;&#xA;&#x9;tooldataform.formmodel.concreta.TableView table = (tooldataform.formmodel.concreta.TableView) graphicalContainer;&#xD;&#xA;&#x9;for (int j = 0; j &lt; table.getListColumView().size(); j++) {&#xD;&#xA;&#x9;&#x9;tooldataform.formmodel.concreta.ColumView column = (tooldataform.formmodel.concreta.ColumView) table&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;.getListColumView().get(j);&#xD;&#xA;&#x9;&#x9;Node node = org.eclipse.gmf.runtime.diagram.core.services.ViewService.getInstance().createNode(&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;new org.eclipse.gmf.runtime.emf.core.util.EObjectAdapter(column),&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;(Node) parent.getPersistedChildren().get(1), null, size + j, true,&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;tooldataform.diagram.part.MetamodelodataformDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT);&#xD;&#xA;&#x9;&#x9;org.eclipse.gmf.runtime.notation.FontStyle nodeFontStyle = (org.eclipse.gmf.runtime.notation.FontStyle) node&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;.getStyle(org.eclipse.gmf.runtime.notation.NotationPackage.Literals.FONT_STYLE);&#xD;&#xA;&#x9;&#x9;if (nodeFontStyle != null) {&#xD;&#xA;&#x9;&#x9;&#x9;nodeFontStyle.setFontName(getFontDataformElement(column));&#xD;&#xA;&#x9;&#x9;&#x9;nodeFontStyle.setFontHeight(getFontSizeDataformElement(column));&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;node.getStyles().add(nodeFontStyle);&#xD;&#xA;&#x9;}&#xD;&#xA;}"/>
+        </eAnnotations>
+        <eParameters name="graphicalContainer" eType="#//datatypes/datatypesdataform/GraphicalContainer"/>
+        <eParameters name="parent" eType="#//datatypes/datatypesgmf/Node"/>
+      </eOperations>
+      <eOperations name="createBounds" eType="#//datatypes/datatypesgmf/Bounds">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="&#xD;&#xA;&#xD;&#xA;        &#xD;&#xA;        Bounds bounds =  org.eclipse.gmf.runtime.notation.NotationFactory.eINSTANCE.createBounds();&#xD;&#xA;        bounds.setX(x);&#xD;&#xA;        bounds.setY(y);&#xD;&#xA;        bounds.setWidth(width);&#xD;&#xA;        bounds.setHeight(height);&#xD;&#xA;        return bounds;&#xD;&#xA;    "/>
+        </eAnnotations>
+        <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+        <eParameters name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+        <eParameters name="width" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+        <eParameters name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eOperations>
+      <eOperations name="openDiagram">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="&#xD;&#xA;&#xD;&#xA;        &#xD;&#xA;        //open the diagram&#xD;&#xA;        try {    &#xD;&#xA;            //open it&#xD;&#xA;            org.eclipse.emf.common.util.URI uri = org.eclipse.emf.ecore.util.EcoreUtil.getURI(diag);&#xD;&#xA;            org.eclipse.ui.IWorkbenchPage page = org.eclipse.ui.PlatformUI.getWorkbench()    .getActiveWorkbenchWindow().getActivePage();&#xD;&#xA;            page.openEditor(new org.eclipse.emf.common.ui.URIEditorInput(uri,dataformDiagram.getName()),  tooldataform.diagram.part.MetamodelodataformDiagramEditor.ID);&#xD;&#xA;            &#xD;&#xA;        } catch (org.eclipse.ui.PartInitException e) {&#xD;&#xA;        &#x9;tooldataform.diagram.part.MetamodelodataformDiagramEditorPlugin.getInstance().logError(&#xD;&#xA;                    &quot;Unable to open editor&quot;, e); //$NON-NLS-1$&#xD;&#xA;        }&#xD;&#xA;    "/>
+        </eAnnotations>
+        <eParameters name="diag" eType="#//datatypes/datatypesgmf/Diagram"/>
+      </eOperations>
+      <eOperations name="getFontDataformElement" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="String font = &quot;Calibri&quot;; // Por defecto&#xD;&#xA;if (element instanceof GraphicalContainer) {&#xD;&#xA;&#x9;GraphicalContainer graphicalContainer = (GraphicalContainer) element;&#xD;&#xA;&#x9;EList&lt;tooldataform.styles.domain.Propertie> listProperties = graphicalContainer.getTheStyle().getTheCharacteristic()&#xD;&#xA;&#x9;&#x9;&#x9;.getListProperties();&#xD;&#xA;&#x9;for (int i = 0; i &lt; listProperties.size(); i++) {&#xD;&#xA;&#x9;&#x9;if (listProperties.get(i).getName().equals(&quot;Font Type&quot;))&#xD;&#xA;&#x9;&#x9;&#x9;font = listProperties.get(i).getValue();&#xD;&#xA;&#x9;}&#xD;&#xA;} else if (element instanceof tooldataform.formmodel.concreta.GraphicalIndividualEement) {&#xD;&#xA;&#x9;tooldataform.formmodel.concreta.GraphicalIndividualEement individualElement = &#xD;&#xA;&#x9;&#x9;&#x9;(tooldataform.formmodel.concreta.GraphicalIndividualEement) element;&#xD;&#xA;&#x9;EList&lt;tooldataform.styles.domain.Propertie> listProperties = individualElement.getTheStyle().getTheCharacteristic()&#xD;&#xA;&#x9;&#x9;&#x9;.getListProperties();&#xD;&#xA;&#x9;for (int i = 0; i &lt; listProperties.size(); i++) {&#xD;&#xA;&#x9;&#x9;if (listProperties.get(i).getName().equals(&quot;Font Type&quot;))&#xD;&#xA;&#x9;&#x9;&#x9;font = listProperties.get(i).getValue();&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;return font;"/>
+        </eAnnotations>
+        <eParameters name="element" eType="#//datatypes/datatypesdataform/ModelElementDataForm"/>
+      </eOperations>
+      <eOperations name="getFontSizeDataformElement" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="int fontSize = 12; // Por defecto&#xD;&#xA;if (element instanceof GraphicalContainer) {&#xD;&#xA;&#x9;GraphicalContainer graphicalContainer = (GraphicalContainer) element;&#xD;&#xA;&#x9;EList&lt;tooldataform.styles.domain.Propertie> listProperties = graphicalContainer.getTheStyle().getTheCharacteristic()&#xD;&#xA;&#x9;&#x9;&#x9;.getListProperties();&#xD;&#xA;&#x9;for (int i = 0; i &lt; listProperties.size(); i++) {&#xD;&#xA;&#x9;&#x9;if (listProperties.get(i).getName().equals(&quot;Font Size&quot;))&#xD;&#xA;&#x9;&#x9;&#x9;fontSize = Integer.parseInt(listProperties.get(i).getValue());&#xD;&#xA;&#x9;}&#xD;&#xA;} else if (element instanceof tooldataform.formmodel.concreta.GraphicalIndividualEement) {&#xD;&#xA;&#x9;tooldataform.formmodel.concreta.GraphicalIndividualEement individualElement = &#xD;&#xA;&#x9;&#x9;&#x9;(tooldataform.formmodel.concreta.GraphicalIndividualEement) element;&#xD;&#xA;&#x9;EList&lt;tooldataform.styles.domain.Propertie> listProperties = individualElement.getTheStyle().getTheCharacteristic()&#xD;&#xA;&#x9;&#x9;&#x9;.getListProperties();&#xD;&#xA;&#x9;for (int i = 0; i &lt; listProperties.size(); i++) {&#xD;&#xA;&#x9;&#x9;if (listProperties.get(i).getName().equals(&quot;Font Size&quot;))&#xD;&#xA;&#x9;&#x9;&#x9;fontSize = Integer.parseInt(listProperties.get(i).getValue());&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;return fontSize;"/>
+        </eAnnotations>
+        <eParameters name="element" eType="#//datatypes/datatypesdataform/ModelElementDataForm"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelFactory" eType="#//datatypes/datatypesdataform/ModelFactory"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="dataformDiagram" eType="#//datatypes/datatypesdataform/DataForm_Diagram"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="interface1" eType="#//datatypes/datatypesdataform/Interface"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DataFormModelGenerator">
+      <eOperations name="createDataFormModel" eType="#//datatypes/datatypesdataform/DataForm_Diagram">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="tooldataform.formmodel.concreta.DataForm_Diagram diagram = tooldataform.formmodel.concreta.&#xD;&#xA;&#x9;&#x9;ConcretaFactory.eINSTANCE.createDataForm_Diagram();&#xD;&#xA;tooldataform.formmodel.concreta.Interface interFace  = tooldataform.formmodel.concreta.&#xD;&#xA;&#x9;&#x9;ConcretaFactory.eINSTANCE.createInterface();&#xD;&#xA;interFace.setName(&quot;Dataform Diagram&quot;);&#xD;&#xA;diagram.setTheInterface(interFace);&#xD;&#xA;diagram.setName(&quot;model.tooldataform_diagram&quot;);&#xD;&#xA;&#xD;&#xA;for(int i=0;i&lt;genModel.getListGenElements().size();i++){&#xD;&#xA;&#x9;GenElement genElement = genModel.getListGenElements().get(i);&#xD;&#xA;&#xD;&#xA;&#x9;if(genElement instanceof GenContainer){&#xD;&#xA;&#x9;&#x9;tooldataform.formmodel.concreta.Container container = createToolDataFormContainer(&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;domainStyle, (GenContainer) genElement);&#xD;&#xA;&#x9;&#x9;interFace.getListGraphicalContainer().add(container);&#xD;&#xA;&#x9;}else if(genElement instanceof generator.genmodel.genindividualcomponent.gentable.GenTable) {&#xD;&#xA;&#x9;&#x9;tooldataform.formmodel.concreta.TableView tableView = (TableView) &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;createGraphicalContainer(domainStyle, genElement);&#xD;&#xA;&#x9;&#x9;interFace.getListGraphicalContainer().add(tableView);&#xD;&#xA;&#x9;} &#xD;&#xA;&#x9;else if(genElement instanceof generator.genmodel.genindividualcomponent.gencombobox.GenComboBox) {&#xD;&#xA;&#x9;&#x9;tooldataform.formmodel.concreta.ComboView comboView = (ComboView) &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;createGraphicalContainer(domainStyle, genElement);&#xD;&#xA;&#x9;&#x9;interFace.getListGraphicalContainer().add(comboView);&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;else{&#xD;&#xA;&#x9;&#x9;interFace.getListIndividualElementDataForm().add(&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;createIndividualElement(domainStyle, genElement));&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;levelContainer = new HashMap&lt;GraphicalContainer, Integer>();&#xD;&#xA;setLevelContainer(interFace);&#xD;&#xA;for (int i = 0; i &lt; interFace.getListGraphicalContainer().size(); i++) {&#xD;&#xA;&#x9;setBoundsContainers(i, &quot;|&quot;, interFace.getListGraphicalContainer().get(i));&#xD;&#xA;}&#xD;&#xA;return diagram;&#xD;&#xA;"/>
+        </eAnnotations>
+        <eParameters name="domainStyle" eType="#//datatypes/datatypesdataform/DomanStyle"/>
+        <eParameters name="genModel" eType="#//genmodel/GenModel"/>
+      </eOperations>
+      <eOperations name="createToolDataFormContainer" eType="#//datatypes/datatypesdataform/Container">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="tooldataform.formmodel.concreta.Container container = tooldataform.formmodel.concreta.ConcretaFactory.eINSTANCE&#xD;&#xA;&#x9;&#x9;.createContainer();&#xD;&#xA;container.setName(parent.getTheContainer().getName());&#xD;&#xA;container.setPositionX(parent.getTheX().getValue());&#xD;&#xA;container.setPositionY(parent.getTheY().getValue());&#xD;&#xA;container.setWidth(parent.getTheWidth().getValue());&#xD;&#xA;container.setHeight(parent.getTheHeight().getValue());&#xD;&#xA;&#xD;&#xA;styles.domain.Style style = parent.getTheContainer().getTheStyle();&#xD;&#xA;styles.domain.Characteristic characteristic = style.getTheCharacteristic();&#xD;&#xA;&#xD;&#xA;tooldataform.styles.domain.Style styleDF = searchStyle(domainStyle, style.getName());&#xD;&#xA;domainStyle.getTheStyleFactory().getListStyle().remove(styleDF);&#xD;&#xA;&#xD;&#xA;styleDF = tooldataform.styles.domain.DomainFactory.eINSTANCE.createStyle();&#xD;&#xA;tooldataform.styles.domain.Characteristic characteristicDF = tooldataform.styles.domain.DomainFactory.eINSTANCE.createCharacteristic();&#xD;&#xA;styleDF.setName(style.getName());&#xD;&#xA;characteristicDF.setName(characteristic.getName());&#xD;&#xA;EList&lt;styles.domain.Propertie> lisProperties = characteristic.getListProperties();&#xD;&#xA;for (int i = 0; i &lt; lisProperties.size(); i++) {&#xD;&#xA;&#x9;tooldataform.styles.domain.Propertie propertieDF = tooldataform.styles.domain.DomainFactory.eINSTANCE.createPropertie();&#xD;&#xA;&#x9;propertieDF.setName(lisProperties.get(i).getName());&#xD;&#xA;&#x9;propertieDF.setValue(lisProperties.get(i).getValue());&#xD;&#xA;&#x9;characteristicDF.getListProperties().add(propertieDF);&#xD;&#xA;}&#xD;&#xA;tooldataform.styles.domain.Propertie propertieDF = tooldataform.styles.domain.DomainFactory.eINSTANCE.createPropertie();&#xD;&#xA;propertieDF.setName(&quot;Orientation&quot;);&#xD;&#xA;propertieDF.setValue(parent.getTheContainer().getOrientation());&#xD;&#xA;characteristicDF.getListProperties().add(propertieDF);&#xD;&#xA;&#xD;&#xA;domainStyle.getTheStyleFactory().getListStyle().add(styleDF);&#xD;&#xA;domainStyle.getTheCharacteristicFactory().getListCharacteristic().add(characteristicDF);&#xD;&#xA;styleDF.setTheCharacteristic(characteristicDF);&#xD;&#xA;&#xD;&#xA;container.setTheStyle(styleDF);&#xD;&#xA;&#xD;&#xA;for (int i = 0; i &lt; parent.getListGenElements().size(); i++) {&#xD;&#xA;&#x9;GenElement element = parent.getListGenElements().get(i);&#xD;&#xA;&#xD;&#xA;&#x9;if (element instanceof GenContainer) {&#xD;&#xA;&#x9;&#x9;tooldataform.formmodel.concreta.Container c = createToolDataFormContainer(domainStyle,&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;(GenContainer) element);&#xD;&#xA;&#x9;&#x9;container.getListGraphicalContainer().add(c);&#xD;&#xA;&#x9;} else if (element instanceof generator.genmodel.genindividualcomponent.gentable.GenTable&#xD;&#xA;&#x9;&#x9;&#x9;|| element instanceof generator.genmodel.genindividualcomponent.gencombobox.GenComboBox) {&#xD;&#xA;&#x9;&#x9;container.getListGraphicalContainer().add(createGraphicalContainer(domainStyle, element));&#xD;&#xA;&#x9;} else {&#xD;&#xA;&#x9;&#x9;container.getListIndividualElementDataForm().add(createIndividualElement(domainStyle, element));&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;return container;"/>
+        </eAnnotations>
+        <eParameters name="domainStyle" eType="#//datatypes/datatypesdataform/DomanStyle"/>
+        <eParameters name="parent" eType="#//genmodel/gencontainercomponent/gencontainer/GenContainer"/>
+      </eOperations>
+      <eOperations name="createIndividualElement" eType="#//datatypes/datatypesdataform/GraphicalIndividualEement">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="GraphicalIndividualEement individualElement = null;&#xD;&#xA;&#xD;&#xA;if (element instanceof generator.genmodel.genindividualcomponent.genbutton.GenButton) {&#xD;&#xA;&#x9;individualElement = createButton(domainStyle, (GenButton) element);&#xD;&#xA;} else if (element instanceof generator.genmodel.genindividualcomponent.genlabel.GenLabel) {&#xD;&#xA;&#x9;individualElement = createLabelView(domainStyle, (GenLabel) element);&#xD;&#xA;} else if (element instanceof generator.genmodel.genindividualcomponent.gentextfield.GenTextField) {&#xD;&#xA;&#x9;individualElement = createTextView(domainStyle, (GenTextField) element);&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;individualElement.setPositionX(element.getTheX().getValue());&#xD;&#xA;individualElement.setPositionY(element.getTheY().getValue());&#xD;&#xA;individualElement.setWidth(element.getTheWidth().getValue());&#xD;&#xA;individualElement.setHeight(element.getTheHeight().getValue());&#xD;&#xA;&#xD;&#xA;return individualElement;"/>
+        </eAnnotations>
+        <eParameters name="domainStyle" eType="#//datatypes/datatypesdataform/DomanStyle"/>
+        <eParameters name="element" eType="#//genmodel/GenElement"/>
+      </eOperations>
+      <eOperations name="createGraphicalContainer" eType="#//datatypes/datatypesdataform/GraphicalContainer">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="tooldataform.formmodel.containers.GraphicalContainer container = null;&#xD;&#xA;&#xD;&#xA;if (element instanceof generator.genmodel.genindividualcomponent.gentable.GenTable) {&#xD;&#xA;&#x9;GenTable genTable = (GenTable) element;&#xD;&#xA;&#x9;container = createTableView(domainStyle, (GenTable) element);&#xD;&#xA;} else if (element instanceof generator.genmodel.genindividualcomponent.gencombobox.GenComboBox) {&#xD;&#xA;&#x9;GenComboBox genComboBox = (GenComboBox) element;&#xD;&#xA;&#x9;container = createComboView(domainStyle, (GenComboBox) element);&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;container.setPositionX(element.getTheX().getValue());&#xD;&#xA;container.setPositionY(element.getTheY().getValue());&#xD;&#xA;container.setWidth(element.getTheWidth().getValue());&#xD;&#xA;container.setHeight(element.getTheHeight().getValue());&#xD;&#xA;&#xD;&#xA;return container;"/>
+        </eAnnotations>
+        <eParameters name="domainStyle" eType="#//datatypes/datatypesdataform/DomanStyle"/>
+        <eParameters name="element" eType="#//genmodel/GenElement"/>
+      </eOperations>
+      <eOperations name="createButton" eType="#//datatypes/datatypesdataform/Button">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="tooldataform.formmodel.concreta.Button button = tooldataform.formmodel.concreta.ConcretaFactory.eINSTANCE&#xD;&#xA;&#x9;&#x9;.createButton();&#xD;&#xA;styles.domain.Style style = genButton.getTheButton().getTheStyle();&#xD;&#xA;styles.domain.Characteristic characteristic = style.getTheCharacteristic();&#xD;&#xA;&#xD;&#xA;tooldataform.styles.domain.Style styleDF = searchStyle(domainStyle, style.getName());&#xD;&#xA;domainStyle.getTheStyleFactory().getListStyle().remove(styleDF);&#xD;&#xA;&#xD;&#xA;styleDF = tooldataform.styles.domain.DomainFactory.eINSTANCE.createStyle();&#xD;&#xA;tooldataform.styles.domain.Characteristic characteristicDF = tooldataform.styles.domain.DomainFactory.eINSTANCE.createCharacteristic();&#xD;&#xA;styleDF.setName(style.getName());&#xD;&#xA;characteristicDF.setName(characteristic.getName());&#xD;&#xA;EList&lt;styles.domain.Propertie> lisProperties = characteristic.getListProperties();&#xD;&#xA;for (int i = 0; i &lt; lisProperties.size(); i++) {&#xD;&#xA;&#x9;tooldataform.styles.domain.Propertie propertieDF = tooldataform.styles.domain.DomainFactory.eINSTANCE.createPropertie();&#xD;&#xA;&#x9;propertieDF.setName(lisProperties.get(i).getName());&#xD;&#xA;&#x9;propertieDF.setValue(lisProperties.get(i).getValue());&#xD;&#xA;&#x9;characteristicDF.getListProperties().add(propertieDF);&#xD;&#xA;}&#xD;&#xA;domainStyle.getTheStyleFactory().getListStyle().add(styleDF);&#xD;&#xA;domainStyle.getTheCharacteristicFactory().getListCharacteristic().add(characteristicDF);&#xD;&#xA;styleDF.setTheCharacteristic(characteristicDF);&#xD;&#xA;&#xD;&#xA;button.setTheStyle(styleDF);&#xD;&#xA;button.setName(genButton.getTheButton().getName());&#xD;&#xA;return button;"/>
+        </eAnnotations>
+        <eParameters name="domainStyle" eType="#//datatypes/datatypesdataform/DomanStyle"/>
+        <eParameters name="genButton" eType="#//genmodel/genindividualcomponent/genbutton/GenButton"/>
+      </eOperations>
+      <eOperations name="createComboView" eType="#//datatypes/datatypesdataform/ComboView">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="tooldataform.formmodel.concreta.ComboView combo = tooldataform.formmodel.concreta.ConcretaFactory.eINSTANCE&#xD;&#xA;&#x9;&#x9;.createComboView();&#xD;&#xA;styles.domain.Style style = genCombo.getTheComboBox().getTheStyle();&#xD;&#xA;styles.domain.Characteristic characteristic = style.getTheCharacteristic();&#xD;&#xA;&#xD;&#xA;tooldataform.styles.domain.Style styleDF = searchStyle(domainStyle, style.getName());&#xD;&#xA;domainStyle.getTheStyleFactory().getListStyle().remove(styleDF);&#xD;&#xA;&#xD;&#xA;styleDF = tooldataform.styles.domain.DomainFactory.eINSTANCE.createStyle();&#xD;&#xA;tooldataform.styles.domain.Characteristic characteristicDF = tooldataform.styles.domain.DomainFactory.eINSTANCE.createCharacteristic();&#xD;&#xA;styleDF.setName(style.getName());&#xD;&#xA;characteristicDF.setName(characteristic.getName());&#xD;&#xA;EList&lt;styles.domain.Propertie> lisProperties = characteristic.getListProperties();&#xD;&#xA;for (int i = 0; i &lt; lisProperties.size(); i++) {&#xD;&#xA;&#x9;tooldataform.styles.domain.Propertie propertieDF = tooldataform.styles.domain.DomainFactory.eINSTANCE.createPropertie();&#xD;&#xA;&#x9;propertieDF.setName(lisProperties.get(i).getName());&#xD;&#xA;&#x9;propertieDF.setValue(lisProperties.get(i).getValue());&#xD;&#xA;&#x9;characteristicDF.getListProperties().add(propertieDF);&#xD;&#xA;}&#xD;&#xA;domainStyle.getTheStyleFactory().getListStyle().add(styleDF);&#xD;&#xA;domainStyle.getTheCharacteristicFactory().getListCharacteristic().add(characteristicDF);&#xD;&#xA;styleDF.setTheCharacteristic(characteristicDF);&#xD;&#xA;&#xD;&#xA;combo.setTheStyle(styleDF);&#xD;&#xA;combo.setName(genCombo.getTheComboBox().getName());&#xD;&#xA;return combo;"/>
+        </eAnnotations>
+        <eParameters name="domainStyle" eType="#//datatypes/datatypesdataform/DomanStyle"/>
+        <eParameters name="genCombo" eType="#//genmodel/genindividualcomponent/gencombobox/GenComboBox"/>
+      </eOperations>
+      <eOperations name="createLabelView" eType="#//datatypes/datatypesdataform/LabelView">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="tooldataform.formmodel.concreta.LabelView label = tooldataform.formmodel.concreta.ConcretaFactory.eINSTANCE&#xD;&#xA;&#x9;&#x9;.createLabelView();&#xD;&#xA;styles.domain.Style style = genLabel.getTheLabel().getTheStyle();&#xD;&#xA;styles.domain.Characteristic characteristic = style.getTheCharacteristic();&#xD;&#xA;&#xD;&#xA;tooldataform.styles.domain.Style styleDF = searchStyle(domainStyle, style.getName());&#xD;&#xA;domainStyle.getTheStyleFactory().getListStyle().remove(styleDF);&#xD;&#xA;&#xD;&#xA;styleDF = tooldataform.styles.domain.DomainFactory.eINSTANCE.createStyle();&#xD;&#xA;tooldataform.styles.domain.Characteristic characteristicDF = tooldataform.styles.domain.DomainFactory.eINSTANCE.createCharacteristic();&#xD;&#xA;styleDF.setName(style.getName());&#xD;&#xA;characteristicDF.setName(characteristic.getName());&#xD;&#xA;EList&lt;styles.domain.Propertie> lisProperties = characteristic.getListProperties();&#xD;&#xA;for (int i = 0; i &lt; lisProperties.size(); i++) {&#xD;&#xA;&#x9;tooldataform.styles.domain.Propertie propertieDF = tooldataform.styles.domain.DomainFactory.eINSTANCE.createPropertie();&#xD;&#xA;&#x9;propertieDF.setName(lisProperties.get(i).getName());&#xD;&#xA;&#x9;propertieDF.setValue(lisProperties.get(i).getValue());&#xD;&#xA;&#x9;characteristicDF.getListProperties().add(propertieDF);&#xD;&#xA;}&#xD;&#xA;domainStyle.getTheStyleFactory().getListStyle().add(styleDF);&#xD;&#xA;domainStyle.getTheCharacteristicFactory().getListCharacteristic().add(characteristicDF);&#xD;&#xA;styleDF.setTheCharacteristic(characteristicDF);&#xD;&#xA;&#xD;&#xA;label.setTheStyle(styleDF);&#xD;&#xA;label.setName(genLabel.getTheLabel().getName());&#xD;&#xA;return label;"/>
+        </eAnnotations>
+        <eParameters name="domainStyle" eType="#//datatypes/datatypesdataform/DomanStyle"/>
+        <eParameters name="genLabel" eType="#//genmodel/genindividualcomponent/genlabel/GenLabel"/>
+      </eOperations>
+      <eOperations name="createTextView" eType="#//datatypes/datatypesdataform/TextView">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="tooldataform.formmodel.concreta.TextView text = tooldataform.formmodel.concreta.ConcretaFactory.eINSTANCE&#xD;&#xA;&#x9;&#x9;.createTextView();&#xD;&#xA;styles.domain.Style style = genText.getTheTextField().getTheStyle();&#xD;&#xA;styles.domain.Characteristic characteristic = style.getTheCharacteristic();&#xD;&#xA;&#xD;&#xA;tooldataform.styles.domain.Style styleDF = searchStyle(domainStyle, style.getName());&#xD;&#xA;domainStyle.getTheStyleFactory().getListStyle().remove(styleDF);&#xD;&#xA;&#xD;&#xA;styleDF = tooldataform.styles.domain.DomainFactory.eINSTANCE.createStyle();&#xD;&#xA;tooldataform.styles.domain.Characteristic characteristicDF = tooldataform.styles.domain.DomainFactory.eINSTANCE.createCharacteristic();&#xD;&#xA;styleDF.setName(style.getName());&#xD;&#xA;characteristicDF.setName(characteristic.getName());&#xD;&#xA;EList&lt;styles.domain.Propertie> lisProperties = characteristic.getListProperties();&#xD;&#xA;for (int i = 0; i &lt; lisProperties.size(); i++) {&#xD;&#xA;&#x9;tooldataform.styles.domain.Propertie propertieDF = tooldataform.styles.domain.DomainFactory.eINSTANCE.createPropertie();&#xD;&#xA;&#x9;propertieDF.setName(lisProperties.get(i).getName());&#xD;&#xA;&#x9;propertieDF.setValue(lisProperties.get(i).getValue());&#xD;&#xA;&#x9;characteristicDF.getListProperties().add(propertieDF);&#xD;&#xA;}&#xD;&#xA;domainStyle.getTheStyleFactory().getListStyle().add(styleDF);&#xD;&#xA;domainStyle.getTheCharacteristicFactory().getListCharacteristic().add(characteristicDF);&#xD;&#xA;styleDF.setTheCharacteristic(characteristicDF);&#xD;&#xA; &#xD;&#xA;text.setTheStyle(styleDF);&#xD;&#xA;text.setName(genText.getTheTextField().getName());&#xD;&#xA;return text;"/>
+        </eAnnotations>
+        <eParameters name="domainStyle" eType="#//datatypes/datatypesdataform/DomanStyle"/>
+        <eParameters name="genText" eType="#//genmodel/genindividualcomponent/gentextfield/GenTextField"/>
+      </eOperations>
+      <eOperations name="createTableView" eType="#//datatypes/datatypesdataform/TableView">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="tooldataform.formmodel.concreta.TableView table = tooldataform.formmodel.concreta.ConcretaFactory.eINSTANCE&#xD;&#xA;&#x9;&#x9;.createTableView();&#xD;&#xA;styles.domain.Style style = genTable.getTheTable().getTheStyle();&#xD;&#xA;styles.domain.Characteristic characteristic = style.getTheCharacteristic();&#xD;&#xA;&#xD;&#xA;tooldataform.styles.domain.Style styleDF = searchStyle(domainStyle, style.getName());&#xD;&#xA;domainStyle.getTheStyleFactory().getListStyle().remove(styleDF);&#xD;&#xA;&#xD;&#xA;styleDF = tooldataform.styles.domain.DomainFactory.eINSTANCE.createStyle();&#xD;&#xA;tooldataform.styles.domain.Characteristic characteristicDF = tooldataform.styles.domain.DomainFactory.eINSTANCE.createCharacteristic();&#xD;&#xA;styleDF.setName(style.getName());&#xD;&#xA;characteristicDF.setName(characteristic.getName());&#xD;&#xA;EList&lt;styles.domain.Propertie> lisProperties = characteristic.getListProperties();&#xD;&#xA;for (int i = 0; i &lt; lisProperties.size(); i++) {&#xD;&#xA;&#x9;tooldataform.styles.domain.Propertie propertieDF = tooldataform.styles.domain.DomainFactory.eINSTANCE.createPropertie();&#xD;&#xA;&#x9;propertieDF.setName(lisProperties.get(i).getName());&#xD;&#xA;&#x9;propertieDF.setValue(lisProperties.get(i).getValue());&#xD;&#xA;&#x9;characteristicDF.getListProperties().add(propertieDF);&#xD;&#xA;}&#xD;&#xA;domainStyle.getTheStyleFactory().getListStyle().add(styleDF);&#xD;&#xA;domainStyle.getTheCharacteristicFactory().getListCharacteristic().add(characteristicDF);&#xD;&#xA;styleDF.setTheCharacteristic(characteristicDF);&#xD;&#xA; &#xD;&#xA;table.setTheStyle(styleDF);&#xD;&#xA;table.setName(genTable.getTheTable().getName());&#xD;&#xA;for (int i = 0; i &lt; genTable.getListGenColumns().size(); i++) {&#xD;&#xA;&#x9;table.getListColumView().add(createColumView(domainStyle, (GenColumn) genTable.getListGenColumns().get(i)));&#xD;&#xA;}&#xD;&#xA;return table;"/>
+        </eAnnotations>
+        <eParameters name="domainStyle" eType="#//datatypes/datatypesdataform/DomanStyle"/>
+        <eParameters name="genTable" eType="#//genmodel/genindividualcomponent/gentable/GenTable"/>
+      </eOperations>
+      <eOperations name="createColumView" eType="#//datatypes/datatypesdataform/ColumView">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="tooldataform.formmodel.concreta.ColumView column = tooldataform.formmodel.concreta.ConcretaFactory.eINSTANCE&#xD;&#xA;&#x9;&#x9;.createColumView();&#xD;&#xA;styles.domain.Style style = genColumn.getTheColumn().getTheStyle();&#xD;&#xA;styles.domain.Characteristic characteristic = style.getTheCharacteristic();&#xD;&#xA;&#xD;&#xA;tooldataform.styles.domain.Style styleDF = searchStyle(domainStyle, style.getName());&#xD;&#xA;domainStyle.getTheStyleFactory().getListStyle().remove(styleDF);&#xD;&#xA;&#xD;&#xA;styleDF = tooldataform.styles.domain.DomainFactory.eINSTANCE.createStyle();&#xD;&#xA;tooldataform.styles.domain.Characteristic characteristicDF = tooldataform.styles.domain.DomainFactory.eINSTANCE.createCharacteristic();&#xD;&#xA;styleDF.setName(style.getName());&#xD;&#xA;characteristicDF.setName(characteristic.getName());&#xD;&#xA;EList&lt;styles.domain.Propertie> lisProperties = characteristic.getListProperties();&#xD;&#xA;for (int i = 0; i &lt; lisProperties.size(); i++) {&#xD;&#xA;&#x9;tooldataform.styles.domain.Propertie propertieDF = tooldataform.styles.domain.DomainFactory.eINSTANCE.createPropertie();&#xD;&#xA;&#x9;propertieDF.setName(lisProperties.get(i).getName());&#xD;&#xA;&#x9;propertieDF.setValue(lisProperties.get(i).getValue());&#xD;&#xA;&#x9;characteristicDF.getListProperties().add(propertieDF);&#xD;&#xA;}&#xD;&#xA;domainStyle.getTheStyleFactory().getListStyle().add(styleDF);&#xD;&#xA;domainStyle.getTheCharacteristicFactory().getListCharacteristic().add(characteristicDF);&#xD;&#xA;styleDF.setTheCharacteristic(characteristicDF);&#xD;&#xA;&#xD;&#xA;column.setTheStyle(styleDF);&#xD;&#xA;column.setName(genColumn.getTheColumn().getName());&#xD;&#xA;return column;"/>
+        </eAnnotations>
+        <eParameters name="domainStyle" eType="#//datatypes/datatypesdataform/DomanStyle"/>
+        <eParameters name="genColumn" eType="#//genmodel/genindividualcomponent/gencolunm/GenColumn"/>
+      </eOperations>
+      <eOperations name="setLevelContainer" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="if (container.getListGraphicalContainer().size() == 0) {&#xD;&#xA;&#x9;levelContainer.put(container, 1);&#xD;&#xA;&#x9;return 1;&#xD;&#xA;} else {&#xD;&#xA;&#x9;int max = 0;&#xD;&#xA;&#x9;for (int i = 0; i &lt; container.getListGraphicalContainer().size(); i++) {&#xD;&#xA;&#x9;&#x9;max = Math.max(max, setLevelContainer(container.getListGraphicalContainer().get(i)));&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;levelContainer.put(container, max + 1);&#xD;&#xA;&#x9;return max + 1;&#xD;&#xA;}"/>
+        </eAnnotations>
+        <eParameters name="container" eType="#//datatypes/datatypesdataform/GraphicalContainer"/>
+      </eOperations>
+      <eOperations name="setBoundsContainers">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="int level = (int) levelContainer.get(container);&#xD;&#xA;if (container.getListGraphicalContainer().size() > 0) {&#xD;&#xA;&#x9;container.setHeight(container.getHeight() + (65 * level) + &#xD;&#xA;&#x9;&#x9;&#x9;((container.getListGraphicalContainer().size() - 1) * 60));&#xD;&#xA;} else {&#xD;&#xA;&#x9;container.setHeight(container.getHeight() + (65 * level));&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;if (orientation.equals(&quot;-&quot;))&#xD;&#xA;&#x9;container.setPositionY(container.getPositionY() + 65 * index);&#xD;&#xA;&#xD;&#xA;for (int i = 0; i &lt; container.getListGraphicalContainer().size(); i++) {&#xD;&#xA;&#x9;setBoundsContainers(i, getOrientation(container.getTheStyle()), &#xD;&#xA;&#x9;&#x9;&#x9;container.getListGraphicalContainer().get(i));&#xD;&#xA;}"/>
+        </eAnnotations>
+        <eParameters name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+        <eParameters name="orientation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eParameters name="container" eType="#//datatypes/datatypesdataform/GraphicalContainer"/>
+      </eOperations>
+      <eOperations name="getOrientation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="tooldataform.styles.domain.Characteristic characteristic = style.getTheCharacteristic();&#xD;&#xA;EList&lt;tooldataform.styles.domain.Propertie> listProperties = characteristic.getListProperties();&#xD;&#xA;for (int i = 0; i &lt; listProperties.size(); i++) {&#xD;&#xA;&#x9;if (listProperties.get(i).getName().equals(&quot;Orientation&quot;)) {&#xD;&#xA;&#x9;&#x9;return listProperties.get(i).getValue();&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;return null;"/>
+        </eAnnotations>
+        <eParameters name="style" eType="#//datatypes/datatypesdataform/Style"/>
+      </eOperations>
+      <eOperations name="searchStyle" eType="#//datatypes/datatypesdataform/Style">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="EList&lt;tooldataform.styles.domain.Style> lisStyles = domain.getTheStyleFactory().getListStyle();&#xD;&#xA;for (int i = 0; i &lt; lisStyles.size(); i++) {&#xD;&#xA;&#x9;if(lisStyles.get(i).getName().equals(styleName))&#xD;&#xA;&#x9;&#x9;return lisStyles.get(i);&#xD;&#xA;}&#xD;&#xA;return null;"/>
+        </eAnnotations>
+        <eParameters name="domain" eType="#//datatypes/datatypesdataform/DomanStyle"/>
+        <eParameters name="styleName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="levelContainer" eType="ecore:EDataType ../../compilator/model/compilator.ecore#//domain/datatypes/util/HashMap"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

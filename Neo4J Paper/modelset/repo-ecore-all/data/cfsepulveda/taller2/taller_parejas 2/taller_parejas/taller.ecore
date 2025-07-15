@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="cloud_computing" nsURI="https://uniandes.edu.co/cloud_computing"
+    nsPrefix="cloud_computing">
+  <eClassifiers xsi:type="ecore:EClass" name="Conexion">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="atributosC" upperBound="-1"
+        eType="#//Atributos" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nombreConexion" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Atributos">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nombre" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tipoDato" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tipoConexion" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Proveedor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conexiones" upperBound="-1"
+        eType="#//Conexion" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ambientesdespliegue" upperBound="-1"
+        eType="#//AmbienteDespliegue" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gate" lowerBound="1" upperBound="-1"
+        eType="#//Gateway" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nombre" eType="#//ProveedorServicio"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="securitygroups" upperBound="-1"
+        eType="#//SecurityGroup" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="vpc" lowerBound="1" upperBound="-1"
+        eType="#//VPC" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AmbienteDespliegue">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tipoAmbiente" eType="#//Ambiente"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="alias" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="servidores" upperBound="-1"
+        eType="#//Servidor" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Ambiente">
+    <eLiterals name="DESARROLLO"/>
+    <eLiterals name="PRUEBAS" value="1"/>
+    <eLiterals name="QA" value="2"/>
+    <eLiterals name="PRODUCCION" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Servidor" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nombre" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="TamanoM" eType="#//TamanoMaquina"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="servidor" upperBound="-1"
+        eType="#//Servidor"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="vpc" eType="#//VPC"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subred" eType="#//Subred"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sgout" eType="#//SecurityGroup"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sgin" eType="#//SecurityGroup"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServidorAplicacion" eSuperTypes="#//Servidor">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sistemaO" eType="#//SistemaOperativo"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TamanoMaquina">
+    <eLiterals name="MICRO"/>
+    <eLiterals name="SMALL" value="1"/>
+    <eLiterals name="MEDIUM" value="2"/>
+    <eLiterals name="LARGE" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServidorBaseDeDatos" eSuperTypes="#//Servidor">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tipo" eType="#//TipoBaseDeDatos"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sistemaManejador" eType="#//SistemaManejador"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TipoBaseDeDatos">
+    <eLiterals name="RELACIONAL"/>
+    <eLiterals name="NoSQL" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SistemaManejador">
+    <eLiterals name="PostgreSQL"/>
+    <eLiterals name="MySQL" value="1"/>
+    <eLiterals name="Oracle" value="2"/>
+    <eLiterals name="SQLServer" value="3"/>
+    <eLiterals name="NoSql" value="4"/>
+    <eLiterals name="Aurora" value="5"/>
+    <eLiterals name="MariaDB" value="6"/>
+    <eLiterals name="DocumentDB" value="7"/>
+    <eLiterals name="Dynamo" value="8"/>
+    <eLiterals name="Cassandra" value="9"/>
+    <eLiterals name="Redis" value="10"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SistemaOperativo">
+    <eLiterals name="WINDOWS"/>
+    <eLiterals name="lINUX" value="1"/>
+    <eLiterals name="MAC" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Gateway">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="vpc" eType="#//VPC"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VPC">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subredes" lowerBound="1"
+        upperBound="-1" eType="#//Subred" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Rules">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="protocol" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="portRange" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Source" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SecurityGroup">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rulesSG" upperBound="-1"
+        eType="#//Rules" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Subred">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cidr" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="az" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServidorAlmacenamiento" eSuperTypes="#//Servidor">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tamanoInicial" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ProveedorServicio">
+    <eLiterals name="AWS"/>
+    <eLiterals name="GCP" value="1"/>
+  </eClassifiers>
+</ecore:EPackage>

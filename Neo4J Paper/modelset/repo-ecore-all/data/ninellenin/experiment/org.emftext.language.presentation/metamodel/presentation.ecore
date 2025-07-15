@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="presentation" nsURI="http://www.emftext.org/language/presentation"
+    nsPrefix="presentation">
+  <eSubpackages name="literal" nsURI="http://www.emftext.org/language/presentation/literal"
+      nsPrefix="literal">
+    <eClassifiers xsi:type="ecore:EClass" name="Literal" abstract="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="NumericLiteral" abstract="true" eSuperTypes="#//literal/Literal"/>
+    <eClassifiers xsi:type="ecore:EClass" name="NumberLiteral" eSuperTypes="#//literal/NumericLiteral">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="GeneralLiteral" abstract="true" eSuperTypes="#//literal/Literal"/>
+    <eClassifiers xsi:type="ecore:EClass" name="BooleanLiteral" eSuperTypes="#//literal/GeneralLiteral">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="NameLiteral" eSuperTypes="#//literal/TextLiteral"/>
+    <eClassifiers xsi:type="ecore:EClass" name="FilenameLiteral" eSuperTypes="#//literal/TextLiteral"/>
+    <eClassifiers xsi:type="ecore:EClass" name="TextLiteral" eSuperTypes="#//literal/GeneralLiteral">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="scenario" nsURI="http://www.emftext.org/language/presentation/scenario"
+      nsPrefix="scenario">
+    <eClassifiers xsi:type="ecore:EClass" name="ScenarioFile" abstract="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Header" eSuperTypes="#//scenario/ScenarioFile">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parameter" upperBound="-1"
+          eType="#//parameter/HeaderParameter" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SDL" eSuperTypes="#//scenario/ScenarioFile">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="scenario_object" upperBound="-1"
+          eType="#//stimulus/ScenarioObject" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PCL" eSuperTypes="#//scenario/ScenarioFile">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="statement" upperBound="-1"
+          eType="#//control/statements/Statement" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Scenario" eSuperTypes="#//general/NamedElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="header" lowerBound="1"
+          eType="#//scenario/Header" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="sdl" upperBound="-1"
+          eType="#//scenario/SDL" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pcl" upperBound="-1"
+          eType="#//scenario/PCL" containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="parameter" nsURI="http://www.emftext.org/language/presentation/parameter"
+      nsPrefix="parameter">
+    <eClassifiers xsi:type="ecore:EClass" name="Parameter" abstract="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="HeaderParameter" abstract="true" eSuperTypes="#//parameter/Parameter"/>
+    <eClassifiers xsi:type="ecore:EClass" name="StimulusEventParameter" abstract="true"
+        eSuperTypes="#//parameter/Parameter"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ActiveButtonsParameter" eSuperTypes="#//parameter/HeaderParameter">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="number_literal" lowerBound="1"
+          eType="#//literal/NumberLiteral" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ButtonCodesParameter" eSuperTypes="#//parameter/HeaderParameter">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="number_literal" lowerBound="1"
+          upperBound="-1" eType="#//literal/NumberLiteral" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ScenarioNameParameter" eSuperTypes="#//parameter/HeaderParameter">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="name_literal" lowerBound="1"
+          eType="#//literal/NameLiteral" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TimeParameter" eSuperTypes="#//parameter/StimulusEventParameter">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="number_literal" lowerBound="1"
+          eType="#//literal/NumberLiteral" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TargetButtonParameter" eSuperTypes="#//parameter/StimulusEventParameter">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="number_literal" lowerBound="1"
+          eType="#//literal/NumberLiteral" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CodeParameter" eSuperTypes="#//parameter/StimulusEventParameter">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="text_literal" lowerBound="1"
+          eType="#//literal/TextLiteral" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PictureParameter" abstract="true"
+        eSuperTypes="#//parameter/Parameter"/>
+    <eClassifiers xsi:type="ecore:EClass" name="BackgroundColorParameter" eSuperTypes="#//parameter/PictureParameter">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="number_literal" lowerBound="3"
+          upperBound="3" eType="#//literal/NumberLiteral" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TextParameter" abstract="true" eSuperTypes="#//parameter/Parameter"/>
+    <eClassifiers xsi:type="ecore:EClass" name="CaptionParameter" eSuperTypes="#//parameter/TextParameter">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="text_literal" lowerBound="1"
+          eType="#//literal/TextLiteral" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BitmapParameter" abstract="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="FilenameParameter" eSuperTypes="#//parameter/BitmapParameter">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="filename_literal" lowerBound="1"
+          eType="#//literal/FilenameLiteral" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TrialParameter" abstract="true" eSuperTypes="#//parameter/Parameter"/>
+  </eSubpackages>
+  <eSubpackages name="general" nsURI="http://www.emftext.org/language/presentation/general"
+      nsPrefix="general">
+    <eClassifiers xsi:type="ecore:EClass" name="CoordinateDefinition">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="coordinate" ordered="false"
+          unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloatObject"
+          defaultValueLiteral="0."/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1"
+          eType="#//general/CoordinateType"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="right_bottom" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloatObject"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          defaultValueLiteral="-"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="CoordinateType">
+      <eLiterals name="X"/>
+      <eLiterals name="Y" value="1"/>
+      <eLiterals name="CENTER_X" value="2"/>
+      <eLiterals name="CENTER_Y" value="3"/>
+      <eLiterals name="LEFT_X" value="4"/>
+      <eLiterals name="TOP_Y" value="5"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="stimulus" nsURI="http://www.emftext.org/language/presentation/stimulus"
+      nsPrefix="stimulus">
+    <eClassifiers xsi:type="ecore:EClass" name="Stimulus" abstract="true" eSuperTypes="#//stimulus/ScenarioObject"/>
+    <eClassifiers xsi:type="ecore:EClass" name="StimulusEvent" abstract="true" eSuperTypes="#//stimulus/ScenarioObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="stimulus_event_parameter"
+          upperBound="-1" eType="#//parameter/StimulusEventParameter" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="StimulusList">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="stimulus_event" upperBound="-1"
+          eType="#//stimulus/StimulusEvent" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Trial" eSuperTypes="#//stimulus/ScenarioObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="stimulus_list" lowerBound="1"
+          eType="#//stimulus/StimulusList" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="trial_parameter" upperBound="-1"
+          eType="#//parameter/TrialParameter" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ScenarioObject" abstract="true" eSuperTypes="#//general/NamedElement"/>
+    <eSubpackages name="picture" nsURI="http://www.emftext.org/language/presentation/stimulus/picture"
+        nsPrefix="picture">
+      <eClassifiers xsi:type="ecore:EClass" name="Picture" eSuperTypes="#//stimulus/Stimulus">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="picture_part" upperBound="-1"
+            eType="#//stimulus/picture/PicturePart" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="picture_parameter"
+            upperBound="-1" eType="#//parameter/PictureParameter" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="PictureStimulusEvent" eSuperTypes="#//stimulus/StimulusEvent">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="picture" lowerBound="1"
+            eType="#//stimulus/picture/Picture" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="PicturePart" abstract="true" eSuperTypes="#//stimulus/ScenarioObject"/>
+      <eClassifiers xsi:type="ecore:EClass" name="Bitmap" eSuperTypes="#//stimulus/picture/Graphic2D">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="filename_parameter"
+            lowerBound="1" eType="#//parameter/FilenameParameter" volatile="true"
+            transient="true" containment="true" resolveProxies="false">
+          <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+            <details key="namespace" value=""/>
+            <details key="group" value="#bitmap_parameters"/>
+          </eAnnotations>
+        </eStructuralFeatures>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="bitmap_parameters"
+            upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFeatureMapEntry">
+          <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+            <details key="name" value="bitmap_parameters"/>
+          </eAnnotations>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Text" eSuperTypes="#//stimulus/picture/Graphic2D">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="caption" lowerBound="1"
+            eType="#//parameter/CaptionParameter" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="text_parameter" upperBound="-1"
+            eType="#//parameter/TextParameter" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Box" eSuperTypes="#//stimulus/picture/Graphic2D"/>
+      <eClassifiers xsi:type="ecore:EClass" name="Graphic2D" abstract="true" eSuperTypes="#//stimulus/ScenarioObject"/>
+      <eClassifiers xsi:type="ecore:EClass" name="Stimulus2D" abstract="true" eSuperTypes="#//stimulus/picture/PicturePart">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="x_definition" lowerBound="1"
+            eType="#//general/CoordinateDefinition" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="y_definition" lowerBound="1"
+            eType="#//general/CoordinateDefinition" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="BitmapStimulus" eSuperTypes="#//stimulus/picture/Stimulus2D">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="bitmap" lowerBound="1"
+            eType="#//stimulus/picture/Bitmap" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="BoxStimulus" eSuperTypes="#//stimulus/picture/Stimulus2D">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="box" lowerBound="1"
+            eType="#//stimulus/picture/Box" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="TextStimulus" eSuperTypes="#//stimulus/picture/Stimulus2D">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="text" lowerBound="1"
+            eType="#//stimulus/picture/Text" containment="true"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="sound" nsURI="http://www.emftext.org/language/presentation/stimulus/sound"
+        nsPrefix="sound">
+      <eClassifiers xsi:type="ecore:EClass" name="Sound" eSuperTypes="#//stimulus/Stimulus"/>
+    </eSubpackages>
+  </eSubpackages>
+  <eSubpackages name="control" nsURI="http://www.emftext.org/language/presentation/control"
+      nsPrefix="control">
+    <eSubpackages name="types" nsURI="http://www.emftext.org/language/presentation/control/types"
+        nsPrefix="types">
+      <eClassifiers xsi:type="ecore:EClass" name="Type" abstract="true"/>
+      <eClassifiers xsi:type="ecore:EClass" name="BasicType" abstract="true" eSuperTypes="#//control/types/Type"/>
+      <eClassifiers xsi:type="ecore:EClass" name="Bool" eSuperTypes="#//control/types/BasicType"/>
+      <eClassifiers xsi:type="ecore:EClass" name="Int" eSuperTypes="#//control/types/BasicType"/>
+      <eClassifiers xsi:type="ecore:EClass" name="Double" eSuperTypes="#//control/types/BasicType"/>
+      <eClassifiers xsi:type="ecore:EClass" name="String" eSuperTypes="#//control/types/BasicType"/>
+    </eSubpackages>
+    <eSubpackages name="keywords" nsURI="http://www.emftext.org/language/presentation/control/keywords"
+        nsPrefix="keywords"/>
+    <eSubpackages name="expressions" nsURI="http://www.emftext.org/language/presentation/control/expressions"
+        nsPrefix="expressions">
+      <eClassifiers xsi:type="ecore:EClass" name="BooleanExpression" abstract="true"
+          eSuperTypes="#//control/expressions/Expression"/>
+      <eClassifiers xsi:type="ecore:EClass" name="OrExpression" eSuperTypes="#//control/expressions/BooleanExpression">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="argument" lowerBound="2"
+            upperBound="-1" eType="#//control/expressions/BooleanExpression" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="AndExpression" eSuperTypes="#//control/expressions/BooleanExpression">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="argument" lowerBound="2"
+            upperBound="-1" eType="#//control/expressions/BooleanExpression" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="NotExpression" eSuperTypes="#//control/expressions/BooleanExpression">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="argument" lowerBound="1"
+            eType="#//control/expressions/BooleanExpression" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="AtomExpression" abstract="true"
+          eSuperTypes="#//control/expressions/BooleanExpression"/>
+      <eClassifiers xsi:type="ecore:EClass" name="BoolExpression" eSuperTypes="#//control/expressions/AtomExpression">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="value" unique="false"
+            lowerBound="1" eType="#//literal/BooleanLiteral" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="EqualsExpression" eSuperTypes="#//control/expressions/AtomExpression">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="arguments" lowerBound="2"
+            upperBound="2" eType="#//control/expressions/Expression" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Expression" abstract="true" eSuperTypes="#//control/common/VariableInitializer"/>
+      <eClassifiers xsi:type="ecore:EClass" name="StatementExpression" abstract="true"/>
+      <eClassifiers xsi:type="ecore:EClass" name="AssignmentExpression" eSuperTypes="#//control/expressions/Expression #//control/expressions/StatementExpression">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="assignmentOperator"
+            lowerBound="1" eType="#//control/operators/AssignmentOperator" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="expression" lowerBound="1"
+            eType="#//control/expressions/Expression" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="PrimaryExpression" abstract="true"/>
+    </eSubpackages>
+    <eSubpackages name="operators" nsURI="http://www.emftext.org/language/presentation/control/operators"
+        nsPrefix="operators">
+      <eClassifiers xsi:type="ecore:EClass" name="Operator" abstract="true"/>
+      <eClassifiers xsi:type="ecore:EClass" name="AssignmentOperator" abstract="true"
+          eSuperTypes="#//control/operators/Operator"/>
+      <eClassifiers xsi:type="ecore:EClass" name="RelationOperator" abstract="true"
+          eSuperTypes="#//control/operators/Operator"/>
+      <eClassifiers xsi:type="ecore:EClass" name="EqualityOperator" abstract="true"
+          eSuperTypes="#//control/operators/Operator"/>
+      <eClassifiers xsi:type="ecore:EClass" name="MultiplicativeOperator" abstract="true"
+          eSuperTypes="#//control/operators/Operator"/>
+      <eClassifiers xsi:type="ecore:EClass" name="UnaryOperator" abstract="true" eSuperTypes="#//control/operators/Operator"/>
+      <eClassifiers xsi:type="ecore:EClass" name="AdditiveOperator" abstract="true"
+          eSuperTypes="#//control/operators/Operator"/>
+      <eClassifiers xsi:type="ecore:EClass" name="Assignment" eSuperTypes="#//control/operators/AssignmentOperator"/>
+      <eClassifiers xsi:type="ecore:EClass" name="Greater" eSuperTypes="#//control/operators/RelationOperator"/>
+      <eClassifiers xsi:type="ecore:EClass" name="Less" eSuperTypes="#//control/operators/RelationOperator"/>
+      <eClassifiers xsi:type="ecore:EClass" name="GreaterOrEqual" eSuperTypes="#//control/operators/RelationOperator"/>
+      <eClassifiers xsi:type="ecore:EClass" name="LessOrEqual" eSuperTypes="#//control/operators/RelationOperator"/>
+      <eClassifiers xsi:type="ecore:EClass" name="Equal" eSuperTypes="#//control/operators/EqualityOperator"/>
+      <eClassifiers xsi:type="ecore:EClass" name="NotEqual" eSuperTypes="#//control/operators/EqualityOperator"/>
+    </eSubpackages>
+    <eSubpackages name="statements" nsURI="http://www.emftext.org/language/presentation/control/statements"
+        nsPrefix="statements">
+      <eClassifiers xsi:type="ecore:EClass" name="Statement" abstract="true"/>
+      <eClassifiers xsi:type="ecore:EClass" name="StatementList">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="statement" lowerBound="1"
+            upperBound="-1" eType="#//control/statements/Statement" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Inclusion" eSuperTypes="#//control/statements/Statement"/>
+      <eClassifiers xsi:type="ecore:EClass" name="Assignment" eSuperTypes="#//control/statements/Statement">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="expression" lowerBound="1"
+            eType="#//control/expressions/Expression" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Loop" eSuperTypes="#//control/statements/Statement">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="init" lowerBound="1"
+            eType="#//control/statements/StatementList" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1"
+            eType="#//control/statements/StatementList" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="condition" lowerBound="1"
+            eType="#//control/expressions/BooleanExpression" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="VariableDeclaration" eSuperTypes="#//control/statements/ForInitializer #//control/statements/ResourceAcquisition">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//control/types/Type"
+            containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="variableDeclarator"
+            upperBound="-1" eType="#//control/statements/VariableDeclarator" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="DeclarationStatement" eSuperTypes="#//control/statements/Statement">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="variableDeclaration"
+            eType="#//control/statements/VariableDeclaration" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ForInitializer" abstract="true"/>
+      <eClassifiers xsi:type="ecore:EClass" name="ResourceAcquisition" abstract="true"/>
+      <eClassifiers xsi:type="ecore:EClass" name="VariableDeclarator" eSuperTypes="#//control/common/NamedElement">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="variableInitializer"
+            eType="#//control/common/VariableInitializer" containment="true"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="common" nsURI="http://www.emftext.org/language/presentation/control/common"
+        nsPrefix="common">
+      <eClassifiers xsi:type="ecore:EClass" name="VariableInitializer" abstract="true"/>
+      <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+            defaultValueLiteral=""/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Identifier" eSuperTypes="#//control/common/NamedElement"/>
+    </eSubpackages>
+    <eSubpackages name="program" nsURI="http://www.emftext.org/language/presentation/control/program"
+        nsPrefix="program">
+      <eClassifiers xsi:type="ecore:EClass" name="Block">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="statement" upperBound="-1"
+            eType="#//control/statements/Statement"/>
+      </eClassifiers>
+    </eSubpackages>
+  </eSubpackages>
+</ecore:EPackage>

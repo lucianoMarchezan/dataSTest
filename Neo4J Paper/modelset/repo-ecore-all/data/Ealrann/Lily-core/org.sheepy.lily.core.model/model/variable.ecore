@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="variable" nsURI="org.sheepy.lily.core.model.variable" nsPrefix="variable">
+  <eClassifiers xsi:type="ecore:EClass" name="IVariableResolver" abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IDefinitionContainer" abstract="true"
+      interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="variableDefinition" unique="false"
+        lowerBound="1" eType="#//VariableDefinition"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ChainVariableResolver" eSuperTypes="#//IVariableResolver">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="firstResolver" lowerBound="1"
+        eType="#//IVariableResolver" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subResolvers" lowerBound="1"
+        upperBound="-1" eType="#//ChainResolver" containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ChainResolver" eSuperTypes="#//IDefinitionContainer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractDefinedVariableResolver" abstract="true"
+      eSuperTypes="#//IVariableResolver #//IDefinitionContainer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DirectVariableResolver" eSuperTypes="#//AbstractDefinedVariableResolver">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="LResolvedVariableFeature" instanceClassName="org.sheepy.lily.core.api.util.FeatureDefinition"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="VariableDefinition" instanceClassName="java.lang.String"/>
+  <eClassifiers xsi:type="ecore:EClass" name="VarChangeAction" abstract="true" eSuperTypes="action.ecore#//Action">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variableResolver" lowerBound="1"
+        eType="#//AbstractDefinedVariableResolver" containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanChangeAction" eSuperTypes="#//VarChangeAction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IntChangeAction" eSuperTypes="#//VarChangeAction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VarChangeActionPkg">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1"
+        eType="#//VarChangeAction" containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IModelVariable" abstract="true" interface="true"
+      eSuperTypes="types.ecore#//LNamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ModelVariablePkg">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variables" upperBound="-1"
+        eType="#//IModelVariable" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntVariable" eSuperTypes="#//IModelVariable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FloatVariable" eSuperTypes="#//IModelVariable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Vector3fVariable" eSuperTypes="#//IModelVariable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="vector" eType="ecore:EDataType types.ecore#//Vector3f"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DurationVariable" eSuperTypes="#//IModelVariable"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IModelVariableAction" abstract="true"
+      interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IModelVariableActionContainer" abstract="true"
+      interface="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1"
+        eType="#//IModelVariableAction" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetVariableAction" eSuperTypes="#//IModelVariableAction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
+        eType="#//IModelVariable"/>
+  </eClassifiers>
+</ecore:EPackage>

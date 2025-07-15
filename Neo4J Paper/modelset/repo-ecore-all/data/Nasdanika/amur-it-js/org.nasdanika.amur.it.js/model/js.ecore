@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="js" nsURI="urn:org.nasdanika.amur.it.js" nsPrefix="org.nasdanika.amur.it.js">
+  <eClassifiers xsi:type="ecore:EEnum" name="Cloning">
+    <eLiterals name="None"/>
+    <eLiterals name="Shallow" value="1"/>
+    <eLiterals name="Deep" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Join">
+    <eLiterals name="None"/>
+    <eLiterals name="Inner" value="1"/>
+    <eLiterals name="Outer" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="JoinScope">
+    <eLiterals name="Flow"/>
+    <eLiterals name="Invocation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ReferenceScope">
+    <eLiterals name="Component" literal="Component"/>
+    <eLiterals name="Invocation" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Parameter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="token" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cloning" eType="#//Cloning"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PortDescriptor" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//Parameter"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionPortDescriptor" eSuperTypes="#//PortDescriptor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thrownErrors" upperBound="-1"
+        eType="#//Parameter" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//Parameter" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PropertyPortDescriptor" eSuperTypes="#//PortDescriptor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Component" abstract="true" eSuperTypes="../../org.nasdanika.amur/model/amur.ecore#//ImplementationType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="declarations" eType="ecore:EClass ../../org.nasdanika.amur.lang/model/Lang.ecore#//Source"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="start" eType="ecore:EClass ../../org.nasdanika.amur.lang/model/Lang.ecore#//Source"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stop" eType="ecore:EClass ../../org.nasdanika.amur.lang/model/Lang.ecore#//Source"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Connection" abstract="true" eSuperTypes="#//Component">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sourcePort" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sourceName" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="targetPort" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="targetName" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractNode" abstract="true" eSuperTypes="#//Component">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inboundTransitionsOrder"
+        upperBound="-1" eType="ecore:EClass ../../org.nasdanika.amur/model/amur.ecore#//Connection"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outboundTransitionsOrder"
+        upperBound="-1" eType="ecore:EClass ../../org.nasdanika.amur/model/amur.ecore#//Transition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="errorTransitionsOrder"
+        upperBound="-1" eType="ecore:EClass ../../org.nasdanika.amur/model/amur.ecore#//ErrorTransition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="errorHandlersOrder" upperBound="-1"
+        eType="ecore:EClass ../../org.nasdanika.amur/model/amur.ecore#//ErrorHandler"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="joinConditions" upperBound="-1"
+        eType="#//JoinEntry" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="joinFork" eType="ecore:EClass ../../org.nasdanika.amur/model/amur.ecore#//Component"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JoinEntry">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="port" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conditions" upperBound="-1"
+        eType="ecore:EClass ../../org.nasdanika.amur.lang/model/Lang.ecore#//Source"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractCall" abstract="true" eSuperTypes="#//Connection"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractTransition" abstract="true"
+      eSuperTypes="#//Connection"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractReference" abstract="true" eSuperTypes="#//Connection"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractErrorTransition" abstract="true"
+      eSuperTypes="#//Connection"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractErrorHandler" abstract="true"
+      eSuperTypes="#//AbstractNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractEventListener" abstract="true"
+      eSuperTypes="#//AbstractNode"/>
+  <eSubpackages name="exec" nsURI="urn:org.nasdanika.amur.it.js.exec" nsPrefix="org.nasdanika.amur.it.js.exec">
+    <eClassifiers xsi:type="ecore:EClass" name="Initializer" abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="javaScript" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+          changeable="false" volatile="true" transient="true" defaultValueLiteral=""
+          derived="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="comment" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Property" eSuperTypes="#//exec/Initializer">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="accessor" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="mutator" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="mutatorParameterName"
+          eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+          defaultValueLiteral="newValue"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Function" eSuperTypes="#//exec/Initializer">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+          eType="#//Parameter" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="body" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Fragment" eSuperTypes="#//exec/Initializer">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="code" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Array" eSuperTypes="#//exec/Initializer">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+          eType="#//exec/Initializer" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Hash" eSuperTypes="#//exec/Initializer">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="entries" upperBound="-1"
+          eType="#//exec/HashEntry" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+          changeable="false" volatile="true" transient="true" defaultValueLiteral=""
+          derived="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="HashEntry" instanceClassName="java.util.Map$Entry">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//exec/Initializer"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Component" eSuperTypes="#//exec/Hash">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+          iD="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="inputs" upperBound="-1"
+          eType="#//exec/DependencyEntry" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outputs" upperBound="-1"
+          eType="#//exec/DependencyEntry" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="weight" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="startLevel" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"
+          defaultValueLiteral="-2"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="forceable" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+          defaultValueLiteral="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="creator" eType="#//Component"
+          transient="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="startRoot" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="startTerminal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DependencyEntry" instanceClassName="java.util.Map$Entry">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="key" eType="#//exec/Component"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//exec/DependencyInfo"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="DependencyRole">
+      <eLiterals name="Property"/>
+      <eLiterals name="Function" value="1"/>
+      <eLiterals name="Dispatch" value="2"/>
+      <eLiterals name="ErrorHandler" value="3"/>
+      <eLiterals name="EventSink" value="4"/>
+      <eLiterals name="None" value="5"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="OutputType">
+      <eLiterals name="Synchronous"/>
+      <eLiterals name="NextTick" value="1"/>
+      <eLiterals name="Timeout" value="2"/>
+      <eLiterals name="Delay" value="3"/>
+      <eLiterals name="Interval" value="4"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DependencyInfo">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="weightCoeff" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"
+          defaultValueLiteral="1"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="guard" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+          eType="#//Parameter" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+          iD="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="order" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"
+          defaultValueLiteral="-1"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="role" eType="#//exec/DependencyRole"
+          defaultValueLiteral="None"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="outputType" eType="#//exec/OutputType"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="code" upperBound="-1"
+          eType="#//exec/CodeEntry" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="referenceScope" eType="#//ReferenceScope"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="joinType" eType="#//Join"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="joinConditions" upperBound="-1"
+          eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CodeEntry" instanceClassName="java.util.Map$Entry">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

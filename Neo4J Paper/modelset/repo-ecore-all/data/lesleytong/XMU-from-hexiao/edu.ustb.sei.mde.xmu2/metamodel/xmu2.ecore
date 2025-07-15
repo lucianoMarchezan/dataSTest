@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="xmu2" nsURI="http://www.ustb.edu.cn/sei/mde/xmu2" nsPrefix="xmu2">
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransformationModel" eSuperTypes="xmu2common.ecore#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="packages" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entryPoints" upperBound="-1"
+        eType="#//EntryPoint" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"
+        eType="#//AbstractRule" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EntryPoint">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rule" lowerBound="1" eType="#//ModelRule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" lowerBound="1"
+        upperBound="-1" eType="#//EntryData" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EntryData" eSuperTypes="xmu2common.ecore#//DomainElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fragment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractRule" abstract="true" eSuperTypes="xmu2common.ecore#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//Parameter" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Parameter" eSuperTypes="xmu2common.ecore#//NamedElement xmu2common.ecore#//DomainElement #//TypedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ModelRule" eSuperTypes="#//AbstractRule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variableDeclarations" upperBound="-1"
+        eType="#//VariableDeclaration" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statement" eType="#//statement/Statement"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ArithmeticRule" eSuperTypes="#//AbstractRule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statements" upperBound="-1"
+        eType="#//statement/Statement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VariableDeclaration" abstract="true"
+      eSuperTypes="xmu2common.ecore#//NamedElement #//TypedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ConcreteVariableDeclaration" eSuperTypes="#//VariableDeclaration"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ReflectiveVariableDeclaration" eSuperTypes="#//VariableDeclaration"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TypedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReflectiveAPI" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reflectiveIdentifier" lowerBound="1"
+        eType="#//expression/Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resolve" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+  </eClassifiers>
+  <eSubpackages name="statement" nsURI="http://www.ustb.edu.cn/sei/mde/xmu2/statement"
+      nsPrefix="statement">
+    <eClassifiers xsi:type="ecore:EClass" name="Statement" abstract="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="UpdateStatement" eSuperTypes="#//statement/BidirectionalStatement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+          eType="#//pattern/Pattern" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="view" lowerBound="1"
+          eType="#//pattern/Pattern" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="clauses" lowerBound="1"
+          upperBound="-1" eType="#//statement/UpdateClause" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SwitchStatement" eSuperTypes="#//statement/BidirectionalStatement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="root" lowerBound="1"
+          eType="#//expression/VariableExpression" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="cases" lowerBound="1"
+          upperBound="-1" eType="#//statement/CaseClause" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="UpdateClause">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1"
+          eType="#//statement/ActionType" defaultValueLiteral="default"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="statement" lowerBound="1"
+          eType="#//statement/Statement" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="ActionType">
+      <eLiterals name="default"/>
+      <eLiterals name="match" value="1"/>
+      <eLiterals name="unmatchs" value="2"/>
+      <eLiterals name="unmatchv" value="3"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CaseClause" abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="action" lowerBound="1"
+          eType="#//statement/Statement" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PatternCaseClause" eSuperTypes="#//statement/CaseClause">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="condition" lowerBound="1"
+          eType="#//pattern/Pattern" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ExpressionCaseClause" eSuperTypes="#//statement/CaseClause">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="condition" lowerBound="1"
+          eType="#//expression/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DefaultCaseClause" eSuperTypes="#//statement/CaseClause"/>
+    <eClassifiers xsi:type="ecore:EClass" name="DefaultCaseStatement" eSuperTypes="#//statement/CaseClause"/>
+    <eClassifiers xsi:type="ecore:EClass" name="UnidirectionalStatement" abstract="true"
+        eSuperTypes="#//statement/Statement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="BidirectionalStatement" abstract="true"
+        eSuperTypes="#//statement/Statement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="EnforcePatternStatement" eSuperTypes="#//statement/UnidirectionalStatement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pattern" lowerBound="1"
+          eType="#//pattern/Pattern" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DeleteNodeStatement" eSuperTypes="#//statement/UnidirectionalStatement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="node" lowerBound="1"
+          eType="#//expression/VariableExpression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DeleteLinkStatement" abstract="true"
+        eSuperTypes="#//statement/UnidirectionalStatement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+          eType="#//expression/VariableExpression" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+          eType="#//expression/Expression" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="feature" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ConcreteDeleteLinkStatement" eSuperTypes="#//statement/DeleteLinkStatement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ReflectiveDeleteLinkStatement" eSuperTypes="#//statement/DeleteLinkStatement #//ReflectiveAPI"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ForEachStatement" eSuperTypes="#//statement/UnidirectionalStatement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pattern" lowerBound="1"
+          eType="#//pattern/Pattern" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="action" lowerBound="1"
+          eType="#//statement/Statement" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BlockStatement" eSuperTypes="#//statement/Statement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="body" upperBound="-1"
+          eType="#//statement/Statement" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="RuleCallStatement" eSuperTypes="#//statement/BidirectionalStatement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="rule" lowerBound="1"
+          eType="#//AbstractRule"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+          eType="#//expression/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PsesudoStatement" abstract="true"
+        eSuperTypes="#//statement/Statement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Fail" eSuperTypes="#//statement/PsesudoStatement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//expression/Expression"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Skip" eSuperTypes="#//statement/PsesudoStatement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="AssignStatement" eSuperTypes="#//statement/Statement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="updatedVariable" lowerBound="1"
+          eType="#//expression/VariableExpression" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1"
+          eType="#//expression/Expression" containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="pattern" nsURI="http://www.ustb.edu.cn/sei/mde/xmu2/pattern"
+      nsPrefix="pattern">
+    <eClassifiers xsi:type="ecore:EClass" name="Pattern">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="root" lowerBound="1"
+          eType="#//pattern/PatternNode" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="guard" eType="#//expression/Expression"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PatternNode">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
+          eType="#//VariableDeclaration" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="expressions" upperBound="-1"
+          eType="#//pattern/PatternExpression" containment="true" eOpposite="#//pattern/PatternExpression/ownerNode"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PatternExpression" abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ownerNode" lowerBound="1"
+          eType="#//pattern/PatternNode" eOpposite="#//pattern/PatternNode/expressions"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="feature" lowerBound="1"
+          eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="selector" eType="#//expression/LoopPath"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//expression/PositionPath"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="nullable" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+          defaultValueLiteral="false"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ObjectPatternExpression" eSuperTypes="#//pattern/PatternExpression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="targetNode" lowerBound="1"
+          eType="#//pattern/PatternNode" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PropertyPatternExpression" eSuperTypes="#//pattern/PatternExpression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="targetExpression" lowerBound="1"
+          eType="#//expression/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ReflectivePatternNode" eSuperTypes="#//pattern/PatternNode #//ReflectiveAPI"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ReflectiveObjectPatternExpression"
+        eSuperTypes="#//pattern/ObjectPatternExpression #//ReflectiveAPI"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ReflectivePropertyPatternExpression"
+        eSuperTypes="#//pattern/PropertyPatternExpression #//ReflectiveAPI"/>
+  </eSubpackages>
+  <eSubpackages name="expression" nsURI="http://www.ustb.edu.cn/sei/mde/xmu2/expression"
+      nsPrefix="expression">
+    <eClassifiers xsi:type="ecore:EClass" name="Expression" abstract="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="BooleanOrExpression" eSuperTypes="#//expression/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="operands" lowerBound="2"
+          upperBound="-1" eType="#//expression/BooleanOrExpressionChild" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BooleanOrExpressionChild" abstract="true"
+        eSuperTypes="#//expression/Expression"/>
+    <eClassifiers xsi:type="ecore:EClass" name="BooleanAndExpression" eSuperTypes="#//expression/BooleanOrExpressionChild">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="operands" lowerBound="2"
+          upperBound="-1" eType="#//expression/BooleanAndExpressionChild" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BooleanAndExpressionChild" abstract="true"
+        eSuperTypes="#//expression/BooleanOrExpressionChild"/>
+    <eClassifiers xsi:type="ecore:EClass" name="RelationalExpression" eSuperTypes="#//expression/BooleanAndExpressionChild">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1"
+          eType="ecore:EEnum xmu2common.ecore#//RelationalOperator"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="left" lowerBound="1"
+          eType="#//expression/RelationalExpressionChild" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="right" lowerBound="1"
+          eType="#//expression/RelationalExpressionChild" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="RelationalExpressionChild" abstract="true"
+        eSuperTypes="#//expression/BooleanAndExpressionChild"/>
+    <eClassifiers xsi:type="ecore:EClass" name="AdditiveExpression" eSuperTypes="#//expression/RelationalExpressionChild">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="operators" unique="false"
+          lowerBound="1" upperBound="-1" eType="ecore:EEnum xmu2common.ecore#//AdditiveOperator"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="operands" lowerBound="2"
+          upperBound="-1" eType="#//expression/AdditiveExpressionChild" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AdditiveExpressionChild" abstract="true"
+        eSuperTypes="#//expression/RelationalExpressionChild"/>
+    <eClassifiers xsi:type="ecore:EClass" name="MultiplicativeExpression" eSuperTypes="#//expression/AdditiveExpressionChild">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="operators" unique="false"
+          lowerBound="1" upperBound="-1" eType="ecore:EEnum xmu2common.ecore#//MultiplicativeOperator"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="operands" lowerBound="2"
+          upperBound="-1" eType="#//expression/MultiplicativeExpressionChild" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="MultiplicativeExpressionChild" abstract="true"
+        eSuperTypes="#//expression/AdditiveExpressionChild"/>
+    <eClassifiers xsi:type="ecore:EClass" name="UnaryExpression" eSuperTypes="#//expression/MultiplicativeExpressionChild">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1"
+          eType="ecore:EEnum xmu2common.ecore#//UnaryOperator"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1"
+          eType="#//expression/UnaryExpressionChild" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="UnaryExpressionChild" abstract="true"
+        eSuperTypes="#//expression/MultiplicativeExpressionChild"/>
+    <eClassifiers xsi:type="ecore:EClass" name="AtomicExpression" abstract="true"
+        eSuperTypes="#//expression/UnaryExpressionChild"/>
+    <eClassifiers xsi:type="ecore:EClass" name="PathExpression" eSuperTypes="#//expression/UnaryExpressionChild">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="path" lowerBound="1"
+          upperBound="-1" eType="#//expression/Path" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="host" lowerBound="1"
+          eType="#//expression/AtomicExpression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="VariableExpression" eSuperTypes="#//expression/AtomicExpression">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="variable" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ConstantExpression" abstract="true"
+        eSuperTypes="#//expression/AtomicExpression"/>
+    <eClassifiers xsi:type="ecore:EClass" name="EmptyExpression" eSuperTypes="#//expression/ConstantExpression">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1"
+          eType="#//expression/EmptyValueType"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="EmptyValueType">
+      <eLiterals name="nullValue"/>
+      <eLiterals name="emptyValue" value="1"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="StringLiteralExpression" eSuperTypes="#//expression/ConstantExpression">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IntegerLiteralExpression" eSuperTypes="#//expression/ConstantExpression">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BooleanLiteralExpression" eSuperTypes="#//expression/ConstantExpression">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EnumLiteralExpression" eSuperTypes="#//expression/ConstantExpression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1"
+          eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EEnum"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1"
+          eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EEnumLiteral"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ParenExpression" eSuperTypes="#//expression/AtomicExpression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1"
+          eType="#//expression/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ObjectURIExpression" eSuperTypes="#//expression/ConstantExpression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="object" lowerBound="1"
+          eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Path" abstract="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="FeaturePath" eSuperTypes="#//expression/Path">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="feature" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OperationPath" eSuperTypes="#//expression/Path">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="operation" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+          eType="#//expression/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="LoopPath" eSuperTypes="#//expression/Path">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1"
+          eType="ecore:EEnum xmu2common.ecore#//LoopOperator"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
+          eType="#//VariableDeclaration" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1"
+          eType="#//expression/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PositionPath" eSuperTypes="#//expression/Path">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1"
+          eType="ecore:EEnum xmu2common.ecore#//PositionOperator"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//expression/Expression"
+          containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

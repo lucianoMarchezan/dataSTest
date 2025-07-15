@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="Seq"
+    nsURI="http://seq/1.0" nsPrefix="Seq">
+  <eClassifiers xsi:type="ecore:EClass" name="PakagedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Interaction" eSuperTypes="#//InteractionOperand #//PakagedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lifeline" lowerBound="2"
+        upperBound="-1" eType="#//Lifeline" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fragment" lowerBound="1"
+        upperBound="-1" eType="#//InteractionFragment" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="message" lowerBound="1"
+        upperBound="-1" eType="#//Message" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Colloboration" eSuperTypes="#//PakagedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedBehaviour" lowerBound="1"
+        eType="#//Interaction" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InteractionFragment" abstract="true"
+      eSuperTypes="#//PakagedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="covered" lowerBound="1"
+        upperBound="-1" eType="#//Lifeline" eOpposite="#//Lifeline/coveredBy"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CombinedFragment" eSuperTypes="#//InteractionFragment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operand" lowerBound="1"
+        upperBound="2" eType="#//InteractionOperand" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="interctionOperator" eType="#//CombinedType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InteractionOperand">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guard" eType="#//InteractionConstraint"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fragments" lowerBound="1"
+        upperBound="-1" eType="#//InteractionFragment" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InteractionConstraint">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="specification" lowerBound="1"
+        eType="#//OpaqueExpression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Message" eSuperTypes="#//PakagedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sendEvent" lowerBound="1"
+        eType="#//OcurrenceSpecification"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receiveEvent" lowerBound="1"
+        eType="#//OcurrenceSpecification"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="messageSort" eType="#//MessageType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OcurrenceSpecification" eSuperTypes="#//InteractionFragment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="message" lowerBound="1"
+        eType="#//Message"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Event"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Lifeline" eSuperTypes="#//PakagedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="represents" lowerBound="1"
+        eType="#//Property"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coveredBy" lowerBound="1"
+        upperBound="-1" eType="#//InteractionFragment" eOpposite="#//InteractionFragment/covered"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CombinedType">
+    <eLiterals name="alt"/>
+    <eLiterals name="opt" value="1"/>
+    <eLiterals name="par" value="2"/>
+    <eLiterals name="loop" value="3"/>
+    <eLiterals name="strict" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="MessageType">
+    <eLiterals name="asy"/>
+    <eLiterals name="reply" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OpaqueExpression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="body" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Property" eSuperTypes="#//PakagedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SeqModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="package1" lowerBound="1"
+        eType="#//PakagedElement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Package" eSuperTypes="#//PakagedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="package2" lowerBound="1"
+        eType="#//PakagedElement" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

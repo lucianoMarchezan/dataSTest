@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="gpresentation"
+    nsURI="http://genesez.org/metamodel/presentation" nsPrefix="gpresentation">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+    <details key="documentation" value="Author:GeneSEZ Research Group.Created:7/12/12 1:38 PM.Title:.Comment:."/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="PRoot" eSuperTypes="#//PAbstractArea">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Represents an area that is defined within a file."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owningPackage" lowerBound="1"
+        eType="#//PPackage" changeable="false" eOpposite="#//PPackage/roots"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PCompositeArea" eSuperTypes="#//PAbstractArea #//PContentArea">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Allows to nest areas."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PElement" abstract="true" eSuperTypes="#//PMetaDataAware">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Represents an abstract element."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owningArea" eType="#//PElementArea"
+        changeable="false" eOpposite="#//PElementArea/nestedElements"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owningElement" eType="#//PCompositeElement"
+        changeable="false" eOpposite="#//PCompositeElement/nestedElements"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PUserDefinedArea" eSuperTypes="#//PContentArea"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PAutomaticallyGeneratedArea" eSuperTypes="#//PContentArea"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PInput" eSuperTypes="#//PElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="POutput" eSuperTypes="#//PElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="output" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PAction" eSuperTypes="#//PElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PMetaData">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="key" upperBound="-1" eType="#//PKey"
+        containment="true" eOpposite="#//PKey/owner"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="container" lowerBound="1"
+        eType="#//PPackage" changeable="false" eOpposite="#//PPackage/metaData"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PReferenceArea" eSuperTypes="#//PContentArea">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Allows to reference another area to use it multiple times.JSF: includesSwing: attributes"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//PRoot"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PAbstractArea" abstract="true" eSuperTypes="#//PMetaDataAware">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Allows to build a structure of areas."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nestedContents" upperBound="-1"
+        eType="#//PContentArea" containment="true" eOpposite="#//PContentArea/owningArea"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PElementArea" eSuperTypes="#//PContentArea">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Represents an area consisting of elements."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nestedElements" upperBound="-1"
+        eType="#//PElement" containment="true" eOpposite="#//PElement/owningArea"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PContentArea" abstract="true" eSuperTypes="#//PMetaDataAware">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Represents an area that can contain content."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owningArea" lowerBound="1"
+        eType="#//PAbstractArea" changeable="false" eOpposite="#//PAbstractArea/nestedContents"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PPackage">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Allows to structure the model logically."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="xmiGuid" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roots" upperBound="-1"
+        eType="#//PRoot" containment="true" eOpposite="#//PRoot/owningPackage"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owningPackage" lowerBound="1"
+        eType="#//PPackage" changeable="false" eOpposite="#//PPackage/nestedPackages"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nestedPackages" upperBound="-1"
+        eType="#//PPackage" containment="true" eOpposite="#//PPackage/owningPackage"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="metaData" upperBound="-1"
+        eType="#//PMetaData" containment="true" eOpposite="#//PMetaData/container"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PKey">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owner" lowerBound="1" eType="#//PMetaData"
+        changeable="false" eOpposite="#//PMetaData/key"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PValue">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="key" lowerBound="1" eType="#//PKey"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owner" lowerBound="1" eType="#//PMetaDataAware"
+        changeable="false" eOpposite="#//PMetaDataAware/value"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PMetaDataAware" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="xmiGuid" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="metaData" upperBound="-1"
+        eType="#//PMetaData"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" upperBound="-1"
+        eType="#//PValue" containment="true" eOpposite="#//PValue/owner"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PCompositeElement" eSuperTypes="#//PElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nestedElements" lowerBound="1"
+        upperBound="-1" eType="#//PElement" containment="true" eOpposite="#//PElement/owningElement"/>
+  </eClassifiers>
+</ecore:EPackage>

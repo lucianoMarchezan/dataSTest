@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="sequence" nsURI="http://www.tetrabox.org/sequence" nsPrefix="sequence">
+  <eClassifiers xsi:type="ecore:EClass" name="SequenceTerminal" abstract="true" eSuperTypes="#//SimpleSERE"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OCLExpression" eSuperTypes="#//SequenceTerminal">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="expression" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="context" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanLiteral" eSuperTypes="#//SequenceTerminal">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="literal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NotSequenceTerminal" eSuperTypes="#//SequenceTerminal">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="literal" eType="#//SequenceTerminal"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SERE" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FusionSERE" eSuperTypes="#//SERE">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//SimpleSERE"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//SERE"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConcatenationSERE" eSuperTypes="#//SERE">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//SimpleSERE"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//SERE"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimpleSERE" eSuperTypes="#//SERE"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Sequence" abstract="true" eSuperTypes="#//SimpleSERE"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RepeatedSERE" abstract="true" eSuperTypes="#//Sequence #//CompoundSERE"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WildCard" eSuperTypes="#//RepeatedSERE">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="count" eType="#//Count"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LengthOne" eSuperTypes="#//RepeatedSERE"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanCountedConsecutiveRepetition"
+      eSuperTypes="#//RepeatedSERE">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//SequenceTerminal"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="count" eType="#//Count"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanConsecutiveRepetition" eSuperTypes="#//RepeatedSERE">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//SequenceTerminal"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanCountedNonConsecutiveRepetition"
+      eSuperTypes="#//RepeatedSERE">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//SequenceTerminal"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="count" eType="#//Count"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanCountedGotoRepetition" eSuperTypes="#//RepeatedSERE">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//SequenceTerminal"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="count" eType="#//Count"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SequenceCountedConsecutiveRepetition"
+      eSuperTypes="#//RepeatedSERE">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//Sequence"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="count" eType="#//Count"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SequenceConsecutiveRepetition" eSuperTypes="#//RepeatedSERE">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//Sequence"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BracedSERE" eSuperTypes="#//Sequence #//CompoundSERE">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="#//SERE"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompoundSERE" eSuperTypes="#//SimpleSERE"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BinaryCompoundSERE" abstract="true"
+      eSuperTypes="#//CompoundSERE">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//CompoundSERE"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//CompoundSERE"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SEREOr" eSuperTypes="#//BinaryCompoundSERE"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SEREAndNLM" eSuperTypes="#//BinaryCompoundSERE"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SEREAndLM" eSuperTypes="#//BinaryCompoundSERE"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SEREWithin" eSuperTypes="#//BinaryCompoundSERE"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Count">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="COUNT" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Range" eSuperTypes="#//Count">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="LOWER_BOUND" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="HIGHER_BOUND" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+</ecore:EPackage>

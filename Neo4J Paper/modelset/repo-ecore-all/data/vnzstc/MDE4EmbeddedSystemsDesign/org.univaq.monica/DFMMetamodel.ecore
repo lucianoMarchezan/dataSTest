@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="MONICA" nsURI="dfm.monica" nsPrefix="MONICA">
+  <eClassifiers xsi:type="ecore:EClass" name="MonitoringInfrastructure" eSuperTypes="#//NamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value=""/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoringresourceservice"
+        upperBound="-1" eType="#//MonitoringService" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="monitorsGeneration" eType="ecore:EDataType ../org.eclipse.uml2.types/model/Types.ecore#//Boolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MonitoringService" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="behavior" lowerBound="1"
+        eType="ecore:EClass ../org.eclipse.uml2.uml/model/UML.ecore#//Behavior"/>
+  </eClassifiers>
+  <eSubpackages name="MONICA Typing Model" nsURI="dfm.monica.typing" nsPrefix="typing">
+    <eClassifiers xsi:type="ecore:EEnum" name="SystemKind">
+      <eLiterals name="OCMS"/>
+      <eLiterals name="OHMS" value="1"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="PhysicalImplementation">
+      <eLiterals name="CF"/>
+      <eLiterals name="RCF" value="1"/>
+      <eLiterals name="PF" value="2"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="Policy">
+      <eLiterals name="Blocking"/>
+      <eLiterals name="NonBlocking" value="1">
+        <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+          <details key="originalName" value="Non-Blocking"/>
+        </eAnnotations>
+      </eLiterals>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="HWKind">
+      <eLiterals name="GPP"/>
+      <eLiterals name="SPP" value="1"/>
+      <eLiterals name="ASIP" value="2"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="Purpose">
+      <eLiterals name="DBG"/>
+      <eLiterals name="PF" value="1"/>
+      <eLiterals name="QoS" value="2"/>
+      <eLiterals name="PW" value="3"/>
+      <eLiterals name="EN" value="4"/>
+      <eLiterals name="TM" value="5"/>
+      <eLiterals name="FT" value="6"/>
+      <eLiterals name="RL" value="7"/>
+      <eLiterals name="SEC" value="8"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="ComponentNature">
+      <eLiterals name="Hardware"/>
+      <eLiterals name="Software" value="1"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="Technique">
+      <eLiterals name="SLCI"/>
+      <eLiterals name="DBLCI" value="1"/>
+      <eLiterals name="SLI" value="2"/>
+      <eLiterals name="SBLCI" value="3"/>
+      <eLiterals name="HPC" value="4"/>
+      <eLiterals name="PMU" value="5"/>
+      <eLiterals name="HTB" value="6"/>
+      <eLiterals name="Custom" value="7"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="EventCoverage">
+      <eLiterals name="Architectural"/>
+      <eLiterals name="MicroArchitectural"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="SynchronizationKind">
+      <eLiterals name="Automatic"/>
+      <eLiterals name="Manual" value="1"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="MONICA Design Model" nsURI="dfm.monica.mdm" nsPrefix="MDM">
+    <eClassifiers xsi:type="ecore:EClass" name="UnitUnderMonitoring" eSuperTypes="#//MonitoringInfrastructure">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="tpi" ordered="false"
+          eType="#//MONICA%20Typing%20Model/PhysicalImplementation"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="uumbehavior" eType="#//MONICA%20Design%20Model/MonitoringBehavior"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="MonitoringSystem" eSuperTypes="#//MonitoringInfrastructure">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="performs" lowerBound="1"
+          upperBound="-1" eType="#//MONICA%20Design%20Model/MonitoringAction"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" ordered="false"
+          lowerBound="1" eType="#//MONICA%20Typing%20Model/SystemKind"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="multithread" ordered="false"
+          lowerBound="1" eType="ecore:EDataType ../org.eclipse.uml2.types/model/Types.ecore#//Boolean">
+        <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+          <details key="originalName" value="multi-thread"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="multicore" ordered="false"
+          lowerBound="1" eType="ecore:EDataType ../org.eclipse.uml2.types/model/Types.ecore#//Boolean">
+        <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+          <details key="originalName" value="multi-core"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="uum" upperBound="-1"
+          eType="#//MONICA%20Design%20Model/UnitUnderMonitoring"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="connectedSystem" upperBound="-1"
+          eType="#//MONICA%20Design%20Model/MonitoringSystem"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="MonitoringAction" eSuperTypes="#//MonitoringService">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="purpose" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//MONICA%20Typing%20Model/Purpose"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="systemWide" ordered="false"
+          eType="ecore:EDataType ../org.eclipse.uml2.types/model/Types.ecore#//Boolean"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="isOrganized" lowerBound="1"
+          upperBound="-1" eType="#//MONICA%20Design%20Model/OrganizationBlock" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="policy" ordered="false"
+          eType="#//MONICA%20Typing%20Model/Policy"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OrganizationBlock" eSuperTypes="#//MonitoringService">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1"
+          eType="#//MONICA%20Typing%20Model/ComponentNature"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="monitoringtechnique"
+          eType="#//MONICA%20Design%20Model/MonitoringTechnique"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="synchronization" eType="#//MONICA%20Typing%20Model/SynchronizationKind"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="MonitoringBehavior" eSuperTypes="#//MONICA%20Design%20Model/OrganizationBlock"/>
+    <eClassifiers xsi:type="ecore:EClass" name="MonitoringProcessor" eSuperTypes="#//MONICA%20Design%20Model/OrganizationBlock">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="exceptions" lowerBound="1"
+          eType="ecore:EDataType ../org.eclipse.uml2.types/model/Types.ecore#//Boolean"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="MonitoringInfrastructure" eSuperTypes="#//MONICA%20Design%20Model/OrganizationBlock"/>
+    <eClassifiers xsi:type="ecore:EClass" name="SharedResource">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="organizationblock" lowerBound="2"
+          upperBound="-1" eType="#//MONICA%20Design%20Model/OrganizationBlock"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="MonitoringTechnique" eSuperTypes="#//MonitoringService">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="technique" lowerBound="1"
+          eType="#//MONICA%20Typing%20Model/Technique"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="MONICA Trace Model" nsURI="dfm.monica.mtm" nsPrefix="MTM">
+    <eClassifiers xsi:type="ecore:EClass" name="Trace">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A trace is an entity that encapsulates information about system’s runtime behavior. This class represents a raw information that has been processed by a monitoring processor. It follows a standard format"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="rawTrace" lowerBound="1"
+          upperBound="-1" eType="#//MONICA%20Trace%20Model/RawData" containment="true">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="The rawTrace property refers to the raw information log used to obtain the trace"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="processor" lowerBound="1"
+          eType="#//MONICA%20Design%20Model/MonitoringProcessor">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="The processor property indicates the monitoring processor that computes the Trace"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType ../org.eclipse.uml2.types/model/Types.ecore#//Integer">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="It is the property that uniquely identifies a Trace "/>
+        </eAnnotations>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="RawData">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value=""/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="eventinstance" lowerBound="1"
+          upperBound="-1" eType="#//MONICA%20Trace%20Model/EventInstance" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="puller" upperBound="-1"
+          eType="#//MONICA%20Design%20Model/MonitoringInfrastructure"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EventInstance">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="timestamp" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Date"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="information" eType="ecore:EDataType ../org.eclipse.uml2.types/model/Types.ecore#//String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="coverage" lowerBound="1"
+          upperBound="-1" eType="#//MONICA%20Typing%20Model/EventCoverage"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

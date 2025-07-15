@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="traceability" nsURI="http://cacm.traceability/1.0" nsPrefix="traceability_">
+  <eClassifiers xsi:type="ecore:EClass" name="TraceabilityModel" eSuperTypes="general.ecore#//DescribableElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="asset" upperBound="-1"
+        eType="#//TraceabilityAsset" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TraceabilityAsset" abstract="true" eSuperTypes="general.ecore#//DescribableElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TraceSemantics" abstract="true" eSuperTypes="#//TraceabilityAsset">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sourceModeificationEffect"
+        eType="#//ChangeEffectKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="targetModificationEffect"
+        eType="#//ChangeEffectKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sourceRevocationEffect"
+        eType="#//ChangeEffectKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="targetRevocationEffect"
+        eType="#//ChangeEffectKind"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TraceLinkType" eSuperTypes="#//TraceSemantics">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxMultiplicitySource"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="minMultiplicitySource"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxMultiplicityTarget"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="minMultiplicityTarget"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="instance" upperBound="-1"
+        eType="#//TraceLink" eOpposite="#//TraceLink/type"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetElementType" lowerBound="1"
+        eType="#//TraceableElementType" eOpposite="#//TraceableElementType/endedTraceLinkType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TraceLink" eSuperTypes="#//TraceSemantics">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//TraceLinkType"
+        eOpposite="#//TraceLinkType/instance"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetElement" lowerBound="1"
+        eType="#//TraceableElement" eOpposite="#//TraceableElement/endedTraceLink"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TraceableElement" eSuperTypes="#//TraceabilityAsset">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//TraceableElementType"
+        eOpposite="#//TraceableElementType/instance"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="originatedTraceLink" upperBound="-1"
+        eType="#//TraceLink" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="endedTraceLink" upperBound="-1"
+        eType="#//TraceLink" eOpposite="#//TraceLink/targetElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TraceableElementType" eSuperTypes="#//TraceabilityAsset">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="instance" upperBound="-1"
+        eType="#//TraceableElement" eOpposite="#//TraceableElement/type"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="originatedTraceLinkType"
+        upperBound="-1" eType="#//TraceLinkType" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="endedTraceLinkType" upperBound="-1"
+        eType="#//TraceLinkType" eOpposite="#//TraceLinkType/targetElementType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ChangeEffectKind">
+    <eLiterals name="None"/>
+    <eLiterals name="ToValidate" value="1"/>
+    <eLiterals name="ToModify" value="2"/>
+    <eLiterals name="Modification" value="3"/>
+    <eLiterals name="Revocation" value="4"/>
+  </eClassifiers>
+</ecore:EPackage>

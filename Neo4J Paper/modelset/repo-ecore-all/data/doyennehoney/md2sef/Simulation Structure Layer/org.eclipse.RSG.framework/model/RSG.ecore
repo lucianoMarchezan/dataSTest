@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="rsgf" nsURI="http://devs.org/rsgf" nsPrefix="rsgf">
+  <eSubpackages name="tree" nsURI="http://devs.org/RevisedTree" nsPrefix="revisedtree">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+      <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+      <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    </eAnnotations>
+    <eClassifiers xsi:type="ecore:EClass" name="Tree">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+        <details key="constraints" value="UniqueTreeID IDCanNotBeEmpty"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="UniqueTreeID" value="self.ID&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(n | Tree.allInstances().ID&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->count(n) = 1)"/>
+        <details key="IDCanNotBeEmpty" value="&#xA;&#x9;&#x9;&#x9;&#x9;self.ID.size() > 0"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Root" lowerBound="1"
+          eType="#//tree/Root" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Coordinator" ordered="false"
+          upperBound="-1" eType="#//tree/Coordinator" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Simulator" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//tree/Simulator" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Node" abstract="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+        <details key="constraints" value="UniqueID IDCanNotBeEmpty"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="UniqueID" value="self.ID&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(n | Node.allInstances().ID&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->count(n) = 1)"/>
+        <details key="IDCanNotBeEmpty" value="&#xA;&#x9;&#x9;&#x9;&#x9;self.ID.size() > 0"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Root" eSuperTypes="#//tree/Node">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="child" lowerBound="1"
+          eType="#//tree/BasicNode"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BasicNode" abstract="true" eSuperTypes="#//tree/Node">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+        <details key="constraints" value="MustBeAChild"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="MustBeAChild" value="Coordinator.allInstances().children&#xA;&#x9;&#x9;&#x9;&#x9;->includes(self) or Root.allInstances().child&#xA;&#x9;&#x9;&#x9;&#x9;->includes(self)"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Coordinator" abstract="true" eSuperTypes="#//tree/BasicNode">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+        <details key="constraints" value="UniqueChildren ChildrenCantIncludeSelf CantOccurAsChildOfRootAndCoordinator"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="UniqueChildren" value="self.children&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(n | Coordinator.allInstances().children&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->count(n) = 1)"/>
+        <details key="ChildrenCantIncludeSelf" value="self.children&#xA;&#x9;&#x9;&#x9;&#x9;->excludes(self)"/>
+        <details key="CantOccurAsChildOfRootAndCoordinator" value="not (Coordinator.allInstances().children&#xA;&#x9;&#x9;&#x9;&#x9;->includes(self) and Root.allInstances().child&#xA;&#x9;&#x9;&#x9;&#x9;->includes(self))"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="children" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//tree/BasicNode"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CDEVSCoordinator" eSuperTypes="#//tree/Coordinator"/>
+    <eClassifiers xsi:type="ecore:EClass" name="PDEVSCoordinator" eSuperTypes="#//tree/Coordinator"/>
+    <eClassifiers xsi:type="ecore:EClass" name="FlatCoordinator" eSuperTypes="#//tree/Coordinator"/>
+    <eClassifiers xsi:type="ecore:EClass" name="NodeCoordinator" eSuperTypes="#//tree/Coordinator"/>
+    <eClassifiers xsi:type="ecore:EClass" name="P_Coordinator" eSuperTypes="#//tree/Coordinator"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Simulator" abstract="true" eSuperTypes="#//tree/BasicNode"/>
+    <eClassifiers xsi:type="ecore:EClass" name="CDEVSSimulator" eSuperTypes="#//tree/Simulator"/>
+    <eClassifiers xsi:type="ecore:EClass" name="PDEVSSimulator" eSuperTypes="#//tree/Simulator"/>
+    <eClassifiers xsi:type="ecore:EClass" name="P_Simulator" eSuperTypes="#//tree/Simulator"/>
+  </eSubpackages>
+  <eSubpackages name="skeleton" nsURI="http://devs.org/RevisedSkeleton" nsPrefix="revisedskeleton">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+      <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+      <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    </eAnnotations>
+    <eClassifiers xsi:type="ecore:EClass" name="Skeleton">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+        <details key="constraints" value="uniqueID IDCanNotBeEmpty"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="uniqueID" value="self.ID&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(n | Skeleton.allInstances().ID&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->count(n) = 1)"/>
+        <details key="IDCanNotBeEmpty" value="&#xA;&#x9;&#x9;&#x9;&#x9;self.ID.size() > 0"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="tree" eType="#//tree/Tree"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="rootskel" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//tree/Root" containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="bundle" nsURI="http://devs.org/RevisedBundle" nsPrefix="revisedbundle">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+      <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+      <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    </eAnnotations>
+    <eClassifiers xsi:type="ecore:EClass" name="Bundle">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+        <details key="constraints" value="UniqueBundleID AllRootsFromSkeletonAreNotInBundle AllRootsFromTreeAreNotInBundle AllCoordinatorsAreNotInBundle AllSimulatorsAreNotInBundle IDCanNotBeEmpty"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="UniqueBundleID" value="self.ID&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(n | Bundle.allInstances().ID&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->count(n) = 1)"/>
+        <details key="AllRootsFromSkeletonAreNotInBundle" value="self.Process.nodes&#xA;&#x9;&#x9;&#x9;&#x9;->includesAll(self.skeleton.rootskel)"/>
+        <details key="AllRootsFromTreeAreNotInBundle" value="self.Process.nodes&#xA;&#x9;&#x9;&#x9;&#x9;->includes(self.skeleton.tree.Root)"/>
+        <details key="AllCoordinatorsAreNotInBundle" value="self.Process.nodes&#xA;&#x9;&#x9;&#x9;&#x9;->includesAll(self.skeleton.tree.Coordinator)"/>
+        <details key="AllSimulatorsAreNotInBundle" value="self.Process.nodes&#xA;&#x9;&#x9;&#x9;&#x9;->includesAll(self.skeleton.tree.Simulator)"/>
+        <details key="IDCanNotBeEmpty" value="&#xA;&#x9;&#x9;&#x9;&#x9;self.ID.size() > 0"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="skeleton" lowerBound="1"
+          eType="#//skeleton/Skeleton"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="Process" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//bundle/Process" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Process">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+        <details key="constraints" value="UniqueProcessID UniqueNodes ProcessIsNotInBundle IDCanNotBeEmpty"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="UniqueProcessID" value="self.ID&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(n | Process.allInstances().ID&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->count(n) = 1)"/>
+        <details key="UniqueNodes" value="self.nodes&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(n | Process.allInstances().nodes&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->count(n) = 1)"/>
+        <details key="ProcessIsNotInBundle" value="Bundle.allInstances().Process&#xA;&#x9;&#x9;&#x9;&#x9;->includes(self)"/>
+        <details key="IDCanNotBeEmpty" value="&#xA;&#x9;&#x9;&#x9;&#x9;self.ID.size() > 0"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//tree/Node"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="middleware" lowerBound="1"
+          eType="#//mw/Middleware"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="vm" nsURI="http://devs.org/RevisedVM" nsPrefix="revisedvm">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+      <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+      <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    </eAnnotations>
+    <eClassifiers xsi:type="ecore:EClass" name="VM">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+        <details key="constraints" value="UniqueVMID IDCanNotBeEmpty"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="UniqueVMID" value="self.ID&#xA;&#x9;&#x9;&#x9;&#x9;->forAll(n | VM.allInstances().ID&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;->count(n) = 1)"/>
+        <details key="IDCanNotBeEmpty" value="&#xA;&#x9;&#x9;&#x9;&#x9;self.ID.size() > 0"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="protocol" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="mw" nsURI="http://devs.org/Middleware" nsPrefix="middleware">
+    <eClassifiers xsi:type="ecore:EClass" name="Middleware">
+      <eOperations name="bind"/>
+      <eOperations name="establish"/>
+      <eOperations name="send"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="process" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//bundle/Process"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="uses" eType="#//vm/VM"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

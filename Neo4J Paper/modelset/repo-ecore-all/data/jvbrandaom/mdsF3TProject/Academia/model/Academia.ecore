@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="Academia"
+    nsURI="Academia" nsPrefix="Academia">
+
+  <eClassifiers xsi:type="ecore:EEnum" name="PersistenceStrategy">
+    <eLiterals name="Java"/>
+  </eClassifiers>
+
+  <eClassifiers xsi:type="ecore:EEnum" name="LoggingStrategy">
+    <eLiterals name="PropertiesFile"/>
+  </eClassifiers>  
+
+  <eClassifiers xsi:type="ecore:EClass" name="ABoundedElement" abstract="true">
+    <eAnnotations source="GDMS">
+      <details key="documentation" value="A Bounded Element is a element that has lower and upper bounds."/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="LowerBoundInvalidValue UpperBoundInvalidValue"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerBound" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="upperBound" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral="1"/>
+  </eClassifiers>
+
+  <eClassifiers xsi:type="ecore:EClass" name="ADocumentatedElement" abstract="true">
+    <eAnnotations source="GDMS">
+      <details key="documentation" value="An Documented Element is an element that can have a text which describes this element."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="documentation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+
+  <eClassifiers xsi:type="ecore:EClass" name="AModeledElement" abstract="true"/>
+
+  <eClassifiers xsi:type="ecore:EClass" name="ANamedElement" abstract="true">
+    <eAnnotations source="GDMS">
+      <details key="documentation" value="A Named Element is an element that has a name."/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="InvalidName MissingName UniqueName"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+
+  <eClassifiers xsi:type="ecore:EClass" name="ATypedElement" abstract="true">
+    <eAnnotations source="GDMS">
+      <details key="documentation" value="A Typed Element is a Named Element that has a type. This type can be the name of a Feature or any programming language valid type."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="typeName" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="changeable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="singleton" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+
+  <eClassifiers xsi:type="ecore:EClass" name="APackage">
+    <eAnnotations source="GDMS">
+      <details key="documentation" value="A Package contains instances of the features of a sub-set of the domain. The features of the package specifies the features that form an application."/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="UniqueApplication MissingApplication"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="domain" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" changeable="false"
+        volatile="true" transient="true" defaultValueLiteral="Academia" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dProject" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" changeable="false"
+        volatile="true" transient="true" defaultValueLiteral="academia" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="aClassifiers" upperBound="-1"
+        eType="#//AClassifier" containment="true"/>
+  </eClassifiers>
+
+  <eClassifiers xsi:type="ecore:EClass" name="AClassifier" abstract="true" eSuperTypes="#//AModeledElement #//ADocumentatedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="TYPE" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" volatile="true" transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="aChilds" upperBound="-1"
+        eType="#//AFeature" eOpposite="#//AFeature/aParent"/>    
+  </eClassifiers>
+  
+  <eClassifiers xsi:type="ecore:EClass" name="AApplication" eSuperTypes="#//AClassifier #//ANamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="RootFeaturesOnly"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="persistenceStrategy" lowerBound="1"
+        eType="#//PersistenceStrategy"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="loggingStrategy" lowerBound="1"
+        eType="#//LoggingStrategy"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="databaseUser" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="root"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="databasePassword" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="root"/>
+  </eClassifiers>
+  
+  <eClassifiers xsi:type="ecore:EClass" name="AFeature" abstract="true" eSuperTypes="#//AClassifier">
+    <eAnnotations source="GDMS">
+      <details key="documentation" value="A feature is a functional characteristic of the domain of a problem. A feature aggregates value to users."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stereo" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" changeable="false"
+        volatile="true" transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="aParent" lowerBound="1"
+        eType="#//AClassifier" eOpposite="#//AClassifier/aChilds"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="aAllParents"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" 
+        changeable="false" volatile="true" transient="true"/>    
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="providedAttributes" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" changeable="false"
+        volatile="true" transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="attributesSQL" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" changeable="false"
+        volatile="true" transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="multipleFields" 
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" volatile="true" transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="associations"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" 
+        changeable="false" volatile="true" transient="true"/>    
+  </eClassifiers>
+  
+  <eClassifiers xsi:type="ecore:EClass" name="AObject" eSuperTypes="#//AFeature #//ANamedElement">
+    <eAnnotations source="GDMS">
+      <details key="documentation" value="A feature object is a domain feature that can be mandatory or optional. A set of Feature Objects composes the fuctionality of the applications."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="abstract" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="aAttributes" upperBound="-1"
+        eType="#//AAttribute" containment="true" eOpposite="#//AAttribute/aContainer"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="aOperations" upperBound="-1"
+        eType="#//AOperation" containment="true" eOpposite="#//AOperation/aContainer"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="primaryKey" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" changeable="false"
+        volatile="true" transient="true" derived="true"/>
+  </eClassifiers>
+  
+  <eClassifiers xsi:type="ecore:EClass" name="AVariation" eSuperTypes="#//AFeature">
+    <eAnnotations source="GDMS">
+      <details key="documentation" value="A feature variation adds attributes and operations to feature objects, providing different behavior to them. Feature variation adds variability to feature objects, making slight changes in the application functionlity."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="localAttributes"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" 
+        changeable="false" volatile="true" transient="true"/> 
+  </eClassifiers>
+
+  <eClassifiers xsi:type="ecore:EClass" name="AAttribute" eSuperTypes="#//ANamedElement #//ATypedElement #//ABoundedElement #//AModeledElement #//ADocumentatedElement">
+    <eAnnotations source="GDMS">
+      <details key="documentation" value="An Attribute identifies a property which represents a desired information about the a feature."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="aContainer" lowerBound="1"
+        eType="#//AObject" eOpposite="#//AObject/aAttributes"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultValueLiteral" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unique" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+
+  <eClassifiers xsi:type="ecore:EClass" name="AOperation" eSuperTypes="#//ANamedElement #//ATypedElement #//ABoundedElement #//AModeledElement #//ADocumentatedElement">
+    <eAnnotations source="GDMS">
+      <details key="documentation" value="A Operation is a function or an action associated to a feature."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="aContainer" lowerBound="1"
+        eType="#//AObject" eOpposite="#//AObject/aOperations"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="aParameters" upperBound="-1"
+        eType="#//AParameter" containment="true" eOpposite="#//AParameter/aContainer"/>
+  </eClassifiers>
+
+  <eClassifiers xsi:type="ecore:EClass" name="AParameter" eSuperTypes="#//ANamedElement #//ATypedElement #//ABoundedElement #//AModeledElement">
+    <eAnnotations source="GDMS">
+      <details key="documentation" value="A Parameter is a property of an operation. It is a value which must be passed to the operation so that it can be executed."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="aContainer" lowerBound="1"
+        eType="#//AOperation" eOpposite="#//AOperation/aParameters"/>
+  </eClassifiers>
+
+  <eClassifiers xsi:type="ecore:EClass" name="Matricula"  eSuperTypes="#//AObject">
+	<eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="InvalidAssociation AssociationDisciplinaSemestre AssociationAluno"/>
+    </eAnnotations>
+  </eClassifiers> 
+  <eClassifiers xsi:type="ecore:EClass" name="Aluno"  eSuperTypes="#//AObject">
+	<eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="InvalidAssociation AssociationCurso"/>
+    </eAnnotations>
+  </eClassifiers> 
+  <eClassifiers xsi:type="ecore:EClass" name="Curso"  eSuperTypes="#//AObject">
+	<eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="InvalidAssociation AssociationDisciplina"/>
+    </eAnnotations>
+  </eClassifiers> 
+  <eClassifiers xsi:type="ecore:EClass" name="Departamento"  eSuperTypes="#//AObject">
+	<eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="InvalidAssociation"/>
+    </eAnnotations>
+  </eClassifiers> 
+  <eClassifiers xsi:type="ecore:EClass" name="Disciplina" abstract="true" eSuperTypes="#//AObject">
+	<eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value=" AssociationDisciplinaSemestre AssociationDepartamento"/>
+    </eAnnotations>
+  </eClassifiers> 
+  <eClassifiers xsi:type="ecore:EClass" name="Campus"  eSuperTypes="#//AObject">
+	<eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="InvalidAssociation"/>
+    </eAnnotations>
+  </eClassifiers> 
+  <eClassifiers xsi:type="ecore:EClass" name="DisciplinaSemestre"  eSuperTypes="#//AObject">
+	<eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="InvalidAssociation"/>
+    </eAnnotations>
+  </eClassifiers> 
+  <eClassifiers xsi:type="ecore:EClass" name="DisciplinaPaga"  eSuperTypes="#//Disciplina">
+	<eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="InvalidAssociation"/>
+    </eAnnotations>
+  </eClassifiers> 
+  <eClassifiers xsi:type="ecore:EClass" name="DisciplinaGratis"  eSuperTypes="#//Disciplina">
+	<eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="InvalidAssociation"/>
+    </eAnnotations>
+  </eClassifiers> 
+
+</ecore:EPackage>

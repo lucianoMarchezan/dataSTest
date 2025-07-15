@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="dbModel" nsURI="http://www.ses.com/webAPI/dbModel" nsPrefix="dbModel">
+  <eClassifiers xsi:type="ecore:EClass" name="WebAPIDatabase" instanceClassName="com.astra.ses.spell.dev.database.interfaces.ISpellDatabase">
+    <eOperations name="isTelemetryParameter" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="mnemonic" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="isTelecommand" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="mnemonic" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="isSequence" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="mnemonic" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="getTelemetryModel" eType="#//WebAPITelemetryModel">
+      <eParameters name="mnemonic" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="getTelecommandModel" eType="#//WebAPITelecommandModel">
+      <eParameters name="mnemonic" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="getCalibrationModel" eType="#//WebAPICalibrationModel">
+      <eParameters name="mnemonic" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="databasePath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="&quot;WebAPI Redis Database&quot;"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="&quot;1.0&quot;"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="telemetryParameterNames"
+        changeable="false" volatile="true" transient="true" derived="true">
+      <eGenericType eClassifier="#//ECollection">
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="telecommandNames" changeable="false"
+        volatile="true" transient="true" derived="true">
+      <eGenericType eClassifier="#//ECollection">
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="calibrationNames" changeable="false"
+        volatile="true" transient="true" derived="true">
+      <eGenericType eClassifier="#//ECollection">
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="displays" upperBound="-1"
+        eType="#//WebAPIDisplays" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tmModels" upperBound="-1"
+        eType="#//StringToTMMapEntry" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lastTMUpdateHash" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lastTCUpdateHash" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tcModels" upperBound="-1"
+        eType="#//StringToTCMapEntry" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="calibrationModels" upperBound="-1"
+        eType="#//StringToCalMapEntry" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dbConnection" eType="#//DatabaseConnection"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="ECollection" instanceClassName="java.util.Collection">
+    <eTypeParameters name="E"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WebAPIDisplays" instanceClassName="com.astra.ses.spell.dev.database.interfaces.ITelemetryDisplayDefinition"
+      abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WebAPITelemetryModel" instanceClassName="com.astra.ses.spell.dev.database.interfaces.ITelemetryParameter"
+      eSuperTypes="#//DatabaseElement">
+    <eOperations name="addCalibration">
+      <eParameters name="calibrationId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="defaultRepresentation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eOperations>
+    <eOperations name="serialize">
+      <eParameters name="stream" eType="#//DataOutputStream"/>
+    </eOperations>
+    <eOperations name="loadParsed"/>
+    <eOperations name="loadParsed">
+      <eParameters name="jsonObject" eType="#//JsonObject"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lastUpdateHash" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="measuringUnit" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="calibrations" changeable="false"
+        volatile="true" transient="true" derived="true">
+      <eGenericType eClassifier="#//ECollection">
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="calibration" eType="#//WebAPICalibrationModel"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultCalibrationId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" volatile="true" transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="monitoringChecks" changeable="false"
+        volatile="true" transient="true" derived="true">
+      <eGenericType eClassifier="#//ECollection">
+        <eTypeArguments>
+          <eUpperBound eClassifier="#//MonitoringCheck"/>
+        </eTypeArguments>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="database" eType="#//WebAPIDatabase"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="loaded" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WebAPITelecommandModel" instanceClassName="com.astra.ses.spell.dev.database.interfaces.ITelecommand"
+      eSuperTypes="#//DatabaseElement">
+    <eOperations name="serialize">
+      <eParameters name="stream" eType="#//DataOutputStream"/>
+    </eOperations>
+    <eOperations name="loadParsed"/>
+    <eOperations name="loadParsed">
+      <eParameters name="jsonObject" eType="#//JsonObject"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="critical" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="arguments" upperBound="-1"
+        eType="#//WebAPITelecommandArgument"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="database" eType="#//WebAPIDatabase"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="loaded" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WebAPICalibrationModel" instanceClassName="com.astra.ses.spell.dev.database.interfaces.ICalibration">
+    <eOperations name="serialize">
+      <eParameters name="stream" eType="#//DataOutputStream"/>
+    </eOperations>
+    <eOperations name="getCalibrated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eParameters name="rawValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="isValidValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="engValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="loadParsed">
+      <eParameters name="jsonObject" eType="#//JsonObject"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//CalibrationType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="identifier" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cachedWebAPIData" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="validValues" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" changeable="false"
+        volatile="true" transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="internalValidValues" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EStringToStringMapEntry"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="database" eType="#//WebAPIDatabase"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WebAPITelecommandArgument" instanceClassName="com.astra.ses.spell.dev.database.interfaces.ITelecommandArgument">
+    <eOperations name="hasDefaultValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="loadParsed">
+      <eParameters name="jsonObject" eType="#//JsonObject"/>
+    </eOperations>
+    <eOperations name="loadParsed">
+      <eParameters name="jsonObject" eType="#//JsonArray"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="loaded" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//ArgumentType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="radix" eType="#//Radix"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="units" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="calibrated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        volatile="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="optional" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="calibrationId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        volatile="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="database" eType="#//WebAPIDatabase"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="calibration" eType="#//WebAPICalibrationModel"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DatabaseElement" instanceClassName="com.astra.ses.spell.dev.database.interfaces.IDatabaseElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fullName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cachedWebAPIData" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StringToTMMapEntry" instanceClassName="java.util.Map$Entry">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//WebAPITelemetryModel"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StringToTCMapEntry" instanceClassName="java.util.Map$Entry">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//WebAPITelecommandModel"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StringToCalMapEntry" instanceClassName="java.util.Map$Entry">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//WebAPICalibrationModel"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="DatabaseConnection" instanceClassName="com.astra.ses.spell.dev.database.webapi.DatabaseConnection"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="ArgumentType" instanceClassName="com.astra.ses.spell.dev.database.interfaces.ArgumentType"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="MonitoringCheck" instanceClassName="com.astra.ses.spell.dev.database.interfaces.IMonitoringCheck"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Radix" instanceClassName="com.astra.ses.spell.dev.database.interfaces.Radix"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="DataOutputStream" instanceClassName="java.io.DataOutputStream"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="ValidValueSet" instanceClassName="java.util.LinkedHashSet">
+    <eTypeParameters name="E"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="CalibrationType" instanceClassName="com.astra.ses.spell.dev.database.interfaces.CalibrationType"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="JsonObject" instanceClassName="javax.json.JsonObject"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="JsonArray" instanceClassName="javax.json.JsonArray"/>
+</ecore:EPackage>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="agreement" nsURI="http://www.nl.atosorigin.com/dsl/agreement" nsPrefix="agreement">
+  <eClassifiers xsi:type="ecore:EClass" name="Plan">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" unique="false">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eventRules" upperBound="-1" eType="//EventRulesDecl" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rates" upperBound="-1" eType="//RateDecl" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RateDecl">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="values" upperBound="-1" eType="//ValueDecl" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" unique="false">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ValueDecl">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="date" eType="//Date" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="amount" eType="//Amount" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EventRulesDecl">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="postingRules" upperBound="-1" eType="//TemporalPostingRule" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" ordered="false" unique="false" eType="//EventType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TemporalPostingRule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="date" eType="//Date" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="account" ordered="false" unique="false" eType="//AccountName"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="amountRule" eType="//AmountRule" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Amount">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" ordered="false" unique="false">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unit" ordered="false" unique="false">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Date">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="day" ordered="false" unique="false">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="year" ordered="false" unique="false">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="month" ordered="false" unique="false">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AmountRule" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SingleTermRule" abstract="true" eSuperTypes="//ExpressionRuleHead"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LiteralRule" eSuperTypes="//SingleTermRule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="//Amount" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VariableRule" eSuperTypes="//SingleTermRule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="variable" ordered="false" unique="false">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExpressionRule" eSuperTypes="//AmountRule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="head" eType="//ExpressionRuleHead" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" ordered="false" unique="false" eType="//Operator"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="//ExpressionRule" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExpressionRuleHead" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExpressionRuleParenthesised" eSuperTypes="//ExpressionRuleHead">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="//ExpressionRule" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IfRule" eSuperTypes="//AmountRule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="then" eType="//ExpressionRule" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="else" eType="//ExpressionRule" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="comparison" eType="//Comparison" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Comparison" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CompoundComparison" abstract="true" eSuperTypes="//Comparison">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="//SimpleComparison" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="//SimpleComparison" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AndComparison" eSuperTypes="//CompoundComparison"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OrComparison" eSuperTypes="//CompoundComparison"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SimpleComparison" eSuperTypes="//Comparison">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="//SingleTermRule" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="//SingleTermRule" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" ordered="false" unique="false" eType="//Comparator"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="EventType">
+    <eLiterals name="NULL" value="1"/>
+    <eLiterals name="Usage" value="1"/>
+    <eLiterals name="ServiceCall" value="2"/>
+    <eLiterals name="Tax" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="AccountName">
+    <eLiterals name="NULL" value="1"/>
+    <eLiterals name="BaseUsage" value="1"/>
+    <eLiterals name="Service" value="2"/>
+    <eLiterals name="Tax" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Operator">
+    <eLiterals name="NULL" value="1"/>
+    <eLiterals name="Add" value="1"/>
+    <eLiterals name="Substract" value="2"/>
+    <eLiterals name="Multiply" value="3"/>
+    <eLiterals name="Divide" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Comparator">
+    <eLiterals name="NULL" value="1"/>
+    <eLiterals name="Less" value="1"/>
+    <eLiterals name="More" value="2"/>
+    <eLiterals name="LessEqual" value="3"/>
+    <eLiterals name="MoreEqual" value="4"/>
+    <eLiterals name="Equal" value="5"/>
+  </eClassifiers>
+</ecore:EPackage>

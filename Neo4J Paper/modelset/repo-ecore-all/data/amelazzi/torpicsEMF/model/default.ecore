@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="entities" nsURI="torpics" nsPrefix="torpicsEMF">
+  <eClassifiers xsi:type="ecore:EClass" name="Capteur" eSuperTypes="#//Device">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//CapteurType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sendTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CapteurType">
+    <eLiterals name="Humidity"/>
+    <eLiterals name="Pollustion" value="1"/>
+    <eLiterals name="Temperature" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataBase" eSuperTypes="#//StorageDevice">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//BddType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="protocol" eType="#//ComProtocol"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="BddType">
+    <eLiterals name="MySQL"/>
+    <eLiterals name="PostgreSQL" value="1"/>
+    <eLiterals name="Oracle" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ComProtocol">
+    <eLiterals name="SQL"/>
+    <eLiterals name="MQTT"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Link">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//Device"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="destination" lowerBound="1"
+        eType="#//Device"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Cloud" eSuperTypes="#//StorageDevice">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//CloudType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="method" eType="#//ReadWrite"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="APIKey" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="channelID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="protocol" eType="#//ComProtocol"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CloudType">
+    <eLiterals name="ThingSpeak"/>
+    <eLiterals name="GoogleCloud" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Device">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StorageDevice" eSuperTypes="#//Device">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="url" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="userName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pwd" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="port" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GateWay" eSuperTypes="#//Device"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="ReadWrite">
+    <eLiterals name="Read"/>
+    <eLiterals name="Write" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Network">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="deviceList" upperBound="-1"
+        eType="#//Device" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkList" upperBound="-1"
+        eType="#//Link" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

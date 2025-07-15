@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="wsn"
+    nsURI="http://com.wsn.ecore.package" nsPrefix="">
+  <eClassifiers xsi:type="ecore:EClass" name="Objectives"  >
+	<eStructuralFeatures xsi:type="ecore:EAttribute" eType="#//optimizationLevel" name="lifetime" >
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EAttribute" eType="#//optimizationLevel" name="memfootprint" >
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EAttribute" eType="#//optimizationLevel" name="delay" >
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EAttribute" eType="#//optimizationLevel" name="packetloss" >
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Sensor"  >
+	<eStructuralFeatures xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble" name="data" >
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="interface" 		eType="#//ISensor"				>
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Actuator"  >
+	<eStructuralFeatures xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble" name="data" >
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="interface" 		eType="#//IActuator"				>
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Actuating"  >
+	<eStructuralFeatures xsi:type="ecore:EReference" name="task" 		eType="#//Task"				>
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="actuator" 		eType="#//Actuator"				>
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="data" 		eType="#//Data"				>
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Task"  >
+	<eStructuralFeatures xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" name="priority" >
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EReference" containment="true" name="behavior" lowerBound="1" 		eType="#//StateMachine"				>
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Sensing"  >
+	<eStructuralFeatures xsi:type="ecore:EReference" name="task" 		eType="#//Task"				>
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="sensor" 		eType="#//Sensor"				>
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="data" 		eType="#//Data"				>
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Node"  >
+	<eStructuralFeatures xsi:type="ecore:EReference" containment="true" name="task" lowerBound="1" upperBound="10" 		eType="#//Task"				>
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" abstract="true" name="Event"  >
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Message"  eSuperTypes="#//Event "
+>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="msgSource" 		eType="#//Task"				>
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="msgTarget" 		eType="#//Task"				>
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="data" 		eType="#//Data"				>
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Network"  >
+	<eStructuralFeatures xsi:type="ecore:EReference" name="objectives" 		eType="#//Objectives"				>
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EReference" containment="true" name="nodes" upperBound="10" 		eType="#//Node"				>
+	</eStructuralFeatures>
+    <eAnnotations source="annote" >
+    
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Communication"  >
+	<eStructuralFeatures xsi:type="ecore:EReference" name="commSource" 		eType="#//Node"				>
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="commDestination" 		eType="#//Node"				>
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="originating" 		eType="#//Task"				>
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="receiving" 		eType="#//Task"				>
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="mode" 		eType="#//Mode"				>
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Mode"  >
+	<eStructuralFeatures xsi:type="ecore:EAttribute" eType="#//communication_mode" name="mode_t" >
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble" name="destination" >
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Data"  >
+	<eStructuralFeatures xsi:type="ecore:EReference" name="interface" 		eType="#//IData"				>
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="State"  >
+	<eStructuralFeatures xsi:type="ecore:EReference" name="entryActivity" 		eType="#//Activity"				>
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="exitActivity" 		eType="#//Activity"				>
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Transition"  >
+	<eStructuralFeatures xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" name="guard" >
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="transitionFrom" 		eType="#//State"				>
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="transitionTo" 		eType="#//State"				>
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="trigger" 		eType="#//Event"				>
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InitialState"  eSuperTypes="#//State "
+>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FinalState"  eSuperTypes="#//State "
+>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Cluster"  >
+	<eStructuralFeatures xsi:type="ecore:EReference" name="node" upperBound="-1" 		eType="#//Node"				>
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EReference" containment="true" name="head" lowerBound="1" 		eType="#//ClusterHead"				>
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="election" 		eType="#//Election"				>
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="formation" 		eType="#//Formation"				>
+	</eStructuralFeatures>
+    <eAnnotations source="Ecore" >
+    
+    	<details key="constraints" value="oneCH" />
+    
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/2007/OCL" >
+    
+    	<details key="oneCH" value="self.head.count()=1" />
+    
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClusterHead"  eSuperTypes="#//Node "
+>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Sink"  eSuperTypes="#//Node "
+>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Lifeline"  >
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InteractionMsg"  >
+	<eStructuralFeatures xsi:type="ecore:EReference" name="msgFrom" 		eType="#//Lifeline"				>
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="msgTo" 		eType="#//Lifeline"				>
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InitialLifeline"  eSuperTypes="#//Lifeline "
+>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Activity"  >
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StateMachine"  >
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Election"  >
+	<eStructuralFeatures xsi:type="ecore:EReference" name="electionActivity" lowerBound="1" 		eType="#//Activity"				>
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Formation"  >
+	<eStructuralFeatures xsi:type="ecore:EAttribute" eType="#//RoutingType" name="routing" >
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="formationActivity" lowerBound="1" 		eType="#//Activity"				>
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Timing"  eSuperTypes="#//Event "
+>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="timer" 		eType="#//Timer"				>
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="task" 		eType="#//Task"				>
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Timer"  >
+	<eStructuralFeatures xsi:type="ecore:EAttribute" eType="#//TimerType" name="type" >
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" name="time" >
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WirelessLink"  >
+	<eStructuralFeatures xsi:type="ecore:EReference" name="task" 		eType="#//Task"				>
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="comm" 		eType="#//Comm"				>
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Comm"  eSuperTypes="#//Event "
+>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="data" 		eType="#//Data"				>
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Receiver"  eSuperTypes="#//Comm "
+>
+	<eStructuralFeatures xsi:type="ecore:EAttribute" eType="#//CommType" name="type" >
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Sender"  eSuperTypes="#//Comm "
+>
+	<eStructuralFeatures xsi:type="ecore:EAttribute" eType="#//CommType" name="type" >
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NodeRole"  eSuperTypes="#//Lifeline "
+>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="node" 		eType="#//Node"				>
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorRole"  eSuperTypes="#//Lifeline "
+>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="sensor" 		eType="#//Sensor"				>
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ActuatorRole"  eSuperTypes="#//Lifeline "
+>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="actuator" 		eType="#//Actuator"				>
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Button"  eSuperTypes="#//Sensor "
+>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LED"  eSuperTypes="#//Actuator "
+>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Platform"  >
+	<eStructuralFeatures xsi:type="ecore:EAttribute" eType="#//PlatformType" name="platform" >
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EAttribute" eType="#//MoteType" name="mote" >
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Resource"  >
+	<eStructuralFeatures xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" name="memory" >
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" name="flash" >
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Parameters"  >
+	<eStructuralFeatures xsi:type="ecore:EAttribute" eType="#//netstackType" name="netStack" >
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EAttribute" eType="#//macType" name="macProtocol" >
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EAttribute" eType="#//rdcType" name="rdcProtocol" >
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EAttribute" eType="#//RoutingType" name="routingProtocol" >
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EAttribute" eType="#//sleepType" name="sleepScheduling" >
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" abstract="true" name="EnergySource"  >
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Harvester"  eSuperTypes="#//EnergySource "
+>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Battery"  eSuperTypes="#//EnergySource "
+>
+	<eStructuralFeatures xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat" name="full" >
+	</eStructuralFeatures>
+	<eStructuralFeatures xsi:type="ecore:EAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat" name="empty" >
+	</eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" abstract="true" name="Interface"  >
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ISensor"  eSuperTypes="#//Interface "
+>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IActuator"  eSuperTypes="#//Interface "
+>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IData"  eSuperTypes="#//Interface "
+>
+  </eClassifiers>
+
+
+  <eClassifiers xsi:type="ecore:EEnum" name="communication_mode" >
+  	<eLiterals literal="broadcast" name="broadcast" />
+  	<eLiterals value="1" literal="unicast" name="unicast" />
+  	<eLiterals value="2" literal="logicast" name="logicast" />
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="RoutingType" >
+  	<eLiterals literal="ch2ch" name="ch2ch" />
+  	<eLiterals value="1" literal="node2node" name="node2node" />
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TimerType" >
+  	<eLiterals literal="periodic" name="periodic" />
+  	<eLiterals value="1" literal="once" name="once" />
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="optimizationLevel" >
+  	<eLiterals literal="dontCare" name="dontCare" />
+  	<eLiterals value="1" literal="medium" name="medium" />
+  	<eLiterals value="2" literal="high" name="high" />
+  	<eLiterals value="3" literal="critical" name="critical" />
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CommType" >
+  	<eLiterals literal="broadcast" name="broadcast" />
+  	<eLiterals value="1" literal="unicast" name="unicast" />
+  	<eLiterals value="2" literal="logicast" name="logicast" />
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PlatformType" >
+  	<eLiterals literal="Contiki" name="Contiki" />
+  	<eLiterals value="1" literal="TinyOS" name="TinyOS" />
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="MoteType" >
+  	<eLiterals literal="Z1" name="Z1" />
+  	<eLiterals value="1" literal="TelosB" name="TelosB" />
+  	<eLiterals value="2" literal="Iris" name="Iris" />
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="routingProtocol" >
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="rdcType" >
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="macType" >
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="netstackType" >
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="sleepType" >
+  </eClassifiers>
+
+</ecore:EPackage>

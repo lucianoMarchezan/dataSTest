@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="annotations" nsURI="http://emop/libraries/annotations" nsPrefix="lib_annotations">
+  <eAnnotations source="http://emop/typeobj/package">
+    <details key="name" value="AnnotationSpec.name"/>
+    <details key="uri" value="auto"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="AnnotationSpec">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1"
+        eType="#//Annotation" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Annotation" abstract="true" eSuperTypes="http://www.eclipse.org/emf/2002/Ecore#//EClass">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="annId" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reqs" upperBound="-1" eType="#//Annotation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="forbids" upperBound="-1"
+        eType="#//Annotation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject">
+      <eAnnotations source="http://emop/typeobj/next_level"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="originalAnnotation" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAnnotation">
+      <eAnnotations source="http://emop/typeobj/next_level"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="semanticHooks" upperBound="-1"
+        eType="#//SemanticAction" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ModelAnnotation" eSuperTypes="#//Annotation">
+    <eAnnotations source="http://emop/typeobj/type">
+      <details key="fid" value="annId"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectAnnotation" eSuperTypes="#//Annotation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassAnnotation" eSuperTypes="#//Annotation">
+    <eAnnotations source="http://emop/typeobj/type">
+      <details key="fid" value="annId"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FieldAnnotation" eSuperTypes="#//Annotation">
+    <eAnnotations source="http://emop/typeobj/type">
+      <details key="fid" value="annId"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SemanticAction" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="execPoint" upperBound="-1"
+        eType="#//When"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JavaCode" eSuperTypes="#//SemanticAction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="className" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="When">
+    <eLiterals name="CREATE_MODEL"/>
+    <eLiterals name="LOAD_MODEL" value="1"/>
+  </eClassifiers>
+</ecore:EPackage>

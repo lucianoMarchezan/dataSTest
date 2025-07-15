@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="concepts" nsURI="http://www.concepts.eu/modelwriter/concepts/0.9"
+    nsPrefix="concepts">
+  <eClassifiers xsi:type="ecore:EClass" name="ConceptsRoot">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="javaConcepts" upperBound="-1"
+        eType="#//JavaConceptsContainer" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ecoreResources" upperBound="-1"
+        eType="#//resourcesConcepts" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="types" upperBound="-1"
+        eType="#//Type" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JavaConceptsContainer" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="concepts" lowerBound="1"
+        upperBound="-1" eType="#//Concept" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contexts" upperBound="-1"
+        eType="#//ContextPackage" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="resourcesConcepts">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ecoreResource" lowerBound="1"
+        eType="#//EMFResource"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Concept" abstract="true" interface="true"
+      eSuperTypes="#//NamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ContextPackage" eSuperTypes="#//NamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ConceptClass" eSuperTypes="#//Concept">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="context" lowerBound="1"
+        eType="#//ContextPackage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConceptVariable" eSuperTypes="#//DerivedConcept">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="returnType" eType="#//Type"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="context" lowerBound="1"
+        eType="#//ConceptClass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConceptMethod" eSuperTypes="#//DerivedConcept">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="returnType" eType="#//Type"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//ConceptParameter"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="context" lowerBound="1"
+        eType="#//ConceptClass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConceptParameter" eSuperTypes="#//DerivedConcept">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//Type"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="context" lowerBound="1"
+        eType="#//ConceptMethod"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Type" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedClass" upperBound="-1"
+        eType="#//ConceptClass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="EMFResource" instanceClassName="org.eclipse.emf.ecore.resource.Resource"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DerivedConcept" eSuperTypes="#//Concept"/>
+</ecore:EPackage>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="CoreDTSM" nsURI="platform:/resource/DiceDPIM2DTSM/TargetMetaModel(DTSM)/CoreDTSM.ecore"
+    nsPrefix="CoreDTSM">
+  <eClassifiers xsi:type="ecore:EClass" name="SourceNode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="loadInMemory" lowerBound="1"
+        upperBound="-1" eType="#//ChannelSpecification"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Type" eType="ecore:EEnum DPIM.ecore#//SourceType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComputationNode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nestingAndReplication"
+        lowerBound="1" upperBound="-1" eType="#//ComputationNode"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="function" lowerBound="1"
+        upperBound="-1" eType="#//FunctionSpecType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DTSMComputationName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ReceiveFromFilter" eType="#//FilterNode"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ChannelSpecification">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rate" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" lowerBound="1" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="TechSupport" eType="ecore:EEnum DPIM.ecore#//TechType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Policy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="CommunicationChannelName"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkflowSpecification">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="restricts" lowerBound="1"
+        upperBound="-1" eType="#//ComputationNode"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="workflowConstraints" upperBound="-1"
+        eType="#//ConstraintsType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="jobSchedule" lowerBound="1"
+        eType="#//JobScheduleType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="blockAccessSchedule" lowerBound="1"
+        eType="#//AccessScheduleType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ConstraintsType">
+    <eLiterals name="maxIteration"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ComputationalNodeType">
+    <eLiterals name="HadoopMR"/>
+    <eLiterals name="Storm" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StorageNode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="affects" lowerBound="1"
+        upperBound="-1" eType="#//WorkflowSpecification"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nodeConstraints" lowerBound="1"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="managementLayer" lowerBound="1"
+        eType="#//ManagementLayerType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="SorageName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ManagementLayerType">
+    <eLiterals name="spark"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="JobScheduleType">
+    <eLiterals name="runtime"/>
+    <eLiterals name="speculative" value="1"/>
+    <eLiterals name="redundant" value="2"/>
+    <eLiterals name="fair" value="3"/>
+    <eLiterals name="capacity" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="AccessScheduleType"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="FunctionSpecType">
+    <eLiterals name="map"/>
+    <eLiterals name="reduce" value="1"/>
+    <eLiterals name="combine" value="2"/>
+    <eLiterals name="partition" value="3"/>
+    <eLiterals name="report" value="4"/>
+    <eLiterals name="collectOutput" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DIAElement" eSuperTypes="#//ComputationNode #//SourceNode #//WorkflowSpecification">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nodeTypeSpec" lowerBound="1"
+        upperBound="-1" eType="#//ComputationalNodeType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DiaName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DTSM">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DtsmCputationNode" upperBound="-1"
+        eType="#//ComputationNode" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="WorlFlowSpecification"
+        upperBound="-1" eType="#//WorkflowSpecification" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ChannelSpecification" upperBound="-1"
+        eType="#//ChannelSpecification" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DtsmSourceNode" upperBound="-1"
+        eType="#//SourceNode" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dtsmDIAElement" eType="#//DIAElement"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DtsmFilterNode" upperBound="-1"
+        eType="#//FilterNode" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="CongFiles" upperBound="-1"
+        eType="#//DtsmConfiguration" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FilterNode">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="FilterType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DtsmConfiguration"/>
+</ecore:EPackage>

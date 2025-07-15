@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="mercury" nsURI="http://www.example.org/mercury" nsPrefix="mercury">
+  <eClassifiers xsi:type="ecore:EClass" name="OrganizationUnit" abstract="true" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="functionCalls" upperBound="-1"
+        eType="#//FunctionCall" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Variable" abstract="true" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//VariableType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Program" eSuperTypes="#//OrganizationUnit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputs" upperBound="-1"
+        eType="#//ProgramInputVariable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputs" upperBound="-1"
+        eType="#//ProgramOutputVariable" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionBlock" eSuperTypes="#//OrganizationUnit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputVariables" upperBound="-1"
+        eType="#//InputVariable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputVariables" upperBound="-1"
+        eType="#//OutputVariable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="calls" upperBound="-1"
+        eType="#//FunctionCall" eOpposite="#//FunctionCall/calledFunction"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AllocationUnit" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="programs" upperBound="-1"
+        eType="#//Program" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="functionBlocks" upperBound="-1"
+        eType="#//FunctionBlock" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InputVariable" eSuperTypes="#//Variable #//DataSource"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OutputVariable" eSuperTypes="#//Variable #//DataSink"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="VariableType" instanceClassName="java.lang.Enum">
+    <eLiterals name="Integer"/>
+    <eLiterals name="String" value="1"/>
+    <eLiterals name="Boolean" value="2"/>
+    <eLiterals name="Double" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionCall">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="calledFunction" lowerBound="1"
+        eType="#//FunctionBlock" eOpposite="#//FunctionBlock/calls"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputs" upperBound="-1"
+        eType="#//FunctionInputVariableReference" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputs" upperBound="-1"
+        eType="#//FunctionOutputVariableReference" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionInputVariableReference" eSuperTypes="#//DataSink">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
+        eType="#//InputVariable"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionOutputVariableReference" eSuperTypes="#//DataSource">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
+        eType="#//OutputVariable"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProgramInputVariable" eSuperTypes="#//DataSource">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//VariableType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProgramOutputVariable" eSuperTypes="#//DataSink">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//VariableType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataSink" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//DataSource"
+        eOpposite="#//DataSource/target"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataSource" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" upperBound="-1"
+        eType="#//DataSink" eOpposite="#//DataSink/source"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Root">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allocations" lowerBound="1"
+        upperBound="-1" eType="#//AllocationUnit" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

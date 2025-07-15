@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="traceModel"
+    nsURI="http:///traceModel.ecore" nsPrefix="traceabilityToolMM">
+  <eClassifiers xsi:type="ecore:EClass" name="TraceableArtefactType" eSuperTypes="#//TraceModelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="#//TraceableArtefactAttributeType" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elementRef" eType="#//ElementRef"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TraceLinkType" eSuperTypes="#//TraceModelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="#//TraceLinkAttributeType" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//TraceableArtefactType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//TraceableArtefactType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkType" eType="#//LinkType"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TraceModel" eSuperTypes="#//TraceModelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="traceableArtefactTypes"
+        upperBound="-1" eType="#//TraceableArtefactType" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tracelinkTypes" upperBound="-1"
+        eType="#//TraceLinkType" defaultValueLiteral="" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="valueTypes" upperBound="-1"
+        eType="#//ValueType" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="traceModelVersion" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TraceModelElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ValueType" eSuperTypes="#//TraceModelElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TraceLinkAttributeType" eSuperTypes="#//AttributeType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AttributeType" abstract="true" eSuperTypes="#//TraceModelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//ValueType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TraceableArtefactAttributeType" eSuperTypes="#//AttributeType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplexTraceLinkType" eSuperTypes="#//TraceLinkType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkSegments" upperBound="-1"
+        eType="#//TraceLinkType" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplexTraceableArtefactType" eSuperTypes="#//TraceableArtefactType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="artefactSegments" upperBound="-1"
+        eType="#//TraceableArtefactType" defaultValueLiteral="" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AutoamaticTraceLink" eSuperTypes="#//ComplexTraceLinkType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="creationType" eType="#//CreationType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ManualTraceLink" eSuperTypes="#//ComplexTraceLinkType"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="CreationType">
+    <eLiterals name="Generated"/>
+    <eLiterals name="Implied"/>
+    <eLiterals name="Derrived"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ElementRef">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="typeName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="featureTypeRef" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="metamodel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LinkType" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Refinement" eSuperTypes="#//LinkType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Supplementing" eSuperTypes="#//LinkType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Realization" eSuperTypes="#//LinkType"/>
+</ecore:EPackage>

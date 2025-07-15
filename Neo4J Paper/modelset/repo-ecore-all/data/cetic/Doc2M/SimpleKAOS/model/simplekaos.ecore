@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="simplekaos" nsURI="http://www.respect-it.be/simplekaos" nsPrefix="simplekaos">
+  <eClassifiers xsi:type="ecore:EClass" name="KConcept" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="references" upperBound="-1"
+        eType="#//KReference" eOpposite="#//KReference/conceptOf"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="packageOf" eType="#//KPackage"
+        eOpposite="#//KPackage/containing"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Def" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Issue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KObject" abstract="true" eSuperTypes="#//KConcept"/>
+  <eClassifiers xsi:type="ecore:EClass" name="KDocument" abstract="true" eSuperTypes="#//KConcept">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containing" upperBound="-1"
+        eType="#//KReference" containment="true" eOpposite="#//KReference/documentOf"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KDiagram" eSuperTypes="#//KDocument"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Obstacle" eSuperTypes="#//KRationale">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sonRef" upperBound="-1"
+        eType="#//ORefinement" eOpposite="#//ORefinement/parent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentRef" upperBound="-1"
+        eType="#//ORefinement" eOpposite="#//ORefinement/sons"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="obstruction" upperBound="-1"
+        eType="#//Obstruction" eOpposite="#//Obstruction/obstacle"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resolution" upperBound="-1"
+        eType="#//Resolution" eOpposite="#//Resolution/obstacle"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KAndOrRel" abstract="true" eSuperTypes="#//KConcept">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="SysRef" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Goal" eSuperTypes="#//KRationale">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sonRef" upperBound="-1"
+        eType="#//GRefinement" eOpposite="#//GRefinement/parent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentRef" upperBound="-1"
+        eType="#//GRefinement" eOpposite="#//GRefinement/sons"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignment" upperBound="-1"
+        eType="#//Assignment" eOpposite="#//Assignment/goal"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Priority" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conflict" upperBound="-1"
+        eType="#//Conflict" eOpposite="#//Conflict/goal"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="obstruction" upperBound="-1"
+        eType="#//Obstruction" eOpposite="#//Obstruction/goal"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resolution" upperBound="-1"
+        eType="#//Resolution" eOpposite="#//Resolution/goal"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Category" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="responsibility" upperBound="-1"
+        eType="#//Responsibility" eOpposite="#//Responsibility/leafGoal"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Type" eType="#//GoalType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GRefinement" eSuperTypes="#//KAndOrRel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Goal"
+        eOpposite="#//Goal/sonRef"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sons" upperBound="-1" eType="#//Goal"
+        eOpposite="#//Goal/parentRef"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ORefinement" eSuperTypes="#//KAndOrRel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Obstacle"
+        eOpposite="#//Obstacle/sonRef"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sons" upperBound="-1" eType="#//Obstacle"
+        eOpposite="#//Obstacle/parentRef"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Assignment" eSuperTypes="#//KAndOrRel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="goal" eType="#//Goal" eOpposite="#//Goal/assignment"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignee" upperBound="-1"
+        eType="#//Agent" eOpposite="#//Agent/assignment"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KReference" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conceptOf" eType="#//KConcept"
+        eOpposite="#//KConcept/references"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="documentOf" eType="#//KDocument"
+        eOpposite="#//KDocument/containing"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KPackage" eSuperTypes="#//KConcept">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containing" upperBound="-1"
+        eType="#//KConcept" containment="true" eOpposite="#//KConcept/packageOf"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KGReference" eSuperTypes="#//KReference">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KRationale" abstract="true" eSuperTypes="#//KConcept">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="GWT" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="AgentCategory">
+    <eLiterals name="Undefined"/>
+    <eLiterals name="Software" value="1"/>
+    <eLiterals name="Environment" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PriorityType">
+    <eLiterals name="Low"/>
+    <eLiterals name="Medium" value="1"/>
+    <eLiterals name="High" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KRelationship" abstract="true" eSuperTypes="#//KConcept"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Conflict" eSuperTypes="#//KRelationship">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="BoundaryCondition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="goal" lowerBound="2" upperBound="-1"
+        eType="#//Goal" eOpposite="#//Goal/conflict"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Responsibility" eSuperTypes="#//KAndOrRel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leafGoal" eType="#//Goal"
+        eOpposite="#//Goal/responsibility"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="responsible" upperBound="-1"
+        eType="#//Agent" eOpposite="#//Agent/responsibility"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Obstruction" eSuperTypes="#//KRelationship">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="goal" lowerBound="1" eType="#//Goal"
+        eOpposite="#//Goal/obstruction"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="obstacle" lowerBound="1"
+        eType="#//Obstacle" eOpposite="#//Obstacle/obstruction"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Resolution" eSuperTypes="#//KRelationship">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="goal" eType="#//Goal" eOpposite="#//Goal/resolution"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="obstacle" eType="#//Obstacle"
+        eOpposite="#//Obstacle/resolution"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Agent" eSuperTypes="#//KObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="responsibility" upperBound="-1"
+        eType="#//Responsibility" eOpposite="#//Responsibility/responsible"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignment" upperBound="-1"
+        eType="#//Assignment" eOpposite="#//Assignment/assignee"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Category" eType="#//AgentCategory"
+        defaultValueLiteral="Undefined"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="GoalType">
+    <eLiterals name="Goal"/>
+    <eLiterals name="SoftGoal" value="1"/>
+    <eLiterals name="Requirement" value="2"/>
+    <eLiterals name="Expectation" value="3"/>
+    <eLiterals name="DomProp" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TextDocument" eSuperTypes="#//KDocument">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByteArray"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KReport" eSuperTypes="#//KDocument">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contained" upperBound="-1"
+        eType="#//KDocument"/>
+  </eClassifiers>
+</ecore:EPackage>

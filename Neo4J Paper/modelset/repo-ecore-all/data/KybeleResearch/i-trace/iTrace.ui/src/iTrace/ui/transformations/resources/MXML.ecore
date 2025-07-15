@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="mxml"
+    nsURI="http://esi.uclm.es/mxml" nsPrefix="mxml">
+  <eClassifiers xsi:type="ecore:EClass" name="WorkflowLog">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processes" upperBound="-1"
+        eType="#//Process" containment="true" eOpposite="#//Process/workflowLog"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="data" upperBound="-1" eType="#//Data"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Process">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processInstances" upperBound="-1"
+        eType="#//ProcessInstance" containment="true" eOpposite="#//ProcessInstance/process"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="data" upperBound="-1" eType="#//Data"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="workflowLog" lowerBound="1"
+        eType="#//WorkflowLog" eOpposite="#//WorkflowLog/processes"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProcessInstance">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="auditTrailEntries" upperBound="-1"
+        eType="#//AuditTrailEntry" containment="true" eOpposite="#//AuditTrailEntry/processInstance"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="data" upperBound="-1" eType="#//Data"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="process" lowerBound="1"
+        eType="#//Process" eOpposite="#//Process/processInstances"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AuditTrailEntry">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="workflowModelElement" lowerBound="1"
+        eType="#//WorkflowModelElement" containment="true" eOpposite="#//WorkflowModelElement/auditTrailEntry"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eventType" lowerBound="1"
+        eType="#//EventType" containment="true" eOpposite="#//EventType/auditTrailEntry"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="timestamp" eType="#//Timestamp"
+        containment="true" eOpposite="#//Timestamp/auditTrailEntry"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="originator" eType="#//Originator"
+        containment="true" eOpposite="#//Originator/auditTrailEntry"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="data" upperBound="-1" eType="#//Data"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processInstance" lowerBound="1"
+        eType="#//ProcessInstance" eOpposite="#//ProcessInstance/auditTrailEntries"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkflowModelElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="auditTrailEntry" lowerBound="1"
+        eType="#//AuditTrailEntry" eOpposite="#//AuditTrailEntry/workflowModelElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EventType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="auditTrailEntry" lowerBound="1"
+        eType="#//AuditTrailEntry" eOpposite="#//AuditTrailEntry/eventType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Timestamp">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="auditTrailEntry" lowerBound="1"
+        eType="#//AuditTrailEntry" eOpposite="#//AuditTrailEntry/timestamp"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Originator">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="auditTrailEntry" lowerBound="1"
+        eType="#//AuditTrailEntry" eOpposite="#//AuditTrailEntry/originator"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Data">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="#//Attribute" containment="true" eOpposite="#//Attribute/data"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Attribute">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="data" lowerBound="1" eType="#//Data"
+        eOpposite="#//Data/attributes"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="LogEventType" instanceTypeName="String">
+    <eLiterals name="Start"/>
+    <eLiterals name="Complete" value="1"/>
+  </eClassifiers>
+</ecore:EPackage>

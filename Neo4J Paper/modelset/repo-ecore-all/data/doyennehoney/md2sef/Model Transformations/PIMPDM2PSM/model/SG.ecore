@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="sgf" nsURI="http://devs.org/sgftest" nsPrefix="sgftest">
+  <eClassifiers xsi:type="ecore:EClass" name="Tree">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Root" lowerBound="1" eType="#//Root"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Coordinator" ordered="false"
+        upperBound="-1" eType="#//Coordinator" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Simulator" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//Simulator" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Root" eSuperTypes="#//Node">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="child" lowerBound="1" eType="#//BasicNode"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Coordinator" eSuperTypes="#//BasicNode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//BasicNode"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CDEVSCoordinator" eSuperTypes="#//Coordinator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PDEVSCoordinator" eSuperTypes="#//Coordinator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FlatCoordinator" eSuperTypes="#//Coordinator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NodeCoordinator" eSuperTypes="#//Coordinator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="P_Coordinator" eSuperTypes="#//Coordinator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Simulator" abstract="true" eSuperTypes="#//BasicNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CDEVSSimulator" eSuperTypes="#//Simulator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PDEVSSimulator" eSuperTypes="#//Simulator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="P_Simulator" eSuperTypes="#//Simulator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BasicNode" abstract="true" eSuperTypes="#//Node">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Node" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Skeleton">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tree" eType="#//Tree"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rootskel" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//Root" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Bundle">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="skeleton" lowerBound="1"
+        eType="#//Skeleton"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Process" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//Process" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Process">
+    <eOperations name="receive" eType="ecore:EClass http://www.eclipse.org/ocl/2015/Library#//OclAny"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//Node"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Middleware">
+    <eOperations name="bind"/>
+    <eOperations name="establish"/>
+    <eOperations name="send"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="process" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//Process"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="agricola" nsURI="http://com.bistiboy.agricola/1.0" nsPrefix="agricola">
+  <eClassifiers xsi:type="ecore:EClass" name="GamerBoard">
+    <eOperations name="computeScore" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parcels" upperBound="-1"
+        eType="#//Parcel" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Parcel">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//ParcelType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ParcelType">
+    <eLiterals name="Undefined"/>
+    <eLiterals name="Field" value="1" literal="Field"/>
+    <eLiterals name="Enclosure" value="2" literal="Enclosure"/>
+    <eLiterals name="Shed" value="3" literal="Shed"/>
+    <eLiterals name="House" value="4" literal="House"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Gamer">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gamerboard" lowerBound="1"
+        eType="#//GamerBoard" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Agricola">
+    <eOperations name="start"/>
+    <eOperations name="play">
+      <eParameters name="g" eType="#//Gamer"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gamers" lowerBound="1"
+        upperBound="5" eType="#//Gamer" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cards" upperBound="-1"
+        eType="#//ActionCard" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mainboard" lowerBound="1"
+        eType="#//MainBoard" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Resource">
+    <eLiterals name="Undefined"/>
+    <eLiterals name="Clay" value="1"/>
+    <eLiterals name="Reed" value="2"/>
+    <eLiterals name="Wood" value="3"/>
+    <eLiterals name="Stone" value="4"/>
+    <eLiterals name="Cereal" value="5"/>
+    <eLiterals name="Carrot" value="6"/>
+    <eLiterals name="Coin" value="7" literal="Coin"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ActionCard" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SupplierCard" eSuperTypes="#//ActionCard">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supply" lowerBound="1"
+        eType="#//Supply" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bankSupply" upperBound="-1"
+        eType="#//Supply" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CreationCard" eSuperTypes="#//ActionCard">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="creations" lowerBound="1"
+        upperBound="-1" eType="#//Creation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unique" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Creation Card can be done more than once."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Supply">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="quantity" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resourceType" eType="#//Resource"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Creation">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cost" upperBound="-1" eType="#//Supply"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MainBoard">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fixedCards" lowerBound="10"
+        upperBound="16" eType="#//ActionCard"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rounds" lowerBound="1"
+        upperBound="14" eType="#//Round" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Round">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actioncard" upperBound="-1"
+        eType="#//ActionCard"/>
+  </eClassifiers>
+</ecore:EPackage>

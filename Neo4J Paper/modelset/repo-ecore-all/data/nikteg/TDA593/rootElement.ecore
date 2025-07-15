@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="rootElement" nsURI="http:///rootElement.ecore" nsPrefix="rootElement">
+  <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+    <details key="originalName" value="RootElement"/>
+  </eAnnotations>
+  <eSubpackages name="classes" nsURI="http:///rootElement/classes.ecore" nsPrefix="rootElement.classes"/>
+  <eSubpackages name="management" nsURI="http:///rootElement/management.ecore" nsPrefix="rootElement.management">
+    <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <details key="originalName" value="Management"/>
+    </eAnnotations>
+    <eClassifiers xsi:type="ecore:EClass" name="RoomInfo">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="bedCount" ordered="false"
+          lowerBound="1" eType="ecore:EDataType types.ecore#//Integer"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="roomType" ordered="false"
+          lowerBound="1" eType="ecore:EDataType types.ecore#//String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="price" ordered="false"
+          lowerBound="1" eType="ecore:EDataType types.ecore#//Integer"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="floor" ordered="false"
+          lowerBound="1" eType="ecore:EDataType types.ecore#//Integer"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Timespan">
+      <eOperations name="dateInSpan" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eParameters name="date" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="start" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"
+          changeable="false"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="end" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"
+          changeable="false"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Reservation">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="bill" ordered="false"
+          lowerBound="1" eType="#//management/Bill"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="timespan" ordered="false"
+          lowerBound="1" eType="#//management/Timespan"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="rooms" ordered="false"
+          upperBound="-1" eType="#//management/Room"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="payer" ordered="false"
+          lowerBound="1" eType="#//accountManager/UserId"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="guests" ordered="false"
+          upperBound="-1" eType="#//accountManager/UserId"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="roomInfos" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//management/RoomInfo"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="id" ordered="false" lowerBound="1"
+          eType="#//management/ReservationId"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Bill">
+      <eOperations name="addItem" ordered="false" lowerBound="1">
+        <eParameters name="type" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eParameters name="basePrice" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+        <eParameters name="count" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eOperations>
+      <eOperations name="removeItem" ordered="false" lowerBound="1">
+        <eParameters name="type" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eParameters name="count" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="items" ordered="false"
+          upperBound="-1" eType="#//management/BillItem"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BillItem">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" ordered="false"
+          lowerBound="1" eType="ecore:EDataType types.ecore#//String" changeable="false"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="basePrice" ordered="false"
+          lowerBound="1" eType="ecore:EDataType types.ecore#//Integer"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isPayed" ordered="false"
+          lowerBound="1" eType="ecore:EDataType types.ecore#//Boolean"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="count" ordered="false"
+          lowerBound="1" eType="ecore:EDataType types.ecore#//Integer"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Room">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="identifier" ordered="false"
+          lowerBound="1" eType="ecore:EDataType types.ecore#//Integer"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="description" ordered="false"
+          lowerBound="1" eType="#//management/RoomInfo"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ReservationId">
+      <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <details key="originalName" value="ReservationID"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" ordered="false" lowerBound="1"
+          eType="ecore:EDataType types.ecore#//Integer" changeable="false"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ReservationManager" eSuperTypes="#//management/IReservation">
+      <eOperations name="updateReservation" ordered="false" lowerBound="1" eType="#//management/Reservation">
+        <eParameters name="id" ordered="false" lowerBound="1" eType="#//management/ReservationId"/>
+        <eParameters name="data" ordered="false" lowerBound="1" eType="#//management/Reservation"/>
+      </eOperations>
+      <eOperations name="getAvailableRooms" ordered="false" upperBound="-1" eType="#//management/Room">
+        <eParameters name="roomInfo" ordered="false" lowerBound="1" eType="#//management/RoomInfo"/>
+        <eParameters name="availableAt" ordered="false" lowerBound="1" eType="#//management/Timespan"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="reservationlock" ordered="false"
+          upperBound="-1" eType="#//management/ReservationLock">
+        <eAnnotations source="http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName">
+          <details key="body" value="reservationmanager"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ReservationLock">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="expiration" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"
+          changeable="false"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="rooms" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//management/RoomInfo" changeable="false"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="roominfo" ordered="false"
+          lowerBound="1" eType="#//management/RoomInfo">
+        <eAnnotations source="http://schema.omg.org/spec/MOF/2.0/emof.xml#Property.oppositeRoleName">
+          <details key="body" value="reservationlock"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="id" ordered="false" lowerBound="1"
+          eType="#//management/LockId" changeable="false"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="timespan" ordered="false"
+          lowerBound="1" eType="#//management/Timespan"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="LockId">
+      <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <details key="originalName" value="LockID"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" ordered="false" lowerBound="1"
+          eType="ecore:EDataType types.ecore#//Integer"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IReservation" abstract="true" interface="true">
+      <eOperations name="lockReservation" ordered="false" lowerBound="1" eType="#//management/LockId">
+        <eParameters name="arrivalDate" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+        <eParameters name="departureDate" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+        <eParameters name="roomInfo" ordered="false" lowerBound="1" upperBound="-1"
+            eType="#//management/RoomInfo"/>
+      </eOperations>
+      <eOperations name="cancelReservation" ordered="false" lowerBound="1">
+        <eParameters name="reservationId" ordered="false" lowerBound="1" eType="#//management/ReservationId"/>
+      </eOperations>
+      <eOperations name="getReservations" ordered="false" upperBound="-1" eType="#//management/Reservation">
+        <eParameters name="user" ordered="false" lowerBound="1" eType="#//accountManager/UserId"/>
+      </eOperations>
+      <eOperations name="confirmReservation" ordered="false" lowerBound="1" eType="#//management/ReservationId">
+        <eParameters name="lockId" ordered="false" lowerBound="1" eType="#//management/LockId"/>
+        <eParameters name="payer" ordered="false" lowerBound="1" eType="#//accountManager/UserId"/>
+        <eParameters name="guests" ordered="false" upperBound="-1" eType="#//accountManager/UserId"/>
+      </eOperations>
+      <eOperations name="getReservation" ordered="false" lowerBound="1" eType="#//management/Reservation">
+        <eParameters name="id" ordered="false" lowerBound="1" eType="#//management/ReservationId"/>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BillingCalculator" eSuperTypes="#//management/IBilling"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IBilling" abstract="true" interface="true">
+      <eOperations name="calculateBill" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//Integer">
+        <eParameters name="bill" ordered="false" lowerBound="1" eType="#//management/Bill"/>
+      </eOperations>
+      <eOperations name="addRebate" ordered="false" lowerBound="1" eType="#//management/RebateId">
+        <eParameters name="rebate" ordered="false" lowerBound="1" eType="#//management/RebateDescription"/>
+      </eOperations>
+      <eOperations name="currentRebates" ordered="false" upperBound="-1" eType="#//management/Rebate"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="RebateId">
+      <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <details key="originalName" value="RebateID"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" ordered="false" lowerBound="1"
+          eType="ecore:EDataType types.ecore#//Integer" changeable="false"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="RebateDescription">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="users" ordered="false"
+          upperBound="-1" eType="#//accountManager/UserId"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="stays" ordered="false"
+          upperBound="-1" eType="#//management/ReservationId"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="types" ordered="false"
+          upperBound="-1" eType="#//management/RoomInfo"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="amount" ordered="false"
+          lowerBound="1" eType="ecore:EDataType types.ecore#//Real"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Rebate">
+      <eOperations name="apply" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//Integer">
+        <eParameters name="billItem" ordered="false" lowerBound="1" eType="#//management/BillItem"/>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="RebateType">
+      <eLiterals name="percentage">
+        <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+          <details key="originalName" value="Percentage"/>
+        </eAnnotations>
+      </eLiterals>
+      <eLiterals name="fixed" value="1">
+        <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+          <details key="originalName" value="Fixed"/>
+        </eAnnotations>
+      </eLiterals>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ICheckInOut" abstract="true" interface="true">
+      <eOperations name="checkIn" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//Boolean">
+        <eParameters name="reservation" ordered="false" lowerBound="1" eType="#//management/ReservationId"/>
+      </eOperations>
+      <eOperations name="checkOut" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//Boolean">
+        <eParameters name="reservation" ordered="false" lowerBound="1" eType="#//management/ReservationId"/>
+      </eOperations>
+      <eOperations name="addCard" ordered="false" lowerBound="1">
+        <eParameters name="reservation" ordered="false" lowerBound="1" eType="#//management/ReservationId"/>
+        <eParameters name="cardId" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+        <eParameters name="room" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//Integer"/>
+      </eOperations>
+      <eOperations name="removeCard" ordered="false" lowerBound="1">
+        <eParameters name="reservation" ordered="false" lowerBound="1" eType="#//management/ReservationId"/>
+        <eParameters name="cardId" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+        <eParameters name="room" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//Integer"/>
+      </eOperations>
+      <eOperations name="assignCard" ordered="false" lowerBound="1">
+        <eParameters name="user" ordered="false" lowerBound="1" eType="#//accountManager/UserId"/>
+        <eParameters name="cardId" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CheckInOut" eSuperTypes="#//management/ICheckInOut"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ITransactionManagement" abstract="true"
+        interface="true">
+      <eOperations name="requestPayment" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//Boolean">
+        <eParameters name="user" ordered="false" lowerBound="1" eType="#//accountManager/UserId"/>
+        <eParameters name="amount" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//Integer"/>
+      </eOperations>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="accountManager" nsURI="http:///rootElement/accountManager.ecore"
+      nsPrefix="rootElement.accountManager">
+    <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <details key="originalName" value="AccountManager"/>
+    </eAnnotations>
+    <eClassifiers xsi:type="ecore:EClass" name="AccountManager" eSuperTypes="#//accountManager/IAccountManager"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IAccountManager" abstract="true" interface="true">
+      <eOperations name="createUser" ordered="false" lowerBound="1" eType="#//accountManager/UserId">
+        <eParameters name="ssn" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//String"/>
+        <eParameters name="password" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//String"/>
+      </eOperations>
+      <eOperations name="deleteAccount" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//Boolean">
+        <eParameters name="userId" ordered="false" lowerBound="1" eType="#//accountManager/UserId"/>
+      </eOperations>
+      <eOperations name="login" ordered="false" lowerBound="1" eType="#//accountManager/LoginResult">
+        <eParameters name="username" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//String"/>
+        <eParameters name="password" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//String"/>
+      </eOperations>
+      <eOperations name="logout" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//Boolean">
+        <eParameters name="token" ordered="false" lowerBound="1" eType="#//accountManager/SecurityToken"/>
+      </eOperations>
+      <eOperations name="getUser" ordered="false" lowerBound="1" eType="#//accountManager/User">
+        <eParameters name="id" ordered="false" lowerBound="1" eType="#//accountManager/UserId"/>
+      </eOperations>
+      <eOperations name="findUser" ordered="false" lowerBound="1" eType="#//accountManager/User">
+        <eParameters name="ssn" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//String"/>
+      </eOperations>
+      <eOperations name="createOrGetUser" ordered="false" lowerBound="1" eType="#//accountManager/UserId">
+        <eParameters name="ssn" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//String"/>
+      </eOperations>
+      <eOperations name="userForToken" ordered="false" lowerBound="1" eType="#//accountManager/User">
+        <eParameters name="token" ordered="false" lowerBound="1" eType="#//accountManager/SecurityToken"/>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="LoginResult">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="succeeded" ordered="false"
+          lowerBound="1" eType="ecore:EDataType types.ecore#//Boolean" changeable="false"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="token" ordered="false"
+          lowerBound="1" eType="#//accountManager/SecurityToken"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="user" ordered="false"
+          lowerBound="1" eType="#//accountManager/User"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SecurityToken">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="token" ordered="false"
+          lowerBound="1" eType="ecore:EDataType types.ecore#//String" changeable="false"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="User">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="passwordHash" ordered="false"
+          lowerBound="1" eType="ecore:EDataType types.ecore#//String" changeable="false"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="username" ordered="false"
+          lowerBound="1" eType="ecore:EDataType types.ecore#//String" changeable="false"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ssn" ordered="false"
+          lowerBound="1" eType="ecore:EDataType types.ecore#//String"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="id" ordered="false" lowerBound="1"
+          eType="#//accountManager/UserId"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="permissions" ordered="false"
+          upperBound="-1" eType="#//accountManager/Permission"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="Permission">
+      <eLiterals name="setPermission">
+        <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+          <details key="originalName" value="SetPermission"/>
+        </eAnnotations>
+      </eLiterals>
+      <eLiterals name="manageAccess" value="1">
+        <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+          <details key="originalName" value="MANAGE_ACCESS"/>
+        </eAnnotations>
+      </eLiterals>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="UserId">
+      <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <details key="originalName" value="UserID"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" ordered="false" lowerBound="1"
+          eType="ecore:EDataType types.ecore#//Integer" changeable="false"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="persistence" nsURI="http:///rootElement/persistence.ecore" nsPrefix="rootElement.persistence">
+    <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <details key="originalName" value="Persistence"/>
+    </eAnnotations>
+    <eClassifiers xsi:type="ecore:EClass" name="IUserPersistence" abstract="true"
+        interface="true">
+      <eOperations name="createUser" ordered="false" lowerBound="1" eType="#//accountManager/User">
+        <eParameters name="name" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//String"/>
+        <eParameters name="password" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//String"/>
+        <eParameters name="permissions" ordered="false" upperBound="-1" eType="#//accountManager/Permission"/>
+      </eOperations>
+      <eOperations name="deleteUser" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//Boolean">
+        <eParameters name="id" ordered="false" lowerBound="1" eType="#//accountManager/UserId"/>
+      </eOperations>
+      <eOperations name="getUser" ordered="false" lowerBound="1" eType="#//accountManager/User">
+        <eParameters name="id" ordered="false" lowerBound="1" eType="#//accountManager/UserId"/>
+      </eOperations>
+      <eOperations name="updateUser" ordered="false" lowerBound="1" eType="#//accountManager/User">
+        <eParameters name="id" ordered="false" lowerBound="1" eType="#//accountManager/UserId"/>
+        <eParameters name="data" ordered="false" lowerBound="1" eType="#//accountManager/User"/>
+      </eOperations>
+      <eOperations name="findUser" ordered="false" lowerBound="1" eType="#//accountManager/User">
+        <eParameters name="ssn" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//String"/>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IAccessPersistence" abstract="true"
+        interface="true">
+      <eOperations name="addAccess" ordered="false" lowerBound="1">
+        <eParameters name="user" ordered="false" lowerBound="1" eType="#//accountManager/UserId"/>
+        <eParameters name="room" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//Integer"/>
+        <eParameters name="time" ordered="false" lowerBound="1" eType="#//management/Timespan"/>
+      </eOperations>
+      <eOperations name="removeAccess" ordered="false" lowerBound="1">
+        <eParameters name="user" ordered="false" lowerBound="1" eType="#//accountManager/UserId"/>
+        <eParameters name="room" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//Integer"/>
+        <eParameters name="time" ordered="false" lowerBound="1" eType="#//management/Timespan"/>
+      </eOperations>
+      <eOperations name="hasAccess" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//Boolean">
+        <eParameters name="user" ordered="false" lowerBound="1" eType="#//accountManager/UserId"/>
+        <eParameters name="room" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//Integer"/>
+        <eParameters name="time" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+      </eOperations>
+      <eOperations name="addCardAccess" ordered="false" lowerBound="1">
+        <eParameters name="cardId" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+        <eParameters name="room" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//Integer"/>
+        <eParameters name="time" ordered="false" lowerBound="1" eType="#//management/Timespan"/>
+      </eOperations>
+      <eOperations name="removeCardAccess" ordered="false" lowerBound="1">
+        <eParameters name="cardId" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+        <eParameters name="room" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//Integer"/>
+        <eParameters name="time" ordered="false" lowerBound="1" eType="#//management/Timespan"/>
+      </eOperations>
+      <eOperations name="hasCardAccess" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//Boolean">
+        <eParameters name="cardId" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+        <eParameters name="room" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//Integer"/>
+        <eParameters name="time" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+      </eOperations>
+      <eOperations name="assignCard" ordered="false" lowerBound="1">
+        <eParameters name="user" ordered="false" lowerBound="1" eType="#//accountManager/UserId"/>
+        <eParameters name="cardId" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IMessagePersistence" abstract="true"
+        interface="true">
+      <eOperations name="addMessage" ordered="false" lowerBound="1">
+        <eParameters name="from" ordered="false" lowerBound="1" eType="#//accountManager/UserId"/>
+        <eParameters name="to" ordered="false" lowerBound="1" eType="#//accountManager/UserId"/>
+        <eParameters name="message" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//String"/>
+      </eOperations>
+      <eOperations name="getMessages" ordered="false" upperBound="-1" eType="#//communicator/Message">
+        <eParameters name="user" ordered="false" lowerBound="1" eType="#//accountManager/UserId"/>
+      </eOperations>
+      <eOperations name="getNewMessages" ordered="false" upperBound="-1" eType="#//communicator/Message">
+        <eParameters name="user" ordered="false" lowerBound="1" eType="#//accountManager/UserId"/>
+      </eOperations>
+      <eOperations name="readMessages" ordered="false" lowerBound="1">
+        <eParameters name="user" ordered="false" lowerBound="1" eType="#//accountManager/UserId"/>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IReservationPersistence" abstract="true"
+        interface="true">
+      <eOperations name="createReservation" ordered="false" lowerBound="1">
+        <eParameters name="reservation" ordered="false" lowerBound="1" eType="#//management/Reservation"/>
+      </eOperations>
+      <eOperations name="getReservation" ordered="false" lowerBound="1" eType="#//management/Reservation">
+        <eParameters name="id" ordered="false" lowerBound="1" eType="#//management/ReservationId"/>
+      </eOperations>
+      <eOperations name="getReservations" ordered="false" upperBound="-1" eType="#//management/Reservation"/>
+      <eOperations name="updateReservation" ordered="false" lowerBound="1" eType="#//management/Reservation">
+        <eParameters name="id" ordered="false" lowerBound="1" eType="#//management/ReservationId"/>
+        <eParameters name="data" ordered="false" lowerBound="1" eType="#//management/Reservation"/>
+      </eOperations>
+      <eOperations name="deleteReservation" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//Boolean">
+        <eParameters name="id" ordered="false" lowerBound="1" eType="#//management/ReservationId"/>
+      </eOperations>
+      <eOperations name="getReservations" ordered="false" upperBound="-1" eType="#//management/Reservation">
+        <eParameters name="userId" ordered="false" lowerBound="1" eType="#//accountManager/UserId">
+          <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <details key="originalName" value="userID"/>
+          </eAnnotations>
+        </eParameters>
+      </eOperations>
+      <eOperations name="getRoomTypes" ordered="false" lowerBound="1" upperBound="-1"
+          eType="#//management/RoomInfo"/>
+      <eOperations name="getRooms" ordered="false" upperBound="-1" eType="#//management/Room"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="communicator" nsURI="http:///rootElement/communicator.ecore"
+      nsPrefix="rootElement.communicator">
+    <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <details key="originalName" value="Communicator"/>
+    </eAnnotations>
+    <eClassifiers xsi:type="ecore:EClass" name="ICommunication" abstract="true" interface="true">
+      <eOperations name="sendMessage" ordered="false" lowerBound="1">
+        <eParameters name="from" ordered="false" lowerBound="1" eType="#//accountManager/UserId"/>
+        <eParameters name="to" ordered="false" lowerBound="1" eType="#//accountManager/UserId"/>
+        <eParameters name="msg" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eOperations>
+      <eOperations name="requestService" ordered="false" lowerBound="1" eType="#//communicator/ServiceRequest">
+        <eParameters name="desc" ordered="false" lowerBound="1" eType="#//communicator/ServiceDescription"/>
+      </eOperations>
+      <eOperations name="finishService" ordered="false" lowerBound="1">
+        <eParameters name="serviceId" ordered="false" lowerBound="1" eType="#//communicator/ServiceId"/>
+      </eOperations>
+      <eOperations name="getMessages" ordered="false" upperBound="-1" eType="#//communicator/Message">
+        <eParameters name="user" ordered="false" lowerBound="1" eType="#//accountManager/UserId"/>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ServiceRequest"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ServiceDescription">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="room" ordered="false"
+          lowerBound="1" eType="#//management/Room"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="time" ordered="false"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ServiceId">
+      <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <details key="originalName" value="ServiceID"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" ordered="false" lowerBound="1"
+          eType="ecore:EDataType types.ecore#//Integer" changeable="false"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Communicator" eSuperTypes="#//communicator/ICommunication"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Message">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" ordered="false"
+          lowerBound="1" eType="ecore:EDataType types.ecore#//String" changeable="false"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="from" ordered="false"
+          lowerBound="1" eType="#//accountManager/UserId" changeable="false"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="to" ordered="false" lowerBound="1"
+          eType="#//accountManager/UserId"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="server" nsURI="http:///rootElement/server.ecore" nsPrefix="rootElement.server">
+    <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <details key="originalName" value="Server"/>
+    </eAnnotations>
+    <eClassifiers xsi:type="ecore:EClass" name="Server">
+      <eOperations name="start" ordered="false" lowerBound="1"/>
+      <eOperations name="createRoutes" ordered="false" lowerBound="1">
+        <eParameters name="classes" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass"/>
+      </eOperations>
+      <eOperations name="apiRoute" ordered="false" lowerBound="1"/>
+      <eOperations name="main" ordered="false" lowerBound="1">
+        <eParameters name="args" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//String"/>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AuthApi">
+      <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <details key="originalName" value="AuthAPI"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CommunicationApi"/>
+    <eClassifiers xsi:type="ecore:EClass" name="DoorApi"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ReservationApi">
+      <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <details key="originalName" value="ReservationAPI"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CheckInOutApi">
+      <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <details key="originalName" value="CheckInOutAPI"/>
+      </eAnnotations>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="security" nsURI="http:///rootElement/security.ecore" nsPrefix="rootElement.security">
+    <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <details key="originalName" value="Security"/>
+    </eAnnotations>
+    <eClassifiers xsi:type="ecore:EClass" name="IAccessControl" abstract="true" interface="true">
+      <eOperations name="addAccess" ordered="false" lowerBound="1">
+        <eParameters name="user" ordered="false" lowerBound="1" eType="#//accountManager/UserId"/>
+        <eParameters name="time" ordered="false" lowerBound="1" eType="#//management/Timespan"/>
+        <eParameters name="rooms" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//Integer"/>
+      </eOperations>
+      <eOperations name="removeAccess" ordered="false" lowerBound="1">
+        <eParameters name="user" ordered="false" lowerBound="1" eType="#//accountManager/UserId"/>
+        <eParameters name="rooms" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//Integer"/>
+        <eParameters name="time" ordered="false" lowerBound="1" eType="#//management/Timespan"/>
+      </eOperations>
+      <eOperations name="addCardAccess" ordered="false" lowerBound="1">
+        <eParameters name="rooms" ordered="false" lowerBound="1" upperBound="-1" eType="ecore:EDataType types.ecore#//Integer"/>
+        <eParameters name="time" ordered="false" lowerBound="1" eType="#//management/Timespan"/>
+        <eParameters name="cardId" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      </eOperations>
+      <eOperations name="removeCardAccess" ordered="false" lowerBound="1">
+        <eParameters name="rooms" ordered="false" lowerBound="1" upperBound="-1" eType="ecore:EDataType types.ecore#//Integer"/>
+        <eParameters name="time" ordered="false" lowerBound="1" eType="#//management/Timespan"/>
+        <eParameters name="cardId" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      </eOperations>
+      <eOperations name="assignCard" ordered="false" lowerBound="1">
+        <eParameters name="user" ordered="false" lowerBound="1" eType="#//accountManager/UserId"/>
+        <eParameters name="cardId" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IDoorManagement" abstract="true" interface="true">
+      <eOperations name="requestOpenForUser" ordered="false" lowerBound="1">
+        <eParameters name="user" ordered="false" lowerBound="1" eType="#//accountManager/UserId"/>
+        <eParameters name="room" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//Integer"/>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AccessControl" eSuperTypes="#//security/IAccessControl #//security/IDoorManagement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="LockSystem" abstract="true" interface="true">
+      <eOperations name="openDoor" ordered="false" lowerBound="1">
+        <eParameters name="room" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//Integer"/>
+      </eOperations>
+      <eOperations name="addCardAccess" ordered="false" lowerBound="1">
+        <eParameters name="room" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//Integer"/>
+        <eParameters name="cardId" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+        <eParameters name="time" ordered="false" lowerBound="1" eType="#//management/Timespan"/>
+      </eOperations>
+      <eOperations name="removeCardAccess" ordered="false" lowerBound="1">
+        <eParameters name="room" ordered="false" lowerBound="1" eType="ecore:EDataType types.ecore#//Integer"/>
+        <eParameters name="cardId" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+        <eParameters name="time" ordered="false" lowerBound="1" eType="#//management/Timespan"/>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AccessRight">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="user" ordered="false"
+          lowerBound="1" eType="#//accountManager/UserId" changeable="false"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="room" ordered="false"
+          lowerBound="1" eType="ecore:EDataType types.ecore#//Integer" changeable="false"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="times" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//management/Timespan"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

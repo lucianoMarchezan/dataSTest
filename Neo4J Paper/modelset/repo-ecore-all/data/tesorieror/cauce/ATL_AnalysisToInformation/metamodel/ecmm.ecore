@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ecmm"
+    nsURI="ecmm" nsPrefix="ecmm">
+  <eClassifiers xsi:type="ecore:EClass" name="VariableDataDefinition">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="definition" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1" iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entityContext" lowerBound="1"
+        eType="#//EntityContext" eOpposite="#//EntityContext/variables"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EntityContext">
+    <eOperations name="incoming"/>
+    <eOperations name="ongoing"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="situations" upperBound="-1"
+        eType="#//ContextSituation" containment="true" eOpposite="#//ContextSituation/entityContext"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="state" upperBound="-1"
+        eType="#//ContextMemory" containment="true" eOpposite="#//ContextMemory/entityContext"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" lowerBound="1"
+        eType="#//SystemContext" eOpposite="#//SystemContext/entities"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variables" upperBound="-1"
+        eType="#//VariableDataDefinition" containment="true" eOpposite="#//VariableDataDefinition/entityContext"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="entity" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1" iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ContextSituation">
+    <eOperations name="matches" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1"
+        eType="#//ContextAction" containment="true" eOpposite="#//ContextAction/situation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="memoryConditions" upperBound="-1"
+        eType="#//MemoryContextCondition" containment="true" eOpposite="#//MemoryContextCondition/situation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sensingConditions" upperBound="-1"
+        eType="#//SensingContextCondition" containment="true" eOpposite="#//SensingContextCondition/situation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entityContext" lowerBound="1"
+        eType="#//EntityContext" eOpposite="#//EntityContext/situations"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1" iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ContextCondition" abstract="true">
+    <eOperations name="satisfies" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1" iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ContextMemory" abstract="true">
+    <eOperations name="match"/>
+    <eOperations name="update"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entityContext" lowerBound="1"
+        eType="#//EntityContext" eOpposite="#//EntityContext/state"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1" iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LogicMemory" eSuperTypes="#//ContextMemory"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DictionaryMemory" eSuperTypes="#//ContextMemory"/>
+  <eClassifiers xsi:type="ecore:EClass" name="HolderMemory" eSuperTypes="#//ContextMemory"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StackMemory" eSuperTypes="#//ContextMemory"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TimeMemory" eSuperTypes="#//ContextMemory"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ContextAction">
+    <eOperations name="execute"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="memory" lowerBound="1"
+        eType="#//ContextMemory"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="situation" lowerBound="1"
+        eType="#//ContextSituation" eOpposite="#//ContextSituation/actions"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="expression" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1" iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="memoryName" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" volatile="true"
+        transient="true" derived="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SensingContextCondition" eSuperTypes="#//ContextCondition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="situation" lowerBound="1"
+        eType="#//ContextSituation" eOpposite="#//ContextSituation/sensingConditions"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="informationflow" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MemoryContextCondition" eSuperTypes="#//ContextCondition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="situation" lowerBound="1"
+        eType="#//ContextSituation" eOpposite="#//ContextSituation/memoryConditions"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="expression" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contextMemory" eType="#//ContextMemory"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemContext">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entities" upperBound="-1"
+        eType="#//EntityContext" containment="true" eOpposite="#//EntityContext/system"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="ecmm-default"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="vmm" nsURI="http://spi-fm.uca.es/spdef/models/genericTools/vmm/1.0"
+    nsPrefix="vmm">
+  <eClassifiers xsi:type="ecore:EClass" name="ModelRepository">
+    <eAnnotations source="comment">
+      <details key="comment" value="Clase contenedora de todos los proyectos gestionados con la herramienta de modelado."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="projects" upperBound="-1"
+        eType="#//Project" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Package">
+    <eAnnotations source="comment">
+      <details key="comment" value="Clase que representa a un paquete de modelos, con el cual organizar los diferentes modelos."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="diagrams" upperBound="-1"
+        eType="#//Diagram" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="embeddedPackages" upperBound="-1"
+        eType="#//Package" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//Element" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Diagram">
+    <eAnnotations source="comment">
+      <details key="comment" value="Clase que representa a un determinado diagrama modelado con algún lenguaje visual."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//DiagramType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedElements" upperBound="-1"
+        eType="#//Element"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Element">
+    <eAnnotations source="comment">
+      <details key="comment" value="Enumeración con los posibles tipos de elementos que pueden participar en un diagrama. Casos de uso, clases o componentes son ejemplos de tipos de elementos en modelos UML."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//ElementType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectors" upperBound="-1"
+        eType="#//Connector" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Connector">
+    <eAnnotations source="comment">
+      <details key="comment" value="Clase que representa a una determinada relación entre dos elementos de modelado."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//Element"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//ConnectorType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Project">
+    <eAnnotations source="comment">
+      <details key="comment" value="Clase contenedora de todos los modelos generados para un determinado proyecto."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="packages" upperBound="-1"
+        eType="#//Package" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ElementType">
+    <eAnnotations source="comment">
+      <details key="comment" value="Enumeración con los posibles tipos de diagramas reconocidos por la herramienta de modelado, como por ejemplo los diagramas de clases y de estados de UML."/>
+    </eAnnotations>
+    <eLiterals name="CLASS"/>
+    <eLiterals name="USECASE" value="1"/>
+    <eLiterals name="COMPONENT" value="2"/>
+    <eLiterals name="NODE" value="3"/>
+    <eLiterals name="OBJECT" value="4"/>
+    <eLiterals name="STATE" value="5"/>
+    <eLiterals name="ACTIVITY" value="6"/>
+    <eLiterals name="ARTIFACT" value="7"/>
+    <eLiterals name="REQUIREMENT" value="8"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ConnectorType">
+    <eAnnotations source="comment">
+      <details key="comment" value="Enumeración con los posibles tipos de conectores que pueden vincular dos elementos, como por ejemplo las asociaciones, generalizaciones y relaciones de inclusión o extensión en UML."/>
+    </eAnnotations>
+    <eLiterals name="ASSOCIATION"/>
+    <eLiterals name="AGGREGATION" value="1"/>
+    <eLiterals name="COMPOSITION" value="2"/>
+    <eLiterals name="DEPENDENCY" value="3"/>
+    <eLiterals name="INCLUDE" value="4"/>
+    <eLiterals name="EXTEND" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DiagramType">
+    <eAnnotations source="comment">
+      <details key="comment" value="Enumeración con los posibles tipos de diagramas reconocidos por la herramienta de modelado, como por ejemplo los diagramas de clases y de estados de UML."/>
+    </eAnnotations>
+    <eLiterals name="USECASE"/>
+    <eLiterals name="CLASS" value="1"/>
+    <eLiterals name="ACTIVITY" value="2"/>
+    <eLiterals name="COMPONENT" value="3"/>
+    <eLiterals name="DEPLOYMENT" value="4"/>
+    <eLiterals name="SEQUENCE" value="5"/>
+    <eLiterals name="STATECHART" value="6"/>
+    <eLiterals name="COLLABORATION" value="7"/>
+    <eLiterals name="OTHER" value="8"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="pharmacy_at" nsURI="pharmacy_at" nsPrefix="www.ecrit.at">
+  <eSubpackages name="model" nsURI="pharmacy_at/model" nsPrefix="www.ecrit.at">
+    <eClassifiers xsi:type="ecore:EClass" name="Pharmacy">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="address" lowerBound="1"
+          eType="#//model/Address" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="stock" lowerBound="1"
+          eType="#//model/Stock" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="invoices" upperBound="-1"
+          eType="#//model/Invoice" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="reports" upperBound="-1"
+          eType="#//model/Report" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="customers" upperBound="-1"
+          eType="#//model/Customer" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="stockOrders" upperBound="-1"
+          eType="#//model/StockOrder" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="lineItems" lowerBound="1"
+          eType="#//model/LineItems" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="staff" upperBound="-1"
+          eType="#//application/User"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="currentUser" lowerBound="1"
+          eType="#//application/User"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Prescription">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="issuingPractitioner"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="article" upperBound="-1"
+          eType="#//model/Article" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="prescriptionCustomer"
+          eType="#//model/Customer"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Article">
+      <eOperations name="hasName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eParameters name="chain" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain"/>
+        <eParameters name="context">
+          <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+            <eTypeArguments/>
+            <eTypeArguments/>
+          </eGenericType>
+        </eParameters>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="admissionNumber" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="availability" lowerBound="1"
+          eType="#//model/ArticleAvailability"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="price" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Invoice">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="article" unique="false"
+          upperBound="-1" eType="#//model/Article" derived="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="prescription" upperBound="-1"
+          eType="#//model/Prescription" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="paidAmount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate" defaultValueLiteral="2014-02-17"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="invoiceCustomer" eType="#//model/Customer"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Stock">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="articles" upperBound="-1"
+          eType="#//model/StockArticle" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="StockArticle">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="article" lowerBound="1"
+          eType="#//model/Article" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="numberOnStock" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="numberOrdered" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="StockOrder">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="article" upperBound="-1"
+          eType="#//model/Article" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="issuer" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="boundFor" eType="#//model/Stock"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" lowerBound="1"
+          eType="#//model/StockOrderStatus"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="StockOrderStatus">
+      <eLiterals name="NEW"/>
+      <eLiterals name="ORDERED" value="1"/>
+      <eLiterals name="AWAITING_DELIVERY" value="2"/>
+      <eLiterals name="RECEIVED" value="3"/>
+      <eLiterals name="ARTICLE_REPLACED" value="98" literal="ARTICLE_REPLACED"/>
+      <eLiterals name="NOT_AVAILABLE" value="99"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="ArticleAvailability">
+      <eLiterals name="AVAILABLE"/>
+      <eLiterals name="BLACKLISTED" value="1"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Report">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="issuer" lowerBound="1"
+          eType="#//application/User" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="priority" eType="#//model/Priority"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="concerns" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="Priority">
+      <eLiterals name="HIGH"/>
+      <eLiterals name="MEDIUM" value="1"/>
+      <eLiterals name="LOW" value="2"/>
+      <eLiterals name="CRITICAL" value="3"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Address">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="street" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="PostCode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Town" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Country" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Customer">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="insuranceNumber" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="phoneNumber" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="address" lowerBound="1"
+          upperBound="-1" eType="#//model/Address" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="LineItems">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="article" upperBound="-1"
+          eType="#//model/Article" containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="application" nsURI="pharmacy_at/application" nsPrefix="www.ecrit.at">
+    <eClassifiers xsi:type="ecore:EClass" name="User">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="role" upperBound="-1"
+          eType="#//application/UserRole"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="password" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Users">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="users" upperBound="-1"
+          eType="#//application/User" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="UserRole">
+      <eLiterals name="SELLER"/>
+      <eLiterals name="CLERK" value="1"/>
+      <eLiterals name="STOCKIST" value="2"/>
+      <eLiterals name="SYSADMIN" value="3"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

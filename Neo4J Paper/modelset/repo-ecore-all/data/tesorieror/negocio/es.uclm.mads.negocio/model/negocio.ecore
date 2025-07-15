@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="negocio" nsURI="http://negocio/1.0" nsPrefix="negocio">
+  <eClassifiers xsi:type="ecore:EClass" name="Negocio" eSuperTypes="#//ElementoNombrado">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="personas" lowerBound="1"
+        upperBound="-1" eType="#//Persona" containment="true" eOpposite="#//Persona/negocio"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="documentos" lowerBound="1"
+        upperBound="-1" eType="#//DocumentoComercial" containment="true" eOpposite="#//DocumentoComercial/negocio"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="productos" lowerBound="1"
+        upperBound="-1" eType="#//Producto" containment="true" eOpposite="#//Producto/negocio"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="valores" upperBound="-1"
+        eType="#//Valor" containment="true" eOpposite="#//Valor/negocio"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pagos" upperBound="-1"
+        eType="#//Pago" containment="true" eOpposite="#//Pago/negocio"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ElementoNombrado" abstract="true" eSuperTypes="#//Elemento">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nombre" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral="Elemento"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Persona" eSuperTypes="#//ElementoNombrado">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="negocio" lowerBound="1"
+        eType="#//Negocio" eOpposite="#//Negocio/personas"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="documentos" upperBound="-1"
+        eType="#//DocumentoComercial" eOpposite="#//DocumentoComercial/personas"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pagos" upperBound="-1"
+        eType="#//Pago" eOpposite="#//Pago/persona"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tipo" lowerBound="1" eType="#//TipoPersona"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Producto" eSuperTypes="#//ElementoNombrado">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="negocio" lowerBound="1"
+        eType="#//Negocio" eOpposite="#//Negocio/productos"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DocumentoComercial" eSuperTypes="#//ElementoNombrado">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="negocio" lowerBound="1"
+        eType="#//Negocio" eOpposite="#//Negocio/documentos"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="producto" upperBound="-1"
+        eType="#//Producto"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="personas" upperBound="-1"
+        eType="#//Persona" eOpposite="#//Persona/documentos"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pagos" upperBound="-1"
+        eType="#//Pago" eOpposite="#//Pago/documento"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="valores" upperBound="-1"
+        eType="#//ValorIndirecto" eOpposite="#//ValorIndirecto/justificante"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Atributo" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nombre" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cardinalidad" lowerBound="1"
+        eType="#//TipoCardinalidad"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elemento" eType="#//Elemento"
+        eOpposite="#//Elemento/atributos"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AtributoSimple" eSuperTypes="#//Atributo">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tipo" lowerBound="1" eType="#//TipoDato"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AtributoCompuesto" eSuperTypes="#//Atributo">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="atributos" lowerBound="1"
+        upperBound="-1" eType="#//Atributo" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TipoDato">
+    <eLiterals name="ENTERO"/>
+    <eLiterals name="TEXTO" value="1"/>
+    <eLiterals name="REAL" value="2"/>
+    <eLiterals name="FECHA" value="3"/>
+    <eLiterals name="MONEDA" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TipoPersona">
+    <eLiterals name="JURIDICA"/>
+    <eLiterals name="FISICA" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Valor" abstract="true" eSuperTypes="#//ElementoNombrado">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="negocio" lowerBound="1"
+        eType="#//Negocio" eOpposite="#//Negocio/valores"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pagos" lowerBound="1" upperBound="-1"
+        eType="#//Pago" eOpposite="#//Pago/valor"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Elemento" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="atributos" upperBound="-1"
+        eType="#//Atributo" containment="true" eOpposite="#//Atributo/elemento"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TipoCardinalidad">
+    <eLiterals name="MULTIPLE"/>
+    <eLiterals name="SIMPLE" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ValorDirecto" eSuperTypes="#//Valor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ValorIndirecto" eSuperTypes="#//Valor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="justificante" lowerBound="1"
+        eType="#//DocumentoComercial" eOpposite="#//DocumentoComercial/valores"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Servicio" eSuperTypes="#//Producto"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Pago">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="documento" lowerBound="1"
+        eType="#//DocumentoComercial" eOpposite="#//DocumentoComercial/pagos"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="persona" lowerBound="1"
+        eType="#//Persona" eOpposite="#//Persona/pagos"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="valor" lowerBound="1" eType="#//Valor"
+        eOpposite="#//Valor/pagos"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="negocio" lowerBound="1"
+        eType="#//Negocio" eOpposite="#//Negocio/pagos"/>
+  </eClassifiers>
+</ecore:EPackage>

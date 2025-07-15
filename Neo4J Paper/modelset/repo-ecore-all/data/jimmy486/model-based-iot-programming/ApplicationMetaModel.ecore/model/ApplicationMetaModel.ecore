@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="IOTApplication"
+    nsURI="http://sei.pku.edu.cn/iot/application/old" nsPrefix="IOTApplication">
+  <eClassifiers xsi:type="ecore:EClass" name="AppSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="room" upperBound="-1" eType="#//Room"
+        containment="true" eOpposite="#//Room/system" eKeys="#//Room/hid"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="person" upperBound="-1"
+        eType="#//Person" containment="true" eOpposite="#//Person/System" eKeys="#//Person/pid"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thing" upperBound="-1"
+        eType="#//Thing" containment="true" eOpposite="#//Thing/System" eKeys="#//Thing/tid"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="warner" upperBound="-1"
+        eType="#//Warner" containment="true" eOpposite="#//Warner/System"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Room">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="temperature" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="0.0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" eType="#//AppSystem"
+        transient="true" eOpposite="#//AppSystem/room"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thing" upperBound="-1"
+        eType="#//Thing" eOpposite="#//Thing/location"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="person" upperBound="-1"
+        eType="#//Person" eOpposite="#//Person/locate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="brightness" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="0.0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Person">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="group" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="office" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gender" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="System" eType="#//AppSystem"
+        transient="true" eOpposite="#//AppSystem/person"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="locate" eType="#//Room"
+        eOpposite="#//Room/person"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" upperBound="-1" eType="#//Thing"
+        eOpposite="#//Thing/owner"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="warner" lowerBound="1"
+        upperBound="-1" eType="#//Warner" eOpposite="#//Warner/warnee"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Thing">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preferLocation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="importance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="System" eType="#//AppSystem"
+        transient="true" eOpposite="#//AppSystem/thing"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="location" eType="#//Room"
+        eOpposite="#//Room/thing"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owner" lowerBound="1" eType="#//Person"
+        eOpposite="#//Person/has"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Warner">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="level" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="time" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="System" eType="#//AppSystem"
+        transient="true" eOpposite="#//AppSystem/warner"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="warnee" lowerBound="1"
+        upperBound="-1" eType="#//Person" eOpposite="#//Person/warner"/>
+  </eClassifiers>
+</ecore:EPackage>

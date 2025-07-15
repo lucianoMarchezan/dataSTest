@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="resource" nsURI="org.sheepy.lily.vulkan.model.resource" nsPrefix="resource">
+  <eClassifiers xsi:type="ecore:EClass" name="TransferBuffer" eSuperTypes="../../org.sheepy.lily.core.model/model/resource.ecore#//IResource">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" unique="false" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="instanceCount" unique="false"
+        lowerBound="1" eType="ecore:EEnum ../../org.sheepy.vulkan.model/model/enumeration.ecore#//EInstanceCount"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="usedToPush" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="usedToFetch" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConstantBuffer" eSuperTypes="../../org.sheepy.lily.core.model/model/resource.ecore#//IResource">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="data" unique="false" eType="#//ByteBuffer"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GenericConstantBuffer" eSuperTypes="#//ConstantBuffer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedVariables" upperBound="-1"
+        eType="ecore:EClass ../../org.sheepy.lily.core.model/model/variable.ecore#//IModelVariable"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="VariablePkg" eType="ecore:EClass ../../org.sheepy.lily.core.model/model/variable.ecore#//ModelVariablePkg"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IBuffer" abstract="true" interface="true"
+      eSuperTypes="../../org.sheepy.lily.core.model/model/resource.ecore#//IResource"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Buffer" eSuperTypes="#//IBuffer">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" unique="false" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="data" unique="false" eType="#//ByteBuffer"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="keptMapped" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hostVisible" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="coherent" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="usages" upperBound="-1"
+        eType="ecore:EEnum ../../org.sheepy.vulkan.model/model/enumeration.ecore#//EBufferUsage"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="instanceCount" unique="false"
+        lowerBound="1" eType="ecore:EEnum ../../org.sheepy.vulkan.model/model/enumeration.ecore#//EInstanceCount">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="propertyDescription" value="Every push in this buffer will write on the next instance, and update the descriptor acordingly"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompositeBuffer" eSuperTypes="../../org.sheepy.lily.core.model/model/resource.ecore#//IResource">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parts" upperBound="-1"
+        eType="#//BufferPart" containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BufferPart" eSuperTypes="#//IBuffer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataProvider" lowerBound="1"
+        eType="#//BufferDataProvider" containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="EFlushMode">
+    <eLiterals name="PUSH"/>
+    <eLiterals name="FETCH" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BufferDataProvider" eSuperTypes="../../org.sheepy.lily.core.model/model/types.ecore#//LNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="usedToPush" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="usedToFetch" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stageBeforePush" eType="ecore:EEnum ../../org.sheepy.vulkan.model/model/enumeration.ecore#//EPipelineStage"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="accessBeforePush" upperBound="-1"
+        eType="ecore:EEnum ../../org.sheepy.vulkan.model/model/enumeration.ecore#//EAccess"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stageBeforeFetch" eType="ecore:EEnum ../../org.sheepy.vulkan.model/model/enumeration.ecore#//EPipelineStage"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="accessBeforeFetch" upperBound="-1"
+        eType="ecore:EEnum ../../org.sheepy.vulkan.model/model/enumeration.ecore#//EAccess"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="usages" upperBound="-1"
+        eType="ecore:EEnum ../../org.sheepy.vulkan.model/model/enumeration.ecore#//EBufferUsage"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="instanceCount" unique="false"
+        lowerBound="1" eType="ecore:EEnum ../../org.sheepy.vulkan.model/model/enumeration.ecore#//EInstanceCount">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="propertyDescription" value="Every push in this buffer will write on the next instance, and update the descriptor acordingly"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="growFactor" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat" defaultValueLiteral="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="growThreshold" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat" defaultValueLiteral="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="minSize" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong" defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="requestedSize" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong" defaultValueLiteral="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="ByteBuffer" instanceClassName="java.nio.ByteBuffer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Image" abstract="true" eSuperTypes="../../org.sheepy.vulkan.model/model/Image.ecore#//ImageInfo ../../org.sheepy.lily.core.model/model/resource.ecore#//IImage"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StaticImage" eSuperTypes="#//Image">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fillWithZero" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fillWith" eType="#//ByteBuffer"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" lowerBound="1" eType="ecore:EDataType ../../org.sheepy.lily.core.model/model/types.ecore#//Vector2i"
+        defaultValueLiteral="1;1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FileImage" eSuperTypes="#//Image">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="file" eType="ecore:EClass ../../org.sheepy.lily.core.model/model/resource.ecore#//FileResource"
+        resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mipmapEnabled" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FontImage" eSuperTypes="#//Image">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fonts" upperBound="-1"
+        eType="ecore:EClass ../../org.sheepy.lily.core.model/model/ui.ecore#//Font"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="instanceCount" lowerBound="1"
+        eType="ecore:EEnum ../../org.sheepy.vulkan.model/model/enumeration.ecore#//EInstanceCount"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompositeImage" eSuperTypes="#//Image">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inlays" upperBound="-1"
+        eType="#//ImageInlay" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="background" lowerBound="1"
+        eType="#//Image"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImageInlay">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="image" lowerBound="1" eType="#//Image"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="position" lowerBound="1"
+        eType="ecore:EDataType ../../org.sheepy.lily.core.model/model/types.ecore#//Vector2i"
+        defaultValueLiteral="0;0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"
+        defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="horizontalRelative" lowerBound="1"
+        eType="ecore:EEnum ../../org.sheepy.lily.core.model/model/types.ecore#//EHorizontalRelative"
+        defaultValueLiteral="LEFT"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="verticalRelative" lowerBound="1"
+        eType="ecore:EEnum ../../org.sheepy.lily.core.model/model/types.ecore#//EVerticalRelative"
+        defaultValueLiteral="TOP"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SampledImage" eSuperTypes="../../org.sheepy.lily.core.model/model/resource.ecore#//IResource">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sampler" lowerBound="1"
+        eType="ecore:EClass ../../org.sheepy.vulkan.model/model/Image.ecore#//SamplerInfo"
+        containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="image" lowerBound="1" eType="#//Image"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Sampler" eSuperTypes="../../org.sheepy.vulkan.model/model/Image.ecore#//SamplerInfo ../../org.sheepy.lily.core.model/model/resource.ecore#//IResource">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="image" eType="#//Image"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Semaphore" eSuperTypes="../../org.sheepy.lily.core.model/model/resource.ecore#//IResource">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="signalizedAtInit" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="waitStage" unique="false"
+        eType="ecore:EEnum ../../org.sheepy.vulkan.model/model/enumeration.ecore#//EPipelineStage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BufferDescriptor" eSuperTypes="vulkan.ecore#//IDescriptor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="buffer" lowerBound="1"
+        eType="#//IBuffer"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImageDescriptor" eSuperTypes="vulkan.ecore#//IDescriptor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="image" lowerBound="1" eType="#//Image"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SampledImageDescriptor" eSuperTypes="vulkan.ecore#//IDescriptor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sampledImage" eType="#//SampledImage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SamplerDescriptor" eSuperTypes="vulkan.ecore#//IDescriptor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sampler" lowerBound="1"
+        eType="#//Sampler"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DescriptorSet" eSuperTypes="../../org.sheepy.lily.core.model/model/types.ecore#//LNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="descriptors" lowerBound="1"
+        upperBound="-1" eType="ecore:EClass vulkan.ecore#//IDescriptor"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DescriptorSetPkg">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="descriptorSets" upperBound="-1"
+        eType="#//DescriptorSet" containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BufferBarrier" eSuperTypes="../../org.sheepy.vulkan.model/model/barrier.ecore#//AbstractBufferBarrier">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="buffer" eType="#//IBuffer"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImageBarrier" eSuperTypes="../../org.sheepy.vulkan.model/model/barrier.ecore#//AbstractImageBarrier">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="image" lowerBound="1" eType="ecore:EClass ../../org.sheepy.lily.core.model/model/resource.ecore#//IImage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Shader" eSuperTypes="../../org.sheepy.lily.core.model/model/resource.ecore#//IResource">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="file" eType="ecore:EClass ../../org.sheepy.lily.core.model/model/resource.ecore#//FileResource"
+        containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stage" unique="false" eType="ecore:EEnum ../../org.sheepy.vulkan.model/model/enumeration.ecore#//EShaderStage"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="constants" upperBound="-1"
+        eType="ecore:EClass ../../org.sheepy.vulkan.model/model/pipeline.ecore#//SpecializationConstant"
+        containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImageArrayDescriptor" eSuperTypes="vulkan.ecore#//IDescriptor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="images" upperBound="-1"
+        eType="ecore:EClass ../../org.sheepy.lily.core.model/model/resource.ecore#//IImage"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="initialLayout" lowerBound="1"
+        eType="ecore:EEnum ../../org.sheepy.vulkan.model/model/enumeration.ecore#//EImageLayout"/>
+  </eClassifiers>
+</ecore:EPackage>

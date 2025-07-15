@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="genDSL2" nsURI="http://www.example.org/genDSL2" nsPrefix="genDSL2">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
+  </eAnnotations>
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="GenealogyTree">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="familyName" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="established" eType="#//DateX"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="person" upperBound="-1"
+        eType="#//Person" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Marriage">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="noOverlap min2Spouses parentsOlder"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="noOverlap" value="(self.fromDate.isNotNull() and self.toDate.isNotNull()) &#xA;                            implies (spouses->forAll(s1 | Marriage.allInstances()->forAll(m1 | &#xA;                              (m1->includes(s1) and m1 &lt;> self )&#xA;                              implies&#xA;                              ((m1.fromDate.isNotNull() and m1.toDate.isNotNull())&#xA;                                implies (m1.fromDate.after(self.toDate) or m1.toDate.before(self.fromDate))))))"/>
+      <details key="min2Spouses" value="spouses->size() >= 2"/>
+      <details key="parentsOlder" value="spouses->forAll(s | children->forAll(c |&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(c.birthDate.isNotNull() and s.birthDate.isNotNull()) implies (c.birthDate.after(s.birthDate))))"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fromDate" eType="#//DateX"
+        containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="{&#xA;initial: OrderedSet{}->append(Person.allInstances()->select(p : Person | p.marriage->count(self) > 0)->asSequence()->first());&#xA;}*"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="toDate" eType="#//DateX"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//Person" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//TypeOfIntimateRelationship"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="spouses" upperBound="-1"
+        eType="#//Person">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="{&#xA;initial: if self.spouses->size() > 2 then (if (self.spouses->iterate(p : Person; m : Integer = 0 | if&#xA;p.gender = Gender::MALE then m + 1&#xA;else m&#xA;endif) > 1 and self.spouses->iterate(p : Person; m : Integer = 0 | if p.gender = Gender::FEMALE then m + 1&#xA;else m&#xA;endif) > 1) then TypeOfIntimateRelationship::POLYFIDELITY&#xA;else TypeOfIntimateRelationship::POLYGAMY&#xA;endif) else TypeOfIntimateRelationship::MONOGAMY&#xA;endif;&#xA;}"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TypeOfIntimateRelationship">
+    <eLiterals name="MONOGAMY"/>
+    <eLiterals name="POLYGAMY" value="1"/>
+    <eLiterals name="POLYFIDELITY" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Cohabitation">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="min2Partners parentsOlder"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="min2Partners" value="partners->size() >= 2"/>
+      <details key="parentsOlder" value="partners->forAll(s | children->forAll(c |&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(c.birthDate.isNotNull() and s.birthDate.isNotNull()) implies (c.birthDate.after(s.birthDate))))"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//Person" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="legitimate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//TypeOfIntimateRelationship"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="partners" upperBound="-1"
+        eType="#//Person"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Person">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="noName leastOneMarriageOrCohabitation oneRoot inMyMarriages inMyCohabitations marrigesInLifetime iAmNotMyOwnParent"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="noName" value="not unknown implies givenName &lt;> ''"/>
+      <details key="leastOneMarriageOrCohabitation" value="&#xA;                (type = TypeOfPerson::MARRIED) &#xA;                implies (Marriage.allInstances()->exists(m | m.spouses->includes(self))&#xA;                  or Cohabitation.allInstances()->exists(c | c.partners->includes(self))&#xA;                )"/>
+      <details key="oneRoot" value="Person.allInstances()->select(p : Person |&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;((p.type &lt;> TypeOfPerson::MARRIED) and ((Marriage.allInstances()->select(m : Marriage |&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;m.children->includes(p))->isEmpty()) and (Cohabitation.allInstances()->select(c : Cohabitation |&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;c.children->includes(p))->isEmpty()))))->size() = 1"/>
+      <details key="inMyMarriages" value="marriage->forAll(spouses->count(self) = 1)"/>
+      <details key="inMyCohabitations" value="cohabitation->forAll(partners->count(self) = 1)"/>
+      <details key="marrigesInLifetime" value=" (self.birthDate.isNotNull() &#xA;                                     implies (Marriage.allInstances()->forAll(m |&#xA;                                        (m.spouses->includes(self) and m.fromDate.isNotNull()) &#xA;                                        implies self.birthDate.before(m.fromDate))))&#xA;                                     and (self.deathDate.isNotNull() &#xA;                                     implies (Marriage.allInstances()->forAll(m |&#xA;                                        (m.spouses->includes(self) and m.toDate.isNotNull())&#xA;                                         implies self.deathDate.after(m.toDate))))"/>
+      <details key="iAmNotMyOwnParent" value="Marriage.allInstances()->select(m : Marriage | m.children->includes(self))->&#xA;                                  forAll(m : Marriage | m.spouses->excludes(self))"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="givenName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="birthDate" eType="#//DateX"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="deathDate" eType="#//DateX"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="birthPlace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="deathPlace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="restingPlace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//TypeOfPerson"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gender" eType="#//Gender"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="otherNames" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nickname" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="deathCause" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="personhistory" upperBound="-1"
+        eType="#//PersonHistory" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cohabitation" upperBound="-1"
+        eType="#//Cohabitation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="marriage" upperBound="-1"
+        eType="#//Marriage" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unknown" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PersonHistory">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gender" eType="#//Gender"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="givenName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="changed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DateX">
+    <eOperations name="before" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="if self.year->isEmpty() or d.year->isEmpty() then null&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;else if self.year &lt; d.year then true&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else if self.year > d.year then false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else if self.month->isEmpty() or d.month->isEmpty() then null&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else if self.month &lt; d.month then true&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else if self.month > d.month then false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else if self.day->isEmpty() or d.day->isEmpty() then null&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else if self.day &lt; d.day then true&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;endif endif endif endif endif endif endif endif"/>
+      </eAnnotations>
+      <eParameters name="d" eType="#//DateX"/>
+    </eOperations>
+    <eOperations name="after" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="if self.year->isEmpty() or d.year->isEmpty() then null&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;else if self.year > d.year then true&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else if self.year &lt; d.year then false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else if self.month->isEmpty() or d.month->isEmpty() then null&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else if self.month > d.month then true&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else if self.month &lt; d.month then false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else if self.day->isEmpty() or d.day->isEmpty() then null&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else if self.day > d.day then true&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;endif endif endif endif endif endif endif endif"/>
+      </eAnnotations>
+      <eParameters name="d" eType="#//DateX"/>
+    </eOperations>
+    <eOperations name="isNull" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="self.year->isEmpty()"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="isNotNull" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="if self->isEmpty()&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;then false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;else (if self.year->notEmpty() then true&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else false&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;endif) endif"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="year" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="month" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="day" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TypeOfPerson">
+    <eLiterals name="BIOLOGICAL"/>
+    <eLiterals name="ADOPTED" value="1"/>
+    <eLiterals name="SEMIADOPTED" value="2"/>
+    <eLiterals name="MARRIED" value="3"/>
+    <eLiterals name="DISOWNED" value="4"/>
+    <eLiterals name="ILLEGITIMATE" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Gender">
+    <eLiterals name="MALE"/>
+    <eLiterals name="FEMALE" value="1"/>
+    <eLiterals name="BIGENDER" value="2"/>
+  </eClassifiers>
+</ecore:EPackage>

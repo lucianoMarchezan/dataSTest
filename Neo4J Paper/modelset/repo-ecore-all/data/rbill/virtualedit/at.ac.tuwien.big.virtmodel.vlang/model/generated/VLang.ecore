@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="vLang" nsURI="http://www.ac.at/tuwien/big/virtmodel/VLang" nsPrefix="vLang">
+  <eClassifiers xsi:type="ecore:EClass" name="VLang">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="imports" upperBound="-1"
+        eType="#//Import" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statement" upperBound="-1"
+        eType="#//AssignStatement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Import">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="target" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AssignStatement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SetOrFunctionDef" eSuperTypes="#//AssignStatement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionDef" eSuperTypes="#//SetOrFunctionDef">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//FunctionType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="init" eType="#//JavaFunctionCall"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fullAssignment" eType="#//FunctionAssignment"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JavaFunctionDef" eSuperTypes="#//AssignStatement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//JavaFunctionType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="javaFunc" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BasicAction" eSuperTypes="#//AssignStatement #//FunctionPars">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thing" eType="#//SetOrFunctionDef"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="calledFunc" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetDef" eSuperTypes="#//SetOrFunctionDef">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="literal" eType="#//SetLiteral"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetLiteral">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="values" upperBound="-1"
+        eType="#//FixedValue" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RuleAssignment" eSuperTypes="#//AssignStatement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="function" eType="#//FunctionDef"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scope" eType="#//FunctionScope"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isFinite" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isDerive" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isConstraint" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignment" eType="#//FunctionAssignment"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeleteAssignment" eSuperTypes="#//AssignStatement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="function" eType="#//FunctionDef"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scope" eType="#//FunctionScope"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionScope">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="filter" eType="#//Filter"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InfiniteScope" eSuperTypes="#//FunctionScope"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Filter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionDomainScope" eSuperTypes="#//FunctionScope">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="function" eType="#//FunctionDef"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SetScope" eSuperTypes="#//FunctionScope">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="setRef" eType="#//SetDef"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="set" eType="#//SetLiteral"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SingleScope" eSuperTypes="#//FunctionScope">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//SingleValue"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SingleValue" eSuperTypes="#//BasicExpression #//Expression #//FunctionPar"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FixedValue" eSuperTypes="#//SingleValue">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="string" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objid" eType="#//ObjId"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionAssignment" eSuperTypes="#//Filter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FullFunctionAssignment" eSuperTypes="#//FunctionAssignment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" eType="#//ParDef"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expr" eType="#//BasicExpression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BasicExpression" eSuperTypes="#//FunctionAssignment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Expression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OclFunction" eSuperTypes="#//BasicExpression #//Expression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="oclFunc" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FullFunction" eSuperTypes="#//Expression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Block" eSuperTypes="#//FullFunction #//SingleStatement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statements" upperBound="-1"
+        eType="#//SingleStatement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SingleStatement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LetStatement" eSuperTypes="#//SingleStatement #//MaybeValue">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReturnStatement" eSuperTypes="#//SingleStatement #//MaybeValue"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IfStatement" eSuperTypes="#//SingleStatement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="#//FunctionAssignment"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thenStatement" eType="#//SingleStatement"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elseStatement" eType="#//SingleStatement"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ForStatement" eSuperTypes="#//SingleStatement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initVar" eType="#//SingleStatement"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="#//FunctionAssignment"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="endProcessing" eType="#//SingleStatement"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="loopExpr" eType="#//SingleStatement"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ForLoopStatement" eSuperTypes="#//SingleStatement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//FunctionAssignment"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="loopExpr" eType="#//SingleStatement"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MaybeValue">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//FunctionAssignment"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ParDef">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="params" upperBound="-1"
+        eType="#//FunctionParDef" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionParDef">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CalculatedValue" eSuperTypes="#//SingleValue"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IfThenElse" eSuperTypes="#//CalculatedValue">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="#//FunctionAssignment"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thenExpr" eType="#//FunctionAssignment"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elseExpr" eType="#//FunctionAssignment"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionCall" eSuperTypes="#//CalculatedValue #//FunctionPars">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="function" eType="#//FunctionDef"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JavaFunctionCall" eSuperTypes="#//CalculatedValue #//FunctionPars">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="function" eType="#//JavaFunctionDef"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionPars">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="params" upperBound="-1"
+        eType="#//FunctionPar" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionPar"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjId">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="params" upperBound="-1"
+        eType="#//ObjParam" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjParam">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="string" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="params" upperBound="-1"
+        eType="#//ObjParam" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="FunctionType">
+    <eLiterals name="FINITE" literal="finite"/>
+    <eLiterals name="DERIVE" value="1" literal="derive"/>
+    <eLiterals name="CONSTRAINT" value="2" literal="constraint"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="JavaFunctionType">
+    <eLiterals name="FUNCCALL" literal="jfunc"/>
+    <eLiterals name="CONSTRUCTOR" value="1" literal="jcons"/>
+    <eLiterals name="OPERATION" value="2" literal="jop"/>
+  </eClassifiers>
+</ecore:EPackage>

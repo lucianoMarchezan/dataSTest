@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="erca"
+    nsURI="http://code.google.com/erca/erca.ecore/1.5.0" nsPrefix="erca">
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Entity" eSuperTypes="#//NamedElement #//FcaElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Attribute" abstract="true" eSuperTypes="#//FcaElement">
+    <eOperations name="getDescription" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations name="sameAs" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="attr" eType="#//Attribute"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FcaElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BinaryAttribute" eSuperTypes="#//NamedElement #//Attribute"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ValuedAttribute" eSuperTypes="#//Attribute #//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompositeAttribute" eSuperTypes="#//Attribute">
+    <eOperations name="isCompatibleWith" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="composite" lowerBound="1" eType="#//CompositeAttribute"/>
+    </eOperations>
+    <eOperations name="isCoherent" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="size" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="#//ValuedAttribute" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RelationalAttribute" eSuperTypes="#//Attribute #//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//clf/Concept"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="scalingOperator" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eSubpackages name="clf" nsURI="http://code.google.com/erca/erca.ecore/1.5.0#//clf"
+      nsPrefix="clf">
+    <eClassifiers xsi:type="ecore:EClass" name="Concept" eSuperTypes="#//NamedElement">
+      <eOperations name="getSimplifiedExtent" upperBound="-1" eType="#//Entity"/>
+      <eOperations name="getAllParents" upperBound="-1" eType="#//clf/Concept"/>
+      <eOperations name="getSimplifiedIntent" upperBound="-1" eType="#//Attribute"/>
+      <eOperations name="getParents" upperBound="-1" eType="#//clf/Concept"/>
+      <eOperations name="getAllChildren" upperBound="-1" eType="#//clf/Concept"/>
+      <eOperations name="isFusion" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eOperations name="isNewConcept" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eOperations name="isDummy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="lattice" lowerBound="1"
+          eType="#//clf/ConceptLattice" eOpposite="#//clf/ConceptLattice/concepts"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="children" ordered="false"
+          upperBound="-1" eType="#//clf/Concept"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="extent" ordered="false"
+          upperBound="-1" eType="#//Entity"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="intent" ordered="false"
+          upperBound="-1" eType="#//Attribute"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="creationStep" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ConceptLattice" eSuperTypes="#//NamedElement">
+      <eOperations name="deleteAttribute">
+        <eParameters name="attribute" lowerBound="1" eType="#//Attribute"/>
+      </eOperations>
+      <eOperations name="getAttribute" eType="#//Attribute">
+        <eParameters name="attr" lowerBound="1" eType="#//Attribute"/>
+      </eOperations>
+      <eOperations name="getConcept" eType="#//clf/Concept">
+        <eParameters name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eOperations>
+      <eOperations name="getMaxDepth" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eOperations name="getEmptyConcepts" upperBound="-1" eType="#//clf/Concept"/>
+      <eOperations name="getNewConcepts" upperBound="-1" eType="#//clf/Concept"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+          eType="#//Attribute" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="top" lowerBound="1" eType="#//clf/Concept"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="concepts" ordered="false"
+          upperBound="-1" eType="#//clf/Concept" containment="true" eOpposite="#//clf/Concept/lattice"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ConceptLatticeFamily">
+      <eOperations name="getConceptLattice" eType="#//clf/ConceptLattice">
+        <eParameters name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="conceptLattices" ordered="false"
+          upperBound="-1" eType="#//clf/ConceptLattice" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="stepNumber" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="rcf" nsURI="http://code.google.com/erca/erca.ecore/1.5.0#//rcf"
+      nsPrefix="rcf">
+    <eClassifiers xsi:type="ecore:EClass" name="Pair">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+          eType="#//FcaElement"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+          eType="#//FcaElement"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BinaryContext" abstract="true" eSuperTypes="#//NamedElement">
+      <eOperations name="getTargetElements" upperBound="-1" eType="#//FcaElement">
+        <eParameters name="element" eType="#//FcaElement"/>
+      </eOperations>
+      <eOperations name="getSourceElements" upperBound="-1" eType="#//FcaElement">
+        <eParameters name="element" eType="#//FcaElement"/>
+      </eOperations>
+      <eOperations name="hasPair" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eParameters name="source" lowerBound="1" eType="#//FcaElement"/>
+        <eParameters name="target" lowerBound="1" eType="#//FcaElement"/>
+      </eOperations>
+      <eOperations name="addPair">
+        <eParameters name="source" lowerBound="1" eType="#//FcaElement"/>
+        <eParameters name="target" lowerBound="1" eType="#//FcaElement"/>
+      </eOperations>
+      <eOperations name="removePair">
+        <eParameters name="source" lowerBound="1" eType="#//FcaElement"/>
+        <eParameters name="target" lowerBound="1" eType="#//FcaElement"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="relation" upperBound="-1"
+          eType="#//rcf/Pair" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="RelationalContext" eSuperTypes="#//rcf/BinaryContext">
+      <eOperations name="getTargetEntities" upperBound="-1" eType="#//Entity">
+        <eParameters name="entity" lowerBound="1" eType="#//Entity"/>
+      </eOperations>
+      <eOperations name="getSourcesEntities" upperBound="-1" eType="#//Entity">
+        <eParameters name="entity" lowerBound="1" eType="#//Entity"/>
+      </eOperations>
+      <eOperations name="getTargetEntity" eType="#//Entity">
+        <eParameters name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="targetEntities" upperBound="-1"
+          eType="#//Entity" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="sourceEntities" upperBound="-1"
+          eType="#//Entity" derived="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="targetContext" lowerBound="1"
+          eType="#//rcf/FormalContext"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="sourceContext" lowerBound="1"
+          eType="#//rcf/FormalContext"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="scalingOperator" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          defaultValueLiteral="com.googlecode.erca.framework.algo.scaling.Wide"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FormalContext" eSuperTypes="#//rcf/BinaryContext">
+      <eOperations name="getSourceEntities" upperBound="-1" eType="#//Entity">
+        <eParameters name="attribute" lowerBound="1" eType="#//Attribute"/>
+      </eOperations>
+      <eOperations name="getTargetAttributes" upperBound="-1" eType="#//Attribute">
+        <eParameters name="entity" lowerBound="1" eType="#//Entity"/>
+      </eOperations>
+      <eOperations name="getEntity" eType="#//Entity">
+        <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eOperations>
+      <eOperations name="getAttribute" eType="#//Attribute">
+        <eParameters name="attr" lowerBound="1" eType="#//Attribute"/>
+      </eOperations>
+      <eOperations name="hasValuedAttributes" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+          eType="#//Attribute" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="entities" upperBound="-1"
+          eType="#//Entity" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="RelationalContextFamily">
+      <eOperations name="getRelationalContext" eType="#//rcf/RelationalContext">
+        <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eOperations>
+      <eOperations name="getFormalContext" eType="#//rcf/FormalContext">
+        <eParameters name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eOperations>
+      <eOperations name="getRelationalContexts" upperBound="-1" eType="#//rcf/RelationalContext">
+        <eParameters name="formalContext" lowerBound="1" eType="#//rcf/FormalContext"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="relationalContexts" ordered="false"
+          upperBound="-1" eType="#//rcf/RelationalContext" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="formalContexts" ordered="false"
+          upperBound="-1" eType="#//rcf/FormalContext" containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

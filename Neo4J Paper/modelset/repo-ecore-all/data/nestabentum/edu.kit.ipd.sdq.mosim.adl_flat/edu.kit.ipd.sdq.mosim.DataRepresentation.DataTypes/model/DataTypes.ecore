@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="DataTypes" nsURI="http://www.example.org/DataTypes" nsPrefix="DataTypes">
+  <eClassifiers xsi:type="ecore:EClass" name="DataType" abstract="true" eSuperTypes="../../ADL_Moddeling_Project/model/aDL_Moddeling_Project.ecore#//basic/SemanticEntity ../../ADL_Moddeling_Project/model/aDL_Moddeling_Project.ecore#//Adaptation/Adaptable"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EnumLiteral" eSuperTypes="../../ADL_Moddeling_Project/model/aDL_Moddeling_Project.ecore#//basic/Identifier">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="literalName" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="literalValue" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="enumtype" eType="#//EnumType"
+        eOpposite="#//EnumType/enumliteral"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Range">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerBounds" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="inf"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="upperBounds" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="inf"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BaseDataType" eSuperTypes="#//ClassicalDataType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stepSize" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="initialValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="primitiveDataType" lowerBound="1"
+        eType="#//PrimitiveDataType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="range" eType="#//Range"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UnitTypeContainer" eSuperTypes="../../ADL_Moddeling_Project/model/aDL_Moddeling_Project.ecore#//basic/SemanticEntity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unit" upperBound="-1" eType="#//Unit"
+        eOpposite="#//Unit/unittypecontainer"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Unit" eSuperTypes="#//DataType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="basedatatype" lowerBound="1"
+        eType="#//BaseDataType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unitSymbol" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="range" eType="#//Range"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unittypecontainer" eType="#//UnitTypeContainer"
+        eOpposite="#//UnitTypeContainer/unit"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EnumType" eSuperTypes="#//ClassicalDataType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="enumliteral" upperBound="-1"
+        eType="#//EnumLiteral" containment="true" eOpposite="#//EnumLiteral/enumtype"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="representingDataType" lowerBound="1"
+        eType="#//BaseDataType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataTypeContainer" eSuperTypes="../../ADL_Moddeling_Project/model/aDL_Moddeling_Project.ecore#//basic/Entity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unittypecontainer" upperBound="-1"
+        eType="#//UnitTypeContainer" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="datatype" upperBound="-1"
+        eType="#//DataType" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataTypeCollection" eSuperTypes="#//ClassicalDataType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classicaldatatype" lowerBound="1"
+        eType="#//ClassicalDataType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CombinedDataType" eSuperTypes="#//ClassicalDataType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classicaldatatype" lowerBound="2"
+        upperBound="-1" eType="#//ClassicalDataType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PrimitiveDataType">
+    <eLiterals name="BOOL"/>
+    <eLiterals name="BYTE" value="1"/>
+    <eLiterals name="INTEGER" value="2"/>
+    <eLiterals name="STRING" value="3"/>
+    <eLiterals name="LONG" value="4"/>
+    <eLiterals name="DOUBLE" value="5"/>
+    <eLiterals name="CHAR" value="6"/>
+    <eLiterals name="FLOAT" value="7"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassicalDataType" abstract="true" eSuperTypes="#//DataType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectClassReferenceDataType" eSuperTypes="#//ClassicalDataType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectclass" lowerBound="1"
+        eType="ecore:EClass ../../ADL_Moddeling_Project/model/aDL_Moddeling_Project.ecore#//DataRepresentation/SimulationInformation/ObjectClass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataTypeMap" eSuperTypes="#//ClassicalDataType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="KeyType" lowerBound="1"
+        eType="#//ClassicalDataType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="valueType" lowerBound="1"
+        eType="#//ClassicalDataType"/>
+  </eClassifiers>
+</ecore:EPackage>

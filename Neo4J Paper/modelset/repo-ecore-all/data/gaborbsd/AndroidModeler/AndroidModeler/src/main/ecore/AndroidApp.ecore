@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model" nsURI="android" nsPrefix="android">
+  <eClassifiers xsi:type="ecore:EClass" name="AndroidApplication">
+    <eOperations name="addComponent">
+      <eParameters name="component" eType="#//Component"/>
+    </eOperations>
+    <eOperations name="definesPermission">
+      <eParameters name="permission" eType="#//Permission"/>
+    </eOperations>
+    <eOperations name="usesPermission">
+      <eParameters name="permission" eType="#//Permission"/>
+    </eOperations>
+    <eOperations name="dependsOn">
+      <eParameters name="library" eType="#//Library"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dependencies" upperBound="-1"
+        eType="#//Library"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
+        eType="#//Component"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uses" upperBound="-1" eType="#//Permission"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="defines" upperBound="-1"
+        eType="#//Permission"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="minSDK" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="targetSDK" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="metadatas" upperBound="-1"
+        eType="#//Metadata"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="javaName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Library"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Component" abstract="true">
+    <eOperations name="componentAddedTo">
+      <eParameters name="app" eType="#//AndroidApplication"/>
+    </eOperations>
+    <eOperations name="getXMLTag" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations name="getTemplate" lowerBound="1" eType="#//ComponentTemplate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="intentFilters" upperBound="-1"
+        eType="#//IntentFilter"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Permission">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="protectionLevel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Service" eSuperTypes="#//Component"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Activity" eSuperTypes="#//Component"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BroadcastReceiver" eSuperTypes="#//Component"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IntentFilter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="categories" upperBound="-1"
+        eType="#//IntentCategory"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1"
+        eType="#//IntentAction"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="datas" upperBound="-1"
+        eType="#//IntentData"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntentCategory">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntentAction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntentData">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Model">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="androidApps" upperBound="-1"
+        eType="#//AndroidApplication" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Metadata">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GCMIntentService" eSuperTypes="#//Service"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GCMBroadcastReceiver" eSuperTypes="#//BroadcastReceiver">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="startIntentService" eType="#//GCMIntentService"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GCMActivity" eSuperTypes="#//Activity"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="ComponentTemplate" instanceClassName="templates.ComponentTemplate"/>
+</ecore:EPackage>

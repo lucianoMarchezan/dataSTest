@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="language" nsURI="http://www.abchip.org/mimo/language" nsPrefix="mimo-lang">
+  <eClassifiers xsi:type="ecore:EClass" name="Language" eSuperTypes="../../org.abchip.mimo.core/model/mimo.ecore#//entity/EntityIdentifiable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="iso_639_1" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="scope" lowerBound="1" eType="#//LanguageScope"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//LanguageType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="planets" upperBound="-1"
+        eType="#//LanguagePlanet"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="planetsCont" upperBound="-1"
+        eType="#//LanguagePlanet" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="LanguageException" instanceClassName="org.abchip.mimo.language.LanguageException"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LanguageExpression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="expressionRow" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LanguageLinearizer" abstract="true"
+      interface="true">
+    <eOperations name="linearize" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eParameters name="context" lowerBound="1" eType="ecore:EClass ../../org.abchip.mimo.core/model/mimo.ecore#//context/Context"/>
+      <eParameters name="language" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="expression" lowerBound="1" eType="#//LanguageExpression"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LanguageLinearizerRegistry" abstract="true"
+      interface="true">
+    <eGenericSuperTypes eClassifier="ecore:EClass ../../org.abchip.mimo.core/model/mimo.ecore#//context/Registry">
+      <eTypeArguments eClassifier="#//LanguageLinearizer"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LanguageManager" abstract="true" interface="true">
+    <eOperations name="classifyLanguage" lowerBound="1">
+      <eGenericType eClassifier="ecore:EClass ../../org.abchip.mimo.mining/model/mining.ecore#//classification/Classification">
+        <eTypeArguments eClassifier="#//Language"/>
+      </eGenericType>
+      <eParameters name="context" lowerBound="1" eType="ecore:EClass ../../org.abchip.mimo.core/model/mimo.ecore#//context/Context"/>
+      <eParameters name="text" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="translate" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eParameters name="context" lowerBound="1" eType="ecore:EClass ../../org.abchip.mimo.core/model/mimo.ecore#//context/Context"/>
+      <eParameters name="languageSource" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="text" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="languageTarget" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LanguageParser" abstract="true" interface="true">
+    <eOperations name="parse" lowerBound="1" eType="#//LanguageExpression">
+      <eParameters name="context" lowerBound="1" eType="ecore:EClass ../../org.abchip.mimo.core/model/mimo.ecore#//context/Context"/>
+      <eParameters name="language" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="text" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LanguageParserRegistry" abstract="true"
+      interface="true">
+    <eGenericSuperTypes eClassifier="ecore:EClass ../../org.abchip.mimo.core/model/mimo.ecore#//context/Registry">
+      <eTypeArguments eClassifier="#//LanguageParser"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LanguagePlanet" eSuperTypes="../../org.abchip.mimo.core/model/mimo.ecore#//entity/EntityIdentifiable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="LanguageScope">
+    <eLiterals name="Individual" value="10" literal="I"/>
+    <eLiterals name="Macrolanguage" value="20" literal="M"/>
+    <eLiterals name="Collections" value="30" literal="C"/>
+    <eLiterals name="Reserved" value="40" literal="R"/>
+    <eLiterals name="Specials" value="50" literal="S"/>
+    <eLiterals name="Dialects" value="60" literal="D"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="LanguageType">
+    <eLiterals name="Living" value="10" literal="L"/>
+    <eLiterals name="Extinct" value="20" literal="E"/>
+    <eLiterals name="Ancient" value="30" literal="A"/>
+    <eLiterals name="Historical" value="40" literal="H"/>
+    <eLiterals name="Constructed" value="50" literal="C"/>
+  </eClassifiers>
+  <eSubpackages name="grammar" nsURI="http://www.abchip.org/mimo/language/grammar"
+      nsPrefix="mimo-gram">
+    <eClassifiers xsi:type="ecore:EClass" name="Adjective" eSuperTypes="#//grammar/Word"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Dialog" eSuperTypes="../../org.abchip.mimo.core/model/mimo.ecore#//entity/Entity"/>
+    <eClassifiers xsi:type="ecore:EEnum" name="Gender">
+      <eLiterals name="Masculine" value="10" literal="M"/>
+      <eLiterals name="Feminine" value="20" literal="F"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Grammar" eSuperTypes="../../org.abchip.mimo.core/model/mimo.ecore#//entity/EntityIdentifiable">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Noun" eSuperTypes="#//grammar/Word"/>
+    <eClassifiers xsi:type="ecore:EEnum" name="Number">
+      <eLiterals name="Singular" value="10" literal="S"/>
+      <eLiterals name="Plural" value="20" literal="P"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Predicate" eSuperTypes="../../org.abchip.mimo.core/model/mimo.ecore#//entity/Entity"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Pronoun" eSuperTypes="#//grammar/Word"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Sentence" eSuperTypes="../../org.abchip.mimo.core/model/mimo.ecore#//entity/Entity"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Verb" eSuperTypes="#//grammar/Word"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Word" eSuperTypes="../../org.abchip.mimo.core/model/mimo.ecore#//entity/EntityIdentifiable">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

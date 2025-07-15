@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="mdc" nsURI="http://mdc.ufes.br" nsPrefix="mdc">
+  <eClassifiers xsi:type="ecore:EClass" name="Chatbot">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="token" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="states" lowerBound="1"
+        upperBound="-1" eType="#//State" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initState" lowerBound="1"
+        eType="#//StationaryState"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tokenNluService" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nluService" lowerBound="1"
+        eType="#//NLUService"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mensageiro" lowerBound="1"
+        eType="#//Mensageiro"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="State" abstract="true" interface="true">
+    <eOperations name="entryPoint" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList"/>
+    <eOperations name="sincMessages"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="messages" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="input" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransactionalState" abstract="true"
+      interface="true" eSuperTypes="#//State"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StationaryState" abstract="true" interface="true"
+      eSuperTypes="#//State">
+    <eOperations name="handler" eType="#//State"/>
+    <eOperations name="sincTransitions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transitions" upperBound="-1"
+        eType="#//State" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="errorState" lowerBound="1"
+        eType="#//TransactionalState"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransactionalStateImpl" eSuperTypes="#//TransactionalState"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StationaryStateImpl" eSuperTypes="#//StationaryState"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="NLUService">
+    <eLiterals name="WIT"/>
+    <eLiterals name="OTHER" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Mensageiro">
+    <eLiterals name="TELEGRAM"/>
+    <eLiterals name="WEB" value="1"/>
+  </eClassifiers>
+</ecore:EPackage>

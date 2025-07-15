@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="Annotations" nsURI="http://www.example.org/Annotations" nsPrefix="Annotations">
+  <eClassifiers xsi:type="ecore:EClass" name="WritableAnnotation" eSuperTypes="#//Annotation">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="contentRestrictionDescription"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SelectableAnnotation" abstract="true"
+      eSuperTypes="#//Annotation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="annotationvalue" upperBound="-1"
+        eType="#//AnnotationValue" containment="true" eOpposite="#//AnnotationValue/selectableannotation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WritableAnnotationSetter" eSuperTypes="#//AnnotationSetter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="writableannotation" lowerBound="1"
+        eType="#//WritableAnnotation"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="valueContent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MultipleSettableAnnotation" eSuperTypes="#//SelectableAnnotation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExclusiveSettableAnnotation" eSuperTypes="#//SelectableAnnotation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Annotation" abstract="true" eSuperTypes="../../ADL_Moddeling_Project/model/aDL_Moddeling_Project.ecore#//basic/Entity">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="OnlyusedInDefintion" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="annotationcontainer" eType="#//AnnotationContainer"
+        eOpposite="#//AnnotationContainer/annotation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MultipleSelectionAnnotationSetter" eSuperTypes="#//AnnotationSetter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="selectedValues" upperBound="-1"
+        eType="#//AnnotationValue"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="multiplesettableannotation"
+        lowerBound="1" eType="#//MultipleSettableAnnotation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExclusiveSelectionAnnotationSetter"
+      eSuperTypes="#//AnnotationSetter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="selectedValue" eType="#//AnnotationValue"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exclusivesettableannotation"
+        lowerBound="1" eType="#//ExclusiveSettableAnnotation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CombinedAnnotation" eSuperTypes="#//Annotation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="annotation" lowerBound="2"
+        upperBound="-1" eType="#//Annotation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AnnotationSetter" abstract="true" eSuperTypes="../../ADL_Moddeling_Project/model/aDL_Moddeling_Project.ecore#//basic/Entity"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AnnotationValue" eSuperTypes="../../ADL_Moddeling_Project/model/aDL_Moddeling_Project.ecore#//basic/SemanticEntity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="selectableannotation" eType="#//SelectableAnnotation"
+        eOpposite="#//SelectableAnnotation/annotationvalue"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CombinedAnnotationSetter" eSuperTypes="#//AnnotationSetter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="annotationsetter" lowerBound="2"
+        upperBound="-1" eType="#//AnnotationSetter"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="combinedannotation" lowerBound="1"
+        eType="#//CombinedAnnotation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AnnotationInterface" eSuperTypes="../../ADL_Moddeling_Project/model/aDL_Moddeling_Project.ecore#//basic/SemanticEntity">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="informationType" lowerBound="1"
+        eType="#//AnnotatableInformation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="annotation" upperBound="-1"
+        eType="#//Annotation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coordinator" eType="ecore:EClass ../../ADL_Moddeling_Project/model/aDL_Moddeling_Project.ecore#//ModularEnvironment/Coordinator"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AnnotationContainer" eSuperTypes="../../ADL_Moddeling_Project/model/aDL_Moddeling_Project.ecore#//basic/SemanticEntity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coordinator" eType="ecore:EClass ../../ADL_Moddeling_Project/model/aDL_Moddeling_Project.ecore#//ModularEnvironment/Coordinator"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="annotation" upperBound="-1"
+        eType="#//Annotation" containment="true" eOpposite="#//Annotation/annotationcontainer"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="AnnotatableInformation">
+    <eLiterals name="ObjectClass"/>
+    <eLiterals name="Data" value="1"/>
+    <eLiterals name="Operation" value="2"/>
+    <eLiterals name="OperationParameter" value="3"/>
+  </eClassifiers>
+</ecore:EPackage>

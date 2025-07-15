@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="GoT" nsURI="http://www.example.org/GoT" nsPrefix="GoT">
+  <eClassifiers xsi:type="ecore:EEnum" name="AllegianceKind">
+    <eLiterals name="birth"/>
+    <eLiterals name="marriage" value="1"/>
+    <eLiterals name="pledge" value="2" literal="pledge"/>
+    <eLiterals name="oath" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Season">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="episode" upperBound="-1"
+        eType="#//Episode" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="MethodCategory">
+    <eLiterals name="Blade"/>
+    <eLiterals name="Fire_Burning" value="1"/>
+    <eLiterals name="Animal" value="2"/>
+    <eLiterals name="Household_Item" value="3"/>
+    <eLiterals name="Unknown" value="4"/>
+    <eLiterals name="Magic" value="5"/>
+    <eLiterals name="Other" value="6"/>
+    <eLiterals name="Arrow" value="7"/>
+    <eLiterals name="Poison" value="8"/>
+    <eLiterals name="Spear" value="9"/>
+    <eLiterals name="Hands" value="10"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Character">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="#//Status"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reason" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="method" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="methodCategory" eType="#//MethodCategory"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="deathPlace" eType="#//Place"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="episode" lowerBound="1"
+        eType="#//Episode"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="killedBy" eType="#//Character"
+        eOpposite="#//Character/killed"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="killed" upperBound="-1"
+        eType="#//Character" eOpposite="#//Character/killedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="alliegance" upperBound="-1"
+        eType="#//House" eOpposite="#//House/fellow"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="House">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fellow" upperBound="-1"
+        eType="#//Character" eOpposite="#//Character/alliegance"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Place">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Episode">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GoT">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="character" upperBound="-1"
+        eType="#//Character" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="house" upperBound="-1"
+        eType="#//House" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="season" upperBound="-1"
+        eType="#//Season" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="place" upperBound="-1"
+        eType="#//Place" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="union" upperBound="-1"
+        eType="#//Union" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Status">
+    <eLiterals name="alive"/>
+    <eLiterals name="deceased" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Union">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="child" upperBound="-1"
+        eType="#//Character"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//UnionKind"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="firstCharacter" lowerBound="1"
+        eType="#//Character"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="secondCharacter" lowerBound="1"
+        eType="#//Character"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="UnionKind">
+    <eLiterals name="Marriage"/>
+    <eLiterals name="Love" value="1"/>
+  </eClassifiers>
+</ecore:EPackage>

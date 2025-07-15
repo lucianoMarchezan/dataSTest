@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="shop"
+    nsURI="http://com.my.shop" nsPrefix="com.my.shop">
+  <eClassifiers xsi:type="ecore:EClass" name="Shop" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="categories" upperBound="-1"
+        eType="#//Category" containment="true" eOpposite="#//Category/shop"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Category" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//Category" containment="true" eOpposite="#//Category/parent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Category"
+        eOpposite="#//Category/children"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="shop" eType="#//Shop" eOpposite="#//Shop/categories"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="products" upperBound="-1"
+        eType="#//Product" containment="true" eOpposite="#//Product/category"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Product" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="category" eType="#//Category"
+        eOpposite="#//Category/products"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="price" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="avaiable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="score" eType="#//Score"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="salesMap" upperBound="-1"
+        eType="#//StringToIntegerMapEntry" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="background" eType="#//RGB"
+        defaultValueLiteral="255,90,150"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="Unnamed"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Score">
+    <eLiterals name="Good"/>
+    <eLiterals name="Average" value="1"/>
+    <eLiterals name="Bad" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StringToIntegerMapEntry" instanceClassName="java.util.Map$Entry">
+    <eAnnotations source="MapEntry"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="RGB" instanceClassName="org.eclipse.swt.graphics.RGB"/>
+</ecore:EPackage>

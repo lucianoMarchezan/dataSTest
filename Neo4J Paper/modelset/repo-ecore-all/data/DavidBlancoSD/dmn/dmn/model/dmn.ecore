@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="dmn" nsURI="http://www.example.org/dmn" nsPrefix="dmn">
+  <eClassifiers xsi:type="ecore:EClass" name="DMNElement" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UnaryTest" eSuperTypes="#//DMNElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DecisionRule" eSuperTypes="#//DMNElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputEntry" upperBound="-1"
+        eType="#//UnaryTest" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="OutputEntry" lowerBound="1"
+        upperBound="-1" eType="#//LiteralExpression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LiteralExpression" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InputClause" eSuperTypes="#//DMNElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="InputValues" eType="#//UnaryTest"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="InputExpression" eType="#//LiteralExpression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Expression" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" upperBound="-1"
+        eType="#//ItcmDcfinition">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="wildcards" value=""/>
+        <details key="name" value=""/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ItcmDcfinition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allowedValues" eType="#//UnaryTest"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DecisionTable" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="input" upperBound="-1"
+        eType="#//InputClause" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="decisionTable" upperBound="-1"
+        eType="#//DecisionRule" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hitPolicy" eType="#//HitPolicy"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="aggregation" eType="#//BuiltinAggregator"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preferredOrientation" eType="#//DecisionTableOrientation"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="outputLabel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="output" lowerBound="1"
+        upperBound="-1" eType="#//OutputClause" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OutputClause" eSuperTypes="#//DMNElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="defaultOutputEntry" eType="#//LiteralExpression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputDefinition" eType="#//ItcmDcfinition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputValues" eType="#//UnaryTest"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="BuiltinAggregator">
+    <eLiterals name="SUM"/>
+    <eLiterals name="COUNT" value="1"/>
+    <eLiterals name="MIN" value="2"/>
+    <eLiterals name="MAX" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="HitPolicy">
+    <eLiterals name="UNIQUE"/>
+    <eLiterals name="FIRST" value="1"/>
+    <eLiterals name="PRIORITY" value="2"/>
+    <eLiterals name="ANY" value="3"/>
+    <eLiterals name="COLLECT" value="4"/>
+    <eLiterals name="RULEORDER" value="5"/>
+    <eLiterals name="OUTPUTORDER" value="6"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DecisionTableOrientation">
+    <eLiterals name="RuleAsRow"/>
+    <eLiterals name="RuleAsColumn" value="1"/>
+    <eLiterals name="CrossTable" value="2"/>
+  </eClassifiers>
+</ecore:EPackage>

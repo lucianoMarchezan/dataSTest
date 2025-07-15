@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model" nsURI="http://www.example.org/model" nsPrefix="model">
+  <eClassifiers xsi:type="ecore:EClass" name="Network">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="network" iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="services" upperBound="-1"
+        eType="#//Service" eOpposite="#//Service/network"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Service" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="hadoop" iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="network" eType="#//Network"
+        eOpposite="#//Network/services"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="limitCpu" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="limitMem" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reservationCpu" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reservationMem" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HadoopMaster" eSuperTypes="#//Service">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hadoopSlaves" upperBound="-1"
+        eType="#//HadoopSlave" eOpposite="#//HadoopSlave/hadoopMasters"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HadoopSlave" eSuperTypes="#//Service">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hadoopMasters" upperBound="-1"
+        eType="#//HadoopMaster" eOpposite="#//HadoopMaster/hadoopSlaves"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ControlCenter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="masterNodes" upperBound="-1"
+        eType="#//HadoopMaster"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" defaultValueLiteral="controlCenter" unsettable="true" iD="true"/>
+  </eClassifiers>
+</ecore:EPackage>

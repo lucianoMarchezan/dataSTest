@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="pcn" nsURI="http://www.kybele.es/elastic/models/pcn/1.0" nsPrefix="pcn">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
+  </eAnnotations>
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="PCNDiagram">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="diagramEntities" upperBound="-1"
+        eType="#//PCNProcessEntity" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PCNProcessEntity">
+    <eOperations name="getDirectInteractions">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="leftDirectInteractionsActivities->includesAll(rightDirectInteractionsActivities)"/>
+      </eAnnotations>
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+        <eTypeArguments/>
+      </eGenericType>
+    </eOperations>
+    <eOperations name="getSurrogateInteractions">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="leftSurrogateInteractionsActivities->includesAll(rightSurrogateInteractionsActivities)"/>
+      </eAnnotations>
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+        <eTypeArguments/>
+      </eGenericType>
+    </eOperations>
+    <eOperations name="getIndependentInteractios">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="independentInteractionsActivities"/>
+      </eAnnotations>
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+        <eTypeArguments/>
+      </eGenericType>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="order" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="backEntity" eType="#//PCNProcessEntity"
+        eOpposite="#//PCNProcessEntity/nextEntity"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nextEntity" eType="#//PCNProcessEntity"
+        containment="true" eOpposite="#//PCNProcessEntity/backEntity"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leftDirectInteractions"
+        upperBound="-1" eType="#//PCNProcessStep" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leftSurrogateInteractions"
+        upperBound="-1" eType="#//PCNProcessStep" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="centerIndependentInteractionsActivities"
+        upperBound="-1" eType="#//PCNProcessStep" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rightSurrogateInteractions"
+        upperBound="-1" eType="#//PCNProcessStep" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rightDirectInteractions"
+        upperBound="-1" eType="#//PCNProcessStep" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PCNProcessStep" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tags" upperBound="-1" eType="#//PCNTag"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="PCNStandardDependencySource"
+        upperBound="-1" eType="#//PCNRegularProcessStep" eOpposite="#//PCNRegularProcessStep/PCNStandardDependency"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="PCNDelayedDependencySource"
+        upperBound="-1" eType="#//PCNRegularProcessStep" eOpposite="#//PCNRegularProcessStep/PCNDelayedDependency"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="PCNPositiveDecisionSource"
+        upperBound="-1" eType="#//PCNDecisionStep" eOpposite="#//PCNDecisionStep/PCNPositiveDecision"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="PCNNegativeDecisionSource"
+        upperBound="-1" eType="#//PCNDecisionStep" eOpposite="#//PCNDecisionStep/PCNNegativeDecision"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PCNProcessStepWithTags" abstract="true"
+      eSuperTypes="#//PCNProcessStep">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nonMonetaryBenefits" upperBound="-1"
+        eType="#//PCNNonMonetaryBenefit" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nonMonetaryCosts" upperBound="-1"
+        eType="#//PCNNonMonetaryCost" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monetaryBenefits" upperBound="-1"
+        eType="#//PCNMonetaryBenefit" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monetaryCosts" upperBound="-1"
+        eType="#//PCNMonetaryCost" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="action" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="textualTags" upperBound="-1"
+        eType="#//PCNTextualTag" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PCNReference" eSuperTypes="#//PCNProcessStep">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="letter" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PCNStandardStep" eSuperTypes="#//PCNRegularProcessStep"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PCNDoAndWaitStep" eSuperTypes="#//PCNRegularProcessStep"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PCNWaitStep" eSuperTypes="#//PCNRegularProcessStep"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PCNDecisionStep" eSuperTypes="#//PCNProcessStepWithTags">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="PCNPositiveDecision" eType="#//PCNProcessStep"
+        eOpposite="#//PCNProcessStep/PCNPositiveDecisionSource"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="PCNNegativeDecision" eType="#//PCNProcessStep"
+        eOpposite="#//PCNProcessStep/PCNNegativeDecisionSource"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PCNTag" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PCNMonetaryTag" eSuperTypes="#//PCNTag"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PCNMonetaryBenefit" eSuperTypes="#//PCNMonetaryTag"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PCNMonetaryCost" eSuperTypes="#//PCNMonetaryTag"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PCNNonMonetaryTag" eSuperTypes="#//PCNTag"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PCNNonMonetaryBenefit" eSuperTypes="#//PCNNonMonetaryTag"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PCNNonMonetaryCost" eSuperTypes="#//PCNNonMonetaryTag"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PCNInnovationStep" eSuperTypes="#//PCNRegularProcessStep"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PCNOutsourcedStep" eSuperTypes="#//PCNRegularProcessStep"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PCNRegularProcessStep" eSuperTypes="#//PCNProcessStepWithTags">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="PCNStandardDependency"
+        upperBound="-1" eType="#//PCNProcessStep" eOpposite="#//PCNProcessStep/PCNStandardDependencySource"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="PCNDelayedDependency" upperBound="-1"
+        eType="#//PCNProcessStep" eOpposite="#//PCNProcessStep/PCNDelayedDependencySource"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PCNTextualTag" eSuperTypes="#//PCNTag">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tag" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

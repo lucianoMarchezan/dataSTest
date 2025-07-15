@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="test"
+    nsURI="http://gervarro.org/democles/emf/test.ecore" nsPrefix="test">
+  <eClassifiers xsi:type="ecore:EClass" name="First" eSuperTypes="test-embedded.ecore#//SampleAbstractClass">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unidirectionalToOneReference"
+        eType="#//Second"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unidirectionalToManyReference"
+        upperBound="-1" eType="#//Second"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unidirectionalToOneContainment"
+        eType="#//Second"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unidirectionalToManyContainment"
+        upperBound="-1" eType="#//Second"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bidirectionalToOneContainment"
+        eType="#//Second" containment="true" eOpposite="#//Second/reverseBidirectionalToOneContainment"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bidirectionalToManyContainment"
+        upperBound="-1" eType="#//Second" containment="true" eOpposite="#//Second/reverseBidirectionalToManyContainment"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bidirectionalToOneReference"
+        eType="#//Second" eOpposite="#//Second/reverseBidirectionalToOneReference"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bidirectionalOneToManyReference"
+        upperBound="-1" eType="#//Second" eOpposite="#//Second/reverseBidirectionalOneToManyReference"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bidirectionalManyToManyReference"
+        eType="#//Second" eOpposite="#//Second/reverseBidirectionalManyToManyReference"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="crossPackageReference"
+        eType="ecore:EClass test-embedded.ecore#//SampleInterface"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="derivedReference" eType="#//internal/Third"
+        derived="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Second" eSuperTypes="test-embedded.ecore#//Sample">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reverseBidirectionalToOneContainment"
+        eType="#//First" eOpposite="#//First/bidirectionalToOneContainment"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reverseBidirectionalToManyContainment"
+        eType="#//First" eOpposite="#//First/bidirectionalToManyContainment"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reverseBidirectionalToOneReference"
+        eType="#//First" eOpposite="#//First/bidirectionalToOneReference"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reverseBidirectionalOneToManyReference"
+        eType="#//First" eOpposite="#//First/bidirectionalOneToManyReference"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reverseBidirectionalManyToManyReference"
+        eType="#//First" eOpposite="#//First/bidirectionalManyToManyReference"/>
+  </eClassifiers>
+  <eSubpackages name="internal" nsURI="http://gervarro.org/democles/emf/test/internal.ecore"
+      nsPrefix="internal">
+    <eClassifiers xsi:type="ecore:EClass" name="Third" eSuperTypes="#//First">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="stringToFirstMap" upperBound="-1"
+          eType="#//internal/StringToFirstMap" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1"
+          eType="#//internal/SampleEnum"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="SampleEnum">
+      <eLiterals name="Standard"/>
+      <eLiterals name="Extended" value="1"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="StringToFirstMap" instanceClassName="java.util.Map$Entry">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//First"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

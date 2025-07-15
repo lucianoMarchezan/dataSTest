@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="gcml"
+    nsURI="http://gcml.org" nsPrefix="gc">
+  <eClassifiers xsi:type="ecore:EEnum" name="Action">
+    <eLiterals name="send"/>
+    <eLiterals name="doNotSend" value="1"/>
+    <eLiterals name="start" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Capability">
+    <eLiterals name="TextFile"/>
+    <eLiterals name="BinaryFile" value="1"/>
+    <eLiterals name="StreamFile" value="2"/>
+    <eLiterals name="NonStreamFile" value="3"/>
+    <eLiterals name="AudioFile" value="4"/>
+    <eLiterals name="VideoFile" value="5"/>
+    <eLiterals name="AVFile" value="6"/>
+    <eLiterals name="Text" value="7"/>
+    <eLiterals name="LiveStream" value="8"/>
+    <eLiterals name="LiveAudio" value="9"/>
+    <eLiterals name="LiveVideo" value="10"/>
+    <eLiterals name="LiveAV" value="11"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Connection">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="connectionID" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fromDevice" lowerBound="1"
+        upperBound="-1" eType="#//Device" eOpposite="#//Device/toConnection"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ConnectionToCall" eType="#//Call"
+        eOpposite="#//Call/CallToConnection"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bandwidth" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String" defaultValueLiteral=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Device">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isLocal" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+        unsettable="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="deviceCapability" unique="false"
+        lowerBound="1" upperBound="-1" eType="#//Capability" defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isVirtual" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+        unsettable="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="toConnection" lowerBound="1"
+        upperBound="-1" eType="#//Connection" eOpposite="#//Connection/fromDevice"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fromIsAttached" lowerBound="1"
+        upperBound="-1" eType="#//IsAttached" eOpposite="#//IsAttached/toDevice"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="deviceID" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Form">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="formTypeName" unique="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+        defaultValueLiteral="" iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="action" eType="#//Action"
+        unsettable="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mediumDataType" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="suggestedApplication" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="voiceCommand" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="toConnection" eType="#//Connection"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="toParentForm" eType="#//Form"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Gcml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connection" upperBound="-1"
+        eType="#//Connection" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="medium" upperBound="-1"
+        eType="#//Medium" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="form" upperBound="-1" eType="#//Form"
+        containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="person" upperBound="-1"
+        eType="#//Person" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="isAttached" upperBound="-1"
+        eType="#//IsAttached" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="device" upperBound="-1"
+        eType="#//Device" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="call" upperBound="-1" eType="#//Call"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="decision" upperBound="-1"
+        eType="#//Decision" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="boundary" upperBound="-1"
+        eType="#//Boundary" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IsAttached">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="toDevice" lowerBound="1"
+        eType="#//Device" resolveProxies="false" eOpposite="#//Device/fromIsAttached"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fromPerson" lowerBound="1"
+        eType="#//Person" eOpposite="#//Person/toIsAttached"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Medium">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="derivedFromBuiltInType"
+        eType="#//Capability" defaultValueLiteral="" unsettable="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mediumTypeName" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String" iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="suggestedApplication" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="voiceCommand" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="toConnection" lowerBound="1"
+        eType="#//Connection"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Person">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="personID" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String" iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="personName" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="personRole" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="toIsAttached" lowerBound="1"
+        eType="#//IsAttached" eOpposite="#//IsAttached/fromPerson"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Activity">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ActivityID" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Call" eSuperTypes="#//Activity">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="outcome" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="CallToConnection" upperBound="-1"
+        eType="#//Connection" eOpposite="#//Connection/ConnectionToCall" eKeys="#//Connection/connectionID"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="CallToDecision" eType="#//Decision"
+        eOpposite="#//Decision/DecisionToCall"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="CallToBoundary" eType="#//Boundary"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Decision" eSuperTypes="#//Activity">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sourceActivityID" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="successPathID" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="failPathID" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DecisionToCall" upperBound="2"
+        eType="#//Call" eOpposite="#//Call/CallToDecision"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DecisionToBoundary" eType="#//Boundary"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Boundary" eSuperTypes="#//Activity">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Type" lowerBound="1" eType="#//BoundaryType"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="BoundaryToCall" eType="#//Call"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="BoundaryType">
+    <eLiterals name="null" literal="null"/>
+    <eLiterals name="Start" value="1"/>
+    <eLiterals name="End" value="2"/>
+  </eClassifiers>
+</ecore:EPackage>

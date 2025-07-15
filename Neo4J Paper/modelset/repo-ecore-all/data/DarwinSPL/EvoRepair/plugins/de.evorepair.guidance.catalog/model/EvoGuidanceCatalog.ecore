@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="evoguidancecatalog" nsURI="http://darwinspl.de/evorepair/guidance/catalog/0.2"
+    nsPrefix="evoguidancecatalog">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="evologic" value="../../de.evorepair.logic/model/EvoLogic.ecore#/"/>
+    <details key="evooperation" value="../../de.evorepair.evolution.operation/model/EvoOperation.ecore#/"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EEnum" name="EvoAnomalyType">
+    <eLiterals name="NOT_SPECIFIED"/>
+    <eLiterals name="DEFECT" value="1"/>
+    <eLiterals name="BEHAVIORAL_CHANGE" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EvoGuidanceTable">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="triggeringOperations" upperBound="-1"
+        eType="ecore:EClass ../../de.evorepair.evolution.operation/model/EvoOperation.ecore#//EvoOperation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="anomalies" upperBound="-1"
+        eType="#//EvoAnomaly" containment="true" eOpposite="#//EvoAnomaly/table"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="container" lowerBound="1"
+        eType="#//EvoGuidanceContainer" eOpposite="#//EvoGuidanceContainer/tables"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EvoGuidanceContainer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tables" upperBound="-1"
+        eType="#//EvoGuidanceTable" containment="true" eOpposite="#//EvoGuidanceTable/container"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EvoAnomaly">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//EvoAnomalyType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" lowerBound="1"
+        eType="ecore:EClass ../../de.evorepair.logic/model/EvoLogic.ecore#//EvoFormula"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guidance" lowerBound="1"
+        upperBound="-1" eType="#//EvoGuidanceElement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="table" lowerBound="1" eType="#//EvoGuidanceTable"
+        eOpposite="#//EvoGuidanceTable/anomalies"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EvoMappingAnomaly" eSuperTypes="#//EvoAnomaly"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EvoConfigurationAnomaly" eSuperTypes="#//EvoAnomaly"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EvoMappingFormula" eSuperTypes="../../de.evorepair.logic/model/EvoLogic.ecore#//EvoFormula"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EvoConfigurationFormula" eSuperTypes="../../de.evorepair.logic/model/EvoLogic.ecore#//EvoFormula"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EvoGuidanceElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//EvoGuidanceType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="action" eType="ecore:EClass ../../de.evorepair.logic/model/EvoLogic.ecore#//EvoFormula"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="EvoGuidanceType">
+    <eLiterals name="AUTOMATIC_DEFAULT"/>
+    <eLiterals name="INTERACTIVE_DEFAULT" value="1"/>
+    <eLiterals name="WARNING" value="2" literal="WARNING"/>
+  </eClassifiers>
+</ecore:EPackage>

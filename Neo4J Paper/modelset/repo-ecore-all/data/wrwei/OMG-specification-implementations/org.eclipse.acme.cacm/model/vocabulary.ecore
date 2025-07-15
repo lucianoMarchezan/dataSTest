@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="vocabulary" nsURI="http://cacm.vocabulary/1.0" nsPrefix="vocabulary_">
+  <eClassifiers xsi:type="ecore:EClass" name="VocabularyElement" abstract="true" eSuperTypes="general.ecore#//DescribableElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Concept" eSuperTypes="#//VocabularyElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="isOf" eType="#//ConceptType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//ConceptRelation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConceptType" eSuperTypes="#//VocabularyElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="structures" lowerBound="1"
+        upperBound="-1" eType="#//Vocabulary"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConceptRelation" eSuperTypes="#//VocabularyElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SemanticRelation" eSuperTypes="#//ConceptRelation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="structures" lowerBound="1"
+        upperBound="-1" eType="#//Vocabulary"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Hyponymy" eSuperTypes="#//SemanticRelation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Hypernymy" eSuperTypes="#//SemanticRelation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Meronymy" eSuperTypes="#//SemanticRelation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Holonymy" eSuperTypes="#//SemanticRelation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Term" eSuperTypes="#//VocabularyElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="alternativeLabel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preferredLabel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unsedIn" lowerBound="1"
+        upperBound="-1" eType="#//Definition"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UndefinedTerm" eSuperTypes="#//Term"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DefeinedTerm" eSuperTypes="#//Term">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedAs" eType="#//Lemma"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Lemma" eSuperTypes="#//VocabularyElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Definition" eSuperTypes="#//VocabularyElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="VocabularyEntry" eSuperTypes="#//VocabularyElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lemma" lowerBound="1" eType="#//Lemma"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definition" lowerBound="1"
+        eType="#//Definition" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Vocabulary" eSuperTypes="#//VocabularyElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" lowerBound="1"
+        upperBound="-1" eType="#//VocabularyEntry" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

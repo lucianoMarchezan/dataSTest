@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="smartadapters4MODERATES"
+    nsURI="http://SmartAdapters4MODERATES" nsPrefix="smartadapters4MODERATES">
+  <eClassifiers xsi:type="ecore:EClass" name="Aspect">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pointcut" eType="#//PointcutModel"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="advice" lowerBound="1"
+        eType="#//AdviceModel" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="strategies" upperBound="-1"
+        eType="#//InstantiationStrategy" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="adapt" upperBound="-1"
+        eType="#//Adaptation" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Adaptation" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CloneAdaptation" abstract="true" eSuperTypes="#//Adaptation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CreateAdaptation" abstract="true" eSuperTypes="#//Adaptation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SetAdaptation" abstract="true" eSuperTypes="#//Adaptation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UnsetAdaptation" abstract="true" eSuperTypes="#//Adaptation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AdviceModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="content" upperBound="-1"
+        eType="ecore:EClass edapAOM.ecore#//AspectModelElement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PointcutModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="content" upperBound="-1"
+        eType="ecore:EClass edapAOM.ecore#//AspectModelElement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InstantiationStrategy" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="adviceElements" upperBound="-1"
+        eType="ecore:EClass edapAOM.ecore#//AspectModelElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GlobalInstantiation" eSuperTypes="#//InstantiationStrategy"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ScopedInstantiation" abstract="true"
+      eSuperTypes="#//InstantiationStrategy">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pointcutElements" upperBound="-1"
+        eType="ecore:EClass edapAOM.ecore#//AspectModelElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PerRoleMatch" eSuperTypes="#//ScopedInstantiation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PerElementMatch" eSuperTypes="#//ScopedInstantiation"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="String" instanceClassName="java.lang.String"/>
+  <eSubpackages name="adaptations" nsURI="http://SmartAdapters4ART/smartadapters/core/adaptations"
+      nsPrefix="adaptations">
+    <eClassifiers xsi:type="ecore:EClass" name="SetCompositeState" eSuperTypes="#//SetAdaptation">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="CompositeStateToSet"
+          lowerBound="1" eType="ecore:EClass edapAOM.ecore#//CompositeState"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="substate" upperBound="-1"
+          eType="ecore:EClass edapAOM.ecore#//State"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="initial" eType="ecore:EClass edapAOM.ecore#//State"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="UnsetCompositeState" eSuperTypes="#//UnsetAdaptation">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="CompositeStateToUnset"
+          lowerBound="1" eType="ecore:EClass edapAOM.ecore#//CompositeState"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="substate" upperBound="-1"
+          eType="ecore:EClass edapAOM.ecore#//State"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="initial" eType="ecore:EClass edapAOM.ecore#//State"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SetState" eSuperTypes="#//SetAdaptation">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="StateToSet" lowerBound="1"
+          eType="ecore:EClass edapAOM.ecore#//State"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outgoing" upperBound="-1"
+          eType="ecore:EClass edapAOM.ecore#//Transition"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" upperBound="-1"
+          eType="ecore:EClass edapAOM.ecore#//Transition"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="entry" eType="ecore:EClass edapAOM.ecore#//Action"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="exit" eType="ecore:EClass edapAOM.ecore#//Action"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
+          eType="ecore:EClass edapAOM.ecore#//Property"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="UnsetState" eSuperTypes="#//UnsetAdaptation">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="StateToUnset" lowerBound="1"
+          eType="ecore:EClass edapAOM.ecore#//State"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outgoing" upperBound="-1"
+          eType="ecore:EClass edapAOM.ecore#//Transition"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" upperBound="-1"
+          eType="ecore:EClass edapAOM.ecore#//Transition"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="entry" eType="ecore:EClass edapAOM.ecore#//Action"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="exit" eType="ecore:EClass edapAOM.ecore#//Action"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
+          eType="ecore:EClass edapAOM.ecore#//Property"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SetTransition" eSuperTypes="#//SetAdaptation">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="TransitionToSet" lowerBound="1"
+          eType="ecore:EClass edapAOM.ecore#//Transition"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="event" upperBound="-1"
+          eType="ecore:EClass edapAOM.ecore#//Event"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="guard" eType="ecore:EClass edapAOM.ecore#//Expression"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="action" eType="ecore:EClass edapAOM.ecore#//Action"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="ecore:EClass edapAOM.ecore#//State"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="ecore:EClass edapAOM.ecore#//State"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="UnsetTransition" eSuperTypes="#//UnsetAdaptation">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="TransitionToUnset" lowerBound="1"
+          eType="ecore:EClass edapAOM.ecore#//Transition"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="event" upperBound="-1"
+          eType="ecore:EClass edapAOM.ecore#//Event"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="guard" eType="ecore:EClass edapAOM.ecore#//Expression"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="action" eType="ecore:EClass edapAOM.ecore#//Action"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="ecore:EClass edapAOM.ecore#//State"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="ecore:EClass edapAOM.ecore#//State"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SetAnnotatedElement" eSuperTypes="#//SetAdaptation">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="AnnotatedElementToSet"
+          lowerBound="1" eType="ecore:EClass edapAOM.ecore#//AnnotatedElement"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1"
+          eType="ecore:EClass edapAOM.ecore#//PlatformAnnotation"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SetActionBlock" eSuperTypes="#//SetAdaptation">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="blockToSet" lowerBound="1"
+          eType="ecore:EClass edapAOM.ecore#//ActionBlock"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1"
+          eType="ecore:EClass edapAOM.ecore#//Action"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

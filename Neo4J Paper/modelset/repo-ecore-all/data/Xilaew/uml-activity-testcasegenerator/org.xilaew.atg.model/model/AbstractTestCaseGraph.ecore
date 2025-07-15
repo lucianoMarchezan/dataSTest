@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="abstractTestCaseGraph" nsURI="http://org.xilaew.atg.model.abstractTestCaseGraph"
+    nsPrefix="org.xilaew.atg.model.abstractTestCaseGraph">
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractTCGElement" eSuperTypes="http://www.eclipse.org/emf/2002/Ecore#//EModelElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Just a Superclass to have one common superclass for all Elements of a TestCaseGraph. "/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractTCGContainer" eSuperTypes="#//AbstractTCGElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A Containter holding the Graph. in Statemachines it is a Region and for Activitys the Activity itself is the Container."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
+        eType="#//AbstractTCGNode" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="edges" upperBound="-1"
+        eType="#//AbstractTCGEdge" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initialNode" lowerBound="1"
+        eType="#//AbstractTCGNode"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractTCGNode" eSuperTypes="#//AbstractTCGElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A node in a Graph. For statemachines this might represent the States, for Activitys it could represent Actions"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoing" upperBound="-1"
+        eType="#//AbstractTCGEdge" eOpposite="#//AbstractTCGEdge/source"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" upperBound="-1"
+        eType="#//AbstractTCGEdge" eOpposite="#//AbstractTCGEdge/target"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractTCGEdge" eSuperTypes="#//AbstractTCGElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="An Edge in a Graph. For Activitys this will be Controll Flows or Data Flows. In Statemachines this will be a Transition"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//AbstractTCGNode" eOpposite="#//AbstractTCGNode/outgoing"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//AbstractTCGNode" eOpposite="#//AbstractTCGNode/incoming"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guard" eType="#//AbstractTCGConstraint"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractTCGRealNode" eSuperTypes="#//AbstractTCGNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractTCGPseudoNode" eSuperTypes="#//AbstractTCGNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractTCGConstraint" eSuperTypes="#//AbstractTCGElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Abstract class to represent classes. Since the Constraint solving Algorithms for Activitys and Statemachines differ it seems to be a good idea to habe separate representations of OCL Constraints in both Metamodels."/>
+    </eAnnotations>
+  </eClassifiers>
+</ecore:EPackage>

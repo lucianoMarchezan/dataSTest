@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="arduino" nsURI="http://www.example.org/arduino" nsPrefix="arduino">
+  <eClassifiers xsi:type="ecore:EClass" name="Sketch">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Nombre" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sensores" upperBound="-1"
+        eType="#//Sensores" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actuadores" upperBound="-1"
+        eType="#//Actuadores" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="instrucciones" upperBound="-1"
+        eType="#//Instrucciones" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bloques" upperBound="-1"
+        eType="#//Bloques" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Actuadores" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actuadorinstruccion" eType="#//Instrucciones"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Sensores" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pin" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="act" upperBound="-1" eType="#//Actuadores"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="med" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Led" eSuperTypes="#//Actuadores"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LDR" eSuperTypes="#//Sensores"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Instrucciones" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Apagar" eSuperTypes="#//Instrucciones">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="esperar1" eType="#//Esperar"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Variar" eSuperTypes="#//Instrucciones">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pwm" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="datos" eType="#//Sensores"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Esperar" eSuperTypes="#//Instrucciones">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="miliseg" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="apagar" eType="#//Apagar"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="encender" eType="#//Encender"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Encender" eSuperTypes="#//Instrucciones">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="esperar" eType="#//Esperar"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Bloques" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bloq" upperBound="-1" eType="#//Bloques"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bactuadores" upperBound="-1"
+        eType="#//Actuadores" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="binstrucciones" upperBound="-1"
+        eType="#//Instrucciones" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bsensores" eType="#//Sensores"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bloacts" eType="#//Actuadores"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="If" eSuperTypes="#//Bloques">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operando" eType="#//operandos"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="referencia" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="valor" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="operandos">
+    <eLiterals name="menor"/>
+    <eLiterals name="mayor" value="1"/>
+    <eLiterals name="menorigual" value="2"/>
+    <eLiterals name="mayorigual" value="3"/>
+    <eLiterals name="igual" value="4"/>
+    <eLiterals name="diferente" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="While" eSuperTypes="#//Bloques">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operando" eType="#//operandos"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="referencia" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="valor" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Temperatura" eSuperTypes="#//Sensores">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="temperatura" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Float"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Potenciometro" eSuperTypes="#//Sensores"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Boton" eSuperTypes="#//Sensores"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PIR" eSuperTypes="#//Sensores"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Buzzer" eSuperTypes="#//Actuadores"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Servo" eSuperTypes="#//Actuadores">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="angulo" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="libreria" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+        changeable="false" defaultValueLiteral="Servo.h"/>
+  </eClassifiers>
+</ecore:EPackage>

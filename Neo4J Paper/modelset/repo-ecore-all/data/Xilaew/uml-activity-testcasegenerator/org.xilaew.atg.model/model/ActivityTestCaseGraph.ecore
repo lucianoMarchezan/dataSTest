@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="activityTestCaseGraph" nsURI="http://org.xilaew.atg.model.activityTestCaseGraph"
+    nsPrefix="org.xilaew.atg.model.activityTestCaseGraph">
+  <eClassifiers xsi:type="ecore:EClass" name="TCGActivity" eSuperTypes="AbstractTestCaseGraph.ecore#//AbstractTCGContainer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variables" upperBound="-1"
+        eType="#//TCGVariable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="className" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="packageName" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TCGAction" eSuperTypes="AbstractTestCaseGraph.ecore#//AbstractTCGRealNode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="localPostconditions" upperBound="-1"
+        eType="ecore:EClass AbstractTestCaseGraph.ecore#//AbstractTCGConstraint" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TCGControlFlow" eSuperTypes="AbstractTestCaseGraph.ecore#//AbstractTCGEdge"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TCGControlNode" eSuperTypes="AbstractTestCaseGraph.ecore#//AbstractTCGPseudoNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TCGVariable" eSuperTypes="AbstractTestCaseGraph.ecore#//AbstractTCGElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A general Class representing Properties, References or local Variables inside the Activity and Structured Activity Nodes."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedBy" upperBound="-1"
+        eType="#//TCGOCLVariableCallExp" eOpposite="#//TCGOCLVariableCallExp/variable"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isParameter" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="usage" eType="#//TCGVariableUsage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TCGObjectVariable" eSuperTypes="#//TCGVariable">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="is used to represent complex variables like sets or instances of other objects."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fields" lowerBound="1"
+        upperBound="-1" eType="#//TCGVariable"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TCGBasicVariable" eSuperTypes="#//TCGVariable">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="represents either int,boolean or float variables"/>
+    </eAnnotations>
+    <eOperations name="getAbsoluteName"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="variableType" lowerBound="1"
+        eType="#//TCGBasicVariableType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TCGBasicVariableType">
+    <eLiterals name="Integer"/>
+    <eLiterals name="Real" value="1"/>
+    <eLiterals name="Boolean" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TCGOCLExpression" eSuperTypes="AbstractTestCaseGraph.ecore#//AbstractTCGConstraint">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Superclass for all nodes in an Abstract Syntax Tree for OCL Expressions."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TCGOCLOperationCallExp" eSuperTypes="#//TCGOCLExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//TCGOCLExpression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="arguments" upperBound="-1"
+        eType="#//TCGOCLExpression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operation" lowerBound="1"
+        eType="#//TCGOCLOperationType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TCGOCLVariableCallExp" eSuperTypes="#//TCGOCLExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
+        eType="#//TCGVariable" eOpposite="#//TCGVariable/referencedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isPre" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TCGOCLOperationType">
+    <eLiterals name="multiplication" literal="*"/>
+    <eLiterals name="addition" value="2" literal="+"/>
+    <eLiterals name="division" value="1" literal="/"/>
+    <eLiterals name="subtraction" value="3" literal="-"/>
+    <eLiterals name="size" value="4"/>
+    <eLiterals name="equals" value="5" literal="="/>
+    <eLiterals name="unequal" value="14" literal="&lt;>"/>
+    <eLiterals name="greaterThan" value="6" literal=">"/>
+    <eLiterals name="lessThan" value="7" literal="&lt;"/>
+    <eLiterals name="greaterEquals" value="8" literal=">="/>
+    <eLiterals name="lessEquals" value="9" literal="&lt;="/>
+    <eLiterals name="and" value="10"/>
+    <eLiterals name="or" value="11"/>
+    <eLiterals name="not" value="12"/>
+    <eLiterals name="xor" value="13"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TCGOCLLiteralExp" eSuperTypes="#//TCGOCLExpression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//TCGBasicVariableType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="the value of the literal is stored as a float. Depending on the type it has either to be interpreted:&#xD;&#xA;as boolean 0=false, 1=true, everything else = undefined;&#xD;&#xA;as integer only the integral part of value is evaluatet e.g. 4.989=>4; 2.000=>2 (those are the normal typecasting rules)&#xD;&#xA;as float you can guess that one."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TCGVariableUsage">
+    <eLiterals name="inParameter"/>
+    <eLiterals name="outParameter" value="1"/>
+    <eLiterals name="inoutParameter" value="2"/>
+    <eLiterals name="returnParameter" value="3"/>
+    <eLiterals name="field" value="5"/>
+    <eLiterals name="localVariable" value="4"/>
+  </eClassifiers>
+</ecore:EPackage>

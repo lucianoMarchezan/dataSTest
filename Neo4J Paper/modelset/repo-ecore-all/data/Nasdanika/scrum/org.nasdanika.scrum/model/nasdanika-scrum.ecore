@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="scrum" nsURI="urn:org.nasdanika.scrum" nsPrefix="org.nasdanika.scrum">
+  <eClassifiers xsi:type="ecore:EClass" name="ModelElement" abstract="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Base class for other model elements."/>
+    </eAnnotations>
+    <eOperations name="validate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Validates element."/>
+      </eAnnotations>
+      <eParameters name="diagnostics" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="Diagnostics to add validation messages to."/>
+        </eAnnotations>
+      </eParameters>
+      <eParameters name="context">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="Validation context."/>
+        </eAnnotations>
+        <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+          <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+          <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        </eGenericType>
+      </eParameters>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Description in markdown."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="notes" upperBound="-1"
+        eType="#//Note" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Note">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScrumRealm" eSuperTypes="../../org.nasdanika.cdo.security/model/security.ecore#//LoginPasswordRealm #//ModelElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="The root object of the scrum model."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parties" upperBound="-1"
+        eType="#//Party" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Party" abstract="true" eSuperTypes="#//ModelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="references" upperBound="-1"
+        eType="#//PartyReference" eOpposite="#//PartyReference/party"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="customerOf" upperBound="-1"
+        eType="#//Customer" eOpposite="#//Customer/parties"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interactions" upperBound="-1"
+        eType="#//Interaction" eOpposite="#//Interaction/participant"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PartyCategory" eSuperTypes="#//Party">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//Party" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Organization" eSuperTypes="#//Party">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="members" upperBound="-1"
+        eType="#//Member" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Project" eSuperTypes="#//Party">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="members" upperBound="-1"
+        eType="#//Member" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Person" eSuperTypes="#//Party"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Member" eSuperTypes="#//ModelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parties" upperBound="-1"
+        eType="#//Party" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignments" upperBound="-1"
+        eType="#//Functionality" eOpposite="#//Functionality/assignedTo"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PartyReference" eSuperTypes="#//Party">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="party" eType="#//Party"
+        eOpposite="#//Party/references"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScrumTeam" eSuperTypes="#//Organization">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="developmentteams" upperBound="-1"
+        eType="#//DevelopmentTeam" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="productOwner" eType="#//Person"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scrumMaster" eType="#//Person"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="products" upperBound="-1"
+        eType="#//AbstractProduct" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="teamInteractions" upperBound="-1"
+        eType="#//Interaction" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="releases" upperBound="-1"
+        eType="#//Release" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="customers" upperBound="-1"
+        eType="#//Customer" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DevelopmentTeam" eSuperTypes="#//ModelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="members" upperBound="-1"
+        eType="#//Member" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="products" upperBound="-1"
+        eType="#//AbstractProduct" eOpposite="#//AbstractProduct/developmentTeam"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractProduct" abstract="true" eSuperTypes="#//ModelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="developmentTeam" eType="#//DevelopmentTeam"
+        eOpposite="#//DevelopmentTeam/products"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Product" eSuperTypes="#//AbstractProduct">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="customers" upperBound="-1"
+        eType="#//Customer" eOpposite="#//Customer/usesProducts"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requests" upperBound="-1"
+        eType="#//Request" eOpposite="#//Request/relatedProducts"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="capabilities" upperBound="-1"
+        eType="#//Epic" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="themes" upperBound="-1"
+        eType="#//Theme" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="productUsers" upperBound="-1"
+        eType="#//ProductUser" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetGroups" upperBound="-1"
+        eType="#//TargetGroup" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
+        eType="#//Component" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interactions" upperBound="-1"
+        eType="#//Interaction" eOpposite="#//Interaction/products"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer" eSuperTypes="#//ModelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parties" upperBound="-1"
+        eType="#//Party" eOpposite="#//Party/customerOf"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requests" upperBound="-1"
+        eType="#//Request" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fundings" upperBound="-1"
+        eType="#//Funding" eOpposite="#//Funding/customers"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usesProducts" upperBound="-1"
+        eType="#//Product" eOpposite="#//Product/customers"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usesFunctionality" upperBound="-1"
+        eType="#//Functionality" eOpposite="#//Functionality/customers"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interactions" upperBound="-1"
+        eType="#//Interaction" eOpposite="#//Interaction/customers"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Request" eSuperTypes="#//ModelElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//Request" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fulfilledBy" upperBound="-1"
+        eType="#//Functionality" eOpposite="#//Functionality/fulfills"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedProducts" upperBound="-1"
+        eType="#//Product" eOpposite="#//Product/requests"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interactions" upperBound="-1"
+        eType="#//Interaction" eOpposite="#//Interaction/requests"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Component" eSuperTypes="#//ModelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owners" upperBound="-1"
+        eType="#//Party"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TargetGroup" eSuperTypes="#//ModelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="needs" upperBound="-1"
+        eType="#//Need" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Need" eSuperTypes="#//ModelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="satisfiedBy" upperBound="-1"
+        eType="#//Functionality" eOpposite="#//Functionality/satisfies"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProductCategory" eSuperTypes="#//AbstractProduct">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="products" upperBound="-1"
+        eType="#//AbstractProduct" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Theme" eSuperTypes="#//ModelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="functionality" upperBound="-1"
+        eType="#//Functionality" eOpposite="#//Functionality/themes"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProductUser" eSuperTypes="#//ModelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="functionality" upperBound="-1"
+        eType="#//Functionality" eOpposite="#//Functionality/users"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="FunctionalityState">
+    <eLiterals name="New"/>
+    <eLiterals name="WorkInProgress" value="1" literal="Work In Progress"/>
+    <eLiterals name="OnHold" value="2" literal="On Hold"/>
+    <eLiterals name="Done" value="3"/>
+    <eLiterals name="Cancelled" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Functionality" abstract="true" eSuperTypes="#//ModelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="users" upperBound="-1"
+        eType="#//ProductUser" eOpposite="#//ProductUser/functionality"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="themes" upperBound="-1"
+        eType="#//Theme" eOpposite="#//Theme/functionality"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="customers" upperBound="-1"
+        eType="#//Customer" eOpposite="#//Customer/usesFunctionality"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fundings" upperBound="-1"
+        eType="#//Funding" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="satisfies" upperBound="-1"
+        eType="#//Need" eOpposite="#//Need/satisfiedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fulfills" upperBound="-1"
+        eType="#//Request" eOpposite="#//Request/fulfilledBy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dependencies" upperBound="-1"
+        eType="#//Functionality" eOpposite="#//Functionality/dependants"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dependants" upperBound="-1"
+        eType="#//Functionality" eOpposite="#//Functionality/dependencies"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interactions" upperBound="-1"
+        eType="#//Interaction" eOpposite="#//Interaction/functionality"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedTo" upperBound="-1"
+        eType="#//Member" eOpposite="#//Member/assignments"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Epic" eSuperTypes="#//Functionality">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//Epic" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="features" upperBound="-1"
+        eType="#//Feature" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Feature" eSuperTypes="#//Functionality">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="userStories" upperBound="-1"
+        eType="#//UserStory" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="plannedFor" upperBound="-1"
+        eType="#//Release" eOpposite="#//Release/features"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UserStory" eSuperTypes="#//Functionality">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tasks" upperBound="-1"
+        eType="#//Task" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="plannedFor" upperBound="-1"
+        eType="#//Sprint" eOpposite="#//Sprint/stories"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Task" eSuperTypes="#//ModelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
+        eType="#//Component"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Release" eSuperTypes="#//ModelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sprints" upperBound="-1"
+        eType="#//Sprint" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="artifacts" upperBound="-1"
+        eType="#//Artifact" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="features" upperBound="-1"
+        eType="#//Feature" eOpposite="#//Feature/plannedFor"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Sprint" eSuperTypes="#//ModelElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="start" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="end" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stories" upperBound="-1"
+        eType="#//UserStory" eOpposite="#//UserStory/plannedFor"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Artifact" eSuperTypes="#//ModelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owner" upperBound="-1"
+        eType="#//Party"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Interaction" eSuperTypes="#//ModelElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="customers" upperBound="-1"
+        eType="#//Customer" eOpposite="#//Customer/interactions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requests" upperBound="-1"
+        eType="#//Request" eOpposite="#//Request/interactions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="products" upperBound="-1"
+        eType="#//Product" eOpposite="#//Product/interactions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="functionality" upperBound="-1"
+        eType="#//Functionality" eOpposite="#//Functionality/interactions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participant" upperBound="-1"
+        eType="#//Party" eOpposite="#//Party/interactions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//Interaction" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Funding">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="customers" upperBound="-1"
+        eType="#//Customer" eOpposite="#//Customer/fundings"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="query" nsURI="http://mdse.org/minisql/query" nsPrefix="minisqlquery">
+  <eClassifiers xsi:type="ecore:EClass" name="SelectQuery">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="whatClause" lowerBound="1"
+        eType="#//WhatClause" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fromClause" lowerBound="1"
+        eType="#//FromClause" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="whereClause" eType="#//WhereClause"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orderByClause" eType="#//OrderByClause"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FromClause">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tableReference" lowerBound="1"
+        eType="#//TableReference" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WhatClause">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="whatDirectives" lowerBound="1"
+        upperBound="-1" eType="#//WhatDirective" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WhatDirective" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AllColumnsWhatDirective" eSuperTypes="#//WhatDirective"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SingleColumnWhatDirective" eSuperTypes="#//WhatDirective">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="columnReference" eType="#//ColumnReference"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WhereClause">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" lowerBound="1"
+        eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OrderByClause">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orderDirectives" lowerBound="1"
+        upperBound="-1" eType="#//OrderDirective" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OrderDirective">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="columnReference" eType="#//ColumnReference"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ascending" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Binary" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression1" lowerBound="1"
+        eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression2" lowerBound="1"
+        eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Unary" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" lowerBound="1"
+        eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Expression" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LogicalExpression" abstract="true" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1"
+        eType="#//LogicalOperator"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BinaryLogicalExpression" eSuperTypes="#//Binary #//LogicalExpression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UnaryLogicalExpression" eSuperTypes="#//Unary #//LogicalExpression"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="LogicalOperator">
+    <eLiterals name="OR"/>
+    <eLiterals name="AND" value="1"/>
+    <eLiterals name="NOT" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComparativeExpression" eSuperTypes="#//Binary #//Expression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1"
+        eType="#//ComparativeOperator"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ComparativeOperator">
+    <eLiterals name="LESS_THAN"/>
+    <eLiterals name="LESS_THAN_OR_EQUAL" value="1"/>
+    <eLiterals name="EQUAL" value="2"/>
+    <eLiterals name="NOT_EQUAL" value="3"/>
+    <eLiterals name="GREATER_THAN" value="4"/>
+    <eLiterals name="GREATER_THAN_OR_EQUAL" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ArithmeticExpression" eSuperTypes="#//Binary #//Expression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1"
+        eType="#//ArithmeticOperator"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ArithmeticOperator">
+    <eLiterals name="ADD"/>
+    <eLiterals name="SUBTRACT" value="1"/>
+    <eLiterals name="MULTIPLY" value="2"/>
+    <eLiterals name="DIVIDE" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TableReference">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="table" lowerBound="1" eType="ecore:EClass ../../org.mdse.minisql.schema/model/MiniSQLSchema.ecore#//Table"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ColumnReference" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="column" lowerBound="1"
+        eType="ecore:EClass ../../org.mdse.minisql.schema/model/MiniSQLSchema.ecore#//Column"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Literal" abstract="true" eSuperTypes="#//Expression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StringLiteral" eSuperTypes="#//Literal">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntegerLiteral" eSuperTypes="#//Literal">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanLiteral" eSuperTypes="#//Literal">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+</ecore:EPackage>

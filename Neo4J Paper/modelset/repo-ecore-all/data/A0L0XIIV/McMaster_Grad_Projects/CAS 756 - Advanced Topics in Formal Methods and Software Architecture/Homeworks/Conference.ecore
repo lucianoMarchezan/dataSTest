@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ConferenceMetamodel" nsURI="ConferenceMetamodel" nsPrefix="">
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TimedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Conference" eSuperTypes="#//NamedElement #//TimedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="timeslots" lowerBound="1"
+        upperBound="-1" eType="#//TimeSlot" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rooms" lowerBound="1" upperBound="-1"
+        eType="#//Room" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="speakers" lowerBound="1"
+        upperBound="-1" eType="#//Participant" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TimeSlot" eSuperTypes="#//TimedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="breaks" upperBound="-1"
+        eType="#//Break" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tracks" lowerBound="1"
+        upperBound="-1" eType="#//Track" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Room">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="break" upperBound="-1"
+        eType="#//Break" eOpposite="#//Break/breakRoom"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="track" upperBound="-1"
+        eType="#//Track" eOpposite="#//Track/trackRoom"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Break">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="breakRoom" lowerBound="1"
+        eType="#//Room" eOpposite="#//Room/break"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Track" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="talks" lowerBound="1" upperBound="-1"
+        eType="#//Talk" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trackRoom" lowerBound="1"
+        eType="#//Room" eOpposite="#//Room/track"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Talk" eSuperTypes="#//NamedElement #//TimedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="presenters" lowerBound="1"
+        upperBound="-1" eType="#//Participant"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Participant" eSuperTypes="#//NamedElement"/>
+</ecore:EPackage>

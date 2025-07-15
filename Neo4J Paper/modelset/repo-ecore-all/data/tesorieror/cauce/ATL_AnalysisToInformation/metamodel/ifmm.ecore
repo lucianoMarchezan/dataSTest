@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ifmm"
+    nsURI="ifmm" nsPrefix="ifmm">
+  <eClassifiers xsi:type="ecore:EClass" name="SystemInformaitonFlow">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entities" upperBound="-1"
+        eType="#//ContextAwareEntity" containment="true" eOpposite="#//ContextAwareEntity/system"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="ifmm-default"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="informationFlows" upperBound="-1"
+        eType="#//InformationFlow" containment="true" eOpposite="#//InformationFlow/system"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="edges" upperBound="-1"
+        eType="#//Edge" containment="true" eOpposite="#//Edge/system"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ContextAwareEntity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" lowerBound="1"
+        eType="#//SystemInformaitonFlow" derived="true" eOpposite="#//SystemInformaitonFlow/entities"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ongoingInformationFlows"
+        upperBound="-1" eType="#//EntityToInformationFlowEdge" eOpposite="#//EntityToInformationFlowEdge/source"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incomingInformationFlows"
+        upperBound="-1" eType="#//InformationFlowToEntityEdge" eOpposite="#//InformationFlowToEntityEdge/target"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InformationFlow" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" lowerBound="1"
+        eType="#//SystemInformaitonFlow" eOpposite="#//SystemInformaitonFlow/informationFlows"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PointToPointInformationFlow" eSuperTypes="#//InformationFlow">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputData" upperBound="-1"
+        eType="#//OutputData" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//EntityToPointToPointInformationFlowEdge" eOpposite="#//EntityToPointToPointInformationFlowEdge/target"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//PointToPointInformationFlowToEntityEdge" eOpposite="#//PointToPointInformationFlowToEntityEdge/source"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputData" upperBound="-1"
+        eType="#//InputData" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BroadcastInformationFlow" eSuperTypes="#//InformationFlow">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="data" upperBound="-1" eType="#//OutputData"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//EntityToBroadcastInformationFlowEdge" eOpposite="#//EntityToBroadcastInformationFlowEdge/target"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//BroadcastInformationFlowToEntityEdge" eOpposite="#//BroadcastInformationFlowToEntityEdge/source"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Data" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="definition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OutputData" eSuperTypes="#//Data"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InputData" eSuperTypes="#//Data"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Edge" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="system" lowerBound="1"
+        eType="#//SystemInformaitonFlow" eOpposite="#//SystemInformaitonFlow/edges"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InformationFlowToEntityEdge" abstract="true"
+      eSuperTypes="#//Edge">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//ContextAwareEntity" eOpposite="#//ContextAwareEntity/incomingInformationFlows"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EntityToInformationFlowEdge" abstract="true"
+      eSuperTypes="#//Edge">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//ContextAwareEntity" eOpposite="#//ContextAwareEntity/ongoingInformationFlows"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EntityToBroadcastInformationFlowEdge"
+      eSuperTypes="#//EntityToInformationFlowEdge">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//BroadcastInformationFlow" eOpposite="#//BroadcastInformationFlow/source"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EntityToPointToPointInformationFlowEdge"
+      eSuperTypes="#//EntityToInformationFlowEdge">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//PointToPointInformationFlow" eOpposite="#//PointToPointInformationFlow/source"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BroadcastInformationFlowToEntityEdge"
+      eSuperTypes="#//InformationFlowToEntityEdge">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//BroadcastInformationFlow" eOpposite="#//BroadcastInformationFlow/target"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PointToPointInformationFlowToEntityEdge"
+      eSuperTypes="#//InformationFlowToEntityEdge">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//PointToPointInformationFlow" eOpposite="#//PointToPointInformationFlow/target"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model" nsURI="http://modelisoft.com/model" nsPrefix="">
+  <eSubpackages name="common" nsURI="http://modelisoft.com/common" nsPrefix="agr">
+    <eClassifiers xsi:type="ecore:EClass" name="NamedElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Project" abstract="true" eSuperTypes="#//common/NamedElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="properties" lowerBound="1"
+          eType="#//common/ProjectProperties" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ProjectProperties" eSuperTypes="#//common/NamedElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="vendor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ExecutableProject" eSuperTypes="#//common/Project">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="executionEnvironment"
+          upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Workspace" eSuperTypes="#//common/NamedElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="plugins" upperBound="-1"
+          eType="#//common/ExecutableProject" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="features" upperBound="-1"
+          eType="#//feature/Feature" containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="plugin" nsURI="http://modelisoft.com/plugin" nsPrefix="agr">
+    <eClassifiers xsi:type="ecore:EClass" name="Plugin" eSuperTypes="#//common/ExecutableProject"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Fragment" eSuperTypes="#//common/ExecutableProject"/>
+  </eSubpackages>
+  <eSubpackages name="feature" nsURI="http://modelisoft.com/feature" nsPrefix="agr">
+    <eClassifiers xsi:type="ecore:EClass" name="Feature" eSuperTypes="#//common/Project">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="content" lowerBound="1"
+          eType="#//feature/FeatureContent" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="dependencies" eType="#//feature/FeatureDependencies"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FeatureContent">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="plugins" upperBound="-1"
+          eType="#//common/ExecutableProject"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="includedFeatures" upperBound="-1"
+          eType="#//feature/Feature"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FeatureDependencies"/>
+  </eSubpackages>
+</ecore:EPackage>

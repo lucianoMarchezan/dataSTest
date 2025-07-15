@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="simulation" nsURI="http://simulation.repository.lsem.de/meta/1.0"
+    nsPrefix="sim">
+  <eAnnotations source="Service"/>
+  <eAnnotations source="Label"/>
+  <eAnnotations source="Conditional"/>
+  <eAnnotations source="SourceSink"/>
+  <eAnnotations source="Good"/>
+  <eAnnotations source="Activity"/>
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Activity" eSuperTypes="#//SimulationElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="restrictRelations conditionOrProbability probabilityCheck"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="restrictRelations" value="relations->size() = relations->selectByType(ConditionalRelation)->size()"/>
+      <details key="conditionOrProbability" value="relations->selectByType(ConditionalRelation).condition.oclIsUndefined()->size() = relations->selectByType(ConditionalRelation)->size()"/>
+      <details key="probabilityCheck" value="let prob : Collection(Real) = relations->selectByType(ConditionalRelation).probability in (prob->notEmpty() implies prob->sum() > 0.9999 and prob->sum() &lt;= 1.0) xor prob->min() = -1.0"/>
+      <details key="probabilityCheck$message" value="'The sum of outgoing probalities is:' + relations->selectByType(ConditionalRelation).probability->sum().toString() + '. Check propabilities to ensure sum is 1.0.'"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="timePeriod" eType="#//Time"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="capacity" eType="#//Capacity"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subActivities" upperBound="-1"
+        eType="#//Activity"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="serviceType" eType="#//ServiceType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Time" eSuperTypes="#//SimulationParameter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unit" eType="#//UnitOfTime"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="period" eType="#//Distribution"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Capacity" eSuperTypes="#//SimulationParameter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxCapacity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="queueStrategy" eType="#//QueuingStrategy"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Simulation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//Activity" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="start" lowerBound="1" upperBound="-1"
+        eType="#//Source" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="end" lowerBound="1" upperBound="-1"
+        eType="#//Sink" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Good" eSuperTypes="#//SimulationParameter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConditionalRelation" eSuperTypes="#//Relation">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="propertyChoice probabilityRange"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="propertyChoice" value="hasCondition and probability = -1.0 xor probability > 0.0"/>
+      <details key="probabilityRange" value="if hasCondition then probability = -1 else probability >= 0 and probability &lt;= 1 endif"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="condition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="probability" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble" defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hasCondition" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        volatile="true" transient="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="derivation" value="not condition.oclIsUndefined()"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Source" eSuperTypes="#//SimulationElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="firstElement"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="firstElement" value="self.oclContainer().oclAsType(Simulation).elements.relations.target->includes(self) = false"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="newEntities" eType="#//Time"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="firstEntity" eType="#//Time"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processedObject" lowerBound="1"
+        eType="#//Good"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxNewEntities" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Sink" eSuperTypes="#//SimulationElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="lastElement"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="lastElement" value="self.relations->isEmpty()"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Distribution" abstract="true" eSuperTypes="#//SimulationParameter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Constant" eSuperTypes="#//Distribution">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="UnitOfTime">
+    <eLiterals name="HOUR"/>
+    <eLiterals name="MINUTE" value="1"/>
+    <eLiterals name="SECOND" value="2"/>
+    <eLiterals name="DAY" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DistributionFunction" abstract="true"
+      eSuperTypes="#//Distribution">
+    <eAnnotations source="DistributionFunction" references="#//DistributionFunction">
+      <details key="Description" value="This class represents the chosen distribution-function in the simulation-modell.&#xD;&#xA;While attribute &quot;type&quot; stores the selected distribution-function and defines its attribute-structure,&#xD;&#xA;the actual values of the attributes are stored in the &quot;attributes&quot;-attribute. &#xD;&#xA;&#xD;&#xA;In the following form:&#xD;&#xA;&#xD;&#xA;-type stores:&#xD;&#xA;&#x9;&lt;Function-Type>( &lt;attribute1>, &lt;attribute2>, ... , &lt;attributeN> ) &#xD;&#xA;&#xD;&#xA;&#x9;e.g. Weibull( Beta, Alpha )&#xD;&#xA;&#xD;&#xA;- attributes stores:&#xD;&#xA;&#x9;&lt;attribute1>, &lt;attribute2>, ... ,&lt;attributeN>&#x9;&#xD;&#xA;&#xD;&#xA;&#x9;e.g. 3.5, 20 when Weibull is selected and those values are inputed"/>
+    </eAnnotations>
+    <eOperations name="toString" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="if (eIsProxy()){ return super.toString();}&#xD;&#xA;    StringBuffer result = new StringBuffer();&#xD;&#xA;    result.append(this.getClass().getSimpleName());&#xD;&#xA;    return result.toString(); "/>
+      </eAnnotations>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Weibull" eSuperTypes="#//DistributionFunction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="beta" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="alpha" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Beta" eSuperTypes="#//DistributionFunction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="beta" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="alpha" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Gamma" eSuperTypes="#//DistributionFunction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="beta" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="alpha" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Normal" eSuperTypes="#//DistributionFunction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mean" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stdDev" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Triangular" eSuperTypes="#//DistributionFunction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="min" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mode" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="max" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LogNormal" eSuperTypes="#//DistributionFunction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="logMean" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="logStd" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Uniform" eSuperTypes="#//DistributionFunction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="min" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="max" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Poisson" eSuperTypes="#//DistributionFunction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mean" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NegExp" eSuperTypes="#//DistributionFunction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mean" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Erlang" eSuperTypes="#//DistributionFunction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="expMean" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="k" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimulationObject"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SimulationElement" eSuperTypes="#//SimulationObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoing" upperBound="-1"
+        eType="#//Relation" containment="true" eOpposite="#//Relation/source"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimulationParameter" eSuperTypes="#//SimulationObject"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Relation" eSuperTypes="#//SimulationParameter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//SimulationElement"
+        eOpposite="#//SimulationElement/outgoing"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//SimulationElement"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ServiceType">
+    <eLiterals name="Default" literal="Default"/>
+    <eLiterals name="Transport" value="1" literal="Transport"/>
+    <eLiterals name="Picking" value="2" literal="Picking"/>
+    <eLiterals name="Handling" value="3" literal="Handling"/>
+    <eLiterals name="Storage" value="4" literal="Storage"/>
+    <eLiterals name="ValueAdded" value="5" literal="Value Added"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="QueuingStrategy">
+    <eLiterals name="FIFO"/>
+    <eLiterals name="LIFO" value="1"/>
+    <eLiterals name="SORTED" value="2"/>
+    <eLiterals name="RANDOM" value="3"/>
+  </eClassifiers>
+</ecore:EPackage>

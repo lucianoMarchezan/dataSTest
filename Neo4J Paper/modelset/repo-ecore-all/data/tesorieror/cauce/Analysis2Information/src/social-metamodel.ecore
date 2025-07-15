@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="som"
+    nsURI="som" nsPrefix="som">
+  <eClassifiers xsi:type="ecore:EClass" name="Role" eSuperTypes="#//SocialInstance">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="society" lowerBound="1"
+        eType="#//Society" eOpposite="#//Society/roles"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="isRealizedByIndividual"
+        upperBound="-1" eType="#//IndividualRealization" eOpposite="#//IndividualRealization/target"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" upperBound="-1"
+        eType="#//Specialization" eOpposite="#//Specialization/target"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//Specialization" eOpposite="#//Specialization/source"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IndividualRealization">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//Role" eOpposite="#//Role/isRealizedByIndividual"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//IndividualInstance" eOpposite="#//IndividualInstance/realizes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="society" lowerBound="1"
+        eType="#//Society" eOpposite="#//Society/relaizations"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Society">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generalizations" upperBound="-1"
+        eType="#//Specialization" containment="true" eOpposite="#//Specialization/society"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relaizations" upperBound="-1"
+        eType="#//IndividualRealization" containment="true" eOpposite="#//IndividualRealization/society"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="individuals" upperBound="-1"
+        eType="#//IndividualInstance" containment="true" eOpposite="#//IndividualInstance/society"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roles" lowerBound="1" upperBound="-1"
+        eType="#//Role" containment="true" eOpposite="#//Role/society"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Specialization">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//Role" eOpposite="#//Role/parent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//Role" eOpposite="#//Role/children"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="society" lowerBound="1"
+        eType="#//Society" eOpposite="#//Society/generalizations"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IndividualInstance" eSuperTypes="#//SocialInstance">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="realizes" lowerBound="1"
+        upperBound="-1" eType="#//IndividualRealization" eOpposite="#//IndividualRealization/source"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="society" lowerBound="1"
+        eType="#//Society" eOpposite="#//Society/individuals"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SocialInstance">
+    <eOperations name="getID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eOperations name="getName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

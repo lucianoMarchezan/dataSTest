@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="modelWebserver" nsURI="http://www.example.org/model" nsPrefix="modelWebserver">
+  <eClassifiers xsi:type="ecore:EClass" name="Ressource" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Model">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commands" upperBound="-1"
+        eType="#//ICommand" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="localResources" upperBound="-1"
+        eType="#//LocalRessource" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="externalResources" upperBound="-1"
+        eType="#//ExternalRessource" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resources" upperBound="-1"
+        eType="#//Ressource" changeable="false" derived="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LocalRessource" eSuperTypes="#//Ressource">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="permission" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExternalRessource" eSuperTypes="#//Ressource">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ICommand" abstract="true">
+    <eOperations name="execute">
+      <eParameters name="resourceId" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ressource" eType="#//Ressource"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="result" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="applyOnFolder" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="applyOnFile" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="applyOnURI" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="codeResult" eType="#//CommandCodeResult"
+        defaultValueLiteral="SUCCESS"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FolderName" eSuperTypes="#//ICommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Path" eSuperTypes="#//ICommand"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="CommandCodeResult">
+    <eLiterals name="SUCCESS"/>
+    <eLiterals name="ERROR" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FileName" eSuperTypes="#//ICommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PageTile" eSuperTypes="#//ICommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FileSize" eSuperTypes="#//ICommand"/>
+</ecore:EPackage>

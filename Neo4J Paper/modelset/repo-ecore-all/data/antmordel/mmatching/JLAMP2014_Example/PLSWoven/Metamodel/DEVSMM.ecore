@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="devsmm" nsURI="http://devsmm/1.0" nsPrefix="devsmm">
+  <eClassifiers xsi:type="ecore:EClass" name="Plant">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="els" upperBound="-1" eType="#//PlantEl"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PlantEl"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Machine" eSuperTypes="#//PlantEl">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="prodTime" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="defRate" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="in" eType="#//LimitedContainer"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="out" lowerBound="1" eType="#//LimitedContainer"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assocMachine" eType="#//Charts"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Generator" eSuperTypes="#//Machine">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="counter" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GenHead" eSuperTypes="#//Generator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GenHandle" eSuperTypes="#//Generator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Assemble" eSuperTypes="#//Machine">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="flRt" lowerBound="1" eType="#//FailureRate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rt" lowerBound="1" eType="#//ResponseTime"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thp" lowerBound="1" eType="#//Throughput"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Container" eSuperTypes="#//PlantEl">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parts" unique="false" upperBound="-1"
+        eType="#//Part" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Tray" eSuperTypes="#//LimitedContainer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="User" eSuperTypes="#//Container"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Conveyor" eSuperTypes="#//LimitedContainer">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="speed" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="out" lowerBound="1" eType="#//Tray"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outParts" upperBound="-1"
+        eType="#//Part" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LimitedContainer" eSuperTypes="#//Container">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="capacity" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Part" eSuperTypes="#//PlantEl">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="defective" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Head" eSuperTypes="#//Part"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Handle" eSuperTypes="#//Part"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Hammer" eSuperTypes="#//Part"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FailureRate">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="numFailures" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="numTotal" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rate" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reqResults" upperBound="-1"
+        eType="#//Part"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResponseTime">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="counter" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mean" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Charts">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="time" unique="false" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="responseTime" unique="false"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="failRate" unique="false"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Throughput">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="counter" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="thp" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="jointPackage_PetriNet2PNML" nsURI="http://jointPackage_petrinet2pnml/1.0"
+    nsPrefix="jointPackage_PetriNet2PNML">
+  <eClassifiers xsi:type="ecore:EClass" name="JointMM">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceRoot" lowerBound="1"
+        eType="#//SrcPetriNet" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetRoot" lowerBound="1"
+        eType="#//TrgPNMLDocument" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SrcLocatedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SrcNamedElement" abstract="true" eSuperTypes="#//SrcLocatedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SrcPetriNet" eSuperTypes="#//SrcNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" ordered="false"
+        upperBound="-1" eType="#//SrcElement" containment="true" eOpposite="#//SrcElement/net"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="arcs" ordered="false" upperBound="-1"
+        eType="#//SrcArc" containment="true" eOpposite="#//SrcArc/net"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SrcElement" abstract="true" eSuperTypes="#//SrcNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="net" ordered="false" lowerBound="1"
+        eType="#//SrcPetriNet" eOpposite="#//SrcPetriNet/elements"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SrcPlace" eSuperTypes="#//SrcElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incomingArc" ordered="false"
+        upperBound="-1" eType="#//SrcTransitionToPlace" eOpposite="#//SrcTransitionToPlace/to"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingArc" ordered="false"
+        upperBound="-1" eType="#//SrcPlaceToTransition" eOpposite="#//SrcPlaceToTransition/from"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SrcTransition" eSuperTypes="#//SrcElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incomingArc" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//SrcPlaceToTransition" eOpposite="#//SrcPlaceToTransition/to"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingArc" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//SrcTransitionToPlace" eOpposite="#//SrcTransitionToPlace/from"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SrcArc" abstract="true" eSuperTypes="#//SrcNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="weight" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="net" ordered="false" lowerBound="1"
+        eType="#//SrcPetriNet" eOpposite="#//SrcPetriNet/arcs"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SrcPlaceToTransition" eSuperTypes="#//SrcArc">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="from" ordered="false" lowerBound="1"
+        eType="#//SrcPlace" eOpposite="#//SrcPlace/outgoingArc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="to" ordered="false" lowerBound="1"
+        eType="#//SrcTransition" eOpposite="#//SrcTransition/incomingArc"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SrcTransitionToPlace" eSuperTypes="#//SrcArc">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="from" ordered="false" lowerBound="1"
+        eType="#//SrcTransition" eOpposite="#//SrcTransition/outgoingArc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="to" ordered="false" lowerBound="1"
+        eType="#//SrcPlace" eOpposite="#//SrcPlace/incomingArc"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrgPNMLDocument" eSuperTypes="#//TrgLocatedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xmlns" ordered="false"
+        lowerBound="1" eType="#//TrgURI" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nets" ordered="false" lowerBound="1"
+        upperBound="-1" eType="#//TrgNetElement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrgLocatedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrgIdedElement" abstract="true" eSuperTypes="#//TrgLocatedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" ordered="false" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrgURI" eSuperTypes="#//TrgLocatedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrgNetElement" eSuperTypes="#//TrgIdedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" ordered="false" lowerBound="1"
+        eType="#//TrgURI" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contents" ordered="false"
+        upperBound="-1" eType="#//TrgNetContent" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="name" ordered="false" eType="#//TrgName"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrgNetContent" abstract="true" eSuperTypes="#//TrgLocatedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="name" ordered="false" eType="#//TrgName"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrgLabeledElement" abstract="true" eSuperTypes="#//TrgLocatedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="labels" ordered="false"
+        upperBound="-1" eType="#//TrgLabel" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrgLabel" eSuperTypes="#//TrgLocatedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" ordered="false" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrgName" eSuperTypes="#//TrgLabeledElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TrgNetContentElement" abstract="true"
+      eSuperTypes="#//TrgNetContent #//TrgIdedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TrgArc" eSuperTypes="#//TrgNetContent #//TrgIdedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" ordered="false"
+        lowerBound="1" eType="#//TrgNetContentElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" ordered="false"
+        lowerBound="1" eType="#//TrgNetContentElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrgPlace" eSuperTypes="#//TrgNetContentElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TrgTransition" eSuperTypes="#//TrgNetContentElement"/>
+</ecore:EPackage>

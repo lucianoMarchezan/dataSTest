@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+ name="spcm" nsURI="http://spi-fm.uca.es/spdef/models/deployment/spcm/1.0"
+ nsPrefix="spcm">
+ <eClassifiers xsi:type="ecore:EClass" name="Project">
+  <eAnnotations source="comment">
+   <details key="comment"
+    value="Clase contenedora de todos las tareas y milestones establecidos para la planificación y monitorización de un proyecto software." />
+  </eAnnotations>
+  <eStructuralFeatures xsi:type="ecore:EAttribute"
+   name="description"
+   eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+   <eAnnotations source="comment">
+    <details key="comment" value="Atributo que especifica la descripción" />
+   </eAnnotations>
+  </eStructuralFeatures>
+  <eStructuralFeatures xsi:type="ecore:EAttribute"
+   name="name"
+   eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" />
+  <eStructuralFeatures xsi:type="ecore:EReference"
+   name="milestones" lowerBound="1" upperBound="-1" eType="#//Milestone"
+   containment="true" />
+  <eStructuralFeatures xsi:type="ecore:EReference"
+   name="members" upperBound="-1" eType="#//Role" containment="true" />
+  <eStructuralFeatures xsi:type="ecore:EReference"
+   name="taskCategories" upperBound="-1" eType="#//TaskCategory"
+   containment="true" />
+ </eClassifiers>
+ <eClassifiers xsi:type="ecore:EClass" name="Milestone">
+  <eAnnotations source="comment">
+   <details key="comment"
+    value="Clase que representa los hitos del desarrollo o versiones del software durante el transcurso de los proyectos." />
+  </eAnnotations>
+  <eStructuralFeatures xsi:type="ecore:EAttribute"
+   name="description"
+   eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" />
+  <eStructuralFeatures xsi:type="ecore:EAttribute"
+   name="name"
+   eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" />
+  <eStructuralFeatures xsi:type="ecore:EReference"
+   name="tasks" upperBound="-1" eType="#//Task" containment="true" />
+ </eClassifiers>
+ <eClassifiers xsi:type="ecore:EClass" name="Role">
+  <eAnnotations source="comment">
+   <details key="comment"
+    value="Clase que representa el papel que juega un determinado miembro de un proyecto de desarrollo o mantenimiento de software." />
+  </eAnnotations>
+  <eStructuralFeatures xsi:type="ecore:EAttribute"
+   name="name"
+   eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" />
+  <eStructuralFeatures xsi:type="ecore:EAttribute"
+   name="skills"
+   eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" />
+ </eClassifiers>
+ <eClassifiers xsi:type="ecore:EClass" name="Task">
+  <eAnnotations source="comment">
+   <details key="comment"
+    value="Clase que define la acción de realizar una labor necesaria para conseguir los objetivos del proyecto." />
+  </eAnnotations>
+  <eStructuralFeatures xsi:type="ecore:EAttribute"
+   name="name"
+   eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" />
+  <eStructuralFeatures xsi:type="ecore:EAttribute"
+   name="description"
+   eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" />
+  <eStructuralFeatures xsi:type="ecore:EReference"
+   name="responsible" eType="#//Role" />
+  <eStructuralFeatures xsi:type="ecore:EReference"
+   name="category" eType="#//TaskCategory" />
+  <eStructuralFeatures xsi:type="ecore:EReference"
+   name="dependencies" upperBound="-1" eType="#//TaskDependency"
+   containment="true" />
+ </eClassifiers>
+ <eClassifiers xsi:type="ecore:EClass" name="TaskCategory">
+  <eAnnotations source="comment">
+   <details key="comment"
+    value="Clase que permite categorizar una tarea según su ámbito de aplicación." />
+  </eAnnotations>
+  <eStructuralFeatures xsi:type="ecore:EAttribute"
+   name="name"
+   eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" />
+  <eStructuralFeatures xsi:type="ecore:EAttribute"
+   name="isDefault"
+   eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" />
+ </eClassifiers>
+ <eClassifiers xsi:type="ecore:EEnum" name="DependencyType">
+  <eAnnotations source="comment">
+   <details key="comment"
+    value="Enumeración con los diferentes tipos de dependencia entre tareas." />
+  </eAnnotations>
+  <eLiterals name="START_START" />
+  <eLiterals name="START_END" value="1" />
+  <eLiterals name="END_START" value="2" />
+  <eLiterals name="END_END" value="3" />
+ </eClassifiers>
+ <eClassifiers xsi:type="ecore:EClass" name="TaskDependency">
+  <eAnnotations source="comment">
+   <details key="comment"
+    value="Clase de asociación que permite representar la dependencia entre dos tareas concretas." />
+  </eAnnotations>
+  <eStructuralFeatures xsi:type="ecore:EAttribute"
+   name="type" eType="#//DependencyType" />
+  <eStructuralFeatures xsi:type="ecore:EReference"
+   name="dependentTask" lowerBound="1" eType="#//Task" />
+ </eClassifiers>
+</ecore:EPackage>

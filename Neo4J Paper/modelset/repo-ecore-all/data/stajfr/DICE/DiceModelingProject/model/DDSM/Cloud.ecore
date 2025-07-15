@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="cloud" nsURI="http://cloud/1.0" nsPrefix="it.polimi.modaclouds.resourcemodel.cloud">
+  <eClassifiers xsi:type="ecore:EClass" name="Provider" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CloudProvider" eSuperTypes="#//Provider">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="providesCloudService" lowerBound="1"
+        upperBound="-1" eType="#//CloudService"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CloudService" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasSLA" upperBound="-1"
+        eType="#//ServiceLevelAgreementTemplate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasScalingPolicy" upperBound="-1"
+        eType="#//ScalingPolicy"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ApplicationServiceProvider" eSuperTypes="#//Provider">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="providesCloudSoftware"
+        lowerBound="1" upperBound="-1" eType="#//CloudSoftware"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CostProfile">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="composedOf" lowerBound="1"
+        upperBound="-1" eType="#//Cost" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedToCloudElement"
+        lowerBound="1" eType="#//CloudElement" eOpposite="#//CloudElement/hasCostProfile"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceLevelAgreementTemplate">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedBy" lowerBound="1"
+        upperBound="-1" eType="#//Requirement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Requirement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScalingPolicy">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedOn" lowerBound="1"
+        upperBound="-1" eType="#//ResourcePool"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="action" lowerBound="1"
+        eType="#//ScalingType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="composedOf" lowerBound="1"
+        upperBound="-1" eType="#//ScalingRule" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResourcePool">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="composedOf" lowerBound="1"
+        upperBound="-1" eType="#//Compute" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasAllocationProfile" lowerBound="1"
+        eType="#//AllocationProfile" eOpposite="#//AllocationProfile/relatedToResourcePool"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IaaS_Service" eSuperTypes="#//CloudService">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="composedOf" lowerBound="1"
+        upperBound="-1" eType="#//CloudResource" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PaaS_Service" eSuperTypes="#//CloudService">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="composedOf" lowerBound="1"
+        upperBound="-1" eType="#//CloudPlatform" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SaaS_Service" eSuperTypes="#//CloudService">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="composedOf" lowerBound="1"
+        upperBound="-1" eType="#//CloudSoftware" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CloudResource" abstract="true" eSuperTypes="#//CloudElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inLocation" eType="#//Location"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="from" upperBound="-1" eType="#//Link"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="composedOf" upperBound="-1"
+        eType="#//VirtualHWResource" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resourceType" lowerBound="1"
+        eType="#//CloudResourceType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CloudPlatform" abstract="true" eSuperTypes="#//CloudElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="runsOnCloudResource" upperBound="-1"
+        eType="#//CloudResource"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="platformType" lowerBound="1"
+        eType="#//CloudPlatformType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="language" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="technology" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="runsOnResourcePool" upperBound="-1"
+        eType="#//ResourcePool"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
+        eType="#//CloudPlatformProperty" eOpposite="#//CloudPlatformProperty/platform"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CloudSoftware" eSuperTypes="#//CloudElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="deployedOnCloudPlatform"
+        upperBound="-1" eType="#//CloudPlatform"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="runsOnCloudResource" upperBound="-1"
+        eType="#//CloudResource"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="softwareType" lowerBound="1"
+        eType="#//CloudSoftwareType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="runsOnResourcePool" upperBound="-1"
+        eType="#//ResourcePool"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Backend" eSuperTypes="#//CloudPlatform"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Middleware" eSuperTypes="#//CloudPlatform"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Queue" eSuperTypes="#//CloudPlatform"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Cache" eSuperTypes="#//CloudPlatform"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Storage" eSuperTypes="#//CloudPlatform"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Frontend" eSuperTypes="#//CloudPlatform"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Location" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Region" eSuperTypes="#//Location"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SubRegion" eSuperTypes="#//Location">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inRegion" lowerBound="1"
+        eType="#//Region"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VirtualArea" eSuperTypes="#//SubRegion"/>
+  <eClassifiers xsi:type="ecore:EClass" name="REST_Software" eSuperTypes="#//CloudSoftware"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SOAP_Software" eSuperTypes="#//CloudSoftware"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Link">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="to" lowerBound="1" eType="#//CloudResource"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="latency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="throughput" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cost" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reverseLinkToB" lowerBound="1"
+        eType="#//CloudElement" eOpposite="#//CloudElement/CloudElementB"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reverseLinkToA" lowerBound="1"
+        eType="#//CloudElement" eOpposite="#//CloudElement/CloudElementA"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AllocationProfile">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="composedOf" lowerBound="1"
+        upperBound="-1" eType="#//Allocation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedToResourcePool"
+        lowerBound="1" eType="#//ResourcePool" eOpposite="#//ResourcePool/hasAllocationProfile"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VirtualHWResource" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" upperBound="-1" eType="#//EfficiencyProfile"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//VirtualHWResourceType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="processingRate" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="numberOfReplicas" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="V_CPU" eSuperTypes="#//VirtualHWResource"/>
+  <eClassifiers xsi:type="ecore:EClass" name="V_Memory" eSuperTypes="#//VirtualHWResource">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="V_Storage" eSuperTypes="#//VirtualHWResource">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EfficiencyProfile">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="period" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="efficiency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Compute" eSuperTypes="#//CloudResource">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usesCloudStorage" upperBound="-1"
+        eType="#//CloudStorage"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="OS" eType="#//OSType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cpu" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ram" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="disk_size" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="domain" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CloudStorage" abstract="true" eSuperTypes="#//CloudResource">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="storageType" lowerBound="1"
+        eType="#//CloudStorageType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Database" abstract="true" eSuperTypes="#//CloudPlatform">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usesCloudStorage" upperBound="-1"
+        eType="#//CloudStorage"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DBType" lowerBound="1"
+        eType="#//DatabaseType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RelationalDB" eSuperTypes="#//Database"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NoSQL_DB" eSuperTypes="#//Database"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FilesystemStorage" eSuperTypes="#//CloudStorage"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BlobStorage" eSuperTypes="#//CloudStorage"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="VirtualHWResourceType">
+    <eLiterals name="cpu"/>
+    <eLiterals name="memory" value="1"/>
+    <eLiterals name="storage" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CloudResourceType">
+    <eLiterals name="compute"/>
+    <eLiterals name="cloudstorage" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CloudPlatformType">
+    <eLiterals name="frontend"/>
+    <eLiterals name="middleware" value="1"/>
+    <eLiterals name="backend" value="2"/>
+    <eLiterals name="database" value="3"/>
+    <eLiterals name="storage" value="4" literal="storage"/>
+    <eLiterals name="queue" value="5" literal="queue"/>
+    <eLiterals name="cache" value="6" literal="cache"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DatabaseType">
+    <eLiterals name="relational" value="1"/>
+    <eLiterals name="nosql"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CloudStorageType">
+    <eLiterals name="blobstorage"/>
+    <eLiterals name="filesystem" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="OSType">
+    <eLiterals name="linux"/>
+    <eLiterals name="windows" value="1"/>
+    <eLiterals name="mac" value="2"/>
+    <eLiterals name="undefined" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Cost">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unit" lowerBound="1" eType="#//CostUnitType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="period" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedToCloudElement"
+        lowerBound="1" eType="#//CloudElement" eOpposite="#//CloudElement/hasCost"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedOn" eType="#//VirtualHWResource"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="upperBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="region" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FreeQuota">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unit" lowerBound="1" eType="#//CostUnitType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="amount" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedToCloudElement"
+        lowerBound="1" eType="#//CloudElement" eOpposite="#//CloudElement/hasFreeQuota"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedOn" eType="#//VirtualHWResource"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CloudElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//CloudElementType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="CloudElementA" upperBound="-1"
+        eType="#//Link" eOpposite="#//Link/reverseLinkToA"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="CloudElementB" upperBound="-1"
+        eType="#//Link" eOpposite="#//Link/reverseLinkToB"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasCostProfile" eType="#//CostProfile"
+        eOpposite="#//CostProfile/associatedToCloudElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasCost" upperBound="-1"
+        eType="#//Cost" eOpposite="#//Cost/associatedToCloudElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasFreeQuota" upperBound="-1"
+        eType="#//FreeQuota" eOpposite="#//FreeQuota/associatedToCloudElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScalingRule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="metric" lowerBound="1"
+        eType="#//ScalingMetricType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1"
+        eType="#//ScalingOperatorType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CostUnitType">
+    <eLiterals name="per_hour"/>
+    <eLiterals name="per_GBmonth" value="1"/>
+    <eLiterals name="per_million_I_O" value="2"/>
+    <eLiterals name="per_1year" value="3" literal="per_1year"/>
+    <eLiterals name="per_3year" value="4" literal="per_3year"/>
+    <eLiterals name="per_3year_hour" value="5" literal="per_3year_hour"/>
+    <eLiterals name="per_GBout" value="6" literal="per_GBout"/>
+    <eLiterals name="per_GBmonth_consumed" value="7" literal="per_GBmonth_consumed"/>
+    <eLiterals name="per_GB_consumed" value="8" literal="per_GB_consumed"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ScalingMetricType">
+    <eLiterals name="CPU_utilization"/>
+    <eLiterals name="TrafficLoad" value="1"/>
+    <eLiterals name="Memory" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ScalingOperatorType">
+    <eLiterals name="GreaterThan"/>
+    <eLiterals name="LowerThan" value="1"/>
+    <eLiterals name="GreaterOrEquals" value="2"/>
+    <eLiterals name="LowerOrEquals" value="3"/>
+    <eLiterals name="EqualsTo" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CloudElementType">
+    <eLiterals name="platform"/>
+    <eLiterals name="resource" value="1"/>
+    <eLiterals name="software" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Allocation">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="period" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="numberOfInstances" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ScalingType">
+    <eLiterals name="ScaleIN"/>
+    <eLiterals name="ScaleOUT" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CloudSoftwareType">
+    <eLiterals name="REST"/>
+    <eLiterals name="SOAP" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CloudPlatformPropertyName">
+    <eLiterals name="ssdOptimized" literal="ssdOptimized"/>
+    <eLiterals name="maxConnections" value="1" literal="maxConnections"/>
+    <eLiterals name="maxRequests" value="2" literal="maxRequests"/>
+    <eLiterals name="multiAzReplicas" value="3" literal="multiAzReplicas"/>
+    <eLiterals name="orderPreserving" value="4" literal="orderPreserving"/>
+    <eLiterals name="replicas" value="5" literal="replicas"/>
+    <eLiterals name="requestSize" value="6" literal="requestSize"/>
+    <eLiterals name="delay" value="7" literal="delay"/>
+    <eLiterals name="storage" value="8" literal="storage"/>
+    <eLiterals name="multiplyingFactor" value="9" literal="multiplyingFactor"/>
+    <eLiterals name="maxRollbackHours" value="10" literal="maxRollbackHours"/>
+    <eLiterals name="maxEntrySize" value="11" literal="maxEntrySize"/>
+    <eLiterals name="replicasChangeable" value="12" literal="replicasChangeable"/>
+    <eLiterals name="replicasPayedSingularly" value="13" literal="replicasPayedSingularly"/>
+    <eLiterals name="dataReplicas" value="14" literal="dataReplicas"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CloudPlatformProperty">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="platform" eType="#//CloudPlatform"
+        eOpposite="#//CloudPlatform/properties"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="#//CloudPlatformPropertyName"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DICECompute" eSuperTypes="#//Compute">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="port_speed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="subnet_id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Hadoop_Home" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="access_key_id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="secret_access_key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="associate_public_ip" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="port" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="url" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ce_certificate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="image_uuid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="net_uuid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="server_type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key_uuid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="wait_started_interval"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="wait_started_timeout" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="private_ip" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="user" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="security_groups" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="download_hadoop_URL" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="derived_from" eType="#//DICE_compute_derived"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="api_uuid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="password" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="customer" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SlaveNode" eSuperTypes="#//DICECompute">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="slaveType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="instances" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains_worker_chef" lowerBound="1"
+        eType="#//worker_chef" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains_MySQL" eType="#//MySQL"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasDatanodeDaemon" eType="#//hdfs_datanode"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasNodeManagerDaemon" eType="#//yarn_nodeManager"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MasterNode" eSuperTypes="#//DICECompute">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains_config" lowerBound="1"
+        eType="#//config" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains_hadoopRunner"
+        lowerBound="1" eType="#//hadooprunner" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains_master_chef" lowerBound="1"
+        eType="#//master_chef" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="masterType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasHdfsNameNode" eType="#//hdfs_Namenode"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasResourceMngDaemon" eType="#//yarn_resourceManager"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="MasterNodeFunction">
+    <eLiterals name="resourceManager"/>
+    <eLiterals name="nameNode" value="1"/>
+    <eLiterals name="secondaryNameNode" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SlaveNodeFunction">
+    <eLiterals name="dataNode" value="4"/>
+    <eLiterals name="nodeManager"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HMRStorageNode" eSuperTypes="#//FilesystemStorage">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileSystem" eType="#//HMRfileSystem"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="HMRfileSystem">
+    <eLiterals name="HDFS"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="EEnum0"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NodeComponent">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfaces" eType="#//interface"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relationships" upperBound="-1"
+        eType="#//relation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="derived_from" eType="#//cloudifyComponentNode_type"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="relation">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="target" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="interface">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//interfaceType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="create" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="configure" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="start" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="chef" eSuperTypes="#//NodeComponent">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="chef_server_url" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="environment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="validation_client_name"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="validation_key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="node_name_prefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="node_name_suffix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="attributes" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="runlists" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="hadooprunner" eSuperTypes="#//NodeComponent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="config" eSuperTypes="#//NodeComponent">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="config" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="worker_chef" eSuperTypes="#//chef">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="chef_cook_books" upperBound="-1"
+        eType="#//slave_recipe"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="master_chef" eSuperTypes="#//chef">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="chef_cook_books" upperBound="-1"
+        eType="#//master_recipe"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="master_recipe">
+    <eLiterals name="apt_default" literal="recipe[apt::default]"/>
+    <eLiterals name="java_default" value="1" literal="recipe[java::default]"/>
+    <eLiterals name="hadoop_hadoop_hdfs_namenode" value="2" literal="recipe[hadoop::hadoop_hdfs_namenode]"/>
+    <eLiterals name="hadoop_hadoop_yarn_resourcemanager" value="3" literal="recipe[hadoop::hadoop_yarn_resourcemanager]"/>
+    <eLiterals name="hadoop_hadoop_mapreduce_historyserver" value="4" literal="recipe[hadoop::hadoop_mapreduce_historyserver]"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="slave_recipe">
+    <eLiterals name="apt_default" literal="recipe[apt::default]"/>
+    <eLiterals name="java_default" value="1" literal="recipe[java::default]"/>
+    <eLiterals name="hadoop_hadoop_hdfs_datanode" value="2" literal="recipe[hadoop::hadoop_hdfs_datanode]"/>
+    <eLiterals name="hadoop_hadoop_yarn_nodemanager" value="3" literal="recipe[hadoop::hadoop_yarn_nodemanager]"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="interfaceType">
+    <eLiterals name="cloudify_interfaces_lifecycle" literal="cloudify.interfaces.lifecycle"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HMR_DDSM">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasMasterNode" lowerBound="1"
+        eType="#//MasterNode" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasSlaves" lowerBound="1"
+        upperBound="-1" eType="#//SlaveNode" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="imports" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasRelationships" upperBound="-1"
+        eType="#//NodeRelationsipComponent" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasoutputs" upperBound="-1"
+        eType="#//output" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasinputs" upperBound="-1"
+        eType="#//input" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MySQL" eSuperTypes="#//NodeComponent">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="JDBC_DriverClass" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rootUser" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="password" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dbuser" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dbpassword" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DB_dbUrl" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tableName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fieldNames" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DICE_compute_derived">
+    <eLiterals name="cloudify_nodes_compute" literal="cloudify.nodes.compute"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="cloudifyComponentNode_type">
+    <eLiterals name="Cloudify_nodes_root" literal="Cloudify.nodes.root"/>
+    <eLiterals name="Cloudify_chef_nodes_ApplicationServer" value="1" literal="Cloudify.chef.nodes.ApplicationServer"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NodeRelationsipComponent">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="relationName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="derived_from" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasSourceInterface" eType="#//SourceInterface"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasTargetInterface" eType="#//TargetInterface"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SourceInterface">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preconfigure" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TargetInterface">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preconfigure" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="relationshipType">
+    <eLiterals name="cloudify_relationships_contained_in" literal="cloudify.relationships.contained.in"/>
+    <eLiterals name="cloudify_relationships_connected_to" value="1" literal="cloudify.relationships.connected.to"/>
+    <eLiterals name="cloudify_relationships_depend_on" value="2" literal="cloudify.relationships.depend.on"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="output">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="input">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="yarn_resourceManager">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="shceduler_min_all_mb" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="scheduler_min_all_mb" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="scheduler_min_all_vcores"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="scheduler_max_all_vcores"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resourceManager_url" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="yarn_nodeManager">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resourceManagerUrl" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nodeManager_cpu_Vcores"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nodeManager_Memory" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nodeManager_aux_services"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="hdfs_datanode">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dfs_datanode_dir" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="hdfs_Namenode">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fs_defaultFS" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

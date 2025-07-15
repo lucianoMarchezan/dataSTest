@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="dataflow" nsURI="http://etu.unice.fr/m6parallelism/1.0" nsPrefix="df">
+  <eClassifiers xsi:type="ecore:EClass" name="GraphBase" abstract="true"/>
+  <eSubpackages name="mg" nsURI="http://etu.unice.fr/m6parallelism/1.0/mg" nsPrefix="mg">
+    <eClassifiers xsi:type="ecore:EClass" name="MarkedGraph" eSuperTypes="#//GraphBase">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="transitions" upperBound="-1"
+          eType="#//mg/Transition" containment="true" eOpposite="#//mg/Transition/graph"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="places" upperBound="-1"
+          eType="#//mg/Place" containment="true" eOpposite="#//mg/Place/graph"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Transition" eSuperTypes="#//mg/Node">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ports" lowerBound="1"
+          upperBound="-1" eType="#//mg/Port" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="graph" lowerBound="1"
+          eType="#//mg/MarkedGraph" eOpposite="#//mg/MarkedGraph/transitions"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="functionName" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Place" eSuperTypes="#//mg/Node">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="incomingPort" lowerBound="1"
+          eType="#//mg/OutputPort" transient="true" resolveProxies="false" eOpposite="#//mg/OutputPort/outputPlace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingPort" lowerBound="1"
+          eType="#//mg/InputPort" transient="true" resolveProxies="false" eOpposite="#//mg/InputPort/inputPlace"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="initFunctionName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="graph" lowerBound="1"
+          eType="#//mg/MarkedGraph" eOpposite="#//mg/MarkedGraph/places"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Port" abstract="true">
+      <eOperations name="getName" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eOperations name="getType" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InputPort" eSuperTypes="#//mg/Port">
+      <eOperations name="getName" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eOperations name="getType" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="inputPlace" lowerBound="1"
+          eType="#//mg/Place" resolveProxies="false" eOpposite="#//mg/Place/outgoingPort"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OutputPort" eSuperTypes="#//mg/Port">
+      <eOperations name="getName" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eOperations name="getType" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outputPlace" lowerBound="1"
+          eType="#//mg/Place" resolveProxies="false" eOpposite="#//mg/Place/incomingPort"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Node" abstract="true"/>
+  </eSubpackages>
+  <eSubpackages name="sdf" nsURI="http://etu.unice.fr/m6parallelism/1.0/sdf" nsPrefix="sdf">
+    <eClassifiers xsi:type="ecore:EClass" name="Port" abstract="true">
+      <eOperations name="getName" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eOperations name="getType" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InputPort" eSuperTypes="#//sdf/Port">
+      <eOperations name="getName" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eOperations name="getType" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="inputPlace" lowerBound="1"
+          eType="#//sdf/Place" resolveProxies="false" eOpposite="#//sdf/Place/outgoingPort"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="tokensConsumed" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OutputPort" eSuperTypes="#//sdf/Port">
+      <eOperations name="getName" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eOperations name="getType" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outputPlace" lowerBound="1"
+          eType="#//sdf/Place" resolveProxies="false" eOpposite="#//sdf/Place/incomingPort"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="tokensProduced" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Transition" eSuperTypes="#//sdf/Node">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ports" lowerBound="1"
+          upperBound="-1" eType="#//sdf/Port" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="functionName" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="graph" lowerBound="1"
+          eType="#//sdf/SDFGraph" eOpposite="#//sdf/SDFGraph/transitions"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Place" eSuperTypes="#//sdf/Node">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="initFunctionName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="tokenCount" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="incomingPort" lowerBound="1"
+          eType="#//sdf/OutputPort" transient="true" resolveProxies="false" eOpposite="#//sdf/OutputPort/outputPlace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingPort" lowerBound="1"
+          eType="#//sdf/InputPort" transient="true" resolveProxies="false" eOpposite="#//sdf/InputPort/inputPlace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="graph" lowerBound="1"
+          eType="#//sdf/SDFGraph" eOpposite="#//sdf/SDFGraph/places"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SDFGraph" eSuperTypes="#//GraphBase">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="transitions" upperBound="-1"
+          eType="#//sdf/Transition" containment="true" eOpposite="#//sdf/Transition/graph"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="places" upperBound="-1"
+          eType="#//sdf/Place" containment="true" eOpposite="#//sdf/Place/graph"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Node"/>
+  </eSubpackages>
+  <eSubpackages name="krg" nsURI="http://etu.unice.fr/m6parallelism/1.0/krg" nsPrefix="krg">
+    <eClassifiers xsi:type="ecore:EClass" name="Node" abstract="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Transition" abstract="true" eSuperTypes="#//krg/Node">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Place" eSuperTypes="#//krg/Node">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="initFunctionName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingPort" lowerBound="1"
+          eType="#//krg/InputPort" transient="true" resolveProxies="false" eOpposite="#//krg/InputPort/inputPlace"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="incomingPort" lowerBound="1"
+          eType="#//krg/OutputPort" transient="true" resolveProxies="false" eOpposite="#//krg/OutputPort/outputPlace"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="tokenCount" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="NormalTransition" eSuperTypes="#//krg/Transition">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="functionName" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ports" upperBound="-1"
+          eType="#//krg/Port" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Select" eSuperTypes="#//krg/Transition">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="inputPort" lowerBound="1"
+          eType="#//krg/InputPort" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outputPort0" lowerBound="1"
+          eType="#//krg/OutputPort" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outputPort1" lowerBound="1"
+          eType="#//krg/OutputPort" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="selectString" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Merge" eSuperTypes="#//krg/Transition">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="mergeString" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="inputPort0" lowerBound="1"
+          eType="#//krg/InputPort" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="inputPort1" lowerBound="1"
+          eType="#//krg/InputPort" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outputPort" lowerBound="1"
+          eType="#//krg/OutputPort" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Port" abstract="true">
+      <eOperations name="getName" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eOperations name="getType" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OutputPort" eSuperTypes="#//krg/Port">
+      <eOperations name="getName" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eOperations name="getType" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outputPlace" lowerBound="1"
+          eType="#//krg/Place" resolveProxies="false" eOpposite="#//krg/Place/incomingPort"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="tokensProduced" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InputPort" eSuperTypes="#//krg/Port">
+      <eOperations name="getName" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eOperations name="getType" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="inputPlace" lowerBound="1"
+          eType="#//krg/Place" resolveProxies="false" eOpposite="#//krg/Place/outgoingPort"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="tokensConsumed" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="KRG" eSuperTypes="#//GraphBase">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="transitions" upperBound="-1"
+          eType="#//krg/Transition" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="places" upperBound="-1"
+          eType="#//krg/Place" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ced" nsURI="http://www.example.org/eaeu/ced" nsPrefix="ced">
+  <eClassifiers xsi:type="ecore:EClass" name="Element" abstract="true" eSuperTypes="../../eaeu.cm/model/cm.ecore#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="realization" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Container" abstract="true" eSuperTypes="#//Element">
+    <eOperations name="setSuitableRealizations">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="if (this instanceof Component) {&#xD;&#xA;    ((Component) this).setSuitableRealization();&#xD;&#xA;}&#xD;&#xA;for (Component component : getComponents()) {&#xD;&#xA;    if (!setOnlyEmpty || component.getRealization() == null || component.getRealization().isEmpty()) {&#xD;&#xA;        component.setSuitableRealization();&#xD;&#xA;    }&#xD;&#xA;    if (component instanceof eaeu.ced.Container) {&#xD;&#xA;        ((eaeu.ced.Container) component).setSuitableRealizations(setOnlyEmpty);&#xD;&#xA;    }&#xD;&#xA;}"/>
+      </eAnnotations>
+      <eParameters name="setOnlyEmpty" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
+        eType="#//Component" containment="true" eOpposite="#//Component/container"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="document" lowerBound="1"
+        eType="#//Document" changeable="false" volatile="true" transient="true" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="get" value="return (Document) (this instanceof Document ? this : org.eclipse.emf.ecore.util.EcoreUtil.getRootContainer(this));"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="availableProperties" upperBound="-1"
+        eType="ecore:EClass ../../eaeu.cm/model/cm.ecore#//Property" changeable="false"
+        volatile="true" transient="true" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="get" value="// TODO: RSA 9.1 is based on Java 7. Migrate to Java 8 in future&#xD;&#xA;//java.util.List&lt;Property> addedProperties = getComponents().stream()&#xD;&#xA;//        .filter(comp -> comp instanceof eaeu.ced.DataElement)&#xD;&#xA;//        .map(comp -> ((eaeu.ced.DataElement) comp).getProperty())&#xD;&#xA;//        .collect(java.util.stream.Collectors.toList());&#xD;&#xA;//java.util.List&lt;Property> result = getDocument().getModel().getElements().stream()&#xD;&#xA;//        .filter(el -> el instanceof Property)&#xD;&#xA;//        .map(el -> (Property) el)&#xD;&#xA;//        .filter(prop -> !addedProperties.contains(prop))&#xD;&#xA;//        .collect(java.util.stream.Collectors.toList());&#xD;&#xA;java.util.List&lt;Property> addedProperties = new java.util.ArrayList&lt;Property>();&#xD;&#xA;for (Component comp : getComponents()) {&#xD;&#xA;    if (comp instanceof eaeu.ced.DataElement) {&#xD;&#xA;        addedProperties.add(((eaeu.ced.DataElement) comp).getProperty());&#xD;&#xA;    }&#xD;&#xA;}&#xD;&#xA;java.util.List&lt;Property> result = new java.util.ArrayList&lt;Property>();&#xD;&#xA;for (eaeu.cm.Element el : getDocument().getModel().getElements()) {&#xD;&#xA;    if (el instanceof Property) {&#xD;&#xA;        if (!addedProperties.contains(el)) {&#xD;&#xA;            result.add((Property) el);&#xD;&#xA;        }&#xD;&#xA;    }&#xD;&#xA;}&#xD;&#xA;return new org.eclipse.emf.ecore.util.EcoreEList.UnmodifiableEList.FastCompare&lt;Property>(this,&#xD;&#xA;        CEDPackage.Literals.CONTAINER__AVAILABLE_PROPERTIES, result.size(), result.toArray());"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="availableRoles" upperBound="-1"
+        eType="ecore:EClass ../../eaeu.cm/model/cm.ecore#//Role" changeable="false"
+        volatile="true" transient="true" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="get" value="// TODO: RSA 9.1 is based on Java 7. Migrate to Java 8 in future&#xD;&#xA;//java.util.List&lt;Role> addedRoles = getComponents().stream()&#xD;&#xA;//        .filter(comp -> comp instanceof eaeu.ced.DataSet)&#xD;&#xA;//        .map(comp -> ((eaeu.ced.DataSet)comp).getRole())&#xD;&#xA;//        .collect(java.util.stream.Collectors.toList());&#xD;&#xA;//java.util.List&lt;Role> result = getDocument().getModel().getElements().stream()&#xD;&#xA;//        .filter(el -> el instanceof Role)&#xD;&#xA;//        .map(el -> (Role) el)&#xD;&#xA;//        .filter(role -> role.getName() != null &amp;&amp; !role.getName().isEmpty())&#xD;&#xA;//        .filter(role -> !addedRoles.contains(role))&#xD;&#xA;//        .collect(java.util.stream.Collectors.toList());&#xD;&#xA;java.util.List&lt;Role> addedRoles = new java.util.ArrayList&lt;Role>();&#xD;&#xA;for (Component comp : getComponents()) {&#xD;&#xA;    if (comp instanceof eaeu.ced.DataSet) {&#xD;&#xA;        addedRoles.add(((eaeu.ced.DataSet) comp).getRole());&#xD;&#xA;    }&#xD;&#xA;}&#xD;&#xA;java.util.List&lt;Role> result = new java.util.ArrayList&lt;Role>();&#xD;&#xA;for (eaeu.cm.Element el : getDocument().getModel().getElements()) {&#xD;&#xA;    if (el instanceof Role) {&#xD;&#xA;        Role role = (Role) el;&#xD;&#xA;        if (role.getName() != null &amp;&amp; !role.getName().isEmpty()) {&#xD;&#xA;            if (!addedRoles.contains(role)) {&#xD;&#xA;                result.add(role);&#xD;&#xA;            }&#xD;&#xA;        }&#xD;&#xA;    }&#xD;&#xA;}&#xD;&#xA;return new org.eclipse.emf.ecore.util.EcoreEList.UnmodifiableEList.FastCompare&lt;Role>(this,&#xD;&#xA;        CEDPackage.Literals.CONTAINER__AVAILABLE_ROLES, result.size(), result.toArray());"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Component" abstract="true" eSuperTypes="#//Element ../../eaeu.cm/model/cm.ecore#//MultiplicityElement">
+    <eOperations name="getConceptualElement" eType="ecore:EClass ../../eaeu.cm/model/cm.ecore#//GlobalElement"/>
+    <eOperations name="setSuitableRealization">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="eaeu.cm.GlobalElement element = getConceptualElement();&#xD;&#xA;if (element != null) {&#xD;&#xA;    EList&lt;String> realizations = element.getAnalogs();&#xD;&#xA;    if (!realizations.isEmpty()) {&#xD;&#xA;        setRealization(realizations.get(0));&#xD;&#xA;    }&#xD;&#xA;}"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="container" lowerBound="1"
+        eType="#//Container" eOpposite="#//Container/components"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Document" eSuperTypes="#//Container">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="model" lowerBound="1" eType="ecore:EClass ../../eaeu.cm/model/cm.ecore#//Model"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="realizationModel" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataSet" eSuperTypes="#//Container #//Component">
+    <eOperations name="getConceptualElement" eType="ecore:EClass ../../eaeu.cm/model/cm.ecore#//GlobalElement">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return getRole();"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="syncDataElements">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="int prev = -1;&#xD;&#xA;for (Attribute attr : getRole().getConcept().getAttributes()) {&#xD;&#xA;    // TODO: RSA 9.1 is based on Java 7. Migrate to Java 8 in future&#xD;&#xA;    //java.util.List&lt;eaeu.cm.Property> properties = getComponents().stream()&#xD;&#xA;    //        .map(comp -> comp instanceof eaeu.ced.DataElement ? ((eaeu.ced.DataElement)comp).getProperty() : null)&#xD;&#xA;    //        .collect(java.util.stream.Collectors.toList());&#xD;&#xA;    java.util.List&lt;eaeu.cm.Property> properties = new java.util.ArrayList&lt;eaeu.cm.Property>();&#xD;&#xA;    for (Component comp : getComponents()) {&#xD;&#xA;        properties.add(comp instanceof eaeu.ced.DataElement ? ((eaeu.ced.DataElement)comp).getProperty() : null);&#xD;&#xA;    }&#xD;&#xA;    int index = properties.indexOf(attr.getProperty());&#xD;&#xA;    if (index == -1) {&#xD;&#xA;        eaeu.ced.DataElement dataElement = CEDPackage.eINSTANCE.getCEDFactory().createDataElement();&#xD;&#xA;        dataElement.setProperty(attr.getProperty());&#xD;&#xA;        dataElement.setLower(attr.getLower());&#xD;&#xA;        dataElement.setUpper(attr.getUpper());&#xD;&#xA;        getComponents().add(prev + 1, dataElement);&#xD;&#xA;        prev++;&#xD;&#xA;    }&#xD;&#xA;    else {&#xD;&#xA;        prev = index;&#xD;&#xA;    }&#xD;&#xA;}"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="role" eType="ecore:EClass ../../eaeu.cm/model/cm.ecore#//Role"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" volatile="true" transient="true" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="get" value="Role role = getRole();&#xD;&#xA;return role != null ? role.getLabel() : getName();"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relations" upperBound="-1"
+        eType="ecore:EClass ../../eaeu.cm/model/cm.ecore#//Relation" changeable="false"
+        volatile="true" transient="true" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="get" value="java.util.List&lt;Relation> result;&#xD;&#xA;Role role = getRole();&#xD;&#xA;if (role != null) {&#xD;&#xA;    eaeu.cm.Concept concept = role.getConcept();&#xD;&#xA;    // TODO: RSA 9.1 is based on Java 7. Migrate to Java 8 in future&#xD;&#xA;    //result = concept.getModel().getElements().stream()&#xD;&#xA;    //        .filter(el -> el instanceof Relation)&#xD;&#xA;    //        .map(el -> (Relation) el)&#xD;&#xA;    //        .filter(rel -> rel.getEnds().stream()&#xD;&#xA;    //                .anyMatch(end -> end.getRole() != null &amp;&amp; concept.equals(end.getRole().getConcept())))&#xD;&#xA;    //        .collect(java.util.stream.Collectors.toList());&#xD;&#xA;    result = new java.util.ArrayList&lt;Relation>();&#xD;&#xA;    for (eaeu.cm.Element el : concept.getModel().getElements()) {&#xD;&#xA;        if (el instanceof Relation) {&#xD;&#xA;            Relation rel = (Relation) el;&#xD;&#xA;            for (eaeu.cm.RelationEnd end : rel.getEnds()) {&#xD;&#xA;                if (end.getRole() != null &amp;&amp; concept.equals(end.getRole().getConcept())) {&#xD;&#xA;                    result.add(rel);&#xD;&#xA;                    break;&#xD;&#xA;                }&#xD;&#xA;            }&#xD;&#xA;        }&#xD;&#xA;    }&#xD;&#xA;}&#xD;&#xA;else {&#xD;&#xA;    result = java.util.Collections.&lt;Relation>emptyList();&#xD;&#xA;}&#xD;&#xA;return new org.eclipse.emf.ecore.util.EcoreEList.UnmodifiableEList.FastCompare&lt;Relation>(this,&#xD;&#xA;        CEDPackage.Literals.DATA_SET__RELATIONS, result.size(), result.toArray());"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allowedAttributes" upperBound="-1"
+        eType="ecore:EClass ../../eaeu.cm/model/cm.ecore#//Attribute" changeable="false"
+        volatile="true" transient="true" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="get" value="java.util.List&lt;Attribute> result;&#xD;&#xA;Role role = getRole();&#xD;&#xA;if (role != null) {&#xD;&#xA;    // TODO: RSA 9.1 is based on Java 7. Migrate to Java 8 in future&#xD;&#xA;    //java.util.List&lt;eaeu.cm.Property> addedProperties = getComponents().stream()&#xD;&#xA;    //        .filter(comp -> comp instanceof eaeu.ced.DataElement)&#xD;&#xA;    //        .map(comp -> (eaeu.ced.DataElement) comp)&#xD;&#xA;    //        .filter(el -> !(el.getLower() == 0 &amp;&amp; el.getUpper() == 0))&#xD;&#xA;    //        .map(el -> el.getProperty())&#xD;&#xA;    //        .collect(java.util.stream.Collectors.toList());&#xD;&#xA;    //result = role.getConcept().getAttributes().stream()&#xD;&#xA;    //        .filter(attr -> !addedProperties.contains(attr.getProperty()))&#xD;&#xA;    //        .collect(java.util.stream.Collectors.toList());&#xD;&#xA;    java.util.List&lt;eaeu.cm.Property> addedProperties = new java.util.ArrayList&lt;eaeu.cm.Property>();&#xD;&#xA;    for (Component comp : getComponents()) {&#xD;&#xA;        if (comp instanceof eaeu.ced.DataElement) {&#xD;&#xA;            eaeu.ced.DataElement el = (eaeu.ced.DataElement) comp;&#xD;&#xA;            if (!(el.getLower() == 0 &amp;&amp; el.getUpper() == 0)) {&#xD;&#xA;                addedProperties.add(el.getProperty());&#xD;&#xA;            }&#xD;&#xA;        }&#xD;&#xA;    }&#xD;&#xA;    result = new java.util.ArrayList&lt;Attribute>();&#xD;&#xA;    for (eaeu.cm.Attribute attr : role.getConcept().getAttributes()) {&#xD;&#xA;        if (!addedProperties.contains(attr.getProperty())) {&#xD;&#xA;            result.add(attr);&#xD;&#xA;        }&#xD;&#xA;    }&#xD;&#xA;}&#xD;&#xA;else {&#xD;&#xA;    result = java.util.Collections.&lt;Attribute>emptyList();&#xD;&#xA;}&#xD;&#xA;return new org.eclipse.emf.ecore.util.EcoreEList.UnmodifiableEList.FastCompare&lt;Attribute>(this,&#xD;&#xA;        CEDPackage.Literals.DATA_SET__ALLOWED_ATTRIBUTES, result.size(), result.toArray());"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allowedRelationEnds" upperBound="-1"
+        eType="ecore:EClass ../../eaeu.cm/model/cm.ecore#//RelationEnd" changeable="false"
+        volatile="true" transient="true" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="get" value="java.util.List&lt;RelationEnd> result;&#xD;&#xA;Role role = getRole();&#xD;&#xA;if (role != null) {&#xD;&#xA;    eaeu.cm.Concept concept = role.getConcept();&#xD;&#xA;    // TODO: RSA 9.1 is based on Java 7. Migrate to Java 8 in future&#xD;&#xA;    //java.util.List&lt;Role> addedRoles = getComponents().stream()&#xD;&#xA;    //        .filter(comp -> comp instanceof DataSet)&#xD;&#xA;    //        .map(comp -> (DataSet) comp)&#xD;&#xA;    //        .map(el -> el.getRole())&#xD;&#xA;    //        .collect(java.util.stream.Collectors.toList());&#xD;&#xA;    //result = getRelations().stream()&#xD;&#xA;    //        .flatMap(rel -> rel.getEnds().stream())&#xD;&#xA;    //        .filter(end -> end.getRole().getName() != null &amp;&amp; !end.getRole().getName().isEmpty())&#xD;&#xA;    //        .filter(end -> !concept.equals(end.getRole().getConcept()))&#xD;&#xA;    //        .filter(end -> !addedRoles.contains(end.getRole()))&#xD;&#xA;    //        .collect(java.util.stream.Collectors.toList());&#xD;&#xA;    java.util.List&lt;Role> addedRoles = new java.util.ArrayList&lt;Role>();&#xD;&#xA;    for (Component comp : getComponents()) {&#xD;&#xA;        if (comp instanceof eaeu.ced.DataSet) {&#xD;&#xA;            addedRoles.add(((eaeu.ced.DataSet) comp).getRole());&#xD;&#xA;        }&#xD;&#xA;    }&#xD;&#xA;    result = new java.util.ArrayList&lt;RelationEnd>();&#xD;&#xA;    for (eaeu.cm.Relation rel : getRelations()) {&#xD;&#xA;        for (eaeu.cm.RelationEnd end : rel.getEnds()) {&#xD;&#xA;            if (end.getRole().getName() != null &amp;&amp; !end.getRole().getName().isEmpty()) {&#xD;&#xA;                if (!concept.equals(end.getRole().getConcept())) {&#xD;&#xA;                    if (!addedRoles.contains(end.getRole())) {&#xD;&#xA;                        result.add(end);&#xD;&#xA;                    }&#xD;&#xA;                }&#xD;&#xA;            }&#xD;&#xA;        }&#xD;&#xA;    }&#xD;&#xA;}&#xD;&#xA;else {&#xD;&#xA;    result = java.util.Collections.&lt;RelationEnd>emptyList();&#xD;&#xA;}&#xD;&#xA;return new org.eclipse.emf.ecore.util.EcoreEList.UnmodifiableEList.FastCompare&lt;RelationEnd>(this,&#xD;&#xA;        CEDPackage.Literals.DATA_SET__ALLOWED_RELATION_ENDS, result.size(), result.toArray());"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataElement" eSuperTypes="#//Component">
+    <eOperations name="getConceptualElement" eType="ecore:EClass ../../eaeu.cm/model/cm.ecore#//GlobalElement">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return getProperty();"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" eType="ecore:EClass ../../eaeu.cm/model/cm.ecore#//Property"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" volatile="true" transient="true" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="get" value="Property property = getProperty();&#xD;&#xA;return property != null ? property.getName() : getName();"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+</ecore:EPackage>

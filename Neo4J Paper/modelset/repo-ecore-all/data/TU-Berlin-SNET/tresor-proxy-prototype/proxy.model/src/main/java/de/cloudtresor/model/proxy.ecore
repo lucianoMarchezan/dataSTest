@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="proxy"
+    nsURI="http://www.cloud-tresor.de/model/proxy" nsPrefix="cloudtresorproxy">
+  <eClassifiers xsi:type="ecore:EClass" name="IdentifiableElement" abstract="true"
+      interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProxyConfiguration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="services" upperBound="-1"
+        eType="#//Service" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configurationItems" upperBound="-1"
+        eType="#//ConfigurationItem" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Service" eSuperTypes="#//IdentifiableElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="serviceConfigurationItem"
+        upperBound="-1" eType="#//ServiceConfigurationItem" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="endpoints" upperBound="-1"
+        eType="#//endpoint/EndpointConfiguration" changeable="false" transient="true"
+        eOpposite="#//endpoint/EndpointConfiguration/service"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceConfigurationItem" abstract="true"
+      interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ConfigurationItem" abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="URL" instanceClassName="java.net.URL"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Certificate" instanceClassName="java.security.cert.Certificate"/>
+  <eSubpackages name="endpoint" nsURI="http://www.cloud-tresor.de/model/proxy/endpoint"
+      nsPrefix="proxyEndpoint">
+    <eClassifiers xsi:type="ecore:EClass" name="EndpointConfiguration" abstract="true"
+        interface="true" eSuperTypes="#//ConfigurationItem">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="url" lowerBound="1" eType="#//URL"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="service" lowerBound="1"
+          eType="#//Service" resolveProxies="false" eOpposite="#//Service/endpoints"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="LocalEndpointConfiguration" abstract="true"
+        interface="true" eSuperTypes="#//endpoint/EndpointConfiguration"/>
+    <eClassifiers xsi:type="ecore:EClass" name="LocalHTTPEndpointConfiguration" eSuperTypes="#//endpoint/LocalEndpointConfiguration">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="boundInterfaces" upperBound="-1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="LocalSSLEndpointConfiguration">
+      <eGenericSuperTypes eClassifier="#//endpoint/LocalHTTPEndpointConfiguration"/>
+      <eGenericSuperTypes eClassifier="#//endpoint/SecureEndpointConfiguration">
+        <eTypeArguments eClassifier="#//endpoint/ClientSSLConfiguration"/>
+      </eGenericSuperTypes>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="LocalTSTPEndpointConfiguration">
+      <eGenericSuperTypes eClassifier="#//endpoint/LocalSSLEndpointConfiguration"/>
+      <eGenericSuperTypes eClassifier="#//endpoint/TSTPEndpointConfiguration">
+        <eTypeArguments eClassifier="#//endpoint/ClientSSLConfiguration"/>
+      </eGenericSuperTypes>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="RemoteEndpointConfiguration" abstract="true"
+        interface="true" eSuperTypes="#//endpoint/EndpointConfiguration"/>
+    <eClassifiers xsi:type="ecore:EClass" name="RemoteHTTPEndpointConfiguration" eSuperTypes="#//endpoint/RemoteEndpointConfiguration"/>
+    <eClassifiers xsi:type="ecore:EClass" name="RemoteSSLEndpointConfiguration">
+      <eGenericSuperTypes eClassifier="#//endpoint/RemoteHTTPEndpointConfiguration"/>
+      <eGenericSuperTypes eClassifier="#//endpoint/SecureEndpointConfiguration">
+        <eTypeArguments eClassifier="#//endpoint/ServerSSLConfiguration"/>
+      </eGenericSuperTypes>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="RemoteTSTPEndpointConfiguration">
+      <eGenericSuperTypes eClassifier="#//endpoint/LocalSSLEndpointConfiguration"/>
+      <eGenericSuperTypes eClassifier="#//endpoint/TSTPEndpointConfiguration">
+        <eTypeArguments eClassifier="#//endpoint/ServerSSLConfiguration"/>
+      </eGenericSuperTypes>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SecureEndpointConfiguration" abstract="true"
+        interface="true">
+      <eTypeParameters name="C">
+        <eBounds eClassifier="#//endpoint/SSLConfiguration"/>
+      </eTypeParameters>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="sslConfiguration" lowerBound="1"
+          containment="true">
+        <eGenericType eTypeParameter="#//endpoint/SecureEndpointConfiguration/C"/>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TSTPEndpointConfiguration" abstract="true"
+        interface="true">
+      <eTypeParameters name="C">
+        <eBounds eClassifier="#//endpoint/SSLConfiguration"/>
+      </eTypeParameters>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="tstpConfiguration" lowerBound="1">
+        <eGenericType eTypeParameter="#//endpoint/TSTPEndpointConfiguration/C"/>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SSLConfiguration" abstract="true"
+        interface="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ClientSSLConfiguration" eSuperTypes="#//endpoint/SSLConfiguration">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="acceptedServerCertificates"
+          upperBound="-1" eType="#//Certificate"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="clientCertificate" eType="#//Certificate"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ServerSSLConfiguration" eSuperTypes="#//endpoint/SSLConfiguration">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="serverCertificate" lowerBound="1"
+          eType="#//Certificate"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="acceptedClientCertificates"
+          upperBound="-1" eType="#//Certificate"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="auth" nsURI="http://www.cloud-tresor.de/model/proxy/auth" nsPrefix="proxyAuth">
+    <eClassifiers xsi:type="ecore:EClass" name="AuthenticationMethod" abstract="true"
+        interface="true" eSuperTypes="#//ServiceConfigurationItem"/>
+    <eClassifiers xsi:type="ecore:EClass" name="AuthenticationMethodHtpasswd" eSuperTypes="#//auth/AuthenticationMethod">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AuthorizationMethod" abstract="true"
+        interface="true" eSuperTypes="#//ServiceConfigurationItem"/>
+    <eClassifiers xsi:type="ecore:EClass" name="AuthorizationMethodGroupfile" eSuperTypes="#//auth/AuthorizationMethod">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AuthorizationConfiguration" eSuperTypes="#//ServiceConfigurationItem">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="default" lowerBound="1"
+          eType="#//auth/AuthorizationState"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="authorizationConfigurationItems"
+          upperBound="-1" eType="#//auth/AuthorizationConfigurationItem" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AuthorizationConfigurationItem" abstract="true"
+        interface="true">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="pattern" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AuthorizationRequireValidUser" eSuperTypes="#//auth/AuthorizationConfigurationItem"/>
+    <eClassifiers xsi:type="ecore:EClass" name="AuthorizationRequireGroup" eSuperTypes="#//auth/AuthorizationConfigurationItem">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="groupIdentifier" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="AuthorizationState">
+      <eLiterals name="ALLOW"/>
+      <eLiterals name="DENY" value="1" literal="DENY"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

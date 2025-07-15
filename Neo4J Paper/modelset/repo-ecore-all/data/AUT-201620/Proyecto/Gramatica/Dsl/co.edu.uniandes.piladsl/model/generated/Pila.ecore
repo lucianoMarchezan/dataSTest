@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="pila" nsURI="http://co.edu.uniandes.pila" nsPrefix="pila">
+  <eClassifiers xsi:type="ecore:EClass" name="PagoServicio">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entidades" upperBound="-1"
+        eType="#//Entidad" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="serviciosComputo" upperBound="-1"
+        eType="#//ServicioComputo" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Entidad">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="atributos" upperBound="-1"
+        eType="#//Atributo" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Atributo">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tipoPrimitivo" eType="#//TipoDatoPrimitivo"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="listaLlaveValor" upperBound="-1"
+        eType="#//LlaveValor" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="listaEntidad" eType="#//Entidad"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="referencia" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LlaveValor">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="llave" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="valor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TipoDatoPrimitivo">
+    <eLiterals name="NO_ASIGNADO" literal="NoAsignado"/>
+    <eLiterals name="CADENA_CARACTERES" value="1" literal="CadenaCaracteres"/>
+    <eLiterals name="ENTERO" value="2" literal="Entero"/>
+    <eLiterals name="FLOTANTE" value="3" literal="Flotante"/>
+    <eLiterals name="FECHA" value="4" literal="Fecha"/>
+    <eLiterals name="BOOLEANO" value="5" literal="Booleano"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServicioComputo">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variables" upperBound="-1"
+        eType="#//Variable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condiciones" upperBound="-1"
+        eType="#//Condicion" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expresionRetorno" eType="#//Expresion"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Variable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tipoPrimitivo" eType="#//TipoDatoPrimitivo"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referenciaEntidad" eType="#//Entidad"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expresion" eType="#//Expresion"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Condicion">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="condicionSi" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expresionCondicion" eType="#//Expresion"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="condicionSiNinguno" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variables" upperBound="-1"
+        eType="#//Variable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="asignacionVariable" eType="#//Variable"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expresion" upperBound="-1"
+        eType="#//Expresion" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subCondiciones" upperBound="-1"
+        eType="#//Condicion" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expresionRetorno" eType="#//Expresion"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Expresion">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="izquierda" eType="#//Expresion"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operador" unique="false"
+        upperBound="-1" eType="#//Operador"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="derechas" upperBound="-1"
+        eType="#//Expresion" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="entero" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="real" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nombreCalificado" eType="#//NombreCalificado"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Operador">
+    <eLiterals name="SUMA" literal="+"/>
+    <eLiterals name="RESTA" value="1" literal="-"/>
+    <eLiterals name="MULTIPLICACION" value="2" literal="*"/>
+    <eLiterals name="DIVISION" value="3" literal="/"/>
+    <eLiterals name="IGUAL" value="4" literal="=="/>
+    <eLiterals name="DIFERENTE" value="5" literal="!="/>
+    <eLiterals name="MAYOR" value="6" literal=">"/>
+    <eLiterals name="MAYOR_IGUAL" value="7" literal=">="/>
+    <eLiterals name="MENOR" value="8" literal="&lt;"/>
+    <eLiterals name="MENOR_IGUAL" value="9" literal="&lt;="/>
+    <eLiterals name="Y" value="10" literal="&amp;&amp;"/>
+    <eLiterals name="O" value="11" literal="||"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NombreCalificado">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ides" unique="false" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

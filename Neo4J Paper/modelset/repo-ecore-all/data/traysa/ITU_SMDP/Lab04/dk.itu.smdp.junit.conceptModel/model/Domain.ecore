@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="JUnitDomain" nsURI="http://www.itu.dk/people/wasowski/dk.itu.smdp.junit.conceptModel"
+    nsPrefix="smdpjunitdomain">
+  <eClassifiers xsi:type="ecore:EClass" name="Test" eSuperTypes="#//Method">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uses" eType="#//Fixture"
+        eOpposite="#//Fixture/isUsedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//JUAssertion"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassAnnotation" eSuperTypes="#//JUAnnotation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JUAssertion"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Fixture">
+    <eAnnotations source="FreeTextConstraint" references="#//Fixture">
+      <details key="free text" value="The after method is annocated with an After method annotation&#xA;"/>
+    </eAnnotations>
+    <eAnnotations source="FreeTextConstraint" references="#//Fixture">
+      <details key="freeText" value="Before method must have @Before annotation "/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="isUsedBy" upperBound="-1"
+        eType="#//Test" eOpposite="#//Test/uses"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="after" eType="#//Method"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="before" eType="#//Method"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="setUp" eType="#//Method"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Setup"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Method" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="annotation" eType="#//MethodAnnotation"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JUAnnotation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MethodAnnotation" eSuperTypes="#//JUAnnotation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TestAnnotation" eSuperTypes="#//MethodAnnotation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expectedException" upperBound="-1"
+        eType="#//JUClass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Before" eSuperTypes="#//MethodAnnotation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="After" eSuperTypes="#//MethodAnnotation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Suite" eSuperTypes="#//JUClass">
+    <eAnnotations source="FreeTextConstraint" references="#//Test">
+      <details key="freeText" value="the collection of tests have to be a subset of the inherited collection of methods"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tests" upperBound="-1"
+        eType="#//Test"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JUClass" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="methods" upperBound="-1"
+        eType="#//Method" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fixture" eType="#//Fixture"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Runner">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="runs" lowerBound="1" upperBound="-1"
+        eType="#//Suite"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Root">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="runners" upperBound="-1"
+        eType="#//Runner" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classes" upperBound="-1"
+        eType="#//JUClass" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1"
+        eType="#//JUAnnotation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="setup" eType="#//Setup"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+  </eClassifiers>
+</ecore:EPackage>

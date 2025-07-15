@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model" nsURI="home.computerlinguistik.model" nsPrefix="home.computerlinguistik">
+  <eClassifiers xsi:type="ecore:EClass" name="LexikalischFunktionaleGrammatik">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="funktionen" upperBound="-1"
+        eType="#//Funktion" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="merkmale" upperBound="-1"
+        eType="#//Merkmal"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="grammatik" eType="#//Grammatik"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lexikon" eType="#//Lexikon"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FStruktur">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributWertePaare" upperBound="-1"
+        eType="#//AttributWertePaar" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isunificated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Grammatik">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="terminale" upperBound="-1"
+        eType="#//Terminal" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="s0" eType="#//Nichterminal"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nichtTerminale" upperBound="-1"
+        eType="#//Nichterminal" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="regeln" upperBound="-1"
+        eType="#//AbleitungsRegel" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Lexikon">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eintraege" upperBound="-1"
+        eType="#//LexikonEintrag" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LexikonEintrag">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="wortart" eType="#//Terminal"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="auspraegungen" upperBound="-1"
+        eType="#//FStruktur" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttributWertePaar">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="wertTyp" eType="#//WertTyp"
+        defaultValueLiteral="Merkmal"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="funktion" eType="#//Funktion"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="funktionsWert" eType="#//FStruktur"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="merkmal" eType="#//Merkmal"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="merkmalsWert" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="WertTyp" instanceTypeName="WertTyp">
+    <eLiterals name="Merkmal" literal="Merkmal"/>
+    <eLiterals name="Funktion" value="1" literal="Funktion"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Funktion" eSuperTypes="#//MerkmalFunktion"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Merkmal" eSuperTypes="#//MerkmalFunktion">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="moeglicheWerte" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Terminal" eSuperTypes="#//Nichterminal"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Nichterminal" eSuperTypes="#//TerminalNichtTerminal"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AbleitungsRegel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="von" eType="#//Nichterminal"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="auf" upperBound="-1" eType="#//AnnotiertesTerminalNichtTerminal"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TerminalNichtTerminal">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AnnotiertesTerminalNichtTerminal">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Aufwaertspfeil" upperBound="-1"
+        eType="#//MerkmalFunktion"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Abwaertspfeil" upperBound="-1"
+        eType="#//MerkmalFunktion"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="terminalNichtTerminal"
+        eType="#//TerminalNichtTerminal"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MerkmalFunktion">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+  </eClassifiers>
+</ecore:EPackage>

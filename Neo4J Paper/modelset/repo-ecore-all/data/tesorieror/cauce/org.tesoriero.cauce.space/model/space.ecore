@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="spmm" nsURI="http://tesoriero.org/cauce/space/1.0" nsPrefix="spmm">
+  <eClassifiers xsi:type="ecore:EClass" name="Universe">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="spmm-diagram"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="groupings" upperBound="-1"
+        eType="#//Grouping" containment="true" eOpposite="#//Grouping/universe"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generalizations" upperBound="-1"
+        eType="#//Generalization" containment="true" eOpposite="#//Generalization/universe"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contentions" upperBound="-1"
+        eType="#//Contention" containment="true" eOpposite="#//Contention/universe"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="representations" upperBound="-1"
+        eType="#//Representation" containment="true" eOpposite="#//Representation/universe"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="virtualSpaces" upperBound="-1"
+        eType="#//VirtualSpace" containment="true" eOpposite="#//VirtualSpace/universe"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="physicalSpaces" upperBound="-1"
+        eType="#//PhysicalSpace" containment="true" eOpposite="#//PhysicalSpace/universe"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="locationUnits" upperBound="-1"
+        eType="#//LocationUnit" containment="true" eOpposite="#//LocationUnit/universe"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Space" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="groupBy" upperBound="-1"
+        eType="#//Grouping" eOpposite="#//Grouping/child"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generalizedBy" upperBound="-1"
+        eType="#//Generalization" eOpposite="#//Generalization/generalizes"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VirtualSpace" eSuperTypes="#//Space">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="universe" lowerBound="1"
+        eType="#//Universe" eOpposite="#//Universe/virtualSpaces"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" upperBound="-1"
+        eType="#//Grouping" eOpposite="#//Grouping/parent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generalizes" upperBound="-1"
+        eType="#//Generalization" eOpposite="#//Generalization/parent"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PhysicalSpace" eSuperTypes="#//Space">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="universe" lowerBound="1"
+        eType="#//Universe" eOpposite="#//Universe/physicalSpaces"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="representedBy" eType="#//Representation"
+        eOpposite="#//Representation/represents"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="innerSpaces" upperBound="-1"
+        eType="#//Contention" eOpposite="#//Contention/parent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="container" eType="#//Contention"
+        eOpposite="#//Contention/child"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LocationUnit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="identifications" lowerBound="1"
+        upperBound="-1" eType="#//Identification" containment="true" eOpposite="#//Identification/locationUnit"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="universe" lowerBound="1"
+        eType="#//Universe" eOpposite="#//Universe/locationUnits"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="represents" lowerBound="1"
+        eType="#//Representation" eOpposite="#//Representation/representedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Identification">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="locationUnit" lowerBound="1"
+        eType="#//LocationUnit" eOpposite="#//LocationUnit/identifications"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="technology" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral="&lt;technology>"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral="&lt;identification>"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Grouping" eSuperTypes="#//SpaceRelationship">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="universe" lowerBound="1"
+        eType="#//Universe" eOpposite="#//Universe/groupings"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="child" lowerBound="1" eType="#//Space"
+        eOpposite="#//Space/groupBy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+        eType="#//VirtualSpace" eOpposite="#//VirtualSpace/contains"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Generalization" eSuperTypes="#//SpaceRelationship">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="universe" lowerBound="1"
+        eType="#//Universe" eOpposite="#//Universe/generalizations"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+        eType="#//VirtualSpace" eOpposite="#//VirtualSpace/generalizes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generalizes" lowerBound="1"
+        eType="#//Space" eOpposite="#//Space/generalizedBy"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Contention" eSuperTypes="#//SpaceRelationship">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="universe" lowerBound="1"
+        eType="#//Universe" eOpposite="#//Universe/contentions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
+        eType="#//PhysicalSpace" eOpposite="#//PhysicalSpace/innerSpaces"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="child" lowerBound="1" eType="#//PhysicalSpace"
+        eOpposite="#//PhysicalSpace/container"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Representation" eSuperTypes="#//SpaceRelationship">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="universe" lowerBound="1"
+        eType="#//Universe" eOpposite="#//Universe/representations"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="represents" lowerBound="1"
+        eType="#//PhysicalSpace" eOpposite="#//PhysicalSpace/representedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="representedBy" lowerBound="1"
+        eType="#//LocationUnit" eOpposite="#//LocationUnit/represents"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SpaceRelationship" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        iD="true"/>
+  </eClassifiers>
+</ecore:EPackage>

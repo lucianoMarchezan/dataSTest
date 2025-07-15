@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ermodel" nsURI="ERModel" nsPrefix="ermodel">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
+  </eAnnotations>
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EEnum" name="PrimitiveType" serializable="false">
+    <eLiterals name="String"/>
+    <eLiterals name="Integer"/>
+    <eLiterals name="Real" literal="Real"/>
+    <eLiterals name="Datetime"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Attribute" eSuperTypes="#//ERMElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="attribute_has_owner attribute_not_shared"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="attribute_has_owner" value="&#xA;&#x9;&#x9;&#x9;eowner &lt;> null or rowner &lt;> null"/>
+      <details key="attribute_not_shared" value="&#xA;&#x9;&#x9;&#x9;eowner &lt;> null implies rowner = null&#xA;&#x9;&#x9;&#x9;and rowner &lt;> null implies eowner = null"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eowner" eType="#//Entity"
+        eOpposite="#//Entity/attributes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rowner" eType="#//Relation"
+        eOpposite="#//Relation/attributes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//Classifier"
+        eOpposite="#//Classifier/typeOpposite"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Entity" eSuperTypes="#//Classifier">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="nameLengthAtLeast4 unique_entity_attribute_names has_at_least_one_pk entity_is_not_father_of_itself"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="nameLengthAtLeast4" value="&#xA;&#x9;&#x9;&#x9;name.size() >= 4"/>
+      <details key="unique_entity_attribute_names" value="&#xA;&#x9;&#x9;&#x9;attributes -> select(a : Attribute | a.oclIsTypeOf(Attribute)) ->&#xA;&#x9;&#x9;&#x9;forAll(a1, a2 : Attribute | a1 &lt;> a2 implies a1.name &lt;> a2.name)"/>
+      <details key="has_at_least_one_pk" value="&#xA;&#x9;&#x9;&#x9;(self.parent = null) implies (self.primary_key &lt;> null)"/>
+      <details key="entity_is_not_father_of_itself" value="&#xA;&#x9;&#x9;&#x9;not self.is_son_of(self, null.oclAsSet())"/>
+    </eAnnotations>
+    <eOperations name="is_son_of" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+        <details key="body" value="if (self &lt;> null) and (not path -> includes(self))  then &#xA;&#x9;&#x9;&#x9;&#x9;&#x9; if (self.parent = e) then&#xA;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9;true&#xA;&#x9;&#x9;&#x9;&#x9;&#x9; else&#xA;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9;self.parent.is_son_of(e, path -> including(self))&#xA;&#x9;&#x9;&#x9;&#x9;&#x9; endif&#xA;&#x9;&#x9;&#x9;&#x9;  else &#xA;&#x9;&#x9;&#x9;&#x9;  &#x9;false &#xA;&#x9;&#x9;&#x9;&#x9;  endif"/>
+      </eAnnotations>
+      <eParameters name="e" eType="#//Entity"/>
+      <eParameters name="path" ordered="false" upperBound="-1" eType="#//Entity"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="#//Attribute" containment="true" eOpposite="#//Attribute/eowner"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="primary_key" eType="#//Primary_Key"
+        eOpposite="#//Primary_Key/pk_owner"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Entity"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="keys" upperBound="-1" eType="#//Key"
+        containment="true" eOpposite="#//Key/k_owner"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sons_has_intersection"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Key" eSuperTypes="#//ERMElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="attributes_belong_to_kowner k_owner_must_be_setted"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="attributes_belong_to_kowner" value="&#xA;&#x9;&#x9;&#x9;attribute_set -> forAll(a : Attribute | a.eowner = self.k_owner)"/>
+      <details key="k_owner_must_be_setted" value="&#xA;&#x9;&#x9;&#x9;self.k_owner &lt;> null"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attribute_set" lowerBound="1"
+        upperBound="-1" eType="#//Attribute" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="k_owner" eType="#//Entity"
+        eOpposite="#//Entity/keys"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Primary_Key" eSuperTypes="#//Key">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="attributes_belong_to_pkowner k_and_pk_owner_must_be_setted"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="attributes_belong_to_pkowner" value="&#xA;&#x9;&#x9;&#x9;attribute_set -> forAll(a : Attribute | self.oclIsKindOf(Primary_Key) and a.eowner = self.pk_owner)"/>
+      <details key="k_and_pk_owner_must_be_setted" value="&#xA;&#x9;&#x9;&#x9;(self.k_owner &lt;> null) and (self.pk_owner &lt;> null)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pk_owner" lowerBound="1"
+        eType="#//Entity" eOpposite="#//Entity/primary_key"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Classifier" abstract="true" eSuperTypes="#//PackageElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="typeOpposite" upperBound="-1"
+        eType="#//Attribute" eOpposite="#//Attribute/type"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Package" eSuperTypes="#//PackageElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="unique_entity_relation_names"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="unique_entity_relation_names" value="&#xA;&#x9;&#x9;&#x9;elements -> select(e : PackageElement | e.oclIsTypeOf(Entity) or e.oclIsTypeOf(Relation)) -> forAll(e1, e2 : PackageElement | e1 &lt;> e2 implies e1.name &lt;> e2.name)"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//PackageElement" containment="true" eOpposite="#//PackageElement/namespace"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PackageElement" abstract="true" eSuperTypes="#//ERMElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="namespace" eType="#//Package"
+        eOpposite="#//Package/elements"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ERMElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Relation" eSuperTypes="#//Classifier">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="unique_relation_attribute_names relation_attributes_not_multival cardinalities_are_numbers_or_N"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="unique_relation_attribute_names" value="&#xA;&#x9;&#x9;&#x9;attributes -> forAll(a1, a2 : Attribute | a1 &lt;> a2 implies a1.name &lt;> a2.name)"/>
+      <details key="relation_attributes_not_multival" value="&#xA;&#x9;&#x9;&#x9;attributes -> forAll(a : Attribute | a.oclIsTypeOf(Attribute) and not a.oclIsTypeOf(Multival_attribute))"/>
+      <details key="cardinalities_are_numbers_or_N" value="&#xA;&#x9;&#x9;&#x9;(self.cardinality_1 = '1' or self.cardinality_1 = 'N') &#xA;&#x9;&#x9;&#x9;and (self.cardinality_2 = '1' or self.cardinality_2 = 'N')"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity_1" lowerBound="1"
+        eType="#//Entity"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity_2" lowerBound="1"
+        eType="#//Entity"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cardinality_1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cardinality_2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="#//Attribute" containment="true" eOpposite="#//Attribute/rowner"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PrimitiveDataType" eSuperTypes="#//Classifier">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="data_type" lowerBound="1"
+        eType="#//PrimitiveType" transient="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Multival_attribute" eSuperTypes="#//Attribute"/>
+</ecore:EPackage>

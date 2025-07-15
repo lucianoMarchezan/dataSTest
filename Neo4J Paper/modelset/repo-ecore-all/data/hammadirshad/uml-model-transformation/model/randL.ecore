@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="randL" nsURI="http:///randL.ecore" nsPrefix="randL">
+  <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+    <details key="originalName" value="RandL"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EEnum" name="RandLColor">
+    <eLiterals name="silver"/>
+    <eLiterals name="gold" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceLevel">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="program" eType="#//LoyaltyProgram"
+        eOpposite="#//LoyaltyProgram/levels"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="membership" ordered="false"
+        upperBound="-1" eType="#//Membership" eOpposite="#//Membership/currentLevel">
+      <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <details key="originalName" value="Membership"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="availableServices" ordered="false"
+        upperBound="-1" eType="#//Service" eOpposite="#//Service/level"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LoyaltyProgram">
+    <eOperations name="selectPopularPartners" ordered="false" lowerBound="1">
+      <eParameters name="d" eType="#//Date"/>
+    </eOperations>
+    <eOperations name="addService" ordered="false" lowerBound="1">
+      <eParameters name="s" eType="#//Service"/>
+      <eParameters name="l" eType="#//ServiceLevel"/>
+      <eParameters name="p" eType="#//ProgramPartner"/>
+    </eOperations>
+    <eOperations name="getServices" ordered="false" lowerBound="1">
+      <eParameters name="pp" eType="#//ProgramPartner"/>
+    </eOperations>
+    <eOperations name="enrollAndCreateCustomer" ordered="false" lowerBound="1">
+      <eParameters name="n" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+      <eParameters name="d" eType="#//Date"/>
+    </eOperations>
+    <eOperations name="enroll" ordered="false" lowerBound="1">
+      <eParameters name="c" eType="#//Customer"/>
+    </eOperations>
+    <eOperations name="addTransaction" ordered="false" lowerBound="1">
+      <eParameters name="d" eType="#//Date"/>
+      <eParameters name="servId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+      <eParameters name="pName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+      <eParameters name="amnt" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+      <eParameters name="accNr" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    </eOperations>
+    <eOperations name="getServices" ordered="false" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participants" upperBound="-1"
+        eType="#//Customer" eOpposite="#//Customer/programs"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="partners" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//ProgramPartner" eOpposite="#//ProgramPartner/programs"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="memberships" upperBound="-1"
+        eType="#//Membership"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="levels" lowerBound="1"
+        upperBound="-1" eType="#//ServiceLevel" eOpposite="#//ServiceLevel/program"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer">
+    <eOperations name="birthdayHappens" ordered="false" lowerBound="1"/>
+    <eOperations name="age" ordered="false" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gender" eType="#//Gender"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isMale" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="age" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dateOfBirth" eType="#//Date"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cards" ordered="false"
+        upperBound="-1" eType="#//CustomerCard" eOpposite="#//CustomerCard/owner"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="memberships" upperBound="-1"
+        eType="#//Membership"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="programs" ordered="false"
+        upperBound="-1" eType="#//LoyaltyProgram" eOpposite="#//LoyaltyProgram/participants"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Gender">
+    <eLiterals name="male"/>
+    <eLiterals name="female" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Date">
+    <eOperations name="isBefore" ordered="false" lowerBound="1">
+      <eParameters name="t" eType="#//Date"/>
+    </eOperations>
+    <eOperations name="isEqual" ordered="false" lowerBound="1">
+      <eParameters name="t" eType="#//Date"/>
+    </eOperations>
+    <eOperations name="fromYmd" ordered="false" lowerBound="1">
+      <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <details key="originalName" value="fromYMD"/>
+      </eAnnotations>
+      <eParameters name="m" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+      <eParameters name="k" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+      <eParameters name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    </eOperations>
+    <eOperations name="isAfter" ordered="false" lowerBound="1">
+      <eParameters name="t" eType="#//Date"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="year" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="month" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="day" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CustomerCard">
+    <eOperations name="getTransactions" ordered="false" lowerBound="1">
+      <eParameters name="until" eType="#//Date"/>
+      <eParameters name="from" eType="#//Date"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="valid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="#//RandLColor"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="printedName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        changeable="false" volatile="true" transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="goodThru" eType="#//Date"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="validFrom" eType="#//Date"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="myLevel" eType="#//ServiceLevel"
+        changeable="false" volatile="true" transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="membership" eType="#//Membership"
+        eOpposite="#//Membership/card">
+      <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <details key="originalName" value="Membership"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transactions" ordered="false"
+        upperBound="-1" eType="#//Transaction" eOpposite="#//Transaction/card"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owner" eType="#//Customer"
+        eOpposite="#//Customer/cards"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Membership">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentLevel" eType="#//ServiceLevel"
+        eOpposite="#//ServiceLevel/membership"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="account" eType="#//LoyaltyAccount"
+        eOpposite="#//LoyaltyAccount/membership"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="programs" lowerBound="1"
+        eType="#//LoyaltyProgram"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participants" lowerBound="1"
+        eType="#//Customer"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="card" eType="#//CustomerCard"
+        eOpposite="#//CustomerCard/membership"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LoyaltyAccount">
+    <eOperations name="earn" ordered="false" lowerBound="1">
+      <eParameters name="i" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    </eOperations>
+    <eOperations name="burn" ordered="false" lowerBound="1">
+      <eParameters name="i" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    </eOperations>
+    <eOperations name="getCustomerName" ordered="false" lowerBound="1"/>
+    <eOperations name="isEmpty" ordered="false" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="points" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="totalPointsEarned" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        changeable="false" volatile="true" transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedServices" ordered="false"
+        upperBound="-1" eType="#//Service" changeable="false" volatile="true" transient="true"
+        derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transactions" ordered="false"
+        upperBound="-1" eType="#//Transaction" eOpposite="#//Transaction/account"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="membership" eType="#//Membership"
+        eOpposite="#//Membership/account">
+      <eAnnotations source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <details key="originalName" value="Membership"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Service">
+    <eOperations name="calcPoints" ordered="false" lowerBound="1"/>
+    <eOperations name="upgradePointsEarned" ordered="false" lowerBound="1">
+      <eParameters name="amount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="serviceNr" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pointsEarned" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="condition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pointsBurned" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="partner" eType="#//ProgramPartner"
+        eOpposite="#//Service/deliveredServices"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="deliveredServices" ordered="false"
+        upperBound="-1" eType="#//Service" eOpposite="#//Service/partner"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transactions" ordered="false"
+        upperBound="-1" eType="#//Transaction" eOpposite="#//Transaction/generatedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="level" eType="#//ServiceLevel"
+        eOpposite="#//ServiceLevel/availableServices"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProgramPartner">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="numberOfCustomers" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="programs" ordered="false"
+        lowerBound="1" upperBound="-1" eType="#//LoyaltyProgram" eOpposite="#//LoyaltyProgram/partners"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Transaction" abstract="true">
+    <eOperations name="program" ordered="false" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="amount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="points" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="date" eType="#//Date" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="account" eType="#//LoyaltyAccount"
+        eOpposite="#//LoyaltyAccount/transactions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="card" eType="#//CustomerCard"
+        eOpposite="#//CustomerCard/transactions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedBy" eType="#//Service"
+        eOpposite="#//Service/transactions"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Earning" eSuperTypes="#//Transaction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Burning" eSuperTypes="#//Transaction"/>
+</ecore:EPackage>

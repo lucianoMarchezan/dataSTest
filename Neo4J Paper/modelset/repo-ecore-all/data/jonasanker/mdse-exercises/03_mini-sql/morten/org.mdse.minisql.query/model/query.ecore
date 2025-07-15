@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="query" nsURI="http://mdse.org/minisql/query" nsPrefix="minisqlquery">
+  <eClassifiers xsi:type="ecore:EClass" name="SelectQuery">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orderByClause" eType="#//OrderByClause"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="whatClause" lowerBound="1"
+        upperBound="-1" eType="#//WhatClause" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fromClause" lowerBound="1"
+        eType="#//FromClause" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="whereClause" eType="#//WhereClause"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OrderByClause">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orderDirectives" lowerBound="1"
+        upperBound="-1" eType="#//OrderByDirective" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OrderByDirective">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="columnReference" upperBound="-1"
+        eType="#//ColumnReference" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ascending" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ColumnReference" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="column" eType="ecore:EClass ../../org.mdse.minisql.schema/model/schema.ecore#//Column"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AllColumnsWhatDirective" eSuperTypes="#//WhatDirective"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SingleColumnWhatDirective" eSuperTypes="#//WhatDirective">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="columnReference" lowerBound="1"
+        eType="#//ColumnReference" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WhatDirective"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WhatClause">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="whatDirective" lowerBound="1"
+        upperBound="-1" eType="#//WhatDirective" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FromClause">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="table" lowerBound="1" eType="ecore:EClass ../../org.mdse.minisql.schema/model/schema.ecore#//Table"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WhereClause">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" lowerBound="1"
+        upperBound="-1" eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Expression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IntegerLiteral" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ComparativeOperator">
+    <eLiterals name="LESS_THAN" literal="LESS_THAN"/>
+    <eLiterals name="LESS_THAN_OR_EQUAL" value="1" literal="LESS_THAN_OR_EQUAL"/>
+    <eLiterals name="EQUAL" value="2" literal="EQUAL"/>
+    <eLiterals name="NOT_EQUAL" value="3"/>
+    <eLiterals name="GREATER_THAN" value="4"/>
+    <eLiterals name="GREATER_THAN_OR_EQUAL" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComparativeExpression" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1"
+        eType="#//ComparativeOperator" defaultValueLiteral="LESS_THAN"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression1" lowerBound="1"
+        eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression2" lowerBound="1"
+        eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ArithmeticOperator">
+    <eLiterals name="ADD"/>
+    <eLiterals name="SUBTRACT" value="1"/>
+    <eLiterals name="MULTIPLY" value="2"/>
+    <eLiterals name="DIVIDE" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ArithmeticExpression" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1"
+        eType="#//ArithmeticOperator" defaultValueLiteral="ADD"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression1" lowerBound="1"
+        eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expression2" lowerBound="1"
+        eType="#//Expression" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

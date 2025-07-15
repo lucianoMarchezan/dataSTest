@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="freshmanCamp" nsURI="http://www.example.org/freshmanCamp" nsPrefix="freshmanCamp">
+  <eClassifiers xsi:type="ecore:EClass" name="Camp">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="colors" lowerBound="5"
+        upperBound="5" eType="#//Color" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participants" lowerBound="1"
+        upperBound="-1" eType="#//Participant" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Color">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//ColorType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cards" lowerBound="4" upperBound="4"
+        eType="#//Card" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="colorsenior" lowerBound="1"
+        eType="#//ColorSenior"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Participant">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="#//ColorType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Card">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//CardType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rooms" lowerBound="3" upperBound="3"
+        eType="#//Room" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cardsenior" lowerBound="1"
+        eType="#//CardSenior"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Room">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roomsenior" lowerBound="1"
+        eType="#//RoomSenior"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="freshmen" lowerBound="1"
+        upperBound="10" eType="#//Freshman"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Freshman" eSuperTypes="#//Participant">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="neptun" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="card" eType="#//CardType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Senior" eSuperTypes="#//Participant">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="school" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="year" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Animator" eSuperTypes="#//Senior"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OperativeOrganizer" eSuperTypes="#//Senior">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inferiors" lowerBound="1"
+        upperBound="-1" eType="#//OperativeOrganizer" eOpposite="#//OperativeOrganizer/superior"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="superior" lowerBound="1"
+        eType="#//OperativeOrganizer" eOpposite="#//OperativeOrganizer/inferiors"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoomSenior" eSuperTypes="#//Animator">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="card" eType="#//CardType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="superior" lowerBound="1"
+        eType="#//CardSenior" eOpposite="#//CardSenior/inferiors"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CardSenior" eSuperTypes="#//Animator">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="card" eType="#//CardType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inferiors" lowerBound="3"
+        upperBound="3" eType="#//RoomSenior" eOpposite="#//RoomSenior/superior"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="superior" lowerBound="1"
+        eType="#//ColorSenior" eOpposite="#//ColorSenior/inferiors"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ColorSenior" eSuperTypes="#//Animator">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inferiors" lowerBound="4"
+        upperBound="4" eType="#//CardSenior" eOpposite="#//CardSenior/superior"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ColorType">
+    <eLiterals name="BlackColor"/>
+    <eLiterals name="BlueColor" value="1"/>
+    <eLiterals name="RedColor" value="2"/>
+    <eLiterals name="WhiteColor" value="3"/>
+    <eLiterals name="YellowColor" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CardType">
+    <eLiterals name="BlueCard"/>
+    <eLiterals name="GreenCard" value="1"/>
+    <eLiterals name="OrangeCard" value="2"/>
+    <eLiterals name="YellowCard" value="3"/>
+  </eClassifiers>
+</ecore:EPackage>

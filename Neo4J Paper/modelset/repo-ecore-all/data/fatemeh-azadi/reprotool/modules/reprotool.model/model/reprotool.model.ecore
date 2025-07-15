@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model"
+    nsURI="http://d3s.mff.cuni.cz/reprotool/model" nsPrefix="model">
+  <eSubpackages name="usecase" nsURI="http://d3s.mff.cuni.cz/reprotool/model/usecase"
+      nsPrefix="usecase">
+    <eClassifiers xsi:type="ecore:EClass" name="UseCase" eSuperTypes="#//swproj/DescribedElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="primaryActor" lowerBound="1"
+          eType="#//swproj/Actor"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="mainScenario" lowerBound="1"
+          eType="#//usecase/Scenario" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="precedingUseCases" upperBound="-1"
+          eType="#//usecase/UseCase"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="allUseCaseStepsShortcut"
+          upperBound="-1" eType="#//usecase/UseCaseStep" changeable="false" volatile="true"
+          transient="true" derived="true" eOpposite="#//usecase/UseCaseStep/useCaseShortcut">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="Shortcut reference implemented in java to simplify EMF binding."/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="softwareProjectShortcut"
+          lowerBound="1" eType="#//swproj/SoftwareProject" eOpposite="#//swproj/SoftwareProject/useCases"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" ordered="false" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          defaultValueLiteral="" iD="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ParseableElement" abstract="true"
+        interface="true">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="textNodes" upperBound="-1"
+          eType="#//linguistic/actionpart/TextRange" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1"
+          eType="#//usecase/annotate/StepAnnotation" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          defaultValueLiteral=""/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Scenario" eSuperTypes="#//usecase/LabelledElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="steps" lowerBound="1"
+          upperBound="-1" eType="#//usecase/UseCaseStep" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="preconditions" upperBound="-1"
+          eType="#//usecase/Condition" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="postconditions" upperBound="-1"
+          eType="#//usecase/Condition" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="comment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="scenarioGuard" eType="#//usecase/Condition"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Condition" eSuperTypes="#//usecase/ParseableElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="UseCaseStep" eSuperTypes="#//usecase/ParseableElement #//usecase/LabelledElement">
+      <eOperations name="getTextNodeAt" eType="#//linguistic/actionpart/TextRange">
+        <eParameters name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="extensions" upperBound="-1"
+          eType="#//usecase/Scenario" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="variations" upperBound="-1"
+          eType="#//usecase/Scenario" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="action" lowerBound="1"
+          eType="#//linguistic/action/Action" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="softwareProjectShortcut"
+          eType="#//swproj/SoftwareProject" changeable="false" volatile="true" transient="true"
+          derived="true">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="Shortcut reference implemented in java to simplify EMF binding."/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="useCaseShortcut" eType="#//usecase/UseCase"
+          changeable="false" volatile="true" transient="true" derived="true" eOpposite="#//usecase/UseCase/allUseCaseStepsShortcut">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="Shortcut reference implemented in java to simplify EMF binding."/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelWithContent" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          changeable="false" volatile="true" transient="true" derived="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="LabelledElement" abstract="true" interface="true">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          changeable="false" volatile="true" transient="true" derived="true"/>
+    </eClassifiers>
+    <eSubpackages name="annotate" nsURI="http://d3s.mff.cuni.cz/reprotool/model/usecase/annotate"
+        nsPrefix="annotate">
+      <eClassifiers xsi:type="ecore:EClass" name="StepAnnotation">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="annotationType" lowerBound="1"
+            eType="#//usecase/annotate/StepAnnotationType"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1"
+            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" lowerBound="1"
+            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+            changeable="false" volatile="true" transient="true" derived="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="StepAnnotationType" abstract="true"
+          interface="true">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="TemporalAnnotation" eSuperTypes="#//usecase/annotate/StepAnnotationType"/>
+      <eClassifiers xsi:type="ecore:EClass" name="SpecialAnnotation" eSuperTypes="#//usecase/annotate/StepAnnotationType"/>
+      <eClassifiers xsi:type="ecore:EClass" name="AnnotationGroup" abstract="true"
+          interface="true">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+            changeable="false" volatile="true" transient="true" derived="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="SpecialAnnotationGroup" eSuperTypes="#//usecase/annotate/AnnotationGroup">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="members" upperBound="-1"
+            eType="#//usecase/annotate/SpecialAnnotation" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="TemporalAnnotationGroup" eSuperTypes="#//usecase/annotate/AnnotationGroup">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="formulas" upperBound="-1"
+            eType="#//usecase/annotate/TemporalLogicFormula" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="members" upperBound="-1"
+            eType="#//usecase/annotate/TemporalAnnotation" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="LTLFormula" eSuperTypes="#//usecase/annotate/TemporalLogicFormula"/>
+      <eClassifiers xsi:type="ecore:EClass" name="TemporalLogicFormula" abstract="true"
+          interface="true">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="formula" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="CTLFormula" eSuperTypes="#//usecase/annotate/TemporalLogicFormula"/>
+    </eSubpackages>
+  </eSubpackages>
+  <eSubpackages name="swproj" nsURI="http://d3s.mff.cuni.cz/reprotool/model/swproj"
+      nsPrefix="swproj">
+    <eClassifiers xsi:type="ecore:EClass" name="SoftwareProject" eSuperTypes="#//swproj/DescribedElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="actors" upperBound="-1"
+          eType="#//swproj/Actor" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="useCases" upperBound="-1"
+          eType="#//usecase/UseCase" containment="true" eOpposite="#//usecase/UseCase/softwareProjectShortcut"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="annotationGroups" upperBound="-1"
+          eType="#//usecase/annotate/AnnotationGroup" containment="true">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="A project "/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="conceptualObjects" upperBound="-1"
+          eType="#//swproj/ConceptualObject" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Actor" eSuperTypes="#//swproj/DescribedElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="DescribedElement" abstract="true"
+        interface="true">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ConceptualObject" eSuperTypes="#//swproj/DescribedElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="CounterExample">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="project" lowerBound="1"
+          eType="#//swproj/SoftwareProject"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="formula" lowerBound="1"
+          eType="#//usecase/annotate/TemporalLogicFormula" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="useCaseTransitions" upperBound="-1"
+          eType="#//swproj/UseCaseTransition" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="Cause" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="UseCaseTransition">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="useCase" lowerBound="1"
+          eType="#//usecase/UseCase"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="steps" upperBound="-1"
+          eType="#//swproj/Step" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Step">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="useCaseTransition" eType="#//swproj/UseCaseTransition"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ucStep" eType="#//usecase/UseCaseStep"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="linguistic" nsURI="http://d3s.mff.cuni.cz/reprotool/model/linguistic"
+      nsPrefix="linguistic">
+    <eSubpackages name="actionpart" nsURI="http://d3s.mff.cuni.cz/reprotool/model/linguistic/actionpart"
+        nsPrefix="actionpart">
+      <eClassifiers xsi:type="ecore:EClass" name="TextRange">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="startPosition" lowerBound="1"
+            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="length" lowerBound="1"
+            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="actionPart" lowerBound="1"
+            eType="#//linguistic/actionpart/ActionPart" eOpposite="#//linguistic/actionpart/ActionPart/text"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="lemmaForm" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="posTag" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" lowerBound="1"
+            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+            changeable="false" volatile="true" transient="true" derived="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="SentenceActor" eSuperTypes="#//linguistic/actionpart/ActionPart">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="actor" lowerBound="1"
+            eType="#//swproj/Actor"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="SentenceActionParam" eSuperTypes="#//linguistic/actionpart/ActionPart">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="conceptualObject" lowerBound="1"
+            eType="#//swproj/ConceptualObject"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ActionPart" abstract="true" interface="true">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="text" eType="#//linguistic/actionpart/TextRange"
+            eOpposite="#//linguistic/actionpart/TextRange/actionPart"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="SentenceActivity" eSuperTypes="#//linguistic/actionpart/ActionPart"/>
+    </eSubpackages>
+    <eSubpackages name="action" nsURI="http://d3s.mff.cuni.cz/reprotool/model/linguistic/action"
+        nsPrefix="action">
+      <eClassifiers xsi:type="ecore:EClass" name="Action" abstract="true" interface="true">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="summary" lowerBound="1"
+            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+            changeable="false" volatile="true" transient="true" derived="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="actionParam" upperBound="-1"
+            eType="#//linguistic/actionpart/SentenceActionParam" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="FromSystem" eSuperTypes="#//linguistic/action/Communication">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="receiver" lowerBound="1"
+            eType="#//linguistic/actionpart/SentenceActor" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="InternalAction" eSuperTypes="#//linguistic/action/Communication"/>
+      <eClassifiers xsi:type="ecore:EClass" name="Goto" eSuperTypes="#//linguistic/action/Action #//linguistic/actionpart/ActionPart">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="gotoTarget" lowerBound="1"
+            eType="#//usecase/UseCaseStep"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Unknown" eSuperTypes="#//linguistic/action/Action"/>
+      <eClassifiers xsi:type="ecore:EClass" name="UseCaseInclude" eSuperTypes="#//linguistic/action/Action #//linguistic/actionpart/ActionPart">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="includeTarget" lowerBound="1"
+            eType="#//usecase/UseCase"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="AbortUseCase" eSuperTypes="#//linguistic/action/Action"/>
+      <eClassifiers xsi:type="ecore:EClass" name="ToSystem" eSuperTypes="#//linguistic/action/Communication">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="sender" lowerBound="1"
+            eType="#//linguistic/actionpart/SentenceActor" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Communication" abstract="true" interface="true"
+          eSuperTypes="#//linguistic/action/Action">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="sentenceActivity" lowerBound="1"
+            eType="#//linguistic/actionpart/SentenceActivity" containment="true"/>
+      </eClassifiers>
+    </eSubpackages>
+  </eSubpackages>
+</ecore:EPackage>
